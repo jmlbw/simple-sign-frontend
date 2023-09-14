@@ -1,5 +1,5 @@
-import "../styles/pages/HomePage.css";
+import '../styles/pages/HomePage.css';
 
 export default function HomePage() {
-    return <div>homepage</div>;
+  return <div>homepage</div>;
 }

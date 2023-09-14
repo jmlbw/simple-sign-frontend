@@ -1,5 +1,5 @@
-import styles from "../../styles/components/sidebar/Sidebar.module.css";
+import styles from '../../styles/components/sidebar/Sidebar.module.css';
 
 export default function Sidebar() {
-    return <aside className={styles.sidebarContainer}>sidebar</aside>;
+  return <aside className={styles.sidebarContainer}>sidebar</aside>;
 }
