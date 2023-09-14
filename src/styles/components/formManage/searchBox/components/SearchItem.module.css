@@ -1,0 +1,40 @@
+.itemBox {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 700;
+  margin-left: 20px;
+  min-width: 42px;
+}
+
+.inputBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid #e6e6e6;
+  width: 180px;
+  height: 27px;
+  margin-left: 10px;
+}
+
+.input {
+  border: 0px;
+  width: 170px;
+  height: 18px;
+}
+
+.select {
+  width: 170px;
+  height: 27px;
+  margin-left: 10px;
+
+  border: 1px solid #e6e6e6;
+}
