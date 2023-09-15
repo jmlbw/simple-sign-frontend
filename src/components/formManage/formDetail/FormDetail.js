@@ -22,7 +22,6 @@ export default function FormDetail() {
       </div>
       <div className={styled.form_nav_area}>
         {formNav.map((ele, index) => {
-          console.log(ele);
           return (
             <div key={index}>
               <button>{ele.name}</button>
