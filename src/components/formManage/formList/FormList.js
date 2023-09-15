@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { GridView, LocalDataProvider } from 'realgrid';
-import { columns, fields, rows } from '../../../asset/form_sample_data';
+import { columns, fields, rows } from '../../../assets/form_sample_data';
 import Title from '../../common/Title';
 import '../../../styles/components/formManage/formList/FormList.css';
 import 'realgrid/dist/realgrid-style.css'; // RealGrid CSS 추가
