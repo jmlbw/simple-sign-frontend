@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from '../../../../styles/components/formManage/searchBox/components/SearchItem.module.css';
 
-export default function SearchItem({ title, inputType }) {
+export default function SearchItem({ title, type }) {
   const [selectList, setSelectList] = useState([]);
 
   const sample_comp_data = [
@@ -14,40 +14,54 @@ export default function SearchItem({ title, inputType }) {
     { id: 2, name: '아니요' },
   ];
 
+  const sample_date_data = [
+    { id: 1, name: '결재일' },
+    { id: 2, name: '수정일' },
+  ];
+
   useEffect(() => {
-    if (inputType === 'select') {
+    if (type === 'select') {
       if (title === '회사') {
-        //회사 데이터
         setSelectList(sample_comp_data);
       } else if (title === '사용여부') {
-        //양식명 데이터
         setSelectList(sample_form_data);
       }
     }
+    if (title === 'select') {
+      setSelectList(sample_date_data);
+    }
   }, []);
 
-  const searchSelect = () => {
-    switch (inputType) {
+  const InputComp = () => {
+    return (
+      <div className={styled.inputBox}>
+        <input className={styled.input} type={type} />
+      </div>
+    );
+  };
+
+  const SelectComp = ({ width = 170 }) => {
+    return (
+      <select className={styled.select} style={{ width: `${width}px` }}>
+        {selectList.length !== 0
+          ? selectList.map((ele, index) => {
+              return (
+                <option key={index} value={ele.name}>
+                  {ele.name}
+                </option>
+              );
+            })
+          : null}
+      </select>
+    );
+  };
+
+  const searchSelectSub = () => {
+    switch (type) {
       case 'text':
-        return (
-          <div className={styled.inputBox}>
-            <input className={styled.input} type={inputType} />
-          </div>
-        );
+        return <InputComp />;
       case 'select':
-        return (
-          <select className={styled.select}>
-            {selectList !== []
-              ? selectList.map((ele, index) => {
-                  return (
-                    <option key={index} value={ele.name}>
-                      {ele.name}
-                    </option>
-                  );
-                })
-              : null}
-          </select>
-        );
+        return <SelectComp />;
       default:
         return null;
     }
@@ -55,8 +69,16 @@ export default function SearchItem({ title, inputType }) {
 
   return (
     <div className={styled.itemBox}>
-      <p className={styled.title}>{title}</p>
-      {searchSelect()}
+      {title === 'select' ? (
+        <>
+          <SelectComp width={100} /> <InputComp />
+        </>
+      ) : (
+        <>
+          <p className={styled.title}>{title}</p>
+          {searchSelectSub()}
+        </>
+      )}
     </div>
   );
 }
