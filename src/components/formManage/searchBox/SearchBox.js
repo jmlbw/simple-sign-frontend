@@ -1,14 +1,7 @@
 import styled from '../../../styles/components/formManage/searchBox/SearchBox.module.css';
 import SearchItem from './components/SearchItem.js';
 import { AiOutlineSearch } from 'react-icons/ai';
-export default function SearchBox() {
-  let searchOptions = [
-    { title: '회사', type: 'select' },
-    { title: '사용여부', type: 'select' },
-    { title: '양식명', type: 'text' },
-    // { title: 'select', type: 'date' },
-  ];
-
+export default function SearchBox({ searchOptions }) {
   return (
     <div className={styled.search_box_container}>
       <div className={styled.search_options_container}>
@@ -16,8 +9,9 @@ export default function SearchBox() {
           return (
             <SearchItem
               key={index}
-              type={ele.type}
-              title={ele.title}
+              asset2={ele.asset2}
+              asset1={ele.asset1}
+              data={ele.data}
             ></SearchItem>
           );
         })}
