@@ -10,6 +10,7 @@ const Search = styled('div')(({ theme, width, height }) => ({
   height: `${height}`,
   border: '1px solid',
   marginBottom: '10px',
+  backgroundColor: 'white',
 }));
 
 const SearchIconWrapper = styled('div')(({ theme, width }) => ({

@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MenuItem from './MenuItem';
 import BasicButton from './Button';
 import AuthorityBtn from './AuthorityBtn';
@@ -60,9 +60,14 @@ function Sidebar() {
     setSubMenuVisible(updateSubMenuVisible);
   };
 
+  const navigate = useNavigate();
+  const goApproval = function () {
+    navigate('/FL');
+  };
+
   return (
     <div className={styled.sidebar}>
-      <BasicButton name="결재하기" />
+      <BasicButton name="결재하기" goApproval={goApproval} />
       {data.map((item) => (
         <MenuItem
           key={item.id}
