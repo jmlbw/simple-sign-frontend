@@ -1,5 +1,5 @@
 .blue_btn {
-  width: 44.09px;
+  /* width: 44.09px; */
   height: 27px;
   font-size: 12px;
   text-align: center;
@@ -15,7 +15,7 @@
 }
 
 .gray_btn {
-  width: 44.09px;
+  /* width: 44.09px; */
   height: 27px;
   font-size: 12px;
   text-align: center;
@@ -31,14 +31,14 @@
 }
 
 .popup_blue_btn {
-  width: 61.6px;
+  /* width: 61.6px; */
   height: 32px;
   font-size: 15px;
   text-align: center;
   color: #ffffff;
   font-family: '돋움', Dotum;
   border: 1px solid #3bafda;
-  background: 3BAFDA;
+  background: #3bafda;
   margin: 0px 5px;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .popup_gray_btn {
-  width: 61.6px;
+  /* width: 61.6px; */
   height: 32px;
   font-size: 15px;
   text-align: center;
