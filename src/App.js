@@ -12,11 +12,14 @@ function App() {
       <BrowserRouter>
         <Header />
         <Sidebar />
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<HomePage></HomePage>} />
-            <Route path="/EAM" element={<FormManagePage />} />
-          </Routes>
+        <div className="contentContainer">
+          <div className="contentTitle">title</div>
+          <div className="contentsArea">
+            <Routes>
+              <Route path="/" element={<HomePage></HomePage>} />
+              <Route path="/EAM" element={<FormManagePage />} />
+            </Routes>
+          </div>
         </div>
       </BrowserRouter>
     </div>

@@ -6,7 +6,7 @@ export default function SearchBox() {
     { title: '회사', type: 'select' },
     { title: '사용여부', type: 'select' },
     { title: '양식명', type: 'text' },
-    { title: 'select', type: 'date' },
+    // { title: 'select', type: 'date' },
   ];
 
   return (
