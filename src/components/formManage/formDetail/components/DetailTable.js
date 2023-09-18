@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import styled from '../../../../styles/components/formManage/formDetail/components/DetailTable.module.css';
+import DragDrop from './DragDrop';
 
 export default function DetailTable() {
+  // const [defualtFile, setDefaultFile] = useState([]);
+  // const [mainFile, setMainFile] = useState([]);
+
+  // const handleDefaultFile = (e) => {};
+
   const form_detail_sample_data = {
     comp_name: '더존',
     form_name: '성과 보고서',
@@ -75,14 +81,14 @@ export default function DetailTable() {
         </tr>
         <tr>
           <td className={styled.table_title_td}>기본파일</td>
-          <td className={styled.table_content_td}>
-            <input type="text" />
+          <td className={`${styled.table_file_td} ${styled.table_file_type}`}>
+            <DragDrop name={'기본파일'} />
           </td>
         </tr>
         <tr>
           <td className={styled.table_title_td}>본문파일</td>
-          <td className={styled.table_content_td}>
-            <input type="text" />
+          <td className={`${styled.table_file_td} ${styled.table_file_type}`}>
+            <DragDrop name={'본문파일'} />
           </td>
         </tr>
       </table>
