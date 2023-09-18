@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled from '../../../../styles/components/formManage/formDetail/components/DragDrop.module.css';
 import PopUp from '../../../common/PopUp';
 import FormEdit from '../../formEditPopUp/FormEdit';
+import { FiEdit } from 'react-icons/fi';
 
 const DragDrop = ({ name }) => {
   const fileId = useRef(0);
@@ -177,7 +178,7 @@ const DragDrop = ({ name }) => {
           <div>파일 첨부</div>
         </label>
         <PopUp
-          label={'편집'}
+          label={<FiEdit />}
           width={'1200px'}
           height={'700px'}
           title={'양식파일편집'}
