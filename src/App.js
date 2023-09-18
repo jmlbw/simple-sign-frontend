@@ -5,6 +5,8 @@ import HomePage from './pages/HomePage';
 import Sidebar from './components/sidebar/Sidebar';
 import Header from './components/header/Header';
 import FormManagePage from './pages/FormManagePage';
+import FormListPage from './pages/FormListPage';
+
 import SeqManagePage from './pages/SeqManagePage';
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
                 <Route path="/" element={<HomePage></HomePage>} />
                 <Route path="/EAM" element={<FormManagePage />} />
                 <Route path="/SAM" element={<SeqManagePage />} />
+                <Route path="/FL" element={<FormListPage />} />
               </Routes>
             </div>
           </div>
