@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import Sidebar from './components/sidebar/Sidebar';
 import Header from './components/header/Header';
 import FormManagePage from './pages/FormManagePage';
+import FormListPage from './pages/FormListPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage></HomePage>} />
               <Route path="/EAM" element={<FormManagePage />} />
+              <Route path="/FL" element={<FormListPage />} />
             </Routes>
           </div>
         </div>
