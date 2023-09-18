@@ -1,12 +1,19 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled from '../../../../styles/components/formManage/formDetail/components/DragDrop.module.css';
 
-const DragDrop = () => {
-  const [isDragging, setIsDragging] = useState(false);
-  const [files, setFiles] = useState([]);
-
+const DragDrop = ({ name }) => {
   const fileId = useRef(0);
   const dragRef = useRef(null);
+
+  let default_file = [
+    {
+      id: fileId.current++,
+      object: { name: `${name}.html` },
+    },
+  ];
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [files, setFiles] = useState(default_file);
 
   const handleFilterFile = useCallback(
     (id) => {
@@ -60,7 +67,7 @@ const DragDrop = () => {
   };
 
   const inputFileUpload = (e) => {
-    console.log('inputfileupload');
+    console.log('inputfileupload', name);
     onChangeFiles(e);
   };
 
@@ -91,7 +98,7 @@ const DragDrop = () => {
     } else {
       selectFiles = e.target.files;
     }
-    console.log('file:', selectFiles);
+    console.log('file:', selectFiles[0]);
     for (const file of selectFiles) {
       tempFiles = [
         // ...tempFiles,
@@ -129,7 +136,7 @@ const DragDrop = () => {
       <div className={styled.fileInputArea}>
         <input
           type="file"
-          id="fileUpload"
+          id={name}
           style={{ display: 'none' }}
           multiple={true}
           accept=".html"
@@ -140,7 +147,7 @@ const DragDrop = () => {
           className={
             isDragging ? styled.dragDropFileDragging : styled.dragDropFile
           }
-          htmlFor="fileUpload"
+          htmlFor={name}
           ref={dragRef}
         >
           <div>파일 첨부</div>
@@ -155,7 +162,7 @@ const DragDrop = () => {
               id,
               object: { name },
             } = file;
-
+            console.log('id:', id);
             return (
               <div key={id}>
                 <div>{name}</div>

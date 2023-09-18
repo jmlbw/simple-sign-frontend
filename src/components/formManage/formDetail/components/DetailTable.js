@@ -82,13 +82,13 @@ export default function DetailTable() {
         <tr>
           <td className={styled.table_title_td}>기본파일</td>
           <td className={`${styled.table_file_td} ${styled.table_file_type}`}>
-            <DragDrop />
+            <DragDrop name={'기본파일'} />
           </td>
         </tr>
         <tr>
           <td className={styled.table_title_td}>본문파일</td>
           <td className={`${styled.table_file_td} ${styled.table_file_type}`}>
-            <DragDrop />
+            <DragDrop name={'본문파일'} />
           </td>
         </tr>
       </table>
