@@ -1,0 +1,17 @@
+.align {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+.font span {
+  font-size: 16px;
+  font-weight: bold;
+}
+.icon {
+  color: rgb(233, 213, 66);
+}
+
+.submenu {
+  padding-left: 25px;
+}
