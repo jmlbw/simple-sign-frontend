@@ -5,6 +5,10 @@ import HomePage from './pages/HomePage';
 import Sidebar from './components/sidebar/Sidebar';
 import Header from './components/header/Header';
 import FormManagePage from './pages/FormManagePage';
+import ApprovalBoxViewPage from './pages/ApprovalBoxViewPage';
+import Titlebox from './components/common/TitleBox';
+import SearchDate from './components/approvalBox/SearchDate';
+import ApprovalRightHeader from './components/approvalBox/ApprovalRightHeader';
 
 function App() {
   return (
@@ -13,11 +17,17 @@ function App() {
         <Header />
         <Sidebar />
         <div className="contentContainer">
-          <div className="contentTitle">title</div>
+          {/* <div className="contentTitle"><Ttitle></div> */}
+          <Titlebox
+            title="상신문서"
+            view="approval"
+            componentProp={<ApprovalRightHeader />}
+          ></Titlebox>
           <div className="contentsArea">
             <Routes>
               <Route path="/" element={<HomePage></HomePage>} />
               <Route path="/EAM" element={<FormManagePage />} />
+              <Route path="/ABV" element={<ApprovalBoxViewPage />} />
             </Routes>
           </div>
         </div>

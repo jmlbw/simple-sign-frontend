@@ -1,0 +1,24 @@
+.docItemBox {
+  position: relative;
+  margin: 6px 0 0;
+  height: 54px;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.datetext {
+  font-size: 13px;
+  line-height: 52px;
+  letter-spacing: -0.33px;
+  color: #000;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.contentsBox {
+  flex: 2 1;
+  min-width: 0;
+}

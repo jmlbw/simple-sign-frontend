@@ -1,0 +1,5 @@
+.list {
+  display: flex;
+  flex-direction: row; /* 수평으로 배치 */
+  align-items: center; /* 수직 가운데 정렬 (선택 사항) */
+}

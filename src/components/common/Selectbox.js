@@ -7,7 +7,7 @@ import styled from '../../styles/components/common/Selectbox.module.css';
 export default function SelectBox({ selectList, width, height }) {
   return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
+      <FormControl sx={{ m: 1, minWidth: 50 }}>
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
