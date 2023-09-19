@@ -1,0 +1,64 @@
+/* <div className={styled.seqSetPopUpContainer}>
+      <Title text={'채번항목'} font_size={'18px'}></Title>
+      <div className={styled.seqListArea}>
+        <div>
+          <FormList columns={columns} fields={fields} rows={rows} />
+        </div>
+        <div>{'< >'}</div>
+        <div>
+          <FormList columns={columns} fields={fields} rows={rows} />
+        </div>
+      </div>
+      <Title text={'미리보기'} font_size={'18px'}></Title>
+      <div className={styled.preViewArea}>{previewData}</div>
+    </div> */
+
+.seqSetPopUpContainer {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+}
+
+.seqListArea {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 60%;
+}
+
+.seqListArea > :first-child {
+  flex: 5;
+  width: 100%;
+  height: 100%;
+}
+
+.seqListArea > :nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+
+  gap: 20px;
+}
+
+.arrowBox {
+  border: 1px solid #000;
+}
+
+.seqListArea > :nth-child(3) {
+  flex: 5;
+  width: 100%;
+  height: 100%;
+}
+
+.preViewArea {
+  width: 100%;
+  flex-grow: 1;
+
+  border: 1px solid #000;
+}

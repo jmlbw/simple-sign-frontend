@@ -4,9 +4,11 @@
 }
 
 .contentContainer {
+  margin-left: 215px;
   margin-top: 70px;
   width: 100%;
   overflow-y: scroll;
+  background-color: #f2f6f8;
 }
 
 .contentTitle {

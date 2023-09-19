@@ -5,10 +5,17 @@ import HomePage from './pages/HomePage';
 import Sidebar from './components/sidebar/Sidebar';
 import Header from './components/header/Header';
 import FormManagePage from './pages/FormManagePage';
+
 import ApprovalBoxViewPage from './pages/ApprovalBoxViewPage';
 import Titlebox from './components/common/TitleBox';
 import ApprovalRightHeader from './components/approvalBox/ApprovalRightHeader';
 import SeqManagePage from './pages/SeqManagePage';
+
+import FormListPage from './pages/FormListPage';
+
+
+
+
 function App() {
   return (
     <ContextProvider>
@@ -17,7 +24,6 @@ function App() {
           <Header />
           <Sidebar />
           <div className="contentContainer">
-            {/* <div className="contentTitle"><Ttitle></div> */}
             <Titlebox
               title="상신문서"
               view="approval"
@@ -29,6 +35,7 @@ function App() {
                 <Route path="/EAM" element={<FormManagePage />} />
                 <Route path="/ABV" element={<ApprovalBoxViewPage />} />
                 <Route path="/SAM" element={<SeqManagePage />} />
+                <Route path="/FL" element={<FormListPage />} />
               </Routes>
             </div>
           </div>
