@@ -1,6 +1,7 @@
 import styled from '../../../styles/components/formManage/searchBox/SearchBox.module.css';
 import SearchItem from './components/SearchItem.js';
 import { AiOutlineSearch } from 'react-icons/ai';
+
 export default function SearchBox({ searchOptions }) {
   return (
     <div className={styled.search_box_container}>

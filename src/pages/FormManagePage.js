@@ -25,6 +25,14 @@ export default function FormManagePage() {
       ],
     },
     { asset1: '양식명', asset2: 'text', data: [] },
+    {
+      asset1: 'select',
+      asset2: 'date',
+      data: [
+        { id: 1, name: '결재일' },
+        { id: 2, name: '수정일' },
+      ],
+    },
   ];
 
   const { state, setState } = useContext(PageContext);

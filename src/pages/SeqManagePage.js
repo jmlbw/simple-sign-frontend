@@ -46,7 +46,6 @@ export default function FormManagePage() {
           <SeqDetail title={'문서채번상세'} />
         </div>
       </div>
-      {/* <button onClick={test}>test</button> */}
     </div>
   );
 }

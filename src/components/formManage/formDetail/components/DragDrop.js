@@ -133,8 +133,6 @@ const DragDrop = ({ name, id, onChangeFunc }) => {
 
       reader.onload = (event) => {
         const fileContent = event.target.result;
-        // event.target.result += event.target.result;
-        // console.log('File Content:', fileContent);
         onChangeFunc(id, fileContent);
         // const modifiedContent = fileContent + '//test';
         // console.log('files[0]:', files[0]);
