@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import styled from '../../../../styles/components/formManage/formDetail/components/DetailTable.module.css';
 import DragDrop from './DragDrop';
+import Button from '../../../common/Button';
 
 export default function DetailTable({ tableList, onChangeFunc }) {
   //조직도 콜백을 통해 값 가져오기
 
-  const inputForm = (id, title, data) => {
+  const inputForm = (id, title, data, children) => {
     return (
       <tr>
         <td className={styled.table_title_td}>{title}</td>
@@ -17,12 +17,13 @@ export default function DetailTable({ tableList, onChangeFunc }) {
               onChangeFunc(id, e.target.value);
             }}
           />
+          {children}
         </td>
       </tr>
     );
   };
 
-  const areaForm = (id, title, data) => {
+  const areaForm = (id, title, data, children) => {
     return (
       <tr>
         <td className={`${styled.table_title_td} ${styled.table_area_type}`}>
@@ -34,6 +35,7 @@ export default function DetailTable({ tableList, onChangeFunc }) {
               return <div key={index}>{ele}</div>;
             })}
           </div>
+          <div>{children}</div>
         </td>
       </tr>
     );
@@ -85,9 +87,9 @@ export default function DetailTable({ tableList, onChangeFunc }) {
   const assetRender = (ele) => {
     switch (ele.type) {
       case 'input':
-        return inputForm(ele.id, ele.name, ele.data);
+        return inputForm(ele.id, ele.name, ele.data, ele.children);
       case 'area':
-        return areaForm(ele.id, ele.name, ele.data);
+        return areaForm(ele.id, ele.name, ele.data, ele.children);
       case 'radio':
         return radioForm(ele.id, ele.name, ele.data, ele.form);
       case 'file':

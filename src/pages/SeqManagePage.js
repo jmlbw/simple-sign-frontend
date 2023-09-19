@@ -29,9 +29,6 @@ export default function FormManagePage() {
   useEffect(() => {
     setState({ ...state, curPage: 'SeqManage' });
   }, []);
-  const test = () => {
-    console.log(state);
-  };
 
   return (
     <div className="form_manage_container">
@@ -47,10 +44,9 @@ export default function FormManagePage() {
         </div>
         <div className="form_detail_area">
           <SeqDetail title={'문서채번상세'} />
-          <SeqDetail title={'채번설정'} />
         </div>
       </div>
-      <button onClick={test}>test</button>
+      {/* <button onClick={test}>test</button> */}
     </div>
   );
 }

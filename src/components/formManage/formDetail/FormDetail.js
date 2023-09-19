@@ -4,6 +4,7 @@ import Title from '../../common/Title';
 import { RxDividerVertical } from 'react-icons/rx';
 import DetailTable from './components/DetailTable';
 import Button from '../../common/Button';
+import PopUp from '../../common/PopUp';
 
 export default function FormDetail({ title }) {
   const form_nav_sample_data = [
@@ -19,6 +20,14 @@ export default function FormDetail({ title }) {
       name: '공개범위',
       type: 'area',
       data: ['우리 회사', '옆 회사'],
+      children: (
+        <PopUp
+          label={<RxDividerVertical />}
+          title={'회사사업장부서선택'}
+          width={'1200px'}
+          height={'700px'}
+        />
+      ),
     },
     {
       id: 'form_used_status',

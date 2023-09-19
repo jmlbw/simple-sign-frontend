@@ -76,10 +76,16 @@
   height: 100px;
 }
 
-.table_area_type > div {
+.table_area_type > div:first-child {
   border: 1px solid #000;
-  width: 90%;
+  flex: 9;
+  /* width: 90%; */
   height: 90%;
+}
+
+.table_area_type > div:nth-child(2) {
+  flex: 1;
+  /* width: 10%; */
 }
 
 .table_radio_type {

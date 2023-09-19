@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { GridView, LocalDataProvider } from 'realgrid';
-// import { columns, fields, rows } from '../../../assets/datas/form_sample_data';
 import Title from '../../common/Title';
 import '../../../styles/components/formManage/formList/FormList.css';
 import 'realgrid/dist/realgrid-style.css'; // RealGrid CSS 추가
@@ -37,7 +36,9 @@ function FormList({ title, columns, fields, rows }) {
 
   return (
     <>
-      <Title text={title} font_size={'18px'}></Title>
+      {title !== undefined ? (
+        <Title text={title} font_size={'18px'}></Title>
+      ) : null}
       <div
         ref={realgridElement}
         style={{ height: '100%', width: '100%' }}
