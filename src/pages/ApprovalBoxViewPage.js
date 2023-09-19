@@ -1,21 +1,25 @@
 import RowRadioButtonsGroup from '../components/approvalBox/RowRadioButtonsGroup';
 import SearchDetailBox from '../components/approvalBox/SearchDetailBox';
 import ViewDocBox from '../components/approvalBox/ViewDocBox';
+import InnerBox from '../components/common/InnerBox';
 import styles from '../styles/pages/ApprovalBoxViewPage.module.css';
 
 function ApprovalBoxViewPage() {
   return (
-    <div>
-      <div className={styles.searchDetailbox}>
-        <SearchDetailBox></SearchDetailBox>
-      </div>
-
-      <div className={styles.radiobuttonsBox}>
-        <div className={styles.radiogroup}>
-          <RowRadioButtonsGroup></RowRadioButtonsGroup>
+    <div className={styles.bbb}>
+      <InnerBox height={'100%'}>
+        <div className={styles.aaa}>
+          <div className={styles.searchDetailbox}>
+            <SearchDetailBox></SearchDetailBox>
+          </div>
+          <div className={styles.radiobuttonsBox}>
+            <div className={styles.radiogroup}>
+              <RowRadioButtonsGroup></RowRadioButtonsGroup>
+            </div>
+          </div>
+          <ViewDocBox></ViewDocBox>
         </div>
-      </div>
-      <ViewDocBox></ViewDocBox>
+      </InnerBox>
     </div>
   );
 }

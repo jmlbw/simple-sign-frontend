@@ -2,6 +2,7 @@ import SelectBox from '../common/Selectbox';
 import SearchDate from './SearchDate';
 import styles from '../../styles/components/ApprovalBox/ApprovalRightHeader.module.css';
 import { useState } from 'react';
+import Search from './Search';
 
 function ApprovalRightHeader() {
   const [isDropdownView, setDropdownView] = useState(false);
@@ -30,6 +31,7 @@ function ApprovalRightHeader() {
         width="85"
       ></SelectBox>
       <SearchDate></SearchDate>
+      <Search></Search>
       <div className={styles.container} onBlur={handleBlurContainer}>
         <label onClick={handleClickContainer}>
           <button className={styles.dropdownBtn}>

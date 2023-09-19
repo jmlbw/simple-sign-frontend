@@ -26,6 +26,7 @@ function SearchDate() {
         endDate={endDate}
         maxDate={new Date()}
         onChange={(dates) => setChangeDate(dates)}
+        placeholderText="기간을 선택하세요"
       />
     </div>
   );

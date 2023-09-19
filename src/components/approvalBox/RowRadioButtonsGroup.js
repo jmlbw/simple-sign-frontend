@@ -14,17 +14,17 @@ export default function RowRadioButtonsGroup() {
       >
         <FormControlLabel
           value="alldoc"
-          control={<Radio sx={{ fontSize: '12px' }} />}
+          control={<Radio size="small" />}
           label={<span style={{ fontSize: '12px' }}>모든문서</span>}
         />
         <FormControlLabel
           value="ongoingdoc"
-          control={<Radio sx={{ fontSize: '12px' }} />}
+          control={<Radio size="small" />}
           label={<span style={{ fontSize: '12px' }}>진행문서</span>}
         />
         <FormControlLabel
           value="writtendoc"
-          control={<Radio sx={{ fontSize: '12px' }} />}
+          control={<Radio size="small" />}
           label={<span style={{ fontSize: '12px' }}>종결문서</span>}
         />
       </RadioGroup>
