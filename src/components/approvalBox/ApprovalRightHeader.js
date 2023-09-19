@@ -15,6 +15,7 @@ function ApprovalRightHeader() {
       setDropdownView(false);
     }, 200);
   };
+
   const list = [
     { name: '기안일' },
     { name: '상신일' },
@@ -22,11 +23,18 @@ function ApprovalRightHeader() {
   ];
   return (
     <div className={styles.list}>
-      <SelectBox selectList={list} height="27" width="90"></SelectBox>
+      <SelectBox
+        className={styles.selectBox}
+        selectList={list}
+        height="27"
+        width="85"
+      ></SelectBox>
       <SearchDate></SearchDate>
-      <div className="container" onBlur={handleBlurContainer}>
+      <div className={styles.container} onBlur={handleBlurContainer}>
         <label onClick={handleClickContainer}>
-          <button>{isDropdownView ? '▲' : '▼'}</button>
+          <button className={styles.dropdownBtn}>
+            {isDropdownView ? '▲' : '▼'}
+          </button>
         </label>
       </div>
     </div>
