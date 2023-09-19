@@ -1,10 +1,10 @@
 import { ValueType } from 'realgrid';
 
 export const fields = [
-  {
-    fieldName: 'code',
-    dataType: ValueType.TEXT,
-  },
+  // {
+  //   fieldName: 'code',
+  //   dataType: ValueType.TEXT,
+  // },
   {
     fieldName: 'comp_name',
     dataType: ValueType.TEXT,
@@ -20,18 +20,18 @@ export const fields = [
 ];
 
 export const columns = [
-  {
-    name: '코드',
-    fieldName: 'code',
-    width: '70',
-    header: {
-      text: '코드',
-    },
-  },
+  // {
+  //   name: '코드',
+  //   fieldName: 'code',
+  //   width: '70',
+  //   header: {
+  //     text: '코드',
+  //   },
+  // },
   {
     name: '회사',
     fieldName: 'comp_name',
-    width: '150',
+    width: '200',
     header: {
       text: '회사',
     },
@@ -39,7 +39,7 @@ export const columns = [
   {
     name: '양식명',
     fieldName: 'form_name',
-    width: '200',
+    width: '250',
     header: {
       text: '양식명',
     },
