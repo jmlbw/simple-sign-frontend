@@ -1,4 +1,3 @@
-import Title from '../common/Title';
 import styled from '../../styles/components/formList/SmallBox.module.css';
 
 export default function SmallBox(props) {
