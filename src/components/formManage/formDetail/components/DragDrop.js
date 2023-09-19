@@ -1,19 +1,15 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled from '../../../../styles/components/formManage/formDetail/components/DragDrop.module.css';
+import PopUp from '../../../common/PopUp';
+import FormEdit from '../../formEditPopUp/FormEdit';
+import { FiEdit } from 'react-icons/fi';
 
 const DragDrop = ({ name }) => {
   const fileId = useRef(0);
   const dragRef = useRef(null);
 
-  let default_file = [
-    {
-      id: fileId.current++,
-      object: { name: `${name}.html` },
-    },
-  ];
-
   const [isDragging, setIsDragging] = useState(false);
-  const [files, setFiles] = useState(default_file);
+  const [files, setFiles] = useState([]);
 
   const handleFilterFile = useCallback(
     (id) => {
@@ -113,7 +109,20 @@ const DragDrop = ({ name }) => {
   };
 
   useEffect(() => {
+    const modifiedBlob = new Blob(['<div>test<div>'], {
+      type: 'text/html',
+    });
+    const modifiedFile = new File([modifiedBlob], `${name}.html`);
+    let default_file = [
+      {
+        id: fileId.current++,
+        object: modifiedFile,
+      },
+    ];
+
     initDragEvents();
+
+    setFiles(default_file);
 
     return () => resetDragEvents();
   }, []);
@@ -124,7 +133,23 @@ const DragDrop = ({ name }) => {
 
       reader.onload = (event) => {
         const fileContent = event.target.result;
+        // event.target.result += event.target.result;
         console.log('File Content:', fileContent);
+
+        const modifiedContent = fileContent + '//test';
+        console.log('files[0]:', files[0]);
+        // 수정된 내용을 다시 파일에 저장하려면, 다음과 같이 Blob 또는 Blob 데이터를 생성하고 저장할 수 있습니다.
+        const modifiedBlob = new Blob([modifiedContent], {
+          type: files[0].object.type,
+        });
+        const modifiedFile = new File([modifiedBlob], files[0].object.name);
+        let tempFiles = [
+          {
+            id: fileId.current++,
+            object: modifiedFile,
+          },
+        ];
+        setFiles(tempFiles);
       };
 
       reader.readAsText(files[0].object);
@@ -152,7 +177,13 @@ const DragDrop = ({ name }) => {
         >
           <div>파일 첨부</div>
         </label>
-        <button>편집</button>
+        <PopUp
+          label={<FiEdit />}
+          width={'1200px'}
+          height={'700px'}
+          title={'양식파일편집'}
+          children={<FormEdit />}
+        />
       </div>
 
       <div className={styled.fileListContainer}>
