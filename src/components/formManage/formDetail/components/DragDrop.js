@@ -4,7 +4,7 @@ import PopUp from '../../../common/PopUp';
 import FormEdit from '../../formEditPopUp/FormEdit';
 import { FiEdit } from 'react-icons/fi';
 
-const DragDrop = ({ name }) => {
+const DragDrop = ({ name, id, onChangeFunc }) => {
   const fileId = useRef(0);
   const dragRef = useRef(null);
 
@@ -133,28 +133,30 @@ const DragDrop = ({ name }) => {
 
       reader.onload = (event) => {
         const fileContent = event.target.result;
-        // event.target.result += event.target.result;
-        console.log('File Content:', fileContent);
-
-        const modifiedContent = fileContent + '//test';
-        console.log('files[0]:', files[0]);
-        // 수정된 내용을 다시 파일에 저장하려면, 다음과 같이 Blob 또는 Blob 데이터를 생성하고 저장할 수 있습니다.
-        const modifiedBlob = new Blob([modifiedContent], {
-          type: files[0].object.type,
-        });
-        const modifiedFile = new File([modifiedBlob], files[0].object.name);
-        let tempFiles = [
-          {
-            id: fileId.current++,
-            object: modifiedFile,
-          },
-        ];
-        setFiles(tempFiles);
+        onChangeFunc(id, fileContent);
+        // const modifiedContent = fileContent + '//test';
+        // console.log('files[0]:', files[0]);
+        // // 수정된 내용을 다시 파일에 저장하려면, 다음과 같이 Blob 또는 Blob 데이터를 생성하고 저장할 수 있습니다.
+        // const modifiedBlob = new Blob([modifiedContent], {
+        //   type: files[0].object.type,
+        // });
+        // const modifiedFile = new File([modifiedBlob], files[0].object.name);
+        // let tempFiles = [
+        //   {
+        //     id: fileId.current++,
+        //     object: modifiedFile,
+        //   },
+        // ];
+        // setFiles(tempFiles);
       };
 
       reader.readAsText(files[0].object);
     }
   };
+
+  useEffect(() => {
+    getFileContent();
+  }, [files]);
 
   return (
     <div className={styled.dragDropContainer}>
@@ -193,7 +195,7 @@ const DragDrop = ({ name }) => {
               id,
               object: { name },
             } = file;
-            console.log('id:', id);
+
             return (
               <div key={id}>
                 <div>{name}</div>
