@@ -1,6 +1,6 @@
 import userIcon from '../../../assets/imgs/usericon.png';
 import styles from '../../../styles/components/header/userProfile.module.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 function Userprofile() {
   const [view, setView] = useState(false);

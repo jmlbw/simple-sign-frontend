@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from '../../../styles/components/approvalManage/formList/SmallBox.module.css';
 import ApprovalForm from '../approvalRegist/ApprovalForm';
 import PopUp from '../../common/PopUp';

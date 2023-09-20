@@ -3,6 +3,7 @@ import InnerBox from '../components/common/InnerBox';
 import styled from '../styles/pages/FormListPage.module.css';
 import SmallBox from '../components/approvalManage/formList/SmallBox';
 import FormListItem from '../components/approvalManage/formList/FormListItem';
+import React from 'react';
 
 export default function FormListPage() {
   const formList = [

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from '../../../../styles/components/formManage/searchBox/components/SearchItem.module.css';
+import React from 'react';
 
 export default function SearchItem({ asset1, asset2, data }) {
   const [selectList, setSelectList] = useState([]);

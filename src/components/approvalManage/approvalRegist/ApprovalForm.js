@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import ReactHtmlParser from 'html-react-parser';
 import Selectbox from '../../common/Selectbox';
 import SelectDate from './components/SelectDate';
+import Quill from 'react-quill';
 
 export default function ApprovalForm() {
   const [sequence, setSequence] = useState([]);
@@ -74,7 +75,7 @@ export default function ApprovalForm() {
         })}
       </div>
       <div>
-        <ReactQuill value={value} onChange={setValue} />
+        <Quill value={value} onChange={setValue} />
         <div>{ReactHtmlParser(main_form)}</div>
       </div>
     </>

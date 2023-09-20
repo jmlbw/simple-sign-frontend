@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from '../../../styles/components/formManage/formDetail/FormDetail.module.css';
 import Title from '../../common/Title';
 import { RxDividerVertical } from 'react-icons/rx';
