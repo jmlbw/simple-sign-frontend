@@ -1,7 +1,7 @@
 import List from '@mui/material/List';
 import FolderIcon from '@mui/icons-material/Folder';
 import ListItemText from '@mui/material/ListItemText';
-import styled from '../../styles/components/formList/FormListItem.module.css';
+import styled from '../../../styles/components/approvalManage/formList/FormListItem.module.css';
 
 export default function FormListItem() {
   const category = [
