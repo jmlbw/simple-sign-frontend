@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import '../styles/pages/FormManagePage.css';
 import SearchBox from '../components/formManage/searchBox/SearchBox';
 import FormList from '../components/formManage/formList/FormList';
@@ -10,11 +10,13 @@ import getCompanyList from '../apis/commonAPI/getCompanyList';
 export default function FormManagePage() {
   const defaultOptionList = [
     {
+      id: 'compName',
       asset1: '회사',
       asset2: 'select',
       data: [],
     },
     {
+      id: 'status',
       asset1: '사용여부',
       asset2: 'select',
       data: [
@@ -22,17 +24,17 @@ export default function FormManagePage() {
         { id: 2, name: '아니요' },
       ],
     },
-    { asset1: '양식명', asset2: 'text', data: [] },
-    {
-      asset1: 'select',
-      asset2: 'date',
-      data: [
-        { id: 1, name: '결재일' },
-        { id: 2, name: '수정일' },
-      ],
-    },
+    { id: 'formName', asset1: '양식명', asset2: 'text', data: [] },
   ];
+
+  const searchInitData = {
+    compName: '',
+    formName: '',
+    status: 1,
+  };
+
   const [searchOptionList, setSearchOptionList] = useState(defaultOptionList);
+  const [searchData, setSearchData] = useState(searchInitData);
 
   const { state, setState } = useContext(PageContext);
 
@@ -45,7 +47,6 @@ export default function FormManagePage() {
       })
       .then((data) => {
         searchOptionList[0].data = data;
-        console.log(searchOptionList);
         setSearchOptionList([...searchOptionList]);
       })
       .catch((err) => {
@@ -53,9 +54,23 @@ export default function FormManagePage() {
       });
   }, []);
 
+  const searchDataHandler = (id, value) => {
+    console.log('update', id, value);
+    setSearchData({ ...searchData, [id]: value });
+  };
+
+  const searchEventHandler = () => {
+    console.log('search');
+    console.log('searchData:', searchData);
+  };
+
   return (
     <div className="form_manage_container">
-      <SearchBox searchOptions={searchOptionList}></SearchBox>
+      <SearchBox
+        searchOptions={searchOptionList}
+        dataHandler={searchDataHandler}
+        searchHandler={searchEventHandler}
+      ></SearchBox>
       <div className="form_data_area">
         <div className="form_list_area">
           <FormList
