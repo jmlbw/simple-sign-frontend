@@ -1,5 +1,6 @@
 import styled from '../../styles/components/ApprovalBox/ViewDocBox.module.css';
 import DocItem from './DocItem';
+import React from 'react';
 
 function ViewDocBox() {
   return (

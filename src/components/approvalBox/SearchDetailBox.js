@@ -1,5 +1,6 @@
 import SearchBox from '../formManage/searchBox/SearchBox';
 import styles from '../../styles/pages/ApprovalBoxViewPage.module.css';
+import React from 'react';
 
 function SearchDetailBox() {
   let searchOptionList = [
