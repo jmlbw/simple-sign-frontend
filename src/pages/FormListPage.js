@@ -1,8 +1,9 @@
 import SearchBox from '../components/common/SearchBox';
 import InnerBox from '../components/common/InnerBox';
 import styled from '../styles/pages/FormListPage.module.css';
-import SmallBox from '../components/formList/SmallBox';
-import FormListItem from '../components/formList/FormListItem';
+import SmallBox from '../components/approvalManage/formList/SmallBox';
+import FormListItem from '../components/approvalManage/formList/FormListItem';
+import React from 'react';
 
 export default function FormListPage() {
   const formList = [
@@ -13,6 +14,7 @@ export default function FormListPage() {
     { form_name: 'name5', form_explain: 'explain5' },
     { form_name: 'name6', form_explain: 'explain6' },
   ];
+
   return (
     <div className={styled.align}>
       <div className={styled.left_box}>

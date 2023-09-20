@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Title from '../../common/Title';
 import styled from '../../../styles/components/seqManage/seqSetPopUp/SeqSet.module.css';
 import FormList from '../../formManage/formList/FormList';

@@ -1,5 +1,6 @@
 import styled from '../../../../styles/components/formManage/searchBox/components/SearchItem.module.css';
 import SearchDate from '../../../approvalBox/SearchDate';
+import React from 'react';
 
 export default function SearchItem({ asset1, asset2, data }) {
   const InputComp = ({ type }) => {

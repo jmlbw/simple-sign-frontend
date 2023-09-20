@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import '../styles/pages/SeqManagePage.css';
 import SearchBox from '../components/formManage/searchBox/SearchBox';
 import FormList from '../components/formManage/formList/FormList';

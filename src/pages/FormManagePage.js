@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../styles/pages/FormManagePage.css';
 import SearchBox from '../components/formManage/searchBox/SearchBox';
 import FormList from '../components/formManage/formList/FormList';

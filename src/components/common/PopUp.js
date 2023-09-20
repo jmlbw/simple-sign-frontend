@@ -66,13 +66,13 @@ export default function PopUp(props) {
             <PopUpFoot buttons={blueBtn} />
           </>
         );
-      // case '결재작성상세':
-      //   return (
-      //     <div>
-      //       <div>{props.children}</div>
-      //       <PopUpFoot buttons={props.buttons} />
-      //     </div>
-      //   );
+      case '결재작성상세':
+        return (
+          <div>
+            <div>{props.children}</div>
+            <PopUpFoot buttons={grayAndBlueBtn} />
+          </div>
+        );
       // case '회사사업장부서선택':
       //   return (
       //     <div>
@@ -93,7 +93,11 @@ export default function PopUp(props) {
 
   return (
     <div>
-      <Button label={props.label} onClick={handleOpen}></Button>
+      <Button
+        onClick={handleOpen}
+        btnStyle={props.btnStyle}
+        label={props.label}
+      ></Button>
       <Modal open={open} onClose={handleClose}>
         <div className={styles.popUpContainer} style={popUpStyle}>
           <div className={styles.header}>{props.title}</div>
