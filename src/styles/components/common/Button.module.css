@@ -61,3 +61,9 @@
 .popup_gray_btn:hover {
   background: linear-gradient(0deg, #dcdcdc, #fff);
 }
+
+.popup_non_btn {
+  width: 100%;
+  background-color: white;
+  border: none;
+}

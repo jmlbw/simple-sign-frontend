@@ -1,6 +1,6 @@
 import OptionboxItem from './OptionboxItem';
 import { BiSolidUser, BiSolidFolder, BiBuildings } from 'react-icons/bi';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 function Optionbox() {
   const [department] = useState('company');

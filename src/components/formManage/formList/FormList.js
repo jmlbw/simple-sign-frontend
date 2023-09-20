@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { GridView, LocalDataProvider } from 'realgrid';
-import { columns, fields, rows } from '../../../assets/form_sample_data';
 import Title from '../../common/Title';
 import '../../../styles/components/formManage/formList/FormList.css';
 import 'realgrid/dist/realgrid-style.css'; // RealGrid CSS 추가
 
-function FormList() {
+function FormList({ title, columns, fields, rows }) {
   const [provider, setProvider] = useState(null);
   const [gridView, setGridView] = useState(null);
   const realgridElement = useRef(null);
@@ -37,7 +36,9 @@ function FormList() {
 
   return (
     <>
-      <Title text={'양식목록'} font_size={'18px'}></Title>
+      {title !== undefined ? (
+        <Title text={title} font_size={'18px'}></Title>
+      ) : null}
       <div
         ref={realgridElement}
         style={{ height: '100%', width: '100%' }}

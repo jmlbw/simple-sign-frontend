@@ -29,6 +29,14 @@ export default function PopUp(props) {
     },
   ];
 
+  const blueBtn = [
+    {
+      label: '반영',
+      onClick: () => {},
+      btnStyle: 'popup_blue_btn',
+    },
+  ];
+
   const popContentSelector = () => {
     switch (props.title) {
       case '양식파일편집':
@@ -40,27 +48,31 @@ export default function PopUp(props) {
             <PopUpFoot buttons={grayAndBlueBtn} />
           </>
         );
-      // case '양식선택':
-      //   return (
-      //     <div>
-      //       <div>{props.children}</div>
-      //       <PopUpFoot buttons={props.buttons} />
-      //     </div>
-      //   );
-      // case '채번설정':
-      //   return (
-      //     <div>
-      //       <div>{props.children}</div>
-      //       <PopUpFoot buttons={props.buttons} />
-      //     </div>
-      //   );
-      // case '결재작성상세':
-      //   return (
-      //     <div>
-      //       <div>{props.children}</div>
-      //       <PopUpFoot buttons={props.buttons} />
-      //     </div>
-      //   );
+      case '양식선택':
+        return (
+          <>
+            <div className={styles.contentContainer}>
+              <div>{props.children}</div>
+            </div>
+            <PopUpFoot buttons={blueBtn} />
+          </>
+        );
+      case '채번설정':
+        return (
+          <>
+            <div className={styles.contentContainer}>
+              <div>{props.children}</div>
+            </div>
+            <PopUpFoot buttons={blueBtn} />
+          </>
+        );
+      case '결재작성상세':
+        return (
+          <div>
+            <div>{props.children}</div>
+            <PopUpFoot buttons={grayAndBlueBtn} />
+          </div>
+        );
       // case '회사사업장부서선택':
       //   return (
       //     <div>
@@ -81,7 +93,11 @@ export default function PopUp(props) {
 
   return (
     <div>
-      <Button label={props.label} onClick={handleOpen}></Button>
+      <Button
+        onClick={handleOpen}
+        btnStyle={props.btnStyle}
+        label={props.label}
+      ></Button>
       <Modal open={open} onClose={handleClose}>
         <div className={styles.popUpContainer} style={popUpStyle}>
           <div className={styles.header}>{props.title}</div>

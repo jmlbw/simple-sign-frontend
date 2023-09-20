@@ -1,96 +1,110 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from '../../../../styles/components/formManage/formDetail/components/DetailTable.module.css';
 import DragDrop from './DragDrop';
+import Button from '../../../common/Button';
 
-export default function DetailTable() {
-  // const [defualtFile, setDefaultFile] = useState([]);
-  // const [mainFile, setMainFile] = useState([]);
+export default function DetailTable({ tableList, onChangeFunc }) {
+  //조직도 콜백을 통해 값 가져오기
 
-  // const handleDefaultFile = (e) => {};
-
-  const form_detail_sample_data = {
-    comp_name: '더존',
-    form_name: '성과 보고서',
-    scope: ['우리회사', '옆 회사'],
-    form_used_status: 'true',
-    default_file: '<div>기본</div>',
-    main_file: '<div>본문</div>',
+  const inputForm = (id, title, data, children) => {
+    return (
+      <tr>
+        <td className={styled.table_title_td}>{title}</td>
+        <td className={styled.table_content_td}>
+          <input
+            type="text"
+            value={data}
+            onChange={(e) => {
+              onChangeFunc(id, e.target.value);
+            }}
+          />
+          {children}
+        </td>
+      </tr>
+    );
   };
-  const [formDetailData, setformDetailData] = useState(form_detail_sample_data);
 
-  const handleOptionChange = (event) => {
-    setformDetailData({
-      ...formDetailData,
-      form_used_status: event.target.value,
-    });
+  const areaForm = (id, title, data, children) => {
+    return (
+      <tr>
+        <td className={`${styled.table_title_td} ${styled.table_area_type}`}>
+          {title}
+        </td>
+        <td className={`${styled.table_content_td} ${styled.table_area_type}`}>
+          <div>
+            {data.map((ele, index) => {
+              return <div key={index}>{ele}</div>;
+            })}
+          </div>
+          <div>{children}</div>
+        </td>
+      </tr>
+    );
+  };
+
+  const radioForm = (id, title, data, form) => {
+    return (
+      <tr>
+        <td className={styled.table_title_td}>{title}</td>
+        <td className={`${styled.table_content_td} ${styled.table_radio_type}`}>
+          <div>
+            <input
+              type="radio"
+              name="used"
+              value="사용"
+              checked={data === '사용'}
+              onChange={(e) => {
+                onChangeFunc(id, e.target.value);
+              }}
+            />
+            {form[0]}
+            <input
+              type="radio"
+              name="used"
+              value="미사용"
+              checked={data === '미사용'}
+              onChange={(e) => {
+                onChangeFunc(id, e.target.value);
+              }}
+            />
+            {form[1]}
+          </div>
+        </td>
+      </tr>
+    );
+  };
+
+  const fileForm = (id, title) => {
+    return (
+      <tr>
+        <td className={styled.table_title_td}>{title}</td>
+        <td className={`${styled.table_file_td} ${styled.table_file_type}`}>
+          <DragDrop name={title} id={id} onChangeFunc={onChangeFunc} />
+        </td>
+      </tr>
+    );
+  };
+
+  const assetRender = (ele) => {
+    switch (ele.type) {
+      case 'input':
+        return inputForm(ele.id, ele.name, ele.data, ele.children);
+      case 'area':
+        return areaForm(ele.id, ele.name, ele.data, ele.children);
+      case 'radio':
+        return radioForm(ele.id, ele.name, ele.data, ele.form);
+      case 'file':
+        return fileForm(ele.id, ele.name);
+      default:
+    }
   };
 
   return (
     <>
       <table className={styled.form_detail_table}>
-        <tr>
-          <td className={styled.table_title_td}>회사</td>
-          <td className={styled.table_content_td}>
-            <input type="text" value={formDetailData.comp_name} />
-          </td>
-        </tr>
-        <tr>
-          <td className={styled.table_title_td}>양식명</td>
-          <td className={styled.table_content_td}>
-            <input type="text" value={formDetailData.form_name} />
-          </td>
-        </tr>
-        <tr>
-          <td className={`${styled.table_title_td} ${styled.table_area_type}`}>
-            공개범위
-          </td>
-          <td
-            className={`${styled.table_content_td} ${styled.table_area_type}`}
-          >
-            <div>
-              {formDetailData.scope.map((ele, index) => {
-                return <div key={index}>{ele}</div>;
-              })}
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td className={styled.table_title_td}>사용여부</td>
-          <td
-            className={`${styled.table_content_td} ${styled.table_radio_type}`}
-          >
-            <div>
-              <input
-                type="radio"
-                name="used"
-                value="true"
-                checked={formDetailData.form_used_status === 'true'}
-                onChange={handleOptionChange}
-              />
-              사용
-              <input
-                type="radio"
-                name="used"
-                value="false"
-                checked={formDetailData.form_used_status === 'false'}
-                onChange={handleOptionChange}
-              />
-              미사용
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td className={styled.table_title_td}>기본파일</td>
-          <td className={`${styled.table_file_td} ${styled.table_file_type}`}>
-            <DragDrop name={'기본파일'} />
-          </td>
-        </tr>
-        <tr>
-          <td className={styled.table_title_td}>본문파일</td>
-          <td className={`${styled.table_file_td} ${styled.table_file_type}`}>
-            <DragDrop name={'본문파일'} />
-          </td>
-        </tr>
+        {tableList.map((ele) => {
+          return assetRender(ele);
+        })}
       </table>
     </>
   );

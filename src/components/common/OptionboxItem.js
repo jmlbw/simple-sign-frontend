@@ -1,5 +1,6 @@
 import { IoMdClose } from 'react-icons/io'; // IoMdClose 아이콘을 명시적으로 가져옵니다.
 import styles from '../../styles/components/common/Optionbox.module.css';
+import React from 'react';
 
 function OptionboxItem(props) {
   const handleIconCloseClick = () => {

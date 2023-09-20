@@ -1,6 +1,7 @@
 import styled from '../../../styles/components/formManage/formEdit/FormEdit.module.css';
 import Editor from './components/Editor';
 import FormList from './components/FormList';
+import React from 'react';
 
 export default function FormEdit() {
   return (
