@@ -17,7 +17,7 @@ export default function SearchItem({ id, asset1, asset2, data, dataHandler }) {
     );
   };
 
-  const SelectComp = ({ width = 170 }) => {
+  const selectComp = (width = 170) => {
     return (
       <select
         className={styled.select}
@@ -49,9 +49,7 @@ export default function SearchItem({ id, asset1, asset2, data, dataHandler }) {
 
   const assetRender = (asset) => {
     if (asset === 'select') {
-      return (
-        <>{asset1 === 'select' ? <SelectComp width={70} /> : <SelectComp />}</>
-      );
+      return <>{asset1 === 'select' ? selectComp(70) : selectComp()}</>;
     } else if (asset === 'text') {
       return inputComp();
     } else if (asset === 'date') {

@@ -4,8 +4,9 @@ import SearchBox from '../components/formManage/searchBox/SearchBox';
 import FormList from '../components/formManage/formList/FormList';
 import FormDetail from '../components/formManage/formDetail/FormDetail';
 import PageContext from '../contexts/PageContext';
-import { columns, fields, rows } from '../assets/datas/form_sample_data';
+import { columns, fields } from '../assets/datas/form_sample_data';
 import getCompanyList from '../apis/commonAPI/getCompanyList';
+import getFormAndCompList from '../apis/commonAPI/getFormAndCompList';
 
 export default function FormManagePage() {
   const defaultOptionList = [
@@ -15,6 +16,7 @@ export default function FormManagePage() {
       asset2: 'select',
       data: [],
     },
+    { id: 'formName', asset1: '양식명', asset2: 'text', data: [] },
     {
       id: 'status',
       asset1: '사용여부',
@@ -24,7 +26,6 @@ export default function FormManagePage() {
         { id: 2, name: '아니요' },
       ],
     },
-    { id: 'formName', asset1: '양식명', asset2: 'text', data: [] },
   ];
 
   const searchInitData = {
@@ -35,6 +36,7 @@ export default function FormManagePage() {
 
   const [searchOptionList, setSearchOptionList] = useState(defaultOptionList);
   const [searchData, setSearchData] = useState(searchInitData);
+  const [formData, setFormData] = useState([]);
 
   const { state, setState } = useContext(PageContext);
 
@@ -48,6 +50,12 @@ export default function FormManagePage() {
       .then((data) => {
         searchOptionList[0].data = data;
         setSearchOptionList([...searchOptionList]);
+
+        setSearchData({
+          compName: searchOptionList[0].data[0].name,
+          formName: '',
+          status: 1,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -55,13 +63,28 @@ export default function FormManagePage() {
   }, []);
 
   const searchDataHandler = (id, value) => {
-    console.log('update', id, value);
     setSearchData({ ...searchData, [id]: value });
   };
 
   const searchEventHandler = () => {
-    console.log('search');
-    console.log('searchData:', searchData);
+    let requestData = {
+      code: 0,
+      compName: searchData.compName,
+      formName: searchData.formName,
+      status: searchData.status,
+    };
+
+    getFormAndCompList(requestData)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log('search:', data);
+        setFormData(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (
@@ -77,7 +100,7 @@ export default function FormManagePage() {
             title={'양식목록'}
             columns={columns}
             fields={fields}
-            rows={rows}
+            rows={formData}
           />
         </div>
         <div className="form_detail_area">

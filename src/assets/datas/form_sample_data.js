@@ -1,36 +1,37 @@
 import { ValueType } from 'realgrid';
 
 export const fields = [
-  // {
-  //   fieldName: 'code',
-  //   dataType: ValueType.TEXT,
-  // },
   {
-    fieldName: 'comp_name',
+    fieldName: 'code',
+    dataType: ValueType.INT,
+  },
+  {
+    fieldName: 'compName',
     dataType: ValueType.TEXT,
   },
   {
-    fieldName: 'form_name',
+    fieldName: 'formName',
     dataType: ValueType.TEXT,
   },
   {
-    fieldName: 'form_used_status',
+    fieldName: 'status',
     dataType: ValueType.TEXT,
   },
 ];
 
 export const columns = [
-  // {
-  //   name: '코드',
-  //   fieldName: 'code',
-  //   width: '70',
-  //   header: {
-  //     text: '코드',
-  //   },
-  // },
+  {
+    name: '코드',
+    fieldName: 'code',
+    width: '0',
+    visible: false,
+    header: {
+      text: '',
+    },
+  },
   {
     name: '회사',
-    fieldName: 'comp_name',
+    fieldName: 'compName',
     width: '200',
     header: {
       text: '회사',
@@ -38,7 +39,7 @@ export const columns = [
   },
   {
     name: '양식명',
-    fieldName: 'form_name',
+    fieldName: 'formName',
     width: '250',
     header: {
       text: '양식명',
@@ -46,8 +47,11 @@ export const columns = [
   },
   {
     name: '사용여부',
-    fieldName: 'form_used_status',
+    fieldName: 'status',
     width: '70',
+    lookupDisplay: true,
+    values: [1, 0],
+    labels: ['사용', '미사용'],
     header: {
       text: '사용여부',
     },
@@ -57,9 +61,9 @@ export const columns = [
 export const rows = [
   {
     code: '1',
-    comp_name: '(주) 더존',
-    form_name: '휴가 신청서',
-    form_used_status: '사용',
+    compName: '(주) 더존',
+    formName: '휴가 신청서',
+    status: '사용',
   },
   {
     code: '2',
