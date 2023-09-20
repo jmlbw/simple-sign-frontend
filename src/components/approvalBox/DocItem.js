@@ -4,6 +4,7 @@ import doneIcon from '../../assets/imgs/done.png';
 import progressIcon from '../../assets/imgs/progress.png';
 import redoIcon from '../../assets/imgs/redo.png';
 import defaultUserIcon from '../../assets/imgs/default_user.png';
+import React from 'react';
 
 function DocItem(props) {
   //문서상태에 따른 글자색

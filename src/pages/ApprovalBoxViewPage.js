@@ -3,6 +3,7 @@ import SearchDetailBox from '../components/approvalBox/SearchDetailBox';
 import ViewDocBox from '../components/approvalBox/ViewDocBox';
 import InnerBox from '../components/common/InnerBox';
 import styles from '../styles/pages/ApprovalBoxViewPage.module.css';
+import React from 'react';
 
 function ApprovalBoxViewPage() {
   return (

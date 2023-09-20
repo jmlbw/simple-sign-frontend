@@ -1,5 +1,6 @@
 import styled from '../../styles/components/ApprovalBox/Search.module.css';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
+import React from 'react';
 
 function Search() {
   return (
