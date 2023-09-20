@@ -26,10 +26,12 @@
 .searchbox {
 }
 .searchDetailbox {
-  width: 1236px !important;
+  width: 1186px !important;
   height: auto;
-  display: flex;
+  /* display: flex; */
   justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center;
+  flex: 4;
 }
 .radiobuttonsBox {
   margin: 0 !important;
@@ -37,10 +39,20 @@
   border-bottom: 1px solid #e6e6e6;
   box-sizing: border-box;
   display: flex;
-  justify-content: flex-end;
+  justify-content: end;
+  flex: 1;
 }
 .radiogroup {
   height: 27px;
   display: flex;
   align-items: center;
+}
+
+.aaa {
+  display: flex;
+  flex-direction: column;
+}
+
+.bbb {
+  height: 100%;
 }
