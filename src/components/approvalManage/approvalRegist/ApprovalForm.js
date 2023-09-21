@@ -9,21 +9,7 @@ export default function ApprovalForm({ form_code }) {
   const [default_form, setDefaultForm] = useState('');
   const [main_form, setMainForm] = useState('');
 
-  const sequenceList = [
-    {
-      seq_code: 1,
-      name: '부서채번1',
-      seq_sort_order: 1,
-    },
-    {
-      seq_code: 2,
-      name: '회사채번1',
-      seq_sort_order: 2,
-    },
-  ];
-
   useEffect(() => {
-    setSequence(sequenceList);
     fetch(`http://localhost:8080/manage/form/detail/${form_code}`)
       .then((res) => {
         return res.json();
@@ -31,6 +17,14 @@ export default function ApprovalForm({ form_code }) {
       .then((json) => {
         setDefaultForm(json.defaultForm);
         setMainForm(json.mainForm);
+      });
+
+    fetch(`http://localhost:8080/manage/form/seqTitleList`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((json) => {
+        setSequence(json);
       });
   }, [form_code]);
 
