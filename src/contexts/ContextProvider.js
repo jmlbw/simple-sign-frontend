@@ -7,8 +7,9 @@ export default function ContextProvider({ children }) {
   return (
     <AppProvider>
       <PageProvier>
-        <SearchContextProvider>{children}</SearchContextProvider>
-        <FormManageProvider>{children}</FormManageProvider>
+        <SearchContextProvider>
+          <FormManageProvider>{children}</FormManageProvider>
+        </SearchContextProvider>
       </PageProvier>
     </AppProvider>
   );
