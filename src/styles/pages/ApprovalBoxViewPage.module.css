@@ -48,11 +48,13 @@
   align-items: center;
 }
 
-.aaa {
+.inInnerbox {
   display: flex;
   flex-direction: column;
 }
 
-.bbb {
+.outInnerbox {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
