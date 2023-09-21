@@ -23,7 +23,7 @@ export default function SmallBox(props) {
       width="1300px"
       height="600px"
       title="결재작성상세"
-      children={<ApprovalForm />}
+      children={<ApprovalForm form_code={props.form_code} />}
     ></PopUp>
   );
 }
