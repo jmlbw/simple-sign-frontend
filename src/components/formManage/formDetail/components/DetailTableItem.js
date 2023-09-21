@@ -1,5 +1,6 @@
 import styled from '../../../../styles/components/formManage/formDetail/components/DetailTable.module.css';
 import DragDrop from './DragDrop';
+import React from 'react';
 
 const DetailBox = ({ children }) => {
   return (

@@ -3,6 +3,7 @@ import DataList from './DataList';
 import { columns } from '../../../assets/datas/form_manage_list';
 import getFormDetail from '../../../apis/commonAPI/getFormDetail';
 import { useFormManage } from '../../../contexts/FormManageContext';
+import React from 'react';
 
 export default function FormListArea({ rows }) {
   const { detailData, setDetailData } = useFormManage();

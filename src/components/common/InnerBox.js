@@ -10,7 +10,9 @@ export default function InnerBox(props) {
 
   return (
     <div className={styles.box} style={innerBoxStyle}>
-      <Title text={props.text} font_size={props.font_size} />
+      {props.text ? (
+        <Title text={props.text} font_size={props.font_size} />
+      ) : null}
       {props.text !== null && props.text !== undefined ? <hr /> : null}
       <div style={props.childStyle}>{props.children}</div>
     </div>
