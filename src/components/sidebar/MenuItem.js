@@ -5,7 +5,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styled from '../../styles/components/sidebar/MenuItem.module.css';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
   const [clickStates, setClickStates] = useState([

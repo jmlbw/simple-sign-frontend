@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from '../../../../styles/components/formManage/formDetail/components/DetailTable.module.css';
 
 export default function SeqDetailTable() {

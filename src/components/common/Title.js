@@ -1,4 +1,5 @@
 // import '../../../styles/components/common/Title.module.css';
+import React from 'react';
 
 export default function Title({ text, font_size }) {
   return (

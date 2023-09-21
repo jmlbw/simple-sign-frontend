@@ -1,6 +1,7 @@
 import styles from '../../../styles/components/header/iconArea.module.css';
 import ProfileDrop from './ProfileDrop';
 import NoticeDrop from './NoticeDrop';
+import React from 'react';
 
 function IconArea() {
   return (
