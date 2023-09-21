@@ -1,4 +1,4 @@
-import SearchBox from '../formManage/searchBox/SearchBox';
+// import FormSearchBox from '../formManage/searchBox/FormSearchBox';
 import styles from '../../styles/pages/ApprovalBoxViewPage.module.css';
 import React from 'react';
 
@@ -36,7 +36,7 @@ function SearchDetailBox() {
   ];
   return (
     <div className={styles}>
-      <SearchBox searchOptions={searchOptionList} />
+      {/* <SearchBox searchOptions={searchOptionList} /> */}
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import '../styles/pages/SeqManagePage.css';
-import SearchBox from '../components/formManage/searchBox/SearchBox';
-import FormList from '../components/formManage/formList/FormList';
-import PageContext from '../contexts/PageContext';
+// import SearchBox from '../components/formManage/searchBox/SearchBox';
+// import FormList from '../components/formManage/formList/FormList';
 import { columns, fields, rows } from '../assets/datas/seq_sample_data';
 import SeqDetail from '../components/seqManage/seqDetail/SeqDetail';
+import { usePage } from '../contexts/PageContext';
 
 export default function FormManagePage() {
   let searchOptionList = [
@@ -24,7 +24,7 @@ export default function FormManagePage() {
     { asset1: '코드', asset2: 'text', data: [] },
   ];
 
-  const { state, setState } = useContext(PageContext);
+  const { state, setState } = usePage();
 
   useEffect(() => {
     setState({ ...state, curPage: 'SeqManage' });
@@ -32,15 +32,15 @@ export default function FormManagePage() {
 
   return (
     <div className="form_manage_container">
-      <SearchBox searchOptions={searchOptionList}></SearchBox>
+      {/* <SearchBox searchOptions={searchOptionList}></SearchBox> */}
       <div className="form_data_area">
         <div className="form_list_area">
-          <FormList
+          {/* <FormList
             title={'채번목록'}
             columns={columns}
             fields={fields}
             rows={rows}
-          />
+          /> */}
         </div>
         <div className="form_detail_area">
           <SeqDetail title={'문서채번상세'} />

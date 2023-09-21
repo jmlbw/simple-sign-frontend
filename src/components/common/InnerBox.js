@@ -13,6 +13,8 @@ export default function InnerBox(props) {
       <Title text={props.text} font_size={props.font_size} />
       {props.text !== null && props.text !== undefined ? <hr /> : null}
       <div>{props.children}</div>
+      <hr />
+      <div style={props.childStyle}>{props.children}</div>
     </div>
   );
 }

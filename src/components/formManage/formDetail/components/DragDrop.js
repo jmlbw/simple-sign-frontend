@@ -4,7 +4,7 @@ import PopUp from '../../../common/PopUp';
 import FormEdit from '../../formEditPopUp/FormEdit';
 import { FiEdit } from 'react-icons/fi';
 
-const DragDrop = ({ name, id, onChangeFunc }) => {
+const DragDrop = ({ name, id, onChangeFunc, data, dataHandler }) => {
   const fileId = useRef(0);
   const dragRef = useRef(null);
 
@@ -14,6 +14,7 @@ const DragDrop = ({ name, id, onChangeFunc }) => {
   const handleFilterFile = useCallback(
     (id) => {
       setFiles(files.filter((file) => file.id !== id));
+      dataHandler('');
     },
     [files]
   );
@@ -48,7 +49,6 @@ const DragDrop = ({ name, id, onChangeFunc }) => {
     const allowedExtensions = ['html'];
     const isValidFile = Array.from(droppedFiles).every((file) => {
       const fileExtension = file.name.split('.').pop().toLowerCase();
-      console.log('extension:', fileExtension);
       return allowedExtensions.includes(fileExtension);
     });
 
@@ -63,7 +63,6 @@ const DragDrop = ({ name, id, onChangeFunc }) => {
   };
 
   const inputFileUpload = (e) => {
-    console.log('inputfileupload', name);
     onChangeFiles(e);
   };
 
@@ -94,10 +93,8 @@ const DragDrop = ({ name, id, onChangeFunc }) => {
     } else {
       selectFiles = e.target.files;
     }
-    console.log('file:', selectFiles[0]);
     for (const file of selectFiles) {
       tempFiles = [
-        // ...tempFiles,
         {
           id: fileId.current++,
           object: file,
@@ -109,21 +106,18 @@ const DragDrop = ({ name, id, onChangeFunc }) => {
   };
 
   useEffect(() => {
-    const modifiedBlob = new Blob(['<div>test<div>'], {
+    const modifiedBlob = new Blob(['<div><div>'], {
       type: 'text/html',
     });
     const modifiedFile = new File([modifiedBlob], `${name}.html`);
-    let default_file = [
+    let defaultFile = [
       {
         id: fileId.current++,
         object: modifiedFile,
       },
     ];
-
     initDragEvents();
-
-    setFiles(default_file);
-
+    setFiles(defaultFile);
     return () => resetDragEvents();
   }, []);
 
@@ -133,24 +127,29 @@ const DragDrop = ({ name, id, onChangeFunc }) => {
 
       reader.onload = (event) => {
         const fileContent = event.target.result;
-        onChangeFunc(id, fileContent);
-        // const modifiedContent = fileContent + '//test';
-        // console.log('files[0]:', files[0]);
-        // // 수정된 내용을 다시 파일에 저장하려면, 다음과 같이 Blob 또는 Blob 데이터를 생성하고 저장할 수 있습니다.
-        // const modifiedBlob = new Blob([modifiedContent], {
-        //   type: files[0].object.type,
-        // });
-        // const modifiedFile = new File([modifiedBlob], files[0].object.name);
-        // let tempFiles = [
-        //   {
-        //     id: fileId.current++,
-        //     object: modifiedFile,
-        //   },
-        // ];
-        // setFiles(tempFiles);
+        dataHandler(fileContent);
       };
 
       reader.readAsText(files[0].object);
+    }
+  };
+
+  const updateFile = (updatedData) => {
+    if (files.length > 0) {
+      const modifiedContent = updatedData;
+
+      const modifiedBlob = new Blob([modifiedContent], {
+        type: files[0].object.type,
+      });
+      const modifiedFile = new File([modifiedBlob], files[0].object.name);
+      let tempFiles = [
+        {
+          id: fileId.current++,
+          object: modifiedFile,
+        },
+      ];
+      setFiles(tempFiles);
+      dataHandler(modifiedContent);
     }
   };
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Title from '../../common/Title';
 import styled from '../../../styles/components/seqManage/seqSetPopUp/SeqSet.module.css';
-import FormList from '../../formManage/formList/FormList';
+
 import {
   columns,
   fields,
@@ -17,14 +17,14 @@ export default function SeqSet() {
       <Title text={'채번항목'} font_size={'18px'}></Title>
       <div className={styled.seqListArea}>
         <div>
-          <FormList columns={columns} fields={fields} rows={rows} />
+          {/* <FormList columns={columns} fields={fields} rows={rows} /> */}
         </div>
         <div>
           <BsChevronLeft className={styled.arrowBox} />
           <BsChevronRight className={styled.arrowBox} />
         </div>
         <div>
-          <FormList columns={columns} fields={fields} rows={rows} />
+          {/* <FormList columns={columns} fields={fields} rows={rows} /> */}
         </div>
       </div>
       <Title text={'미리보기'} font_size={'18px'}></Title>

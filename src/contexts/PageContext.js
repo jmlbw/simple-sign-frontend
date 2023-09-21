@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 
 const initialState = {
   curPage: 'Home',
@@ -16,4 +16,10 @@ export const PageProvier = ({ children }) => {
   );
 };
 
-export default PageContext;
+export const usePage = () => {
+  const context = useContext(PageContext);
+  if (!context) {
+    throw new Error('useFormManage must be used within a FormManageProvider');
+  }
+  return context;
+};

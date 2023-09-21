@@ -3,6 +3,18 @@
   border-top: 2px solid #000;
 }
 
+.detailBox {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: center;
+
+  min-height: 40px;
+  border-bottom: 1px solid #cccccc;
+  padding: 1px;
+}
+
 .form_detail_table > tr {
   display: flex;
   flex-direction: row;

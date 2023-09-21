@@ -1,110 +1,58 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import '../styles/pages/FormManagePage.css';
-import SearchBox from '../components/formManage/searchBox/SearchBox';
-import FormList from '../components/formManage/formList/FormList';
+import FormSearchBox from '../components/formManage/searchBox/FormSearchBox';
 import FormDetail from '../components/formManage/formDetail/FormDetail';
-import PageContext from '../contexts/PageContext';
-import { columns, fields } from '../assets/datas/form_sample_data';
 import getCompanyList from '../apis/commonAPI/getCompanyList';
 import getFormAndCompList from '../apis/commonAPI/getFormAndCompList';
+import { useFormManage } from '../contexts/FormManageContext';
+import { usePage } from '../contexts/PageContext';
+import FormListArea from '../components/formManage/formList/FormListArea';
 
 export default function FormManagePage() {
-  const defaultOptionList = [
-    {
-      id: 'compName',
-      asset1: '회사',
-      asset2: 'select',
-      data: [],
-    },
-    { id: 'formName', asset1: '양식명', asset2: 'text', data: [] },
-    {
-      id: 'status',
-      asset1: '사용여부',
-      asset2: 'select',
-      data: [
-        { id: 1, name: '예' },
-        { id: 2, name: '아니요' },
-      ],
-    },
-  ];
-
-  const searchInitData = {
-    compName: '',
-    formName: '',
-    status: 1,
-  };
-
-  const [searchOptionList, setSearchOptionList] = useState(defaultOptionList);
-  const [searchData, setSearchData] = useState(searchInitData);
-  const [formData, setFormData] = useState([]);
-
-  const { state, setState } = useContext(PageContext);
+  const [formListData, setFormListData] = useState([]);
+  const [detailData, setDetailData] = useState([]);
+  const { searchData, setSearchData, setData, setSetData } = useFormManage();
+  const { state, setState } = usePage();
 
   useEffect(() => {
+    //페이지 데이터 셋팅
     setState({ ...state, curPage: 'FormManage' });
 
+    //회사명, 기본 데이터 셋팅
     getCompanyList()
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        searchOptionList[0].data = data;
-        setSearchOptionList([...searchOptionList]);
-
-        setSearchData({
-          compName: searchOptionList[0].data[0].name,
-          formName: '',
-          status: 1,
-        });
+        setSearchData({ ...searchData, compName: data[0].name });
+        setSetData({ ...setData, compList: data });
       })
       .catch((err) => {
         console.error(err);
       });
   }, []);
 
-  const searchDataHandler = (id, value) => {
-    setSearchData({ ...searchData, [id]: value });
-  };
-
-  const searchEventHandler = () => {
-    let requestData = {
-      code: 0,
-      compName: searchData.compName,
-      formName: searchData.formName,
-      status: searchData.status,
-    };
-
-    getFormAndCompList(requestData)
+  // 검색 및 테이블 데이터 셋팅
+  const searchHandler = () => {
+    getFormAndCompList(searchData)
       .then((res) => {
         return res.json();
       })
       .then((data) => {
-        console.log('search:', data);
-        setFormData(data);
+        setFormListData(data);
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch((err) => {});
   };
 
   return (
     <div className="form_manage_container">
-      <SearchBox
-        searchOptions={searchOptionList}
-        dataHandler={searchDataHandler}
-        searchHandler={searchEventHandler}
-      ></SearchBox>
+      <FormSearchBox searchHandler={searchHandler} />
       <div className="form_data_area">
         <div className="form_list_area">
-          <FormList
-            title={'양식목록'}
-            columns={columns}
-            fields={fields}
-            rows={formData}
-          />
+          <FormListArea rows={formListData} />
         </div>
         <div className="form_detail_area">
-          <FormDetail title={'양식상세'} />
+          <FormDetail />
         </div>
       </div>
     </div>
