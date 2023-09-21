@@ -1,6 +1,7 @@
 import styled from '../../../styles/components/formManage/searchBox/SearchBox.module.css';
 import { AiOutlineSearch } from 'react-icons/ai';
 import InnerBox from '../../common/InnerBox';
+import React from 'react';
 import {
   ItemBox,
   TextComp,
