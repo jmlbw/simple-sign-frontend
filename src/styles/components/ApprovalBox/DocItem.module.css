@@ -35,6 +35,8 @@
   white-space: nowrap;
   overflow: hidden;
   padding-right: 30px;
+  padding-left: 30px;
+  max-width: 210px;
 }
 .element {
   margin: 7px 0 0;
@@ -43,8 +45,8 @@
   margin: 0 0 0 20px;
   box-sizing: border-box;
   padding-right: 10px;
-  min-width: 300px;
-  padding-left: 50px;
+  min-width: 250px;
+  padding-left: 40px;
 }
 
 .elementText {
@@ -55,8 +57,8 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  min-width: 500px;
-  max-width: 500px;
+  min-width: 330px;
+  max-width: 330px;
 }
 .info {
   display: flex;
@@ -96,8 +98,8 @@
   width: inherit;
   display: inline-block;
   line-height: 0;
-  min-width: 230px;
-  max-width: 230px;
+  min-width: 150px;
+  max-width: 200px;
 }
 .name {
   margin: 7px 0 0;
@@ -106,12 +108,12 @@
   line-height: 20px;
   letter-spacing: -0.33px;
   color: #000;
-  max-width: 210px;
+  max-width: 200px;
 }
 .departementInfo {
   display: inline-block;
   line-height: 0;
-  min-width: 200px;
+  min-width: 100px;
   max-width: 200px;
 }
 .departementList {
@@ -154,4 +156,10 @@
   line-height: 18px;
   white-space: normal;
   font-size: 12px;
+}
+.bar {
+  color: #e8e5e5;
+  font-size: 11px;
+  padding-left: 2px;
+  padding-right: 2px;
 }

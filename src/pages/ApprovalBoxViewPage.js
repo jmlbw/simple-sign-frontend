@@ -11,7 +11,7 @@ function ApprovalBoxViewPage() {
 
   return (
     <div className={styles.outInnerbox}>
-      <InnerBox height={'100%'}>
+      <InnerBox height={'100%'} width={'100%'}>
         <div className={styles.inInnerbox}>
           <div className={styles.searchDetailbox}>
             {view && <SearchDetailBox />}

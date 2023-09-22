@@ -10,9 +10,9 @@ const TextComp = ({ text }) => {
   return <p className={styled.title}>{text}</p>;
 };
 
-const InputComp = ({ dataHandler }) => {
+const InputComp = ({ dataHandler, width }) => {
   return (
-    <div className={styled.inputBox}>
+    <div className={styled.inputBox} style={{ width: `${width}` }}>
       <input className={styled.input} type="text" onChange={dataHandler} />
     </div>
   );
