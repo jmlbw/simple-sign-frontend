@@ -1,7 +1,8 @@
 import styled from '../../../../styles/components/formManage/formEdit/components/FormList.module.css';
 import React from 'react';
+import { TyniEditor, CustomButton } from '../../../common/TyniEditor';
 
-export default function FormList() {
+export default function FormList({ formItems, editor }) {
   const sample_form_list = [
     { id: 1, title: '품의번호', data: `<div id="sn">test</div>` },
     { id: 2, title: '수신참조', data: `<div id="sc">sample</div>` },
@@ -13,11 +14,14 @@ export default function FormList() {
       </div>
 
       <div className={styled.formListArea}>
-        {sample_form_list.map((ele) => {
+        {formItems.map((ele) => {
           return (
-            <div key={ele.id} className={styled.formListItem}>
-              {ele.title}
-            </div>
+            <CustomButton
+              key={ele.formListName}
+              label={ele.formListName}
+              editor={editor}
+              text={ele.formListTag}
+            ></CustomButton>
           );
         })}
       </div>

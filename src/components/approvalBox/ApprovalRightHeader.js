@@ -4,7 +4,6 @@ import styles from '../../styles/components/ApprovalBox/ApprovalRightHeader.modu
 import React, { useContext, useState } from 'react';
 import Search from './Search';
 import SearchContext from '../../contexts/SearchContext';
-import React from 'react';
 
 function ApprovalRightHeader() {
   const [isDropdownView, setDropdownView] = useState(false);
