@@ -9,17 +9,23 @@ import styled from '../../styles/components/sidebar/Sidebar.module.css';
 const userData = [
   {
     id: '1',
-    name: '결재보관함',
+    name: '상신/보관함',
     submenu: [
       { id: 1, name: '상신문서' },
-      { id: 2, name: '수신문서' },
-      { id: 3, name: '미결문서' },
-      { id: 4, name: '기결문서' },
-      { id: 5, name: '수신참조문서' },
+      { id: 2, name: '임시보관문서' },
     ],
   },
   {
     id: '2',
+    name: '결재수신함',
+    submenu: [
+      { id: 1, name: '미결문서' },
+      { id: 2, name: '기결문서' },
+      { id: 3, name: '수신참조문서' },
+    ],
+  },
+  {
+    id: '3',
     name: '결재분류함',
     submenu: [{ id: 1, name: '상신문서' }],
   },

@@ -1,8 +1,25 @@
+import getSendDocs, {
+  getTemporDocs,
+} from '../../apis/approvalBoxAPI/getSendDocs';
 import styled from '../../styles/components/ApprovalBox/ViewDocBox.module.css';
 import DocItem from './DocItem';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 function ViewDocBox() {
+  const [docData, setDocData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await getSendDocs();
+        setDocData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className={styled.container}>
       <div className={styled.tableheader}>
@@ -15,72 +32,18 @@ function ViewDocBox() {
       </div>
       <div className={styled.docContainer}>
         <ul className={styled.docList}>
-          <DocItem
-            date="09-15 (금) 19:22"
-            title="테스트입니다."
-            formName="물품수리요청서"
-            sendUser="김비파"
-            sendDepart="솔루션사업부문"
-            sendDepartDetail="검수부서2"
-            imgUrl="../../assets/imgs/default_user.png"
-            docStatus="반려"
-            lastUser="김비파"
-          ></DocItem>
-          <DocItem
-            date="09-15 (금) 19:22"
-            title="테스트입니다."
-            formName="물품수리요청서"
-            sendUser="김비파"
-            sendDepart="솔루션사업부문"
-            sendDepartDetail="검수부서2"
-            imgUrl="../../assets/imgs/default_user.png"
-            docStatus="종결"
-            lastUser="김비파"
-          ></DocItem>
-          <DocItem
-            date="09-15 (금) 19:22"
-            title="테스트입니다dddddddddddd."
-            formName="물품수리요청서dddddddddddddddddddddddddddddddddddddd"
-            sendUser="김비파"
-            sendDepart="솔루션사업부문"
-            sendDepartDetail="검수부서2"
-            imgUrl="../../assets/imgs/default_user.png"
-            docStatus="진행"
-            lastUser="김비파"
-          ></DocItem>
-          <DocItem
-            date="09-15 (금) 19:22"
-            title="테스트입니다dddddddddddd."
-            formName="물품수리요청서dddddddddddddddddddddddddddddddddddddd"
-            sendUser="김비파"
-            sendDepart="솔루션사업부문"
-            sendDepartDetail="검수부서2"
-            imgUrl="../../assets/imgs/default_user.png"
-            docStatus="진행"
-            lastUser="김비파"
-          ></DocItem>
-          <DocItem
-            date="09-15 (금) 19:22"
-            title="테스트입니다dddddddddddd."
-            formName="물품수리요청서dddddddddddddddddddddddddddddddddddddd"
-            sendUser="김비파"
-            sendDepart="솔루션사업부문"
-            sendDepartDetail="검수부서2"
-            imgUrl="../../assets/imgs/default_user.png"
-            docStatus="진행"
-            lastUser="김비파"
-          ></DocItem>
-          <DocItem
-            date="09-15 (금) 19:22"
-            title="테스트입니다dddddddddddd."
-            formName="물품수리요청서dddddddddddddddddddddddddddddddddddddd"
-            sendUser="김비파"
-            sendDepart="솔루션사업부문"
-            sendDepartDetail="검수부서2"
-            imgUrl="../../assets/imgs/default_user.png"
-            docStatus="진행"
-            lastUser="김비파"
-          ></DocItem>
+          {docData.map((docItem, index) => (
+            <DocItem
+              key={index} // 각 아이템은 고유한 키를 가져야 합니다.
+              docNumber={docItem.approvalDocId}
+              formName={docItem.formName}
+              date={docItem.createdAt}
+              title={docItem.approvalDocTitle}
+              sendUser={docItem.userName}
+              docStatus={docItem.docStatus}
+              sendDepartDetail={docItem.deptName}
+            ></DocItem>
+          ))}
         </ul>
       </div>
     </div>

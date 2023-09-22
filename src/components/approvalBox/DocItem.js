@@ -9,30 +9,47 @@ import React from 'react';
 function DocItem(props) {
   //문서상태에 따른 글자색
   const getTxtColor = () => {
-    if (props.docStatus === '종결') {
+    if (props.docStatus === 'A') {
       return '#20C997';
-    } else if (props.docStatus === '진행') {
+    } else if (props.docStatus === 'P') {
       return '#46A3F0';
-    } else if (props.docStatus === '반려') {
+    } else if (props.docStatus === 'R') {
       return '#FF8787';
-    } else if (props.docStatus === '상신') {
+    } else if (props.docStatus === 'W') {
       return '#F0C325';
+    } else {
+      return '';
     }
   };
 
   //문서상태에 따른 아이콘
   const getStatusIcon = () => {
     switch (props.docStatus) {
-      case '종결':
+      case 'A':
         return doneIcon; // 종결 아이콘 이미지 경로
-      case '진행':
+      case 'P':
         return progressIcon; // 진행 아이콘 이미지 경로
-      case '반려':
+      case 'R':
         return redoIcon; // 반려 아이콘 이미지 경로
-      case '상신':
+      case 'W':
         return sendIcon; // 상신 아이콘 이미지 경로
       default:
         return ''; // 기본값 (아무 아이콘도 표시하지 않음)
+    }
+  };
+
+  const getStatusText = () => {
+    switch (props.docStatus) {
+      case 'A':
+        return '승인'; // 종결 텍스트
+      case 'P':
+        return '진행'; // 진행 텍스트
+      case 'R':
+        return '반려'; // 반려 텍스트
+      case 'W':
+        return '상신'; // 상신 텍스트
+      default:
+        return ''; // 기본값 (아무 텍스트도 표시하지 않음)
     }
   };
 
@@ -42,9 +59,9 @@ function DocItem(props) {
   return (
     <div>
       <li className={styled.itembox}>
-        <div className={styled.checkboxArea}>
+        {/* <div className={styled.checkboxArea}>
           <input type="checkbox"></input>
-        </div>
+        </div> */}
         <div className={styled.dateText}>{props.date}</div>
         <div className={styled.element}>
           <div className={styled.elementText}>
@@ -52,6 +69,8 @@ function DocItem(props) {
           </div>
           <div className={styled.info}>
             <div className={styled.txtinfo}>{props.formName}</div>
+            <div className={styled.bar}>|</div>
+            <div className={styled.txtinfo}>{props.docNumber}</div>
           </div>
         </div>
         <div className={styled.docUser}>
@@ -63,7 +82,7 @@ function DocItem(props) {
             <div className={styled.departementInfo}>
               <div className={styled.departementList}>
                 <div className={styled.txtdep}>{props.sendDepart}</div>
-                <div className={styled.txtdep}>|</div>
+                {/* <div className={styled.txtdep}>|</div> */}
                 <div className={styled.txtdep}>{props.sendDepartDetail}</div>
               </div>
             </div>
@@ -72,7 +91,7 @@ function DocItem(props) {
             <div className={styled.process}>
               <img src={iconSrc} alt="statusIcon" />
               <div className={styled.txtline} style={{ color: txtColor }}>
-                <span>{props.docStatus}</span>
+                <span>{getStatusText()}</span>
                 <span>{'(' + props.lastUser + ')'}</span>
               </div>
             </div>
