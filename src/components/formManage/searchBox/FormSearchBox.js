@@ -8,6 +8,7 @@ import {
   SelectComp,
 } from './components/SearchItem';
 import { useFormManage } from '../../../contexts/FormManageContext';
+import React from 'react';
 
 export default function FormSearchBox({ searchHandler }) {
   const { searchData, setSearchData, setData } = useFormManage();

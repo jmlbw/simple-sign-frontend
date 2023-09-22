@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import RowRadioButtonsGroup from '../components/approvalBox/RowRadioButtonsGroup';
 import SearchDetailBox from '../components/approvalBox/SearchDetailBox';
 import ViewDocBox from '../components/approvalBox/ViewDocBox';
