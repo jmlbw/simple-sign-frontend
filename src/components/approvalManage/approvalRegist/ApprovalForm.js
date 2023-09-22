@@ -19,7 +19,9 @@ export default function ApprovalForm({ form_code }) {
         setMainForm(json.mainForm);
       });
 
-    fetch(`http://localhost:8080/manage/form/seqTitleList`)
+    fetch(
+      `http://localhost:8080/manage/form/seqTitleList?formCode=${form_code}`
+    )
       .then((res) => {
         return res.json();
       })

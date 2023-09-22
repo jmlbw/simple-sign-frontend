@@ -7,7 +7,6 @@ import '../../../../styles/components/approvalManage/approvalRegist/components/E
 // 커스텀 모듈을 Quill에 추가하는 함수
 function addCustomModule(main_form) {
   const Parchment = Quill.import('parchment');
-  console.log(main_form);
   // 커스텀 모듈을 정의합니다.
   class CustomBoxBlot extends Parchment.Embed {
     static blotName = 'custom-box';
@@ -18,7 +17,6 @@ function addCustomModule(main_form) {
     static create(value) {
       const node = super.create(value);
       node.innerHTML = main_form;
-      console.log(main_form);
       return node;
     }
   }
