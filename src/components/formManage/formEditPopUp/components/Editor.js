@@ -1,9 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
+import QuillBetterTable from 'quill-better-table';
 import styled from '../../../../styles/components/formManage/formEdit/components/Editor.module.css';
+import 'quill-better-table/dist/quill-better-table.css'; // 테이블 모듈 스타일 시트
 
+Quill.register({ 'modules/better-table': QuillBetterTable });
 // 커스텀 모듈을 Quill에 추가하는 함수
 function addCustomModule(quill) {
   const Parchment = Quill.import('parchment');
@@ -38,8 +41,36 @@ function addCustomModule(quill) {
 export default function Editor() {
   const quillRef = useRef(null);
   addCustomModule();
+
+  const insertTable = () => {
+    const editor = quillRef.current.getEditor();
+    const tableModule = editor.getModule('better-table');
+    tableModule.insertTable(3, 3);
+  };
+
+  useEffect(() => {
+    const editor = quillRef.current.getEditor();
+    const toolbar = editor.getModule('toolbar');
+    toolbar.addHandler('table', () => {
+      insertTable();
+    });
+  }, []);
+
   // Quill 에디터 초기화 및 커스텀 모듈 추가
   const modules = {
+    table: false,
+    'better-table': {
+      operationMenu: {
+        items: {
+          unmergeCells: {
+            text: 'Another unmerge cells name',
+          },
+        },
+      },
+    },
+    keyboard: {
+      bindings: QuillBetterTable.keyboardBindings,
+    },
     toolbar: {
       container: [
         [{ header: [1, 2, 3, false] }],
@@ -49,6 +80,7 @@ export default function Editor() {
         [{ color: [] }, { background: [] }],
         [{ align: [] }],
         [{ customBox: '' }], // 커스텀 모듈 버튼 추가
+        ['formula', 'table'],
       ],
     },
   };
@@ -67,6 +99,7 @@ export default function Editor() {
     <div className={styled.editorContainer}>
       <h2>Quill 에디터</h2>
       <button onClick={insertCustomBox}>Insert Custom Box</button>
+      <button onClick={insertTable}>Insert Table</button>
       <ReactQuill
         ref={quillRef}
         modules={modules}
@@ -75,3 +108,5 @@ export default function Editor() {
     </div>
   );
 }
+
+// ...
