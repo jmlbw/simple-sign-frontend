@@ -1,7 +1,7 @@
 import SelectBox from '../common/Selectbox';
 import SearchDate from './SearchDate';
 import styles from '../../styles/components/ApprovalBox/ApprovalRightHeader.module.css';
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Search from './Search';
 import SearchContext from '../../contexts/SearchContext';
 import React from 'react';
