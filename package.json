@@ -15,19 +15,13 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-<<<<<<< HEAD
     "@tinymce/tinymce-react": "^4.3.0",
-    "dayjs": "^1.11.10",
-    "html-react-parser": "^4.2.2",
-    "material-ui-popup-state": "^5.0.9",
     "quill-better-table": "^1.2.10",
-=======
     "axios": "^1.5.0",
     "dayjs": "^1.11.10",
     "html-react-parser": "^4.2.2",
     "material-ui-popup-state": "^5.0.9",
     "nice-try": "^3.0.1",
->>>>>>> 48a0c49 (feat: 상세검색 박스 수정, 사이드바 목록 수정)
     "react": "^18.2.0",
     "react-datepicker": "^4.18.0",
     "react-dom": "^18.2.0",
