@@ -1,42 +1,74 @@
-// import FormSearchBox from '../formManage/searchBox/FormSearchBox';
-import styles from '../../styles/pages/ApprovalBoxViewPage.module.css';
+import styled from '../../styles/pages/ApprovalBoxViewPage.module.css';
 import React from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
 
+import {
+  InputComp,
+  ItemBox,
+  SelectComp,
+  TextComp,
+} from '../formManage/searchBox/components/SearchItem';
+import SearchDate from './SearchDate';
 function SearchDetailBox() {
-  let searchOptionList = [
-    {
-      asset1: 'select',
-      asset2: 'date',
-      data: [
-        { id: 1, name: '도착일' },
-        { id: 2, name: '기안일' },
-      ],
-    },
-    {
-      asset1: '제목',
-      asset2: 'text',
-      data: [],
-    },
-    { asset1: '내용', asset2: 'text', data: [] },
-    { asset1: '기안부서', asset2: 'text', data: [] },
-    { asset1: '기안자', asset2: 'text', data: [] },
-    { asset1: '결재자', asset2: 'text', data: [] },
-    {
-      asset1: '결재상태',
-      asset2: 'select',
-      data: [
-        { id: 1, name: '전체' },
-        { id: 2, name: '진행' },
-        { id: 3, name: '종결' },
-        { id: 4, name: '반려' },
-      ],
-    },
-    { asset1: '문서양식', asset2: 'text', data: [] },
-    { asset1: '문서번호', asset2: 'text', data: [] },
-  ];
   return (
-    <div className={styles}>
-      {/* <SearchBox searchOptions={searchOptionList} /> */}
+    <div className={styled.searchDetail}>
+      <ItemBox
+        children={
+          <>
+            <TextComp text={'기안일'} />
+            <SearchDate></SearchDate>
+          </>
+        }
+      ></ItemBox>
+      <ItemBox
+        children={
+          <>
+            <TextComp text={'제목'} />
+            <InputComp width={'220px'} />
+          </>
+        }
+      ></ItemBox>
+      <ItemBox
+        children={
+          <>
+            <TextComp text={'내용'} />
+            <InputComp width={'220px'} />
+            <AiOutlineSearch />
+          </>
+        }
+      ></ItemBox>
+      <ItemBox
+        children={
+          <>
+            <TextComp text={'결재자'} />
+            <InputComp width={'220px'} />
+          </>
+        }
+      ></ItemBox>
+      <ItemBox
+        children={
+          <>
+            <TextComp text={'결재상태'} />
+            <SelectComp width={'200px'} />
+          </>
+        }
+      ></ItemBox>
+      <ItemBox
+        children={
+          <>
+            <TextComp text={'문서양식'} />
+            <InputComp width={'200px'} />
+          </>
+        }
+      ></ItemBox>
+      <ItemBox
+        children={
+          <>
+            <TextComp text={'문서번호'} />
+            <InputComp width={'210px'} />
+          </>
+        }
+      ></ItemBox>
     </div>
   );
 }
