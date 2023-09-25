@@ -4,7 +4,7 @@ import getFormItem from '../../../apis/commonAPI/getFormItem';
 import React, { useState, useEffect } from 'react';
 import { TinyEditor, CustomButton } from '../../common/TinyEditor';
 
-export default function FormEdit() {
+export default function FormEdit({ data }) {
   const [formData, setFormData] = useState(null);
   const [editor, setEditor] = useState(null);
   const [formItems, setFormItems] = useState([]);
@@ -40,7 +40,7 @@ export default function FormEdit() {
       </div>
       <div className={styled.editorArea}>
         <TinyEditor
-          init={``}
+          init={data}
           editorHandler={editorHandler}
           dataHandler={dataHandler}
         />

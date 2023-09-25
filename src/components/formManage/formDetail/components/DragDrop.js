@@ -181,7 +181,7 @@ const DragDrop = ({ name, data, dataHandler }) => {
           width={'1200px'}
           height={'700px'}
           title={'양식파일편집'}
-          children={<FormEdit />}
+          children={<FormEdit data={data} />}
         />
       </div>
 
