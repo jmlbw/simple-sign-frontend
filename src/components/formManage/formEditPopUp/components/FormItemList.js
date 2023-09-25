@@ -1,6 +1,6 @@
 import styled from '../../../../styles/components/formManage/formEdit/components/FormList.module.css';
 import React, { useState } from 'react';
-import { CustomButton } from '../../../common/TyniEditor';
+import { CustomButton } from '../../../common/TinyEditor';
 
 export default function FormItemList({ formItems, editor }) {
   const [searchText, SetSearchText] = useState('');
