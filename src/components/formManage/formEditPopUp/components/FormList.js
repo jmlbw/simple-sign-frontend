@@ -1,6 +1,6 @@
 import styled from '../../../../styles/components/formManage/formEdit/components/FormList.module.css';
 import React from 'react';
-import { TyniEditor, CustomButton } from '../../../common/TyniEditor';
+import { CustomButton } from '../../../common/TinyEditor';
 
 export default function FormList({ formItems, editor }) {
   const sample_form_list = [
