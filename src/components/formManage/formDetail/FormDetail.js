@@ -6,6 +6,7 @@ import Button from '../../common/Button';
 import InnerBox from '../../common/InnerBox';
 import { useFormManage } from '../../../contexts/FormManageContext';
 import insertForm from '../../../apis/commonAPI/insertForm';
+import updateForm from '../../../apis/commonAPI/updateForm';
 
 export default function FormDetail() {
   const { detailData, setDetailData, flagData, createDetailData } =
@@ -13,6 +14,17 @@ export default function FormDetail() {
 
   const updateDetailFunc = () => {
     console.log('수정');
+    if (flagData === 2) {
+      updateForm(detailData)
+        .then((res) => {
+          console.log(res);
+          console.log(res.code);
+          return res.json();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
 
   const createDetailFunc = () => {

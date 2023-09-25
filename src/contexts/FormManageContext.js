@@ -5,8 +5,8 @@ const searchInitState = { id: 0, compName: '', formName: '', status: 1 };
 const setInitState = {
   compList: [],
   statusList: [
-    { name: '사용', value: true },
-    { name: '미사용', value: false },
+    { name: '사용', value: 1 },
+    { name: '미사용', value: 0 },
   ],
 };
 
