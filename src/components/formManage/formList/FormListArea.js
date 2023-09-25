@@ -15,7 +15,12 @@ export default function FormListArea({ rows }) {
         return res.json();
       })
       .then((res) => {
-        setDetailData({ ...detailData, ...res, compName: data.compName });
+        setDetailData({
+          ...detailData,
+          ...res,
+          compName: data.compName,
+          status: res.status === true ? 1 : 0,
+        });
       })
       .catch((err) => {
         console.error(err);
