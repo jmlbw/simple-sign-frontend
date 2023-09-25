@@ -1,13 +1,11 @@
-@import url('https://rsms.me/inter/inter-ui.css');
-
-body {
+.login_body {
   background: white;
   font-family: 'Inter UI', sans-serif;
   margin: 0;
   padding: 20px;
 }
 
-.page {
+.login_page {
   background: #f4f4f4;
   display: flex;
   flex-direction: column;
@@ -18,14 +16,14 @@ body {
 }
 
 @media (max-width: 767px) {
-  .page {
+  .login_page {
     height: auto;
     margin-bottom: 20px;
     padding-bottom: 20px;
   }
 }
 
-.container {
+.login_container {
   display: flex;
   height: 320px;
   margin: 0 auto;
@@ -33,14 +31,14 @@ body {
 }
 
 @media (max-width: 767px) {
-  .container {
+  .login_container {
     flex-direction: column;
     height: 630px;
     width: 320px;
   }
 }
 
-.left {
+.login_left_box {
   background: #ffffff;
   height: calc(100% - 40px);
   top: 20px;
@@ -49,7 +47,7 @@ body {
 }
 
 @media (max-width: 767px) {
-  .left {
+  .login_left_box {
     height: 100%;
     left: 20px;
     width: calc(100% - 40px);
@@ -71,7 +69,7 @@ body {
   margin: 40px;
 }
 
-.right {
+.login_right_box {
   background: #3bafda;
   box-shadow: 0px 0px 40px 16px rgba(60, 60, 60, 0.22);
   color: #f1f1f2;
@@ -80,7 +78,7 @@ body {
 }
 
 @media (max-width: 767px) {
-  .right {
+  .login_right_box {
     flex-shrink: 0;
     height: 100%;
     width: 100%;
@@ -88,17 +86,17 @@ body {
   }
 }
 
-svg {
+.login_svg {
   position: absolute;
   width: 320px;
 }
 
-.form {
+.login_form {
   margin: 40px;
   position: absolute;
 }
 
-label {
+.login_label {
   color: #ffffff;
   display: block;
   font-size: 14px;
@@ -107,7 +105,8 @@ label {
   margin-bottom: 5px;
 }
 
-input {
+.login_input,
+#login_button {
   background: transparent;
   border: none;
   color: #f2f2f2;
@@ -118,24 +117,32 @@ input {
   width: 100%;
 }
 
-#submit {
+#login_button {
   color: #ffffff;
   margin-top: 30px;
   transition: color 300ms, box-shadow 300ms;
   border: 1px solid #ffffff;
-  /* border-radius: 5px; */
   background: transparent;
-  /* padding: 10px 20px;  */
   cursor: pointer;
   height: 40px;
 }
 
-#submit:focus {
+#login_button:focus {
   color: #f2f2f2;
   outline: none;
   box-shadow: 0 0 5px #ffffff;
 }
 
-#submit:active {
+#login_button:active {
   box-shadow: 0 0 15px #ffffff;
+}
+
+.login_input::placeholder {
+  color: white;
+  opacity: 1;
+  font-size: 10px;
+}
+
+.login_err_massage {
+  font-size: 10px;
 }
