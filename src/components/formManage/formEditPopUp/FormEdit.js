@@ -2,7 +2,7 @@ import styled from '../../../styles/components/formManage/formEdit/FormEdit.modu
 import FormList from './components/FormList';
 import getFormItem from '../../../apis/commonAPI/getFormItem';
 import React, { useState, useEffect } from 'react';
-import { TyniEditor, CustomButton } from '../../common/TyniEditor';
+import { TinyEditor, CustomButton } from '../../common/TinyEditor';
 
 export default function FormEdit() {
   const [formData, setFormData] = useState(null);
@@ -39,7 +39,7 @@ export default function FormEdit() {
         <FormList formItems={formItems} editor={editor} />
       </div>
       <div className={styled.editorArea}>
-        <TyniEditor
+        <TinyEditor
           init={``}
           editorHandler={editorHandler}
           dataHandler={dataHandler}
