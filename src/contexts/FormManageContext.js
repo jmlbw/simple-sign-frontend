@@ -5,8 +5,8 @@ const searchInitState = { id: 0, compName: '', formName: '', status: 1 };
 const setInitState = {
   compList: [],
   statusList: [
-    { name: '사용', value: 1 },
-    { name: '미사용', value: 0 },
+    { name: '사용', value: true },
+    { name: '미사용', value: false },
   ],
 };
 
@@ -20,12 +20,27 @@ const detailInitState = {
   status: '',
 };
 
+//0: default, 1: create, 2: update,
+const flagInitState = { flag: 0 };
+
 const FormManageContext = createContext();
 
 const FormManageProvider = ({ children }) => {
   const [searchData, setSearchData] = useState(searchInitState);
   const [setData, setSetData] = useState(setInitState);
   const [detailData, setDetailData] = useState(detailInitState);
+  const [flagData, setFlagData] = useState(flagInitState);
+
+  const createDetailData = () => {
+    setFlagData(1);
+    setDetailData(detailInitState);
+  };
+  const updateDetailData = () => {
+    setFlagData(2);
+  };
+  const defaultDetailData = () => {
+    setFlagData(0);
+  };
 
   return (
     <FormManageContext.Provider
@@ -36,6 +51,10 @@ const FormManageProvider = ({ children }) => {
         setSetData,
         detailData,
         setDetailData,
+        flagData,
+        createDetailData,
+        updateDetailData,
+        defaultDetailData,
       }}
     >
       {children}
