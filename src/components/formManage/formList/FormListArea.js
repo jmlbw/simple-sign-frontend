@@ -27,6 +27,7 @@ export default function FormListArea({ rows }) {
       text={'양식목록'}
       width={'100%'}
       height={'100%'}
+      titleChildren={<button>삭제</button>}
       childStyle={{ width: '100%', height: '100%' }}
       children={
         <DataList rows={rows} columns={columns} dataHandler={dataHandler} />
