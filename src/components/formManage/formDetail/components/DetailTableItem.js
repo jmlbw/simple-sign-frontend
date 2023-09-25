@@ -14,21 +14,21 @@ const TitleBox = ({ title }) => {
   return <div>{title}</div>;
 };
 
-const InputBox = ({ data, dataHandler }) => {
+const InputBox = ({ id, data, dataHandler }) => {
   return (
     <div style={{ width: '100%', height: '20px' }}>
       <input
         type="text"
         value={data}
         onChange={(e) => {
-          dataHandler(e.target.value);
+          dataHandler(id, e.target.value);
         }}
       />
     </div>
   );
 };
 
-const AreaBox = ({ id, title, data, children }) => {
+const AreaBox = ({ id, data, children }) => {
   return (
     <div style={{ width: '100%', height: '40px' }}>
       {data.length > 0
@@ -44,15 +44,15 @@ const AreaBox = ({ id, title, data, children }) => {
   );
 };
 
-const FileBox = ({ name, data, dataHandler }) => {
+const FileBox = ({ id, name, data, dataHandler }) => {
   return (
     <div>
-      <DragDrop name={name} data={data} dataHandler={dataHandler} />
+      <DragDrop name={name} id={id} data={data} dataHandler={dataHandler} />
     </div>
   );
 };
 
-const RadioBox = ({ buttons, data, dataHandler }) => {
+const RadioBox = ({ id, buttons, data, dataHandler }) => {
   return (
     <div>
       <input
@@ -61,7 +61,7 @@ const RadioBox = ({ buttons, data, dataHandler }) => {
         value={buttons[0].value}
         checked={data === true}
         onChange={(e) => {
-          dataHandler(e.target.value);
+          dataHandler(id, e.target.value === 'true' ? true : false);
         }}
       />
       {buttons[0].name}
@@ -71,7 +71,7 @@ const RadioBox = ({ buttons, data, dataHandler }) => {
         value={buttons[1].value}
         checked={data === false}
         onChange={(e) => {
-          dataHandler(e.target.value);
+          dataHandler(id, e.target.value === 'true' ? true : false);
         }}
       />
       {buttons[1].name}

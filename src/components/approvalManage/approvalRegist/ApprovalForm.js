@@ -1,10 +1,22 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import ReactHtmlParser from 'html-react-parser';
 import Selectbox from '../../common/Selectbox';
 import SelectDate from './components/SelectDate';
 import Editor from './components/Editor';
+import { TinyEditor } from '../../common/TinyEditor';
+import styled from '../../../styles/components/approvalManage/approvalRegist/ApprovalForm.module.css';
 
-export default function ApprovalForm({ form_code }) {
+export default function ApprovalForm({
+  form_code,
+  dataHandler,
+  editorHandler,
+}) {
   const [sequence, setSequence] = useState([]);
   const [default_form, setDefaultForm] = useState('');
   const [main_form, setMainForm] = useState('');
@@ -19,7 +31,9 @@ export default function ApprovalForm({ form_code }) {
         setMainForm(json.mainForm);
       });
 
-    fetch(`http://localhost:8080/manage/form/seqTitleList`)
+    fetch(
+      `http://localhost:8080/manage/form/seqTitleList?formCode=${form_code}`
+    )
       .then((res) => {
         return res.json();
       })
@@ -58,7 +72,13 @@ export default function ApprovalForm({ form_code }) {
           },
         })}
       </div>
-      <Editor key={main_form} main_form={main_form} />
+      <div className={styled.container}>
+        <TinyEditor
+          init={main_form}
+          editorHandler={editorHandler}
+          dataHandler={dataHandler}
+        />
+      </div>
     </>
   );
 }

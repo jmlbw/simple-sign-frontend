@@ -21,7 +21,11 @@ export default function PopUp(props) {
   // blue_btn //큰 회색버튼
 
   const grayAndBlueBtn = [
-    { label: '미리보기', onClick: () => {}, btnStyle: 'popup_gray_btn' },
+    {
+      label: '미리보기',
+      onClick: props.handleSaveToDatabase,
+      btnStyle: 'popup_gray_btn',
+    },
     {
       label: '반영',
       onClick: () => {},

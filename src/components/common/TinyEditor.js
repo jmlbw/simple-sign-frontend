@@ -12,7 +12,7 @@ export const CustomButton = ({ label, editor, text }) => {
   return <button onClick={handleInsertDiv}>{label}</button>;
 };
 
-export function TyniEditor({ init, editorHandler, dataHandler }) {
+export function TinyEditor({ init, editorHandler, dataHandler }) {
   const editorRef = useRef(null);
 
   useEffect(() => {

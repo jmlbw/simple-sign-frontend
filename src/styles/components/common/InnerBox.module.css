@@ -3,3 +3,21 @@
   background-color: white;
   border-radius: 10px;
 }
+
+hr {
+  margin-top: 0px;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: row;
+}
+
+.titleChildrenBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  flex-grow: 1;
+  gap: 5px;
+}

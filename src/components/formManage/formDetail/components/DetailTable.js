@@ -14,6 +14,10 @@ import { useEffect } from 'react';
 export default function DetailTable({ tableList, onChangeFunc }) {
   const { detailData, setDetailData } = useFormManage();
 
+  const dataUpdateHandler = (id, data) => {
+    setDetailData({ ...detailData, [id]: data });
+  };
+
   const compNameHandler = (data) => {
     setDetailData({ ...detailData, compName: data });
   };
@@ -56,8 +60,9 @@ export default function DetailTable({ tableList, onChangeFunc }) {
           <>
             <TitleBox title={'회사명'} />
             <InputBox
+              id={'compName'}
               data={detailData.compName}
-              dataHandler={compNameHandler}
+              dataHandler={dataUpdateHandler}
             />
           </>
         }
@@ -67,8 +72,9 @@ export default function DetailTable({ tableList, onChangeFunc }) {
           <>
             <TitleBox title={'양식명'} />
             <InputBox
+              id={'formName'}
               data={detailData.formName}
-              dataHandler={formNameHandler}
+              dataHandler={dataUpdateHandler}
             />
           </>
         }
@@ -77,7 +83,11 @@ export default function DetailTable({ tableList, onChangeFunc }) {
         children={
           <>
             <TitleBox title={'공개범위'} />
-            <AreaBox data={detailData.scope} dataHandler={scopeHandler} />
+            <AreaBox
+              id={'scope'}
+              data={detailData.scope}
+              dataHandler={dataUpdateHandler}
+            />
           </>
         }
       ></DetailBox>
@@ -86,9 +96,10 @@ export default function DetailTable({ tableList, onChangeFunc }) {
           <>
             <TitleBox title={'사용여부'} />
             <RadioBox
+              id={'status'}
               buttons={buttons}
               data={detailData.status}
-              dataHandler={statusHandler}
+              dataHandler={dataUpdateHandler}
             ></RadioBox>
           </>
         }
@@ -98,9 +109,10 @@ export default function DetailTable({ tableList, onChangeFunc }) {
           <>
             <TitleBox title={'기본파일'} />
             <FileBox
+              id={'defaultForm'}
               name={'기본파일'}
               data={detailData.defaultForm}
-              dataHandler={defaultfileHandler}
+              dataHandler={dataUpdateHandler}
             />
           </>
         }
@@ -110,9 +122,10 @@ export default function DetailTable({ tableList, onChangeFunc }) {
           <>
             <TitleBox title={'본문파일'} />
             <FileBox
+              id={'mainForm'}
               name={'본문파일'}
               data={detailData.mainForm}
-              dataHandler={mainfileHandler}
+              dataHandler={dataUpdateHandler}
             />
           </>
         }

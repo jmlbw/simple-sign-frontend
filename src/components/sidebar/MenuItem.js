@@ -4,10 +4,11 @@ import ListItemText from '@mui/material/ListItemText';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styled from '../../styles/components/sidebar/MenuItem.module.css';
-
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
+  const navigate = useNavigate();
   const [clickStates, setClickStates] = useState([
     false,
     false,
@@ -23,11 +24,17 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
     }
   }, [isSubMenuVisible]);
 
-  const clickMenu = (index) => {
+  const clickMenu = (index, name) => {
     const updateClickStates = clickStates.map((state, i) =>
       i === index ? true : false
     );
-    setClickStates(updateClickStates);
+    if (name === '기안양식관리') {
+      navigate('/EAM');
+    } else if (name === '문서채번관리') {
+      navigate('/SAM');
+    } else if (name === '상신문서') {
+      navigate('/ABV');
+    }
   };
 
   return (
@@ -55,7 +62,7 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
                 clickStates[index] ? styled.color : ''
               }`}
               onClick={() => {
-                clickMenu(index);
+                clickMenu(index, subitem.name);
               }}
             >
               <ListItemText

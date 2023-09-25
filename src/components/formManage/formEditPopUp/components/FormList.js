@@ -1,12 +1,8 @@
 import styled from '../../../../styles/components/formManage/formEdit/components/FormList.module.css';
 import React from 'react';
-import { TyniEditor, CustomButton } from '../../../common/TyniEditor';
+import { CustomButton } from '../../../common/TinyEditor';
 
 export default function FormList({ formItems, editor }) {
-  const sample_form_list = [
-    { id: 1, title: '품의번호', data: `<div id="sn">test</div>` },
-    { id: 2, title: '수신참조', data: `<div id="sc">sample</div>` },
-  ];
   return (
     <div className={styled.formListContainer}>
       <div className={styled.searchArea}>
