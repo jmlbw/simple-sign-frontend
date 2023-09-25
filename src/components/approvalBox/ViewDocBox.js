@@ -1,9 +1,4 @@
-import getSendDocs, {
-  getConcludedDocs,
-  getPendDocs,
-  getReferenceDocs,
-  getTemporDocs,
-} from '../../apis/approvalBoxAPI/getSendDocs';
+import getDocsList from '../../apis/approvalBoxAPI/getDocsList';
 import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
 import styled from '../../styles/components/ApprovalBox/ViewDocBox.module.css';
 import DocItem from './DocItem';
@@ -13,6 +8,10 @@ function ViewDocBox() {
   const { state, setState } = useApprovalBox();
   const { viewItem } = state;
   const [docData, setDocData] = useState([]);
+  const customViewItems = ['send'];
+  //페이징
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+  const itemsPerPage = 5;
 
   function setDatename() {
     if (viewItem === 'send' || viewItem === 'reference') {
@@ -26,23 +25,17 @@ function ViewDocBox() {
     }
   }
 
+  //결재함별 문서 api 요청
   useEffect(() => {
     async function fetchData() {
       try {
         let response;
 
-        if (viewItem === 'send') {
-          response = await getSendDocs();
-        } else if (viewItem === 'tempor') {
-          response = await getTemporDocs();
-        } else if (viewItem === 'pend') {
-          response = await getPendDocs();
-        } else if (viewItem === 'concluded') {
-          response = await getConcludedDocs();
-        } else if (viewItem === 'reference') {
-          response = await getReferenceDocs();
-        } else {
-        }
+        response = await getDocsList(
+          customViewItems,
+          itemsPerPage,
+          (currentPage - 1) * itemsPerPage
+        );
 
         setDocData(
           response.data.map((docItem) => ({

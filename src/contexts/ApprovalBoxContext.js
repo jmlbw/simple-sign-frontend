@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 
 const initialState = {
-  viewItem: 'concluded',
+  viewItem: 'tempor',
 };
 
 const ApprovalBoxContext = createContext();

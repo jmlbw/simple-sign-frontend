@@ -140,14 +140,7 @@
   min-height: 18px;
   align-items: center;
   display: flex;
-}
-.process img {
-  width: 16px;
-  height: 16px;
-  margin: 1px 4px 0 0;
-  border: 0;
-  vertical-align: top;
-  font-size: 14px;
+  border-radius: 0.25rem;
 }
 .txtline {
   color: rgb(32, 201, 151);
@@ -155,7 +148,10 @@
   max-height: 36px;
   line-height: 18px;
   white-space: normal;
-  font-size: 13px;
+  font-size: 11px;
+  padding: 3px 4px 3px 4px;
+  border-radius: 0.25rem;
+  font-weight: bold;
 }
 .bar {
   color: #e8e5e5;
