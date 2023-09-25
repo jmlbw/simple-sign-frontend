@@ -1,13 +1,34 @@
 import React, { useState } from 'react';
 import styled from '../../../styles/components/formManage/formDetail/FormDetail.module.css';
-import Title from '../../common/Title';
 import { RxDividerVertical } from 'react-icons/rx';
 import DetailTable from './components/DetailTable';
 import Button from '../../common/Button';
-import PopUp from '../../common/PopUp';
 import InnerBox from '../../common/InnerBox';
+import { useFormManage } from '../../../contexts/FormManageContext';
+import insertForm from '../../../apis/commonAPI/insertForm';
 
 export default function FormDetail() {
+  const { detailData, setDetailData, flagData, createDetailData } =
+    useFormManage();
+
+  const updateDetailFunc = () => {
+    console.log('수정');
+  };
+
+  const createDetailFunc = () => {
+    console.log('저장');
+    if (flagData === 1) {
+      insertForm(detailData)
+        .then((res) => {
+          console.log(res);
+          console.log(res.code);
+          return res.json();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
   // const form_nav_sample_data = [
   //   { id: 1, name: '기본' },
   //   { id: 1, name: '결재라인' },
@@ -31,6 +52,20 @@ export default function FormDetail() {
       text={'양식상세'}
       width={'100%'}
       height={'100%'}
+      titleChildren={
+        <>
+          <Button
+            label={'추가'}
+            btnStyle={'gray_btn'}
+            onClick={createDetailData}
+          />
+          <Button
+            label={flagData === 1 ? '저장' : '수정'}
+            btnStyle={'gray_btn'}
+            onClick={flagData === 1 ? createDetailFunc : updateDetailFunc}
+          />
+        </>
+      }
       children={
         <>
           {/* <div className={styled.title_area}>

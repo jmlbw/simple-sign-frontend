@@ -4,7 +4,7 @@ import PopUp from '../../../common/PopUp';
 import FormEdit from '../../formEditPopUp/FormEdit';
 import { FiEdit } from 'react-icons/fi';
 
-const DragDrop = ({ name, data, dataHandler }) => {
+const DragDrop = ({ id, name, data, dataHandler }) => {
   const fileId = useRef(0);
   const dragRef = useRef(null);
 
@@ -14,7 +14,7 @@ const DragDrop = ({ name, data, dataHandler }) => {
   const handleFilterFile = useCallback(
     (id) => {
       setFiles(files.filter((file) => file.id !== id));
-      dataHandler('');
+      dataHandler(id, '');
     },
     [files]
   );
@@ -126,7 +126,7 @@ const DragDrop = ({ name, data, dataHandler }) => {
 
       reader.onload = (event) => {
         const fileContent = event.target.result;
-        dataHandler(fileContent);
+        dataHandler(id, fileContent);
       };
       reader.readAsText(files[0].object);
     }
@@ -147,7 +147,7 @@ const DragDrop = ({ name, data, dataHandler }) => {
         },
       ];
       setFiles(tempFiles);
-      dataHandler(modifiedContent);
+      dataHandler(id, modifiedContent);
     }
   };
 
