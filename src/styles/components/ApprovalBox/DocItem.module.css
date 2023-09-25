@@ -5,17 +5,15 @@
 }
 
 .itembox {
-  position: relative;
-  margin: 6px 0 0;
-  height: 54px;
-  border: 1px solid #e6e6e6;
-  border-radius: 4px;
+  height: 76.4px;
+  border-bottom: 1px solid #e6e6e6;
   background-color: #fff;
-  box-sizing: border-box;
   cursor: pointer;
   list-style: none;
   display: flex;
   align-items: center;
+  max-width: 100%;
+  width: 100%;
 }
 .checkboxArea {
   width: 17px;
@@ -27,16 +25,16 @@
 }
 .dateText {
   display: block;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 52px;
   letter-spacing: -0.33px;
-  color: #000;
+  color: #6c757d;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   padding-right: 30px;
   padding-left: 30px;
-  max-width: 210px;
+  min-width: 250px;
 }
 .element {
   margin: 7px 0 0;
@@ -45,15 +43,16 @@
   margin: 0 0 0 20px;
   box-sizing: border-box;
   padding-right: 10px;
-  min-width: 250px;
+  min-width: 415px;
   padding-left: 40px;
 }
 
 .elementText {
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: bold;
   line-height: 20px;
   letter-spacing: -0.33px;
-  color: #000;
+  color: #6c757d;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -67,9 +66,9 @@
   min-width: 0;
 }
 .txtinfo {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 18px;
-  color: #8c8c8c;
+  color: #98a6ad;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -104,10 +103,10 @@
 .name {
   margin: 7px 0 0;
   height: 20px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.33px;
-  color: #000;
+  color: #6c757d;
   max-width: 200px;
 }
 .departementInfo {
@@ -121,9 +120,9 @@
   display: flex;
 }
 .txtdep {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 18px;
-  color: #8c8c8c;
+  color: #98a6ad;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -148,6 +147,7 @@
   margin: 1px 4px 0 0;
   border: 0;
   vertical-align: top;
+  font-size: 14px;
 }
 .txtline {
   color: rgb(32, 201, 151);
@@ -155,7 +155,7 @@
   max-height: 36px;
   line-height: 18px;
   white-space: normal;
-  font-size: 12px;
+  font-size: 13px;
 }
 .bar {
   color: #e8e5e5;
