@@ -59,9 +59,9 @@ const RadioBox = ({ id, buttons, data, dataHandler }) => {
         type="radio"
         name="radio"
         value={buttons[0].value}
-        checked={data === true}
+        checked={data === 1}
         onChange={(e) => {
-          dataHandler(id, e.target.value === 'true' ? true : false);
+          dataHandler(id, e.target.value === '1' ? 1 : 0);
         }}
       />
       {buttons[0].name}
@@ -69,9 +69,9 @@ const RadioBox = ({ id, buttons, data, dataHandler }) => {
         type="radio"
         name="radio"
         value={buttons[1].value}
-        checked={data === false}
+        checked={data === 0}
         onChange={(e) => {
-          dataHandler(id, e.target.value === 'true' ? true : false);
+          dataHandler(id, e.target.value === '0' ? 1 : 0);
         }}
       />
       {buttons[1].name}

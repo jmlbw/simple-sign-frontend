@@ -39,6 +39,7 @@ export default function FormManagePage() {
         return res.json();
       })
       .then((data) => {
+        console.log(data);
         setFormListData(data);
       })
       .catch((err) => {});
