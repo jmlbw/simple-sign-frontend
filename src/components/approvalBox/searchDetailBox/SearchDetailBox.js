@@ -10,27 +10,27 @@ function SearchDetailBox() {
   const { viewItem } = state;
 
   function setDatename() {
-    if (viewItem === 'send' || viewItem === 'reference') {
+    if (viewItem.includes('send') || viewItem.includes('reference')) {
       return '기안일';
-    } else if (viewItem === 'tempor') {
+    } else if (viewItem.includes('tempor')) {
       return '작성일';
-    } else if (viewItem === 'pend') {
+    } else if (viewItem.includes('pend')) {
       return '도착일';
-    } else if (viewItem === 'concluded') {
+    } else if (viewItem.includes('concluded')) {
       return '결재일';
     }
   }
 
   let searchDetailComponent;
 
-  if (viewItem === 'tempor') {
+  if (viewItem.includes('tempor')) {
     searchDetailComponent = <TemporSearchDetail dateName={setDatename()} />;
-  } else if (viewItem === 'send') {
+  } else if (viewItem.includes('send')) {
     searchDetailComponent = <SendSearchDetail dateName={setDatename()} />;
   } else if (
-    viewItem === 'pend' ||
-    viewItem === 'concluded' ||
-    viewItem === 'reference'
+    viewItem.includes('pend') ||
+    viewItem.includes('concluded') ||
+    viewItem.includes('reference')
   ) {
     searchDetailComponent = <RemainSearchDetail dateName={setDatename()} />;
   }
