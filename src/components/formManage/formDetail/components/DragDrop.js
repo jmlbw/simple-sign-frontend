@@ -3,6 +3,7 @@ import styled from '../../../../styles/components/formManage/formDetail/componen
 import PopUp from '../../../common/PopUp';
 import FormEdit from '../../formEditPopUp/FormEdit';
 import { FiEdit } from 'react-icons/fi';
+import PopUpFoot from '../../../common/PopUpFoot';
 
 const DragDrop = ({ id, name, data, dataHandler }) => {
   const fileId = useRef(0);
@@ -176,13 +177,23 @@ const DragDrop = ({ id, name, data, dataHandler }) => {
         >
           <div>파일 첨부</div>
         </label>
-        <PopUp
+
+        {/* <PopUp
           label={<FiEdit />}
           width={'1200px'}
           height={'700px'}
           title={'양식파일편집'}
-          children={<FormEdit data={data} />}
-        />
+          children={
+            <>
+              <div className={styled.contentContainer}>
+                <div>
+                  <FormEdit data={data} />
+                </div>
+              </div>
+              <PopUpFoot buttons={grayAndBlueBtn} />
+            </>
+          }
+        /> */}
       </div>
 
       <div className={styled.fileListContainer}>
