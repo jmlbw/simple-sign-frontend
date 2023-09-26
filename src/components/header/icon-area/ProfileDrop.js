@@ -1,12 +1,28 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Userprofile from './Userprofile';
 import styles from '../../../styles/components/header/dropdown.module.css';
+import AppContext from '../../../contexts/AppContext';
+import { postLogout } from '../../../apis/loginAPI/postLogout';
 
 export default function Profile() {
+  const { state, setState } = useContext(AppContext);
+
+  //로그아웃
+  const logout = () => {
+    postLogout()
+      .then(() => {
+        sessionStorage.clear();
+        setState({ ...state, isLoggedIn: false });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
@@ -26,7 +42,12 @@ export default function Profile() {
             <MenuItem className={styles.menubox} onClick={popupState.close}>
               My account
             </MenuItem>
-            <MenuItem className={styles.menubox} onClick={popupState.close}>
+            <MenuItem
+              className={styles.menubox}
+              onClick={() => {
+                logout();
+              }}
+            >
               Logout
             </MenuItem>
           </Menu>

@@ -1,8 +1,4 @@
 import styled from '../../styles/components/ApprovalBox/DocItem.module.css';
-import sendIcon from '../../assets/imgs/send.png';
-import doneIcon from '../../assets/imgs/done.png';
-import progressIcon from '../../assets/imgs/progress.png';
-import redoIcon from '../../assets/imgs/redo.png';
 import defaultUserIcon from '../../assets/imgs/default_user.png';
 import React from 'react';
 
@@ -22,19 +18,17 @@ function DocItem(props) {
     }
   };
 
-  //문서상태에 따른 아이콘
-  const getStatusIcon = () => {
-    switch (props.docStatus) {
-      case 'A':
-        return doneIcon; // 종결 아이콘 이미지 경로
-      case 'P':
-        return progressIcon; // 진행 아이콘 이미지 경로
-      case 'R':
-        return redoIcon; // 반려 아이콘 이미지 경로
-      case 'W':
-        return sendIcon; // 상신 아이콘 이미지 경로
-      default:
-        return ''; // 기본값 (아무 아이콘도 표시하지 않음)
+  const getBgColor = () => {
+    if (props.docStatus === 'A') {
+      return '#E7F7F4';
+    } else if (props.docStatus === 'P') {
+      return '#E5F4FF';
+    } else if (props.docStatus === 'R') {
+      return '#FFEEF1';
+    } else if (props.docStatus === 'W') {
+      return '#FFF5E5';
+    } else {
+      return '';
     }
   };
 
@@ -54,7 +48,7 @@ function DocItem(props) {
   };
 
   const txtColor = getTxtColor();
-  const iconSrc = getStatusIcon();
+  const bgColor = getBgColor();
 
   return (
     <div>
@@ -89,8 +83,10 @@ function DocItem(props) {
           </div>
           <div className={styled.docStatus}>
             <div className={styled.process}>
-              <img src={iconSrc} alt="statusIcon" />
-              <div className={styled.txtline} style={{ color: txtColor }}>
+              <div
+                className={styled.txtline}
+                style={{ color: txtColor, backgroundColor: bgColor }} // 백그라운드 컬러 속성명 수정
+              >
                 <span>{getStatusText()}</span>
                 <span>{'(' + props.lastUser + ')'}</span>
               </div>

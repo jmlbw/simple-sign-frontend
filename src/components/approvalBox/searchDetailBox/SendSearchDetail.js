@@ -1,21 +1,22 @@
-import styled from '../../styles/pages/ApprovalBoxViewPage.module.css';
-import React from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-
 import {
   InputComp,
   ItemBox,
   SelectComp,
   TextComp,
-} from '../formManage/searchBox/components/SearchItem';
-import SearchDate from './SearchDate';
-function SearchDetailBox() {
+} from '../../formManage/searchBox/components/SearchItem';
+import SearchDate from '../SearchDate';
+import styled from '../../../styles/components/ApprovalBox/SearchDeatil.module.css';
+import React from 'react';
+
+function SendSearchDetail(props) {
+  const dateName = props.dateName;
   return (
-    <div className={styled.searchDetail}>
+    <div className={styled.SearchDetailBox}>
       <ItemBox
         children={
           <>
-            <TextComp text={'기안일'} />
+            <TextComp text={dateName} />
             <SearchDate></SearchDate>
           </>
         }
@@ -72,4 +73,4 @@ function SearchDetailBox() {
     </div>
   );
 }
-export default SearchDetailBox;
+export default SendSearchDetail;

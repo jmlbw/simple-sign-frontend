@@ -4,7 +4,7 @@ import PopUp from '../../../common/PopUp';
 import FormEdit from '../../formEditPopUp/FormEdit';
 import { FiEdit } from 'react-icons/fi';
 
-const DragDrop = ({ name, id, onChangeFunc, data, dataHandler }) => {
+const DragDrop = ({ id, name, data, dataHandler }) => {
   const fileId = useRef(0);
   const dragRef = useRef(null);
 
@@ -14,7 +14,7 @@ const DragDrop = ({ name, id, onChangeFunc, data, dataHandler }) => {
   const handleFilterFile = useCallback(
     (id) => {
       setFiles(files.filter((file) => file.id !== id));
-      dataHandler('');
+      dataHandler(id, '');
     },
     [files]
   );
@@ -101,12 +101,11 @@ const DragDrop = ({ name, id, onChangeFunc, data, dataHandler }) => {
         },
       ];
     }
-
     setFiles(tempFiles);
   };
 
   useEffect(() => {
-    const modifiedBlob = new Blob(['<div><div>'], {
+    const modifiedBlob = new Blob([data], {
       type: 'text/html',
     });
     const modifiedFile = new File([modifiedBlob], `${name}.html`);
@@ -127,21 +126,20 @@ const DragDrop = ({ name, id, onChangeFunc, data, dataHandler }) => {
 
       reader.onload = (event) => {
         const fileContent = event.target.result;
-        dataHandler(fileContent);
+        dataHandler(id, fileContent);
       };
-
       reader.readAsText(files[0].object);
     }
   };
 
-  const updateFile = (updatedData) => {
+  const updateFile = (updatedData, filename) => {
     if (files.length > 0) {
       const modifiedContent = updatedData;
 
       const modifiedBlob = new Blob([modifiedContent], {
         type: files[0].object.type,
       });
-      const modifiedFile = new File([modifiedBlob], files[0].object.name);
+      const modifiedFile = new File([modifiedBlob], filename);
       let tempFiles = [
         {
           id: fileId.current++,
@@ -149,7 +147,7 @@ const DragDrop = ({ name, id, onChangeFunc, data, dataHandler }) => {
         },
       ];
       setFiles(tempFiles);
-      dataHandler(modifiedContent);
+      dataHandler(id, modifiedContent);
     }
   };
 
@@ -183,7 +181,7 @@ const DragDrop = ({ name, id, onChangeFunc, data, dataHandler }) => {
           width={'1200px'}
           height={'700px'}
           title={'양식파일편집'}
-          children={<FormEdit />}
+          children={<FormEdit data={data} />}
         />
       </div>
 
