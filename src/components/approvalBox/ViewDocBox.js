@@ -1,17 +1,29 @@
-import getDocsList from '../../apis/approvalBoxAPI/getDocsList';
-import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
-import styled from '../../styles/components/ApprovalBox/ViewDocBox.module.css';
-import DocItem from './DocItem';
 import React, { useEffect, useState } from 'react';
+import TablePagination from '@mui/material/TablePagination';
+import DocItem from './DocItem';
+import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
+import getDocsList from '../../apis/approvalBoxAPI/getDocsList';
+import styled from '../../styles/components/ApprovalBox/ViewDocBox.module.css';
 
 function ViewDocBox() {
   const { state, setState } = useApprovalBox();
   const { viewItem } = state;
   const [docData, setDocData] = useState([]);
-  const customViewItems = ['send'];
-  //페이징
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
-  const itemsPerPage = 5;
+  const customViewItems = ['send', 'pend'];
+
+  // 페이징
+  const [page, setPage] = useState(0); // 현재 페이지 번호
+  const [rowsPerPage, setRowsPerPage] = useState(5); // 한 페이지에 보여줄 아이템 수
+  const [totalCount, setTotalCount] = useState(0);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   function setDatename() {
     if (viewItem === 'send' || viewItem === 'reference') {
@@ -25,21 +37,23 @@ function ViewDocBox() {
     }
   }
 
-  //결재함별 문서 api 요청
+  // 결재함별 문서 api 요청
   useEffect(() => {
     async function fetchData() {
       try {
-        let response;
-
-        response = await getDocsList(
+        const response = await getDocsList(
           customViewItems,
-          itemsPerPage,
-          (currentPage - 1) * itemsPerPage
+          rowsPerPage,
+          page * rowsPerPage
         );
 
+        const responseData = response.data;
+        const docList = responseData.docList;
+        const totalCount = responseData.count;
+        setTotalCount(totalCount);
+
         setDocData(
-          response.data.map((docItem) => ({
-            // 에포크 시간을 Date 객체로 변환하여 저장
+          docList.map((docItem) => ({
             ...docItem,
             createdAt: new Date(docItem.createdAt),
           }))
@@ -49,7 +63,12 @@ function ViewDocBox() {
       }
     }
     fetchData();
-  }, [viewItem]); // viewItem이 변경될 때마다 useEffect 실행
+  }, [viewItem, page, rowsPerPage]);
+
+  const displayedData = docData.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <div className={styled.container}>
@@ -59,15 +78,15 @@ function ViewDocBox() {
           <span className={styled.title2}>제목/문서번호</span>
           <span className={styled.title3}>기안자/기안부서</span>
           <span className={styled.title4}>
-            {viewItem != 'tempor' && '결재상태'}
+            {viewItem !== 'tempor' && '결재상태'} {/* 변경된 부분: !== 사용 */}
           </span>
         </div>
       </div>
       <div className={styled.docContainer}>
         <ul className={styled.docList}>
-          {docData.map((docItem, index) => (
+          {displayedData.map((docItem, index) => (
             <DocItem
-              key={index} // 각 아이템은 고유한 키를 가져야 합니다.
+              key={index}
               docNumber={docItem.approvalDocId}
               formName={docItem.formName}
               date={docItem.createdAt.toLocaleString('ko-KR')}
@@ -75,11 +94,20 @@ function ViewDocBox() {
               sendUser={docItem.userName}
               docStatus={docItem.docStatus}
               sendDepartDetail={docItem.deptName}
-            ></DocItem>
+            />
           ))}
         </ul>
       </div>
+      <TablePagination
+        component="div"
+        count={totalCount}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </div>
   );
 }
+
 export default ViewDocBox;
