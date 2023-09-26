@@ -4,6 +4,18 @@ import Modal from '@mui/material/Modal';
 import styles from '../../styles/components/common/PopUp.module.css';
 import PopUpFoot from './PopUpFoot';
 
+/**
+ * 
+ * @param {String} width 팝업창 가로 크기 ex) 500px or 80% 
+ * @param {String} height 팝업창 세로 크기 ex) 500px or 80% 
+ * @param {Component} children <>
+            <div className={styles.contentContainer}>
+              <div>{props.children}</div>
+            </div>
+            <PopUpFoot buttons={grayAndBlueBtn} />
+          </>
+ * @returns 
+ */
 export default function PopUp(props) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -20,80 +32,80 @@ export default function PopUp(props) {
   // gray_btn //작은 회색버튼
   // blue_btn //큰 회색버튼
 
-  const grayAndBlueBtn = [
-    {
-      label: '미리보기',
-      onClick: props.handleSaveToDatabase,
-      btnStyle: 'popup_gray_btn',
-    },
-    {
-      label: '반영',
-      onClick: () => {},
-      btnStyle: 'popup_blue_btn',
-    },
-  ];
+  // const grayAndBlueBtn = [
+  //   {
+  //     label: '미리보기',
+  //     onClick: props.handleSaveToDatabase,
+  //     btnStyle: 'popup_gray_btn',
+  //   },
+  //   {
+  //     label: '반영',
+  //     onClick: () => {},
+  //     btnStyle: 'popup_blue_btn',
+  //   },
+  // ];
 
-  const blueBtn = [
-    {
-      label: '반영',
-      onClick: () => {},
-      btnStyle: 'popup_blue_btn',
-    },
-  ];
+  // const blueBtn = [
+  //   {
+  //     label: '반영',
+  //     onClick: () => {},
+  //     btnStyle: 'popup_blue_btn',
+  //   },
+  // ];
 
-  const popContentSelector = () => {
-    switch (props.title) {
-      case '양식파일편집':
-        return (
-          <>
-            <div className={styles.contentContainer}>
-              <div>{props.children}</div>
-            </div>
-            <PopUpFoot buttons={grayAndBlueBtn} />
-          </>
-        );
-      case '양식선택':
-        return (
-          <>
-            <div className={styles.contentContainer}>
-              <div>{props.children}</div>
-            </div>
-            <PopUpFoot buttons={blueBtn} />
-          </>
-        );
-      case '채번설정':
-        return (
-          <>
-            <div className={styles.contentContainer}>
-              <div>{props.children}</div>
-            </div>
-            <PopUpFoot buttons={blueBtn} />
-          </>
-        );
-      case '결재작성상세':
-        return (
-          <div>
-            <div>{props.children}</div>
-            <PopUpFoot buttons={grayAndBlueBtn} />
-          </div>
-        );
-      // case '회사사업장부서선택':
-      //   return (
-      //     <div>
-      //       <div>{props.children}</div>
-      //       <PopUpFoot buttons={props.buttons} />
-      //     </div>
-      //   );
-      // case '회사부서사용자선택':
-      //   return (
-      //     <div>
-      //       <div>{props.children}</div>
-      //       <PopUpFoot buttons={props.buttons} />
-      //     </div>
-      //   );
-      default:
-    }
-  };
+  // const popContentSelector = () => {
+  //   switch (props.title) {
+  //     case '양식파일편집':
+  //       return (
+  //         <>
+  //           <div className={styles.contentContainer}>
+  //             <div>{props.children}</div>
+  //           </div>
+  //           <PopUpFoot buttons={grayAndBlueBtn} />
+  //         </>
+  //       );
+  //     case '양식선택':
+  //       return (
+  //         <>
+  //           <div className={styles.contentContainer}>
+  //             <div>{props.children}</div>
+  //           </div>
+  //           <PopUpFoot buttons={blueBtn} />
+  //         </>
+  //       );
+  //     case '채번설정':
+  //       return (
+  //         <>
+  //           <div className={styles.contentContainer}>
+  //             <div>{props.children}</div>
+  //           </div>
+  //           <PopUpFoot buttons={blueBtn} />
+  //         </>
+  //       );
+  //     case '결재작성상세':
+  //       return (
+  //         <div>
+  //           <div>{props.children}</div>
+  //           <PopUpFoot buttons={grayAndBlueBtn} />
+  //         </div>
+  //       );
+  //     // case '회사사업장부서선택':
+  //     //   return (
+  //     //     <div>
+  //     //       <div>{props.children}</div>
+  //     //       <PopUpFoot buttons={props.buttons} />
+  //     //     </div>
+  //     //   );
+  //     // case '회사부서사용자선택':
+  //     //   return (
+  //     //     <div>
+  //     //       <div>{props.children}</div>
+  //     //       <PopUpFoot buttons={props.buttons} />
+  //     //     </div>
+  //     //   );
+  //     default:
+  //   }
+  // };
 
   return (
     <div>
@@ -105,7 +117,7 @@ export default function PopUp(props) {
       <Modal open={open} onClose={handleClose}>
         <div className={styles.popUpContainer} style={popUpStyle}>
           <div className={styles.header}>{props.title}</div>
-          {popContentSelector()}
+          {props.children}
         </div>
       </Modal>
     </div>

@@ -5,9 +5,23 @@ import getFormDetail from '../../../apis/commonAPI/getFormDetail';
 import { useFormManage } from '../../../contexts/FormManageContext';
 import React from 'react';
 import Button from '../../common/Button';
+import delForm from '../../../apis/commonAPI/delForm';
 
 export default function FormListArea({ rows }) {
   const { detailData, setDetailData } = useFormManage();
+
+  const delHandler = () => {
+    delForm(detailData.code)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const dataHandler = (data) => {
     getFormDetail(data.id)
@@ -15,7 +29,12 @@ export default function FormListArea({ rows }) {
         return res.json();
       })
       .then((res) => {
-        setDetailData({ ...detailData, ...res, compName: data.compName });
+        setDetailData({
+          ...detailData,
+          ...res,
+          compName: data.compName,
+          status: res.status === true ? 1 : 0,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -26,7 +45,9 @@ export default function FormListArea({ rows }) {
       text={'양식목록'}
       width={'100%'}
       height={'100%'}
-      titleChildren={<Button label={'삭제'} btnStyle={'gray_btn'} />}
+      titleChildren={
+        <Button label={'삭제'} btnStyle={'gray_btn'} onClick={delHandler} />
+      }
       childStyle={{ width: '100%', height: '100%' }}
       children={
         <DataList rows={rows} columns={columns} dataHandler={dataHandler} />
