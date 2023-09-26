@@ -33,11 +33,12 @@
 }
 .radiobuttonsBox {
   margin: 0 !important;
-  padding: 13px 20px 12px;
+
   box-sizing: border-box;
   display: flex;
   justify-content: end;
   flex: 1;
+  height: 50px;
 }
 .radiogroup {
   height: 27px;
@@ -49,6 +50,7 @@
 .inInnerbox {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .outInnerbox {
