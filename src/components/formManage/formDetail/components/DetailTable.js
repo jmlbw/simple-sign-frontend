@@ -18,29 +18,6 @@ export default function DetailTable({ tableList, onChangeFunc }) {
     setDetailData({ ...detailData, [id]: data });
   };
 
-  const compNameHandler = (data) => {
-    setDetailData({ ...detailData, compName: data });
-  };
-  const formNameHandler = (data) => {
-    setDetailData({ ...detailData, formName: data });
-  };
-
-  const scopeHandler = (data) => {
-    setDetailData({ ...detailData, scope: data });
-  };
-
-  const statusHandler = (data) => {
-    console.log('status:', data);
-    setDetailData({ ...detailData, status: data });
-  };
-
-  const defaultfileHandler = (data) => {
-    setDetailData({ ...detailData, defaultForm: data });
-  };
-  const mainfileHandler = (data) => {
-    setDetailData({ ...detailData, mainForm: data });
-  };
-
   useEffect(() => {
     console.log(detailData);
   }, [detailData]);
