@@ -2,6 +2,7 @@ import { AppProvider } from './AppContext';
 import { PageProvier } from './PageContext';
 import { SearchContextProvider } from './SearchContext';
 import { FormManageProvider } from './FormManageContext';
+import { ApprovalBoxProvider } from './ApprovalBoxContext';
 import React from 'react';
 
 export default function ContextProvider({ children }) {
@@ -9,7 +10,9 @@ export default function ContextProvider({ children }) {
     <AppProvider>
       <PageProvier>
         <SearchContextProvider>
-          <FormManageProvider>{children}</FormManageProvider>
+          <FormManageProvider>
+            <ApprovalBoxProvider>{children}</ApprovalBoxProvider>
+          </FormManageProvider>
         </SearchContextProvider>
       </PageProvier>
     </AppProvider>
