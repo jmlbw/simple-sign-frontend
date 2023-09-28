@@ -29,13 +29,14 @@ function RemainSearchDetail(props) {
   ];
 
   function optionlist() {
-    switch (viewItem) {
-      case 'pend':
-        return pendlist;
-      case 'concluded':
-        return concludedlist;
-      case 'refernce':
-        return reflist;
+    if (viewItem.includes('pend')) {
+      return pendlist;
+    } else if (viewItem.includes('concluded')) {
+      return concludedlist;
+    } else if (viewItem.includes('reference')) {
+      return reflist;
+    } else {
+      return [];
     }
   }
 

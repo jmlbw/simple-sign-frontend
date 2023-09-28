@@ -6,8 +6,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styled from '../../styles/components/sidebar/MenuItem.module.css';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
 
 function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
+  const { state, setState } = useApprovalBox();
   const navigate = useNavigate();
   const [clickStates, setClickStates] = useState([
     false,
@@ -34,6 +36,19 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
       navigate('/SAM');
     } else if (name === '상신문서') {
       navigate('/ABV');
+      setState((prevState) => ({ ...prevState, viewItem: ['send'] }));
+    } else if (name === '임시보관문서') {
+      navigate('/ABV');
+      setState((prevState) => ({ ...prevState, viewItem: ['tempor'] }));
+    } else if (name === '미결문서') {
+      navigate('/ABV');
+      setState((prevState) => ({ ...prevState, viewItem: ['pend'] }));
+    } else if (name === '기결문서') {
+      navigate('/ABV');
+      setState((prevState) => ({ ...prevState, viewItem: ['concluded'] }));
+    } else if (name === '수신참조문서') {
+      navigate('/ABV');
+      setState((prevState) => ({ ...prevState, viewItem: ['reference'] }));
     }
   };
 
@@ -58,6 +73,7 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
         <div className={styled.submenu}>
           {item.submenu.map((subitem, index) => (
             <ListItemButton
+              key={subitem.id}
               className={`${styled.subitem} ${
                 clickStates[index] ? styled.color : ''
               }`}
