@@ -1,9 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled from '../../../../styles/components/formManage/formDetail/components/DragDrop.module.css';
-import PopUp from '../../../common/PopUp';
-import FormEdit from '../../formEditPopUp/FormEdit';
-import { FiEdit } from 'react-icons/fi';
-import PopUpFoot from '../../../common/PopUpFoot';
+import { AiOutlineFileAdd } from 'react-icons/ai';
 
 const DragDrop = ({ id, name, data, dataHandler }) => {
   const fileId = useRef(0);
@@ -175,25 +172,10 @@ const DragDrop = ({ id, name, data, dataHandler }) => {
           htmlFor={name}
           ref={dragRef}
         >
-          <div>파일 첨부</div>
+          <div>
+            <AiOutlineFileAdd />
+          </div>
         </label>
-
-        {/* <PopUp
-          label={<FiEdit />}
-          width={'1200px'}
-          height={'700px'}
-          title={'양식파일편집'}
-          children={
-            <>
-              <div className={styled.contentContainer}>
-                <div>
-                  <FormEdit data={data} />
-                </div>
-              </div>
-              <PopUpFoot buttons={grayAndBlueBtn} />
-            </>
-          }
-        /> */}
       </div>
 
       <div className={styled.fileListContainer}>

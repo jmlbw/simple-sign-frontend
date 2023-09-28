@@ -1,33 +1,26 @@
-import styled from '../../../styles/components/formManage/searchBox/SearchBox.module.css';
-import { AiOutlineSearch } from 'react-icons/ai';
-import InnerBox from '../../common/InnerBox';
 import React from 'react';
+import styled from '../../../styles/components/formManage/searchBox/SearchBox.module.css';
+import InnerBox from '../../common/InnerBox';
 import {
   ItemBox,
   TextComp,
   InputComp,
   SelectComp,
 } from './components/SearchItem';
+import { AiOutlineSearch } from 'react-icons/ai';
 import { useFormManage } from '../../../contexts/FormManageContext';
 
 export default function FormSearchBox({ searchHandler }) {
   const { searchData, setSearchData, setData } = useFormManage();
 
-  const compDataHandler = (e) => {
-    setSearchData({ ...searchData, compName: e.target.value });
-  };
-  const statusDataHandler = (e) => {
-    setSearchData({ ...searchData, status: e.target.value });
-  };
-  const formDataHandler = (e) => {
-    setSearchData({ ...searchData, formName: e.target.value });
+  const dataHandler = (id, data) => {
+    setSearchData({ ...searchData, [id]: data });
   };
 
-  return (
-    <InnerBox
-      width={'100%'}
-      children={
-        <div className={styled.search_box_container}>
+  const returnContent = () => {
+    return (
+      <div className={styled.container}>
+        <div className={styled.optionsArea}>
           <ItemBox
             children={
               <>
@@ -35,7 +28,8 @@ export default function FormSearchBox({ searchHandler }) {
                 <SelectComp
                   width={'170px'}
                   options={setData.compList}
-                  dataHandler={compDataHandler}
+                  id={'compName'}
+                  dataHandler={dataHandler}
                 />
               </>
             }
@@ -47,7 +41,8 @@ export default function FormSearchBox({ searchHandler }) {
                 <SelectComp
                   width={'170px'}
                   options={setData.statusList}
-                  dataHandler={statusDataHandler}
+                  id={'status'}
+                  dataHandler={dataHandler}
                 />
               </>
             }
@@ -56,15 +51,17 @@ export default function FormSearchBox({ searchHandler }) {
             children={
               <>
                 <TextComp text={'양식명'} />
-                <InputComp dataHandler={formDataHandler} />
+                <InputComp id={'formName'} dataHandler={dataHandler} />
               </>
             }
           ></ItemBox>
-          <div>
-            <AiOutlineSearch onClick={searchHandler} />
-          </div>
         </div>
-      }
-    ></InnerBox>
-  );
+        <div className={styled.iconArea}>
+          <AiOutlineSearch onClick={searchHandler} />
+        </div>
+      </div>
+    );
+  };
+
+  return <InnerBox width={'100%'} children={returnContent()}></InnerBox>;
 }
