@@ -1,24 +1,11 @@
 import styled from '../../../../styles/components/formManage/formDetail/components/DetailTableItems.module.css';
 import DragDrop from './DragDrop';
-import React from 'react';
+import React, { useState } from 'react';
 import PopUp from '../../../common/PopUp';
 import FormEdit from '../../formEditPopUp/FormEdit';
 import { FiEdit } from 'react-icons/fi';
 import PopUpFoot from '../../../common/PopUpFoot';
 import Optionbox from '../../../common/Optionbox';
-
-const grayAndBlueBtn = [
-  {
-    label: '미리보기',
-    onClick: () => {},
-    btnStyle: 'popup_gray_btn',
-  },
-  {
-    label: '반영',
-    onClick: () => {},
-    btnStyle: 'popup_blue_btn',
-  },
-];
 
 const DetailBox = ({ children }) => {
   return (
@@ -70,6 +57,34 @@ const AreaBox = ({ id, data, dataHandler }) => {
 };
 
 const FileBox = ({ id, name, data, dataHandler }) => {
+  const [formData, setFormData] = useState(data);
+  let previewWindow = null;
+  const openPreviewWindow = (data) => {
+    previewWindow = window.open('', 'Preview', 'width=565,height=800');
+    previewWindow.document.write(
+      '<html><head><title>미리보기</title></head><body>'
+    );
+    previewWindow.document.write(data);
+    previewWindow.document.write('</body></html>');
+  };
+
+  const grayAndBlueBtn = [
+    {
+      label: '미리보기',
+      onClick: () => {
+        openPreviewWindow(formData);
+      },
+      btnStyle: 'popup_gray_btn',
+    },
+    {
+      label: '반영',
+      onClick: () => {
+        dataHandler(id, formData);
+      },
+      btnStyle: 'popup_blue_btn',
+    },
+  ];
+
   return (
     <div className={styled.contentBox}>
       <div className={styled.fileContent}>
@@ -84,7 +99,7 @@ const FileBox = ({ id, name, data, dataHandler }) => {
               <>
                 <div className={styled.contentContainer}>
                   <div>
-                    <FormEdit data={data} />
+                    <FormEdit data={data} dataHandler={setFormData} />
                   </div>
                 </div>
                 <PopUpFoot buttons={grayAndBlueBtn} />

@@ -19,7 +19,6 @@ export default function DetailTable() {
   };
 
   const scopefilterHandler = (id, category, name, useId) => {
-    console.log('dd:', detailData);
     let filetedData = detailData.scope.filter((ele) => {
       if (
         ele.category === category &&

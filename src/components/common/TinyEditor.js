@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
 export const CustomButton = ({ label, editor, text }) => {
@@ -16,7 +16,6 @@ export function TinyEditor({ init, editorHandler, dataHandler }) {
   const editorRef = useRef(null);
 
   useEffect(() => {
-    console.log(editorRef);
     if (editorRef) {
       editorHandler(editorRef.current);
     }
@@ -26,9 +25,8 @@ export function TinyEditor({ init, editorHandler, dataHandler }) {
     <>
       <Editor
         onEditorChange={dataHandler}
-        initialValue={init || '<p>Make your form</p>'}
+        initialValue={init || ''}
         init={{
-          // content_css: 'App.css',
           height: 500,
           menubar: false,
           plugins: [
@@ -53,7 +51,7 @@ export function TinyEditor({ init, editorHandler, dataHandler }) {
             'undo redo | blocks | ' +
             'bold italic forecolor | alignleft aligncenter ' +
             'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | table',
+            'removeformat | table ',
           content_css: 'assets/editor_style.css',
           statusbar: false,
         }}
