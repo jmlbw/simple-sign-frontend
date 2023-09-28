@@ -47,14 +47,20 @@ const InputBox = ({ id, data, dataHandler }) => {
   );
 };
 
-const AreaBox = ({ id, data, children }) => {
+const AreaBox = ({ id, data, dataHandler }) => {
   return (
     <div className={`${styled.contentBox} ${styled.areaContent}`}>
       <div className={styled.areaContentBox}>
         {data.length > 0
           ? data.map((ele) => {
               return (
-                <Optionbox category={ele.category} name={ele.name}></Optionbox>
+                <Optionbox
+                  id={id}
+                  category={ele.category}
+                  name={ele.name}
+                  useId={ele.useId}
+                  dataHandler={dataHandler}
+                ></Optionbox>
               );
             })
           : null}

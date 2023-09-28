@@ -2,14 +2,13 @@ import OptionboxItem from './OptionboxItem';
 import { BiSolidUser, BiSolidFolder, BiBuildings } from 'react-icons/bi';
 import React, { useState } from 'react';
 
-function Optionbox({ category, name, dataHandler }) {
+function Optionbox({ id, category, name, useId, dataHandler }) {
   const [department] = useState(category);
   const [cName, setCName] = useState(name);
 
-  const handleValueChange = (newValue) => {
+  const handleValueChange = () => {
     // value 상태를 변경
-    //dataHandler
-    // setCName(newValue);
+    dataHandler(id, category, name, useId);
     console.log('삭제');
   };
 

@@ -18,6 +18,21 @@ export default function DetailTable() {
     setDetailData({ ...detailData, [id]: data });
   };
 
+  const scopefilterHandler = (id, category, name, useId) => {
+    console.log('dd:', detailData);
+    let filetedData = detailData.scope.filter((ele) => {
+      if (
+        ele.category === category &&
+        ele.name === name &&
+        ele.useId === useId
+      ) {
+        return false;
+      }
+      return true;
+    });
+    setDetailData({ ...detailData, [id]: filetedData });
+  };
+
   useEffect(() => {
     console.log(detailData);
   }, [detailData]);
@@ -63,7 +78,7 @@ export default function DetailTable() {
             <AreaBox
               id={'scope'}
               data={detailData.scope}
-              dataHandler={dataUpdateHandler}
+              dataHandler={scopefilterHandler}
             />
           </>
         }
