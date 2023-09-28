@@ -11,11 +11,25 @@ import {
 import { useFormManage } from '../../../../contexts/FormManageContext';
 import { useEffect } from 'react';
 
-export default function DetailTable({ tableList, onChangeFunc }) {
+export default function DetailTable() {
   const { detailData, setDetailData } = useFormManage();
 
   const dataUpdateHandler = (id, data) => {
     setDetailData({ ...detailData, [id]: data });
+  };
+
+  const scopefilterHandler = (id, category, name, useId) => {
+    let filetedData = detailData.scope.filter((ele) => {
+      if (
+        ele.category === category &&
+        ele.name === name &&
+        ele.useId === useId
+      ) {
+        return false;
+      }
+      return true;
+    });
+    setDetailData({ ...detailData, [id]: filetedData });
   };
 
   useEffect(() => {
@@ -63,7 +77,7 @@ export default function DetailTable({ tableList, onChangeFunc }) {
             <AreaBox
               id={'scope'}
               data={detailData.scope}
-              dataHandler={dataUpdateHandler}
+              dataHandler={scopefilterHandler}
             />
           </>
         }

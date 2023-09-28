@@ -1,28 +1,31 @@
-.search_box_container {
+.container {
   display: flex;
   flex-direction: row;
-
   align-items: center;
   justify-items: center;
-
-  /* border: 1px solid #cccccc; */
-
-  /* margin-bottom: 20px; */
   width: 100%;
   font-size: 12px;
 }
 
-.search_icon_box {
+.iconArea {
   display: flex;
   flex-direction: row;
   flex-grow: 1;
   justify-content: right;
-  padding-right: 20px;
+  padding-right: 5px;
 }
 
-.search_options_container {
+.iconArea > svg {
+  width: 15px;
+  height: 15px;
+}
+
+.iconArea > svg:hover {
+  transform: scale(1.1);
+}
+
+.optionsArea {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 10px;
 }

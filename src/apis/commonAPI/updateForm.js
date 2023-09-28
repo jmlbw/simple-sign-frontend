@@ -3,7 +3,6 @@ export default function insertForm(data) {
 
   const jsonData = JSON.stringify(data);
 
-  console.log(jsonData);
   return fetch(url, {
     method: 'PATCH',
     headers: {
