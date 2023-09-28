@@ -1,16 +1,15 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
-import '../styles/pages/FormManagePage.css';
+import React, { useEffect, useState } from 'react';
+import styled from '../styles/pages/FormManagePage.module.css';
 import FormSearchBox from '../components/formManage/searchBox/FormSearchBox';
 import FormDetail from '../components/formManage/formDetail/FormDetail';
+import FormListArea from '../components/formManage/formList/FormListArea';
 import getCompanyList from '../apis/commonAPI/getCompanyList';
 import getFormAndCompList from '../apis/commonAPI/getFormAndCompList';
 import { useFormManage } from '../contexts/FormManageContext';
 import { usePage } from '../contexts/PageContext';
-import FormListArea from '../components/formManage/formList/FormListArea';
 
 export default function FormManagePage() {
   const [formListData, setFormListData] = useState([]);
-  const [detailData, setDetailData] = useState([]);
   const { searchData, setSearchData, setData, setSetData } = useFormManage();
   const { state, setState } = usePage();
 
@@ -42,17 +41,19 @@ export default function FormManagePage() {
         console.log(data);
         setFormListData(data);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   return (
-    <div className="form_manage_container">
+    <div className={styled.container}>
       <FormSearchBox searchHandler={searchHandler} />
-      <div className="form_data_area">
-        <div className="form_list_area">
+      <div className={styled.contentArea}>
+        <div className={styled.formListArea}>
           <FormListArea rows={formListData} />
         </div>
-        <div className="form_detail_area">
+        <div className={styled.formDetailArea}>
           <FormDetail />
         </div>
       </div>

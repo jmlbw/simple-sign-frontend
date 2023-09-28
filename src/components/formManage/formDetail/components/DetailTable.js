@@ -11,7 +11,7 @@ import {
 import { useFormManage } from '../../../../contexts/FormManageContext';
 import { useEffect } from 'react';
 
-export default function DetailTable({ tableList, onChangeFunc }) {
+export default function DetailTable() {
   const { detailData, setDetailData } = useFormManage();
 
   const dataUpdateHandler = (id, data) => {

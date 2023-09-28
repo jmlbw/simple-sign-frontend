@@ -9,9 +9,10 @@ export default function DataList({ columns, rows, dataHandler }) {
     <div style={{ height: '100%', width: '100%' }}>
       <DataGrid
         autoHeight
+        autoWidth
         rows={rows}
         columns={columns}
-        disableSelectionOnClick
+        hideFooter
         onRowClick={(event) => {
           dataHandler(event.row);
           updateDetailData();
