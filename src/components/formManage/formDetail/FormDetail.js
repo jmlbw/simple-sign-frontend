@@ -8,7 +8,7 @@ import insertForm from '../../../apis/commonAPI/insertForm';
 import updateForm from '../../../apis/commonAPI/updateForm';
 import FormDetailNav from './components/FormDetailNav';
 
-export default function FormDetail() {
+export default function FormDetail({ searchHandler }) {
   const { detailData, flagData, createDetailData } = useFormManage();
   const [activeButton, setActiveButton] = useState(1);
 
@@ -20,12 +20,19 @@ export default function FormDetail() {
     if (flagData === 2) {
       updateForm(detailData)
         .then((res) => {
-          console.log(res);
-          console.log(res.code);
-          return res.json();
+          if (!res.ok) {
+            throw new Error(res.status);
+          }
+          alert('양식이 수정되었습니다.');
+        })
+        .then(() => {
+          searchHandler();
         })
         .catch((err) => {
           console.error(err);
+          if (err.message === '404') {
+            alert('검색된 데이터가 없습니다.');
+          }
         });
     }
   };
@@ -34,12 +41,16 @@ export default function FormDetail() {
     if (flagData === 1) {
       insertForm(detailData)
         .then((res) => {
-          console.log(res);
-          console.log(res.code);
-          return res.json();
+          if (!res.ok) {
+            throw new Error(res.status);
+          }
+          alert('새 양식이 생성되었습니다.');
         })
         .catch((err) => {
           console.error(err);
+          if (err.message === '404') {
+            alert('검색된 데이터가 없습니다.');
+          }
         });
     }
   };

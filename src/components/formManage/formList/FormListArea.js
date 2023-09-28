@@ -13,13 +13,13 @@ export default function FormListArea({ rows }) {
   const delHandler = () => {
     delForm(detailData.code)
       .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        alert('데이터가 삭제되었습니다.');
       })
       .catch((err) => {
-        console.error(err);
+        console.log('데이터 삭제를 실패했습니다.');
       });
   };
 

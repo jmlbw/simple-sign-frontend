@@ -35,14 +35,18 @@ export default function FormManagePage() {
   const searchHandler = () => {
     getFormAndCompList(searchData)
       .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         setFormListData(data);
       })
       .catch((err) => {
-        console.error(err);
+        if (err.message === '404') {
+          alert('검색된 양식가 없습니다.');
+        }
       });
   };
 
@@ -54,7 +58,7 @@ export default function FormManagePage() {
           <FormListArea rows={formListData} />
         </div>
         <div className={styled.formDetailArea}>
-          <FormDetail />
+          <FormDetail searchHandler={searchHandler} />
         </div>
       </div>
     </div>
