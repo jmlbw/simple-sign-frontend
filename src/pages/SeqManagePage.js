@@ -6,6 +6,7 @@ import SeqSearchBox from '../components/seqManage/searchBox/SeqSearchBox';
 import SeqListArea from '../components/seqManage/seqList/SeqListArea';
 import getCompanyList from '../apis/commonAPI/getCompanyList';
 import { useSeqManage } from '../contexts/SeqManageContext';
+import getSeqAndCompList from '../apis/commonAPI/getSeqAndCompList';
 
 export default function SeqManagePage() {
   const { state, setState } = usePage();
@@ -36,21 +37,21 @@ export default function SeqManagePage() {
 
   // 검색 및 테이블 데이터 셋팅
   const searchHandler = () => {
-    // getFormAndCompList(searchData)
-    //   .then((res) => {
-    //     if (!res.ok) {
-    //       throw new Error(res.status);
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((data) => {
-    //     setFormListData(data);
-    //   })
-    //   .catch((err) => {
-    //     if (err.message === '404') {
-    //       alert('검색된 양식가 없습니다.');
-    //     }
-    //   });
+    getSeqAndCompList(searchData)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setFormListData(data);
+      })
+      .catch((err) => {
+        if (err.message === '404') {
+          alert('검색된 채번이 없습니다.');
+        }
+      });
   };
 
   return (
@@ -58,7 +59,7 @@ export default function SeqManagePage() {
       <SeqSearchBox searchHandler={searchHandler} />
       <div className={styled.contentArea}>
         <div className={styled.formListArea}>
-          <SeqListArea rows={formListData}></SeqListArea>
+          <SeqListArea rows={formListData} />
         </div>
         <div className={styled.formDetailArea}>
           <SeqDetail />
@@ -66,17 +67,4 @@ export default function SeqManagePage() {
       </div>
     </div>
   );
-}
-{
-  /* <div className={styled.container}>
-  <FormSearchBox searchHandler={searchHandler} />
-  <div className={styled.contentArea}>
-    <div className={styled.formListArea}>
-      <FormListArea rows={formListData} />
-    </div>
-    <div className={styled.formDetailArea}>
-      <FormDetail searchHandler={searchHandler} />
-    </div>
-  </div>
-</div>; */
 }
