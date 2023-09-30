@@ -46,7 +46,7 @@ export default function SeqSearchBox({ searchHandler }) {
             children={
               <>
                 <TextComp text={'코드'} />
-                <InputComp id={'code'} dataHandler={dataHandler} />
+                <InputComp id={'id'} dataHandler={dataHandler} />
               </>
             }
           ></ItemBox>
