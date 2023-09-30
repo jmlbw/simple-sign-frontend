@@ -6,12 +6,12 @@ import {
   TextComp,
   InputComp,
   SelectComp,
-} from './components/SearchItem';
+} from '../../formManage/searchBox/components/SearchItem';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useFormManage } from '../../../contexts/FormManageContext';
+import { useSeqManage } from '../../../contexts/SeqManageContext';
 
-export default function FormSearchBox({ searchHandler }) {
-  const { searchData, setSearchData, setData } = useFormManage();
+export default function SeqSearchBox({ searchHandler }) {
+  const { searchData, setSearchData, setData } = useSeqManage();
 
   const dataHandler = (id, data) => {
     setSearchData({ ...searchData, [id]: data });
@@ -37,21 +37,16 @@ export default function FormSearchBox({ searchHandler }) {
           <ItemBox
             children={
               <>
-                <TextComp text={'사용여부'} />
-                <SelectComp
-                  width={'170px'}
-                  options={setData.statusList}
-                  id={'status'}
-                  dataHandler={dataHandler}
-                />
+                <TextComp text={'문서채번명'} />
+                <InputComp id={'seqName'} dataHandler={dataHandler} />
               </>
             }
           ></ItemBox>
           <ItemBox
             children={
               <>
-                <TextComp text={'양식명'} />
-                <InputComp id={'formName'} dataHandler={dataHandler} />
+                <TextComp text={'코드'} />
+                <InputComp id={'id'} dataHandler={dataHandler} />
               </>
             }
           ></ItemBox>

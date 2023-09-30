@@ -2,13 +2,14 @@ import OptionboxItem from './OptionboxItem';
 import { BiSolidUser, BiSolidFolder, BiBuildings } from 'react-icons/bi';
 import React, { useState } from 'react';
 
-function Optionbox() {
-  const [department] = useState('company');
-  const [value, setValue] = useState('true');
+function Optionbox({ id, category, name, useId, dataHandler }) {
+  const [department] = useState(category);
+  const [cName, setCName] = useState(name);
 
-  const handleValueChange = (newValue) => {
+  const handleValueChange = () => {
     // value 상태를 변경
-    setValue(newValue);
+    dataHandler(id, category, name, useId);
+    console.log('삭제');
   };
 
   /* department 값 바꾸는 부분 */
@@ -16,11 +17,11 @@ function Optionbox() {
   let icon = null;
 
   if (department === 'null') {
-  } else if (department === 'user') {
+  } else if (department === 'U') {
     icon = <BiSolidUser />;
-  } else if (department === 'department') {
+  } else if (department === 'D') {
     icon = <BiSolidFolder />;
-  } else if (department === 'company') {
+  } else if (department === 'C') {
     icon = <BiBuildings />;
   }
 
@@ -28,7 +29,7 @@ function Optionbox() {
     <div>
       <OptionboxItem
         icon={icon}
-        value={value}
+        name={cName}
         onValueChange={handleValueChange}
       ></OptionboxItem>
     </div>

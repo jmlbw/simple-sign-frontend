@@ -13,7 +13,7 @@ function OptionboxItem(props) {
       <div className={styles.element}>
         <div className={styles.iconimg}>{props.icon}</div>
         <div className={styles.text}>
-          <a>더존비즈온</a>
+          <a>{props.name}</a>
         </div>
         {/* x 버튼 */}
         <div className={styles.iconX} onClick={handleIconCloseClick}>

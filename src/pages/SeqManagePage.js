@@ -1,49 +1,68 @@
-import React, { useContext, useEffect } from 'react';
-import '../styles/pages/SeqManagePage.css';
-// import SearchBox from '../components/formManage/searchBox/SearchBox';
-// import FormList from '../components/formManage/formList/FormList';
-import { columns, fields, rows } from '../assets/datas/seq_sample_data';
+import React, { useEffect, useState } from 'react';
+import styled from '../styles/pages/SeqManagePage.module.css';
 import SeqDetail from '../components/seqManage/seqDetail/SeqDetail';
 import { usePage } from '../contexts/PageContext';
+import SeqSearchBox from '../components/seqManage/searchBox/SeqSearchBox';
+import SeqListArea from '../components/seqManage/seqList/SeqListArea';
+import getCompanyList from '../apis/commonAPI/getCompanyList';
+import { useSeqManage } from '../contexts/SeqManageContext';
+import getSeqAndCompList from '../apis/commonAPI/getSeqAndCompList';
 
-export default function FormManagePage() {
-  let searchOptionList = [
-    {
-      asset1: '회사',
-      asset2: 'select',
-      data: [
-        { id: 1, name: '(주) 더존' },
-        { id: 2, name: '비트컴퓨터' },
-      ],
-    },
-    {
-      asset1: '문서채번명',
-      asset2: 'text',
-      data: [],
-    },
-    { asset1: '코드', asset2: 'text', data: [] },
-  ];
-
+export default function SeqManagePage() {
   const { state, setState } = usePage();
+  const [formListData, setFormListData] = useState([]);
+  const { searchData, setSearchData, setData, setSetData } = useSeqManage();
+
+  useEffect(() => {
+    //페이지 데이터 셋팅
+    setState({ ...state, curPage: 'SeqManage' });
+
+    //회사명, 기본 데이터 셋팅
+    getCompanyList()
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setSearchData({ ...searchData, compName: data[0].name });
+        setSetData({ ...setData, compList: data });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   useEffect(() => {
     setState({ ...state, curPage: 'SeqManage' });
   }, []);
 
+  // 검색 및 테이블 데이터 셋팅
+  const searchHandler = () => {
+    getSeqAndCompList(searchData)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setFormListData(data);
+      })
+      .catch((err) => {
+        if (err.message === '404') {
+          alert('검색된 채번이 없습니다.');
+        }
+      });
+  };
+
   return (
-    <div className="form_manage_container">
-      {/* <SearchBox searchOptions={searchOptionList}></SearchBox> */}
-      <div className="form_data_area">
-        <div className="form_list_area">
-          {/* <FormList
-            title={'채번목록'}
-            columns={columns}
-            fields={fields}
-            rows={rows}
-          /> */}
+    <div className={styled.container}>
+      <SeqSearchBox searchHandler={searchHandler} />
+      <div className={styled.contentArea}>
+        <div className={styled.formListArea}>
+          <SeqListArea rows={formListData} />
         </div>
-        <div className="form_detail_area">
-          <SeqDetail title={'문서채번상세'} />
+        <div className={styled.formDetailArea}>
+          <SeqDetail />
         </div>
       </div>
     </div>

@@ -10,26 +10,30 @@ const TextComp = ({ text }) => {
   return <p className={styled.title}>{text}</p>;
 };
 
-const InputComp = ({ dataHandler, width, placeholder }) => {
+const InputComp = ({ id, dataHandler, width, placeholder }) => {
   return (
     <div className={styled.inputBox} style={{ width: `${width}` }}>
       <input
         className={styled.input}
         style={{ width: `${width}` }}
         type="text"
-        onChange={dataHandler}
         placeholder={placeholder}
+        onChange={(e) => {
+          dataHandler(id, e.target.value);
+        }}
       />
     </div>
   );
 };
 
-const SelectComp = ({ width, options, dataHandler }) => {
+const SelectComp = ({ id, width, options, dataHandler }) => {
   return (
     <select
       className={styled.select}
       style={{ width: `${width}` }}
-      onChange={dataHandler}
+      onChange={(e) => {
+        dataHandler(id, e.target.value);
+      }}
     >
       {options
         ? options.map((ele, index) => {
