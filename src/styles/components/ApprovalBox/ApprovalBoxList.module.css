@@ -1,0 +1,11 @@
+.itemBox {
+  display: flex;
+  padding: 3px;
+}
+.boxName {
+  font-size: 12px;
+}
+.iconimg {
+  color: #3bafda;
+  padding-right: 5px;
+}
