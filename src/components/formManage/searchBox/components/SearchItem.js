@@ -10,10 +10,16 @@ const TextComp = ({ text }) => {
   return <p className={styled.title}>{text}</p>;
 };
 
-const InputComp = ({ dataHandler, width }) => {
+const InputComp = ({ dataHandler, width, placeholder }) => {
   return (
     <div className={styled.inputBox} style={{ width: `${width}` }}>
-      <input className={styled.input} type="text" onChange={dataHandler} />
+      <input
+        className={styled.input}
+        style={{ width: `${width}` }}
+        type="text"
+        onChange={dataHandler}
+        placeholder={placeholder}
+      />
     </div>
   );
 };
