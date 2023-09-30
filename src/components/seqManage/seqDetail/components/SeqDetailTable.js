@@ -18,8 +18,22 @@ export default function SeqDetailTable() {
     setDetailData({ ...detailData, [id]: data });
   };
 
-  const scopefilterHandler = (id, category, name, useId) => {
-    let filetedData = detailData.scope.filter((ele) => {
+  const deptScopefilterHandler = (id, category, name, useId) => {
+    let filetedData = detailData.deptScope.filter((ele) => {
+      if (
+        ele.category === category &&
+        ele.name === name &&
+        ele.useId === useId
+      ) {
+        return false;
+      }
+      return true;
+    });
+    setDetailData({ ...detailData, [id]: filetedData });
+  };
+
+  const formScopefilterHandler = (id, category, name, useId) => {
+    let filetedData = detailData.formScope.filter((ele) => {
       if (
         ele.category === category &&
         ele.name === name &&
@@ -85,7 +99,7 @@ export default function SeqDetailTable() {
             <AreaBox
               id={'deptScope'}
               data={detailData.deptScope}
-              dataHandler={scopefilterHandler}
+              dataHandler={deptScopefilterHandler}
             />
           </>
         }
@@ -97,7 +111,7 @@ export default function SeqDetailTable() {
             <AreaBox
               id={'formScope'}
               data={detailData.formScope}
-              dataHandler={scopefilterHandler}
+              dataHandler={formScopefilterHandler}
             />
           </>
         }

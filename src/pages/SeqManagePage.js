@@ -59,7 +59,7 @@ export default function SeqManagePage() {
       <SeqSearchBox searchHandler={searchHandler} />
       <div className={styled.contentArea}>
         <div className={styled.formListArea}>
-          <SeqListArea rows={formListData}></SeqListArea>
+          <SeqListArea rows={formListData} />
         </div>
         <div className={styled.formDetailArea}>
           <SeqDetail />
@@ -67,17 +67,4 @@ export default function SeqManagePage() {
       </div>
     </div>
   );
-}
-{
-  /* <div className={styled.container}>
-  <FormSearchBox searchHandler={searchHandler} />
-  <div className={styled.contentArea}>
-    <div className={styled.formListArea}>
-      <FormListArea rows={formListData} />
-    </div>
-    <div className={styled.formDetailArea}>
-      <FormDetail searchHandler={searchHandler} />
-    </div>
-  </div>
-</div>; */
 }
