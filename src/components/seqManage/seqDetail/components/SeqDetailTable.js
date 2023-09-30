@@ -32,14 +32,6 @@ export default function SeqDetailTable() {
     setDetailData({ ...detailData, [id]: filetedData });
   };
 
-  const buttons = [
-    {
-      name: '사용',
-      value: true,
-    },
-    { name: '미사용', value: false },
-  ];
-
   const grayAndBlueBtn = [
     {
       label: '반영',
@@ -47,15 +39,6 @@ export default function SeqDetailTable() {
       btnStyle: 'popup_blue_btn',
     },
   ];
-
-  // compName: '',
-  // code: '',
-  // seqName: '',
-  // deptScope: [],
-  // formScope: [],
-  // description: '',
-  // sortOrder: '',
-  // seqList: [],
 
   return (
     <>

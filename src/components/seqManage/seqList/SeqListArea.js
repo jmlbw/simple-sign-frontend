@@ -1,11 +1,11 @@
 import InnerBox from '../../common/InnerBox';
 import DataList from '../../formManage/formList/DataList';
 import { columns } from '../../../assets/datas/seq_manage_list';
-import getFormDetail from '../../../apis/commonAPI/getFormDetail';
 import { useFormManage } from '../../../contexts/FormManageContext';
 import React from 'react';
 import Button from '../../common/Button';
 import delForm from '../../../apis/commonAPI/delForm';
+import getSeqDetail from '../../../apis/commonAPI/getSeqDetail';
 
 export default function SeqListArea({ rows }) {
   const { detailData, setDetailData } = useFormManage();
@@ -24,7 +24,7 @@ export default function SeqListArea({ rows }) {
   };
 
   const dataHandler = (data) => {
-    getFormDetail(data.id)
+    getSeqDetail(data.id)
       .then((res) => {
         return res.json();
       })
@@ -33,7 +33,6 @@ export default function SeqListArea({ rows }) {
           ...detailData,
           ...res,
           compName: data.compName,
-          status: res.status === true ? 1 : 0,
         });
       })
       .catch((err) => {
