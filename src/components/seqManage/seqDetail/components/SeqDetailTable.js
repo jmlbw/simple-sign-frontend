@@ -18,8 +18,8 @@ export default function SeqDetailTable() {
     setDetailData({ ...detailData, [id]: data });
   };
 
-  const scopefilterHandler = (id, category, name, useId) => {
-    let filetedData = detailData.scope.filter((ele) => {
+  const deptScopefilterHandler = (id, category, name, useId) => {
+    let filetedData = detailData.deptScope.filter((ele) => {
       if (
         ele.category === category &&
         ele.name === name &&
@@ -32,13 +32,19 @@ export default function SeqDetailTable() {
     setDetailData({ ...detailData, [id]: filetedData });
   };
 
-  const buttons = [
-    {
-      name: '사용',
-      value: true,
-    },
-    { name: '미사용', value: false },
-  ];
+  const formScopefilterHandler = (id, category, name, useId) => {
+    let filetedData = detailData.formScope.filter((ele) => {
+      if (
+        ele.category === category &&
+        ele.name === name &&
+        ele.useId === useId
+      ) {
+        return false;
+      }
+      return true;
+    });
+    setDetailData({ ...detailData, [id]: filetedData });
+  };
 
   const grayAndBlueBtn = [
     {
@@ -47,15 +53,6 @@ export default function SeqDetailTable() {
       btnStyle: 'popup_blue_btn',
     },
   ];
-
-  // compName: '',
-  // code: '',
-  // seqName: '',
-  // deptScope: [],
-  // formScope: [],
-  // description: '',
-  // sortOrder: '',
-  // seqList: [],
 
   return (
     <>
@@ -102,7 +99,7 @@ export default function SeqDetailTable() {
             <AreaBox
               id={'deptScope'}
               data={detailData.deptScope}
-              dataHandler={scopefilterHandler}
+              dataHandler={deptScopefilterHandler}
             />
           </>
         }
@@ -114,7 +111,7 @@ export default function SeqDetailTable() {
             <AreaBox
               id={'formScope'}
               data={detailData.formScope}
-              dataHandler={scopefilterHandler}
+              dataHandler={formScopefilterHandler}
             />
           </>
         }
