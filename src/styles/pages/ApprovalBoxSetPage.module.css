@@ -20,3 +20,41 @@
 .boxlist ul {
   width: 100%;
 }
+
+.formcontainer {
+  width: 100%;
+  max-height: 495.45px;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+}
+.customSelect {
+  z-index: 9999;
+  height: 27px;
+  font-size: 12px;
+}
+.inputItem {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+}
+.text {
+  font-size: 12px;
+}
+.vertical-center {
+  vertical-align: middle;
+}
+.inputstyle {
+  width: 100%;
+}
+.viewItemBox {
+  width: 90%;
+  height: 155.4px;
+  border: 1px solid #ccc;
+}
+.btn {
+  width: 27px;
+  height: 27px;
+}
+.viewUseField {
+  display: flex;
+}
