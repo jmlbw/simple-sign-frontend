@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import styled from '../../../../styles/components/formManage/formDetail/components/DetailTable.module.css';
+import React from 'react';
 import {
   DetailBox,
   TitleBox,
@@ -9,7 +8,6 @@ import {
   RadioBox,
 } from './DetailTableItem';
 import { useFormManage } from '../../../../contexts/FormManageContext';
-import { useEffect } from 'react';
 
 export default function DetailTable() {
   const { detailData, setDetailData } = useFormManage();
@@ -31,10 +29,6 @@ export default function DetailTable() {
     });
     setDetailData({ ...detailData, [id]: filetedData });
   };
-
-  useEffect(() => {
-    console.log(detailData);
-  }, [detailData]);
 
   const buttons = [
     {

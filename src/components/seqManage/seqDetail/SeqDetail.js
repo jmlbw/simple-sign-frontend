@@ -1,113 +1,177 @@
 import React, { useState } from 'react';
 import styled from '../../../styles/components/formManage/formDetail/FormDetail.module.css';
-import Title from '../../common/Title';
-import { RxDividerVertical } from 'react-icons/rx';
 import SeqDetailTable from './components/SeqDetailTable';
-import DetailTable from '../../formManage/formDetail/components/DetailTable';
 import Button from '../../common/Button';
-import PopUp from '../../common/PopUp';
-import FormSelect from '../../formManage/formSelectPopUp/FormSelect';
-import SeqSet from '../seqSetPopUp/SeqSet';
+import { useSeqManage } from '../../../contexts/SeqManageContext';
+import InnerBox from '../../common/InnerBox';
 
-export default function SeqDetail({ title }) {
-  const detail_sample_data1 = [
-    { id: 'comp_name', name: '회사', type: 'input', data: '(주)더존' },
-    { id: 'seq_code', name: '코드', type: 'input', data: '1' },
-    { id: 'seq_name', name: '채번명', type: 'input', data: '휴가 신청 채번' },
-    {
-      id: 'scope_depaertment',
-      name: '대상부서',
-      type: 'area',
-      data: ['총무부', '개발부'],
-      children: (
-        <PopUp
-          label={<RxDividerVertical />}
-          title={'회사사업장부서선택'}
-          width={'1200px'}
-          height={'700px'}
-        />
-      ),
-    },
-    {
-      id: 'scope_form',
-      name: '대상양식',
-      type: 'area',
-      data: ['휴가 신청서', '지각 사유서'],
-      children: (
-        <PopUp
-          label={<RxDividerVertical />}
-          title={'양식선택'}
-          width={'500px'}
-          height={'700px'}
-          children={<FormSelect />}
-        />
-      ),
-    },
-    { id: 'description', name: '설명', type: 'input', data: '그냥 채번' },
-    { id: 'seq_sort_order', name: '정렬순서', type: 'input', data: '127' },
-  ];
+export default function SeqDetail() {
+  const { detailData, flagData, createDetailData } = useSeqManage();
 
-  const detail_sample_data2 = [
-    {
-      id: 'seq_form',
-      name: '채번값설정',
-      type: 'input',
-      data: '회사명칭-부서명칭-년도',
-      children: (
-        <PopUp
-          label={<RxDividerVertical />}
-          title={'채번설정'}
-          width={'1000px'}
-          height={'700px'}
-          children={<SeqSet />}
-        />
-      ),
-    },
-  ];
-
-  const [detailData1, setDetailData1] = useState(detail_sample_data1);
-  const [detailData2, setDetailData2] = useState(detail_sample_data2);
-
-  const handleDetailData1 = (id, value) => {
-    for (let i = 0; i < detailData1.length; i++) {
-      if (detailData1[i].id === id) {
-        detailData1[i].data = value;
-        setDetailData1([...detailData1]);
-        return;
-      }
-    }
+  const updateDetailFunc = () => {
+    // if (flagData === 2) {
+    //   updateForm(detailData)
+    //     .then((res) => {
+    //       if (!res.ok) {
+    //         throw new Error(res.status);
+    //       }
+    //       alert('양식이 수정되었습니다.');
+    //     })
+    //     .then(() => {
+    //       searchHandler();
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //       if (err.message === '404') {
+    //         alert('검색된 데이터가 없습니다.');
+    //       }
+    //     });
+    // }
   };
 
-  const handleDetailData2 = (id, value) => {
-    for (let i = 0; i < detailData2.length; i++) {
-      if (detailData2[i].id === id) {
-        detailData2[i].data = value;
-        setDetailData2([...detailData2]);
-        return;
-      }
-    }
+  const createDetailFunc = () => {
+    // if (flagData === 1) {
+    //   insertForm(detailData)
+    //     .then((res) => {
+    //       if (!res.ok) {
+    //         throw new Error(res.status);
+    //       }
+    //       alert('새 양식이 생성되었습니다.');
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //       if (err.message === '404') {
+    //         alert('검색된 데이터가 없습니다.');
+    //       }
+    //     });
+    // }
+  };
+
+  const returnTitleComponent = () => {
+    return (
+      <>
+        <Button
+          label={'추가'}
+          btnStyle={'gray_btn'}
+          onClick={createDetailData}
+        />
+        <Button
+          label={flagData === 1 ? '저장' : '수정'}
+          btnStyle={'gray_btn'}
+          onClick={flagData === 1 ? createDetailFunc : updateDetailFunc}
+        />
+      </>
+    );
+  };
+
+  const returnMainComponent = () => {
+    return (
+      <>
+        <div className={styled.form_detail_area}>
+          <SeqDetailTable />
+        </div>
+      </>
+    );
   };
 
   return (
     <>
-      <div className={styled.title_area}>
-        <Title text={'문서채번상세'} font_size={'18px'}></Title>
-        <div className={styled.button_area}>
-          <Button label={'저장'} btnStyle={'gray_btn'} />
-        </div>
-      </div>
-
-      <div className={styled.form_detail_area}>
-        <DetailTable tableList={detailData1} onChangeFunc={handleDetailData1} />
-      </div>
-
-      <div className={styled.title_area}>
-        <Title text={'채번설정'} font_size={'18px'}></Title>
-      </div>
-      <div className={styled.form_detail_area}>
-        {/* <SeqDetailTable /> */}
-        <DetailTable tableList={detailData2} onChangeFunc={handleDetailData2} />
-      </div>
+      <InnerBox
+        text={'문서채번상세'}
+        width={'100%'}
+        height={'100%'}
+        titleChildren={returnTitleComponent()}
+        children={returnMainComponent()}
+      ></InnerBox>
     </>
   );
 }
+
+// export default function FormDetail({ searchHandler }) {
+//   const { detailData, flagData, createDetailData } = useFormManage();
+//   const [activeButton, setActiveButton] = useState(1);
+
+//   const handleButtonClick = (buttonId) => {
+//     setActiveButton(buttonId);
+//   };
+
+//   const updateDetailFunc = () => {
+//     if (flagData === 2) {
+//       updateForm(detailData)
+//         .then((res) => {
+//           if (!res.ok) {
+//             throw new Error(res.status);
+//           }
+//           alert('양식이 수정되었습니다.');
+//         })
+//         .then(() => {
+//           searchHandler();
+//         })
+//         .catch((err) => {
+//           console.error(err);
+//           if (err.message === '404') {
+//             alert('검색된 데이터가 없습니다.');
+//           }
+//         });
+//     }
+//   };
+
+//   const createDetailFunc = () => {
+//     if (flagData === 1) {
+//       insertForm(detailData)
+//         .then((res) => {
+//           if (!res.ok) {
+//             throw new Error(res.status);
+//           }
+//           alert('새 양식이 생성되었습니다.');
+//         })
+//         .catch((err) => {
+//           console.error(err);
+//           if (err.message === '404') {
+//             alert('검색된 데이터가 없습니다.');
+//           }
+//         });
+//     }
+//   };
+
+//   const returnTitleComponent = () => {
+//     return (
+//       <>
+//         <Button
+//           label={'추가'}
+//           btnStyle={'gray_btn'}
+//           onClick={createDetailData}
+//         />
+//         <Button
+//           label={flagData === 1 ? '저장' : '수정'}
+//           btnStyle={'gray_btn'}
+//           onClick={flagData === 1 ? createDetailFunc : updateDetailFunc}
+//         />
+//       </>
+//     );
+//   };
+
+//   const returnMainComponent = () => {
+//     return (
+//       <>
+//         <FormDetailNav
+//           activeButton={activeButton}
+//           handleButtonClick={handleButtonClick}
+//         ></FormDetailNav>
+//         <div className={styled.form_detail_area}>
+//           <DetailTable />
+//         </div>
+//       </>
+//     );
+//   };
+
+//   return (
+//     <InnerBox
+//       text={'양식상세'}
+//       width={'100%'}
+//       height={'100%'}
+//       titleChildren={returnTitleComponent()}
+//       children={returnMainComponent()}
+//     ></InnerBox>
+//   );
+// }
