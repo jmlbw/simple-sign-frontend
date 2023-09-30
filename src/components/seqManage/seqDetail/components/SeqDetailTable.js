@@ -1,89 +1,178 @@
-import React, { useState } from 'react';
-import styled from '../../../../styles/components/formManage/formDetail/components/DetailTable.module.css';
+import React from 'react';
+import {
+  DetailBox,
+  TitleBox,
+  InputBox,
+  AreaBox,
+} from '../../../formManage/formDetail/components/DetailTableItem';
+import { useSeqManage } from '../../../../contexts/SeqManageContext';
+import PopUp from '../../../common/PopUp';
+import styled from '../../../../styles/components/seqManage/seqDetail/SeqDetailTable.module.css';
+import { FiEdit } from 'react-icons/fi';
+import PopUpFoot from '../../../common/PopUpFoot';
 
 export default function SeqDetailTable() {
-  const form_detail_sample_data = {
-    comp_name: '더존',
-    seq_code: '1',
-    seq_name: '성과 보고 채번',
-    scope_department: ['총무부', '개발부'],
-    scope_form: ['휴가 신청서', '지각 사유서'],
-    description: '그냥 설명',
-    seq_sort_order: 1,
-    default_file: '<div>기본</div>',
-    main_file: '<div>본문</div>',
-  };
-  const [formDetailData, setformDetailData] = useState(form_detail_sample_data);
+  const { detailData, setDetailData } = useSeqManage();
 
-  const handleOptionChange = (event) => {
-    setformDetailData({
-      ...formDetailData,
-      form_used_status: event.target.value,
-    });
+  const dataUpdateHandler = (id, data) => {
+    setDetailData({ ...detailData, [id]: data });
   };
+
+  const deptScopefilterHandler = (id, category, name, useId) => {
+    let filetedData = detailData.deptScope.filter((ele) => {
+      if (
+        ele.category === category &&
+        ele.name === name &&
+        ele.useId === useId
+      ) {
+        return false;
+      }
+      return true;
+    });
+    setDetailData({ ...detailData, [id]: filetedData });
+  };
+
+  const formScopefilterHandler = (id, category, name, useId) => {
+    let filetedData = detailData.formScope.filter((ele) => {
+      if (
+        ele.category === category &&
+        ele.name === name &&
+        ele.useId === useId
+      ) {
+        return false;
+      }
+      return true;
+    });
+    setDetailData({ ...detailData, [id]: filetedData });
+  };
+
+  const grayAndBlueBtn = [
+    {
+      label: '반영',
+      onClick: () => {},
+      btnStyle: 'popup_blue_btn',
+    },
+  ];
 
   return (
     <>
-      <table className={styled.form_detail_table}>
-        <tr>
-          <td className={styled.table_title_td}>회사</td>
-          <td className={styled.table_content_td}>
-            <input type="text" value={formDetailData.comp_name} />
-          </td>
-        </tr>
-        <tr>
-          <td className={styled.table_title_td}>코드</td>
-          <td className={styled.table_content_td}>
-            <input type="text" value={formDetailData.seq_code} />
-          </td>
-        </tr>
-        <tr>
-          <td className={styled.table_title_td}>채번명</td>
-          <td className={styled.table_content_td}>
-            <input type="text" value={formDetailData.seq_name} />
-          </td>
-        </tr>
-        <tr>
-          <td className={`${styled.table_title_td} ${styled.table_area_type}`}>
-            대상부서
-          </td>
-          <td
-            className={`${styled.table_content_td} ${styled.table_area_type}`}
-          >
-            <div>
-              {formDetailData.scope_department.map((ele, index) => {
-                return <div key={index}>{ele}</div>;
-              })}
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td className={`${styled.table_title_td} ${styled.table_area_type}`}>
-            대상양식
-          </td>
-          <td
-            className={`${styled.table_content_td} ${styled.table_area_type}`}
-          >
-            <div>
-              {formDetailData.scope_form.map((ele, index) => {
-                return <div key={index}>{ele}</div>;
-              })}
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td className={styled.table_title_td}>설명</td>
-          <td className={styled.table_content_td}>
-            <input type="text" value={formDetailData.seq_name} />
-          </td>
-        </tr>
-        <tr>
-          <td className={styled.table_title_td}>정렬순서</td>
-          <td className={styled.table_content_td}>
-            <input type="text" value={formDetailData.seq_sort_order} />
-          </td>
-        </tr>
-      </table>
+      <DetailBox
+        children={
+          <>
+            <TitleBox title={'회사명'} />
+            <InputBox
+              id={'compName'}
+              data={detailData.compName}
+              dataHandler={dataUpdateHandler}
+            />
+          </>
+        }
+      ></DetailBox>
+      <DetailBox
+        children={
+          <>
+            <TitleBox title={'코드'} />
+            <InputBox
+              id={'code'}
+              data={detailData.code}
+              dataHandler={dataUpdateHandler}
+            />
+          </>
+        }
+      ></DetailBox>
+      <DetailBox
+        children={
+          <>
+            <TitleBox title={'채번명'} />
+            <InputBox
+              id={'seqName'}
+              data={detailData.seqName}
+              dataHandler={dataUpdateHandler}
+            />
+          </>
+        }
+      ></DetailBox>
+      <DetailBox
+        children={
+          <>
+            <TitleBox title={'대상부서'} />
+            <AreaBox
+              id={'deptScope'}
+              data={detailData.deptScope}
+              dataHandler={deptScopefilterHandler}
+            />
+          </>
+        }
+      ></DetailBox>
+      <DetailBox
+        children={
+          <>
+            <TitleBox title={'대상양식'} />
+            <AreaBox
+              id={'formScope'}
+              data={detailData.formScope}
+              dataHandler={formScopefilterHandler}
+            />
+          </>
+        }
+      ></DetailBox>
+      <DetailBox
+        children={
+          <>
+            <TitleBox title={'설명'} />
+            <InputBox
+              id={'description'}
+              data={detailData.description}
+              dataHandler={dataUpdateHandler}
+            />
+          </>
+        }
+      ></DetailBox>
+      <DetailBox
+        children={
+          <>
+            <TitleBox title={'정렬순서'} />
+            <InputBox
+              id={'sortOrder'}
+              data={detailData.sortOrder}
+              dataHandler={dataUpdateHandler}
+            />
+          </>
+        }
+      ></DetailBox>
+      <DetailBox
+        children={
+          <>
+            <TitleBox title={'채번값 설정'} />
+            <InputBox
+              id={'seqList'}
+              data={detailData.seqList}
+              dataHandler={dataUpdateHandler}
+              width="80%"
+              children={
+                <div className={styled.popupBox}>
+                  <PopUp
+                    label={<FiEdit />}
+                    width={'900px'}
+                    height={'600px'}
+                    title={'채번값 설정'}
+                    children={
+                      <>
+                        {/* <div className={styled.contentContainer}>
+                  <div>
+                    <FormEdit data={data} dataHandler={setFormData} />
+                  </div>
+                </div> */}
+                        <PopUpFoot buttons={grayAndBlueBtn} />
+                      </>
+                    }
+                  />
+                </div>
+              }
+            />
+          </>
+        }
+      ></DetailBox>
     </>
   );
 }

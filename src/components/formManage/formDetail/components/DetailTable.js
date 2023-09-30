@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import styled from '../../../../styles/components/formManage/formDetail/components/DetailTable.module.css';
+import React from 'react';
 import {
   DetailBox,
   TitleBox,
@@ -9,18 +8,27 @@ import {
   RadioBox,
 } from './DetailTableItem';
 import { useFormManage } from '../../../../contexts/FormManageContext';
-import { useEffect } from 'react';
 
-export default function DetailTable({ tableList, onChangeFunc }) {
+export default function DetailTable() {
   const { detailData, setDetailData } = useFormManage();
 
   const dataUpdateHandler = (id, data) => {
     setDetailData({ ...detailData, [id]: data });
   };
 
-  useEffect(() => {
-    console.log(detailData);
-  }, [detailData]);
+  const scopefilterHandler = (id, category, name, useId) => {
+    let filetedData = detailData.scope.filter((ele) => {
+      if (
+        ele.category === category &&
+        ele.name === name &&
+        ele.useId === useId
+      ) {
+        return false;
+      }
+      return true;
+    });
+    setDetailData({ ...detailData, [id]: filetedData });
+  };
 
   const buttons = [
     {
@@ -63,7 +71,7 @@ export default function DetailTable({ tableList, onChangeFunc }) {
             <AreaBox
               id={'scope'}
               data={detailData.scope}
-              dataHandler={dataUpdateHandler}
+              dataHandler={scopefilterHandler}
             />
           </>
         }
