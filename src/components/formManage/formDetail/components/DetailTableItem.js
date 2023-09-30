@@ -19,17 +19,18 @@ const TitleBox = ({ title }) => {
   return <div className={styled.titleBox}>{title}</div>;
 };
 
-const InputBox = ({ id, data, dataHandler }) => {
+const InputBox = ({ id, data, dataHandler, width = '90%', children }) => {
   return (
     <div className={styled.contentBox}>
       <input
         type="text"
         value={data}
-        style={{ width: '90%' }}
+        style={{ width }}
         onChange={(e) => {
           dataHandler(id, e.target.value);
         }}
       />
+      {children}
     </div>
   );
 };

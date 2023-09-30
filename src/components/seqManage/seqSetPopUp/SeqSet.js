@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import Title from '../../common/Title';
 import styled from '../../../styles/components/seqManage/seqSetPopUp/SeqSet.module.css';
-
-import {
-  columns,
-  fields,
-  rows,
-} from '../../../assets/datas/formList_sample_data';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 
 export default function SeqSet() {
