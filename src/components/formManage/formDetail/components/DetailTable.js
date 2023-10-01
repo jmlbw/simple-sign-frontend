@@ -8,9 +8,10 @@ import {
   RadioBox,
 } from './DetailTableItem';
 import { useFormManage } from '../../../../contexts/FormManageContext';
+import { SelectComp } from '../../searchBox/components/SearchItem';
 
 export default function DetailTable() {
-  const { detailData, setDetailData } = useFormManage();
+  const { detailData, flagData, setDetailData, setData } = useFormManage();
 
   const dataUpdateHandler = (id, data) => {
     setDetailData({ ...detailData, [id]: data });
@@ -44,11 +45,20 @@ export default function DetailTable() {
         children={
           <>
             <TitleBox title={'회사명'} />
-            <InputBox
-              id={'compName'}
-              data={detailData.compName}
-              dataHandler={dataUpdateHandler}
-            />
+            {flagData === 1 ? (
+              <SelectComp
+                width={'170px'}
+                options={setData.compList}
+                id={'compName'}
+                dataHandler={dataUpdateHandler}
+              />
+            ) : (
+              <InputBox
+                id={'compName'}
+                data={detailData.compName}
+                dataHandler={dataUpdateHandler}
+              />
+            )}
           </>
         }
       ></DetailBox>

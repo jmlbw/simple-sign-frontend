@@ -1,5 +1,5 @@
-export default function delForm(data) {
-  let url = `http://localhost:8080/manage/form/${data}`;
+export default function delSeq(data) {
+  let url = `http://localhost:8080/manage/seq/${data}`;
 
   return fetch(url, {
     method: 'DELETE',

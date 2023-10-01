@@ -10,9 +10,11 @@ import PopUp from '../../../common/PopUp';
 import styled from '../../../../styles/components/seqManage/seqDetail/SeqDetailTable.module.css';
 import { FiEdit } from 'react-icons/fi';
 import PopUpFoot from '../../../common/PopUpFoot';
+import SeqSet from '../../seqSetPopUp/SeqSet';
+import { SelectComp } from '../../../formManage/searchBox/components/SearchItem';
 
 export default function SeqDetailTable() {
-  const { detailData, setDetailData } = useSeqManage();
+  const { detailData, flagData, setData, setDetailData } = useSeqManage();
 
   const dataUpdateHandler = (id, data) => {
     setDetailData({ ...detailData, [id]: data });
@@ -60,11 +62,20 @@ export default function SeqDetailTable() {
         children={
           <>
             <TitleBox title={'회사명'} />
-            <InputBox
-              id={'compName'}
-              data={detailData.compName}
-              dataHandler={dataUpdateHandler}
-            />
+            {flagData === 1 ? (
+              <SelectComp
+                width={'170px'}
+                options={setData.compList}
+                id={'compName'}
+                dataHandler={dataUpdateHandler}
+              />
+            ) : (
+              <InputBox
+                id={'compName'}
+                data={detailData.compName}
+                dataHandler={dataUpdateHandler}
+              />
+            )}
           </>
         }
       ></DetailBox>
@@ -158,11 +169,9 @@ export default function SeqDetailTable() {
                     title={'채번값 설정'}
                     children={
                       <>
-                        {/* <div className={styled.contentContainer}>
-                  <div>
-                    <FormEdit data={data} dataHandler={setFormData} />
-                  </div>
-                </div> */}
+                        <div className={styled.contentContainer}>
+                          <SeqSet />
+                        </div>
                         <PopUpFoot buttons={grayAndBlueBtn} />
                       </>
                     }

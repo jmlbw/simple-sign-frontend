@@ -17,6 +17,7 @@ const detailInitState = {
   description: '',
   sortOrder: '',
   seqList: [],
+  seqString: '01, 02, 03',
 };
 
 //0: default, 1: create, 2: update,
