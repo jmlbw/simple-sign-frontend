@@ -8,6 +8,7 @@ function ApprovalBoxList() {
         <BiSolidFolder />
       </div>
       <div className={styled.boxName}>미결+기결함</div>
+      <div className={styled.deleteButton}>삭제</div>
     </div>
   );
 }
