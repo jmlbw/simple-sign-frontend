@@ -8,7 +8,7 @@ import Button from '../../common/Button';
 import delForm from '../../../apis/commonAPI/delForm';
 
 export default function FormListArea({ rows }) {
-  const { detailData, setDetailData } = useFormManage();
+  const { detailData, setDetailData, updateDetailData } = useFormManage();
 
   const delHandler = () => {
     delForm(detailData.code)
@@ -29,6 +29,7 @@ export default function FormListArea({ rows }) {
         return res.json();
       })
       .then((res) => {
+        updateDetailData();
         setDetailData({
           ...detailData,
           ...res,
