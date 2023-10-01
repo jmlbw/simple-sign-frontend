@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import RowRadioButtonsGroup from '../components/approvalBox/RowRadioButtonsGroup';
 import SearchDetailBox from '../components/approvalBox/searchDetailBox/SearchDetailBox';
-import ViewDocBox from '../components/approvalBox/ViewDocBox';
 import InnerBox from '../components/common/InnerBox';
 import styles from '../styles/pages/ApprovalBoxViewPage.module.css';
 import SearchContext from '../contexts/SearchContext';
+import ViewDocBox from '../components/approvalBox/viewDocuments/ViewDocBox';
 
 function ApprovalBoxViewPage() {
   const { view } = useContext(SearchContext);

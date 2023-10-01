@@ -1,4 +1,4 @@
-import styles from '../../styles/components/common/TitleBox.module.css';
+import styles from '../../../styles/components/common/TitleBox.module.css';
 import React from 'react';
 
 function ViewCount(props) {
