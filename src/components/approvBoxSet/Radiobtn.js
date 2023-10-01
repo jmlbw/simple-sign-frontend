@@ -4,7 +4,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 
-function Radiobtn({ labels }) {
+function Radiobtn({ labels, selectedOption, onChange }) {
   const labelStyle = {
     fontSize: '12px', // 폰트 크기
     color: '#6c757d', // 폰트 색상
@@ -16,11 +16,13 @@ function Radiobtn({ labels }) {
         row
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
+        value={selectedOption}
+        onChange={onChange}
       >
         {labels.map((label, index) => (
           <FormControlLabel
             key={index}
-            value={`option${index + 1}`}
+            value={label}
             control={<Radio size="small" style={{ color: '#6c757d' }} />}
             label={<span style={labelStyle}>{label}</span>}
           />
