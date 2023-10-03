@@ -6,6 +6,7 @@ import {
 } from '../formManage/searchBox/components/SearchItem';
 import { AiOutlineSearch } from 'react-icons/ai';
 import styled from '../../styles/pages/ApprovalBoxSetPage.module.css';
+import Datalist from './Datalist';
 
 function ApprovalBoxSearch() {
   const list = [{ name: '전체', value: 'all' }];
@@ -14,7 +15,7 @@ function ApprovalBoxSearch() {
       <ItemBox
         children={
           <>
-            <SelectComp options={list} width="100%" />
+            <Datalist />
           </>
         }
       ></ItemBox>

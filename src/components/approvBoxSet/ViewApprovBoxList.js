@@ -1,9 +1,10 @@
 import React from 'react';
-import ApprovalBoxSearch from '../../components/approvBoxSet/ApprovalBoxSearch';
 import ApprovalBoxList from '../../components/approvBoxSet/ApprovalBoxList';
 import styled from '../../styles/pages/ApprovalBoxSetPage.module.css';
 import Button from '../../components/common/Button';
 import InnerBox from '../common/InnerBox';
+import Datalist from './Datalist';
+import SearchIcon from '@mui/icons-material/Search';
 
 function ViewApprovalBoxList() {
   return (
@@ -14,7 +15,15 @@ function ViewApprovalBoxList() {
       text="결재함 목록"
       titleChildren={<Button label={'추가'} btnStyle={'gray_btn'} />}
     >
-      <ApprovalBoxSearch></ApprovalBoxSearch>
+      <div className={styled.searchbox}>
+        <Datalist />
+        <div className={styled.inputSearch}>
+          <input type="text" placeholder="결재함명을 입력하세요" />
+          <button className={styled.searchbtn}>
+            <SearchIcon style={{ fontSize: '15px' }} />
+          </button>
+        </div>
+      </div>
       <div className={styled.boxlist}>
         <ApprovalBoxList />
       </div>
