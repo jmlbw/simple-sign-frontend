@@ -15,7 +15,7 @@ export default function Profile() {
   const logout = () => {
     postLogout()
       .then(() => {
-        sessionStorage.clear();
+        localStorage.clear();
         setState({ ...state, isLoggedIn: false });
       })
       .catch((err) => {

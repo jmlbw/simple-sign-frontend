@@ -9,13 +9,11 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [state, setState] = useState({
-    user: JSON.parse(sessionStorage.getItem('user')) || null,
-    isLoggedIn: JSON.parse(sessionStorage.getItem('isLoggedIn')) || false,
+    isLoggedIn: JSON.parse(localStorage.getItem('isLoggedIn')) || false,
   });
 
   useEffect(() => {
-    sessionStorage.setItem('user', JSON.stringify(state.user));
-    sessionStorage.setItem('isLoggedIn', JSON.stringify(state.isLoggedIn));
+    localStorage.setItem('isLoggedIn', JSON.stringify(state.isLoggedIn));
   }, [state.isLoggedIn]);
 
   return (
