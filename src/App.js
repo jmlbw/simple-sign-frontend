@@ -17,6 +17,7 @@ import FormListPage from './pages/FormListPage';
 
 import AppContext from './contexts/AppContext';
 import Login from './pages/Login';
+import ApprovalBoxSetPage from './pages/ApprovalBoxSetPage';
 
 function AppContent() {
   const { state } = useContext(AppContext);
@@ -44,6 +45,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/EAM" element={<FormManagePage />} />
+            <Route path="/ABS" element={<ApprovalBoxSetPage />} />
             <Route path="/ABV" element={<ApprovalBoxViewPage />} />
             <Route path="/SAM" element={<SeqManagePage />} />
             <Route path="/FL" element={<FormListPage />} />

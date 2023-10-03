@@ -2,10 +2,10 @@ import React, { useEffect, useState, useContext } from 'react';
 import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import DocItem from './DocItem';
-import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
-import getDocsList from '../../apis/approvalBoxAPI/getDocsList';
-import styled from '../../styles/components/ApprovalBox/ViewDocBox.module.css';
-import SearchContext from '../../contexts/SearchContext';
+import { useApprovalBox } from '../../../contexts/ApprovalBoxContext';
+import getDocsList from '../../../apis/approvalBoxAPI/getDocsList';
+import styled from '../../../styles/components/ApprovalBox/ViewDocBox.module.css';
+import SearchContext from '../../../contexts/SearchContext';
 
 function ViewDocBox() {
   const { view } = useContext(SearchContext);

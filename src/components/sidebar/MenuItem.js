@@ -34,6 +34,8 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
       navigate('/EAM');
     } else if (name === '문서채번관리') {
       navigate('/SAM');
+    } else if (name === '결재함설정') {
+      navigate('/ABS');
     } else if (name === '상신문서') {
       navigate('/ABV');
       setState((prevState) => ({ ...prevState, viewItem: ['send'] }));
