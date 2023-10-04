@@ -22,7 +22,10 @@ function RemainSearchDetail() {
     { name: '반려', value: '5' },
   ];
   const OPTIONS = {
-    pend: [{ name: '기안일', value: 'sendDate' }],
+    pend: [
+      { name: '도착일', value: 'arrivedDate' },
+      { name: '기안일', value: 'sendDate' },
+    ],
     concluded: [
       { name: '결재일', value: 'approvDate' },
       { name: '기안일', value: 'sendDate' },
@@ -85,10 +88,14 @@ function RemainSearchDetail() {
   };
 
   const handleDateChange = (start, end) => {
+    if (end) {
+      end.setHours(23, 59, 59, 999); // 시, 분, 초, 밀리초 설정
+    }
+
     setDetailSearchState((prevState) => ({
       ...prevState,
-      searchStartDate: start,
-      searchEndDate: end,
+      startDate: start,
+      endDate: end,
     }));
   };
 
@@ -117,8 +124,8 @@ function RemainSearchDetail() {
           width={'220px'}
           dataHandler={handleDataChange('searchContent')}
         />
-        <button>
-          <AiOutlineSearch onClick={handleSearchIconClick} />
+        <button onClick={handleSearchIconClick}>
+          <AiOutlineSearch />
         </button>
       </ItemBox>
 
@@ -148,7 +155,11 @@ function RemainSearchDetail() {
 
       <ItemBox>
         <TextComp text={'결재상태'} />
-        <SelectComp width={'220px'} dataHandler={handleSelectedData} />
+        <SelectComp
+          options={docStatus}
+          width={'200px'}
+          dataHandler={handleSelectedData}
+        />
       </ItemBox>
 
       <ItemBox>

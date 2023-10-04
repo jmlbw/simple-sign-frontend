@@ -27,6 +27,10 @@ function TemporSearchDetail(props) {
   };
 
   const handleDateChange = (start, end) => {
+    if (end) {
+      end.setHours(23, 59, 59, 999); // 시, 분, 초, 밀리초 설정
+    }
+
     setDetailSearchState((prevState) => ({
       ...prevState,
       startDate: start,
@@ -74,8 +78,8 @@ function TemporSearchDetail(props) {
               width={'220px'}
               dataHandler={handleDataChange('searchContent')}
             />
-            <button>
-              <AiOutlineSearch onClick={handleSearchIconClick} />
+            <button onClick={handleSearchIconClick}>
+              <AiOutlineSearch />
             </button>
           </>
         }
