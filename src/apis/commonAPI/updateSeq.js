@@ -1,5 +1,5 @@
-export default function updateForm(data) {
-  let url = 'http://localhost:8080/manage/form/detail';
+export default function updateSeq(data) {
+  let url = 'http://localhost:8080/manage/seq/detail';
 
   const jsonData = JSON.stringify(data);
 
