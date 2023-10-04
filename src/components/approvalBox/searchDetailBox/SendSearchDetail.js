@@ -39,12 +39,17 @@ function SendSearchDetail(props) {
   };
 
   const handleDateChange = (start, end) => {
+    if (end) {
+      end.setHours(23, 59, 59, 999); // 시, 분, 초, 밀리초 설정
+    }
+
     setDetailSearchState((prevState) => ({
       ...prevState,
       startDate: start,
       endDate: end,
     }));
   };
+
   useEffect(() => {
     const initialDateOption = docStatus[0];
     if (initialDateOption) {
@@ -88,8 +93,8 @@ function SendSearchDetail(props) {
               width={'220px'}
               dataHandler={handleDataChange('searchContent')}
             />
-            <button>
-              <AiOutlineSearch onClick={handleSearchIconClick} />
+            <button onClick={handleSearchIconClick}>
+              <AiOutlineSearch />
             </button>
           </>
         }
