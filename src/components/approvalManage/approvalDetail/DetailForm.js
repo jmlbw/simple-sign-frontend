@@ -18,7 +18,6 @@ export default function DetailForm(props) {
         return res.json();
       })
       .then((json) => {
-        console.log(json);
         setDefaultForm(json.defaultForm);
         setUserName(json.userName);
         setDeptName(json.deptName);
@@ -29,6 +28,17 @@ export default function DetailForm(props) {
         setContents(json.contents);
         setIsLoading(false);
       });
+
+    console.error = (function (_error) {
+      return function (message, ...args) {
+        if (
+          typeof message !== 'string' ||
+          message.indexOf('component is `contentEditable`') === -1
+        ) {
+          _error.apply(console, args);
+        }
+      };
+    })(console.error);
   }, []);
 
   return (
@@ -42,7 +52,11 @@ export default function DetailForm(props) {
               replace: (domNode) => {
                 if (domNode.attribs && domNode.attribs.id == 'approval_line') {
                   return (
-                    <div id="approval_line" contentEditable="false">
+                    <div
+                      id="approval_line"
+                      contentEditable="false"
+                      suppressContentEditableWarning={true}
+                    >
                       결재라인입니다.
                     </div>
                   );
@@ -75,9 +89,9 @@ export default function DetailForm(props) {
                     </div>
                   );
                 }
-                if (domNode.attribs && domNode.attribs.id == 'title') {
+                if (domNode.attribs && domNode.attribs.id == 'form_title') {
                   return (
-                    <div id="title" contentEditable="false">
+                    <div id="form_title" contentEditable="false">
                       {title}
                     </div>
                   );

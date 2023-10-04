@@ -14,66 +14,20 @@ import styled from '../../../styles/components/approvalManage/approvalRegist/App
 
 export default function ApprovalForm({
   form_code,
+  main_form,
+  setMainForm,
+  userId,
+  deptId,
+  divRef,
+  titleRef,
   dataHandler,
   editorHandler,
+  handleSelectBoxChange,
+  handleEnforceDateChange,
+  handleSelectTimeChange,
 }) {
   const [sequence, setSequence] = useState([]);
   const [default_form, setDefaultForm] = useState('');
-  const [main_form, setMainForm] = useState('');
-  const [sequence_code, setSequenceCode] = useState('');
-  const [drafting_time, setDraftingTime] = useState(new Date());
-  const [enforce_date, setEnforceDate] = useState(new Date());
-  const [userId, setUserId] = useState(1);
-  const [deptId, setDeptId] = useState(1);
-  const divRef = useRef(null);
-  const titleRef = useRef(null);
-
-  // 선택된 값이 변경될 때 호출될 함수
-  const handleSelectBoxChange = (newValue) => {
-    setSequenceCode(newValue);
-  };
-  const handleSelectTimeChange = (newValue) => {
-    setDraftingTime(newValue);
-  };
-  const handleEnforceDateChange = (newValue) => {
-    setEnforceDate(newValue);
-  };
-  const handleClick = () => {
-    if (divRef.current) {
-      console.log(divRef.current.innerHTML); // DOM 내용을 가져옵니다.
-      divRef.current.style.backgroundColor = 'red'; // 스타일 변경
-    }
-    if (titleRef.current) {
-      console.log(titleRef.current.innerHTML);
-    }
-    console.log(form_code);
-    const data = {
-      userId: userId,
-      deptId: deptId,
-      formCode: form_code,
-      approvalDocTitle: titleRef.current.innerHTML,
-      contents: main_form,
-      docStatus: 'W',
-      seqCode: sequence_code,
-      approverList: [1, 2],
-      receiveRefList: [3],
-      createdAt: drafting_time,
-      enforcementDate: enforce_date,
-    };
-
-    fetch(`http://localhost:8080/approve/register`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.status == '200') {
-        alert('상신되었습니다.');
-      }
-    });
-  };
 
   useEffect(() => {
     fetch(`http://localhost:8080/manage/form/detail/${form_code}`)
@@ -135,10 +89,10 @@ export default function ApprovalForm({
                 </div>
               );
             }
-            if (domNode.attribs && domNode.attribs.id == 'title') {
+            if (domNode.attribs && domNode.attribs.id == 'form_title') {
               return (
-                <div id="title" contentEditable="true" ref={titleRef}>
-                  제목입니다.ㅁㄴㅇㄹㅁ
+                <div id="form_title" contentEditable="true" ref={titleRef}>
+                  제목을 입력하세요
                 </div>
               );
             }
@@ -164,7 +118,6 @@ export default function ApprovalForm({
           dataHandler={dataHandler}
         />
       </div>
-      <button onClick={handleClick}>상신하기</button>
     </>
   );
 }
