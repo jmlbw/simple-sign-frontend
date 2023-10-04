@@ -28,7 +28,7 @@ export default function FormSearchBox({ searchHandler }) {
                 <SelectComp
                   width={'170px'}
                   options={setData.compList}
-                  id={'compName'}
+                  id={'compId'}
                   dataHandler={dataHandler}
                 />
               </>

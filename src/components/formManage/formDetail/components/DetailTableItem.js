@@ -40,9 +40,10 @@ const AreaBox = ({ id, data, dataHandler }) => {
     <div className={`${styled.contentBox} ${styled.areaContent}`}>
       <div className={styled.areaContentBox}>
         {data.length > 0
-          ? data.map((ele) => {
+          ? data.map((ele, index) => {
               return (
                 <Optionbox
+                  key={index}
                   id={id}
                   category={ele.category}
                   name={ele.name}
@@ -69,6 +70,16 @@ const FileBox = ({ id, name, data, dataHandler }) => {
     previewWindow.document.write('</body></html>');
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const grayAndBlueBtn = [
     {
       label: '미리보기',
@@ -81,6 +92,7 @@ const FileBox = ({ id, name, data, dataHandler }) => {
       label: '반영',
       onClick: () => {
         dataHandler(id, formData);
+        closeModal();
       },
       btnStyle: 'popup_blue_btn',
     },
@@ -93,6 +105,9 @@ const FileBox = ({ id, name, data, dataHandler }) => {
         <div className={styled.subBox}>
           <PopUp
             label={<FiEdit />}
+            isModalOpen={isModalOpen}
+            openModal={openModal}
+            closeModal={closeModal}
             width={'1200px'}
             height={'700px'}
             title={'양식파일편집'}

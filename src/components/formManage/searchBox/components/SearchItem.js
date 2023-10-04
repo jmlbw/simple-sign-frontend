@@ -32,13 +32,14 @@ const SelectComp = ({ id, width, options, dataHandler }) => {
       className={styled.select}
       style={{ width: `${width}` }}
       onChange={(e) => {
+        console.log(e.target.value);
         dataHandler(id, e.target.value);
       }}
     >
       {options
         ? options.map((ele, index) => {
             return (
-              <option key={index} value={ele.value}>
+              <option key={index} value={ele.id}>
                 {ele.name}
               </option>
             );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DetailBox,
   TitleBox,
@@ -15,18 +15,22 @@ import { SelectComp } from '../../../formManage/searchBox/components/SearchItem'
 
 export default function SeqDetailTable() {
   const { detailData, flagData, setData, setDetailData } = useSeqManage();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const dataUpdateHandler = (id, data) => {
     setDetailData({ ...detailData, [id]: data });
   };
 
-  const deptScopefilterHandler = (id, category, name, useId) => {
+  const deptScopefilterHandler = (id, category, useId) => {
     let filetedData = detailData.deptScope.filter((ele) => {
-      if (
-        ele.category === category &&
-        ele.name === name &&
-        ele.useId === useId
-      ) {
+      if (ele.category === category && ele.useId === useId) {
         return false;
       }
       return true;
@@ -34,13 +38,9 @@ export default function SeqDetailTable() {
     setDetailData({ ...detailData, [id]: filetedData });
   };
 
-  const formScopefilterHandler = (id, category, name, useId) => {
+  const formScopefilterHandler = (id, category, useId) => {
     let filetedData = detailData.formScope.filter((ele) => {
-      if (
-        ele.category === category &&
-        ele.name === name &&
-        ele.useId === useId
-      ) {
+      if (ele.category === category && ele.useId === useId) {
         return false;
       }
       return true;
@@ -167,6 +167,9 @@ export default function SeqDetailTable() {
                     width={'900px'}
                     height={'600px'}
                     title={'채번값 설정'}
+                    isModalOpen={isModalOpen}
+                    openModal={openModal}
+                    closeModal={closeModal}
                     children={
                       <>
                         <div className={styled.contentContainer}>

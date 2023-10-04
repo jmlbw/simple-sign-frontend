@@ -17,13 +17,9 @@ export default function DetailTable() {
     setDetailData({ ...detailData, [id]: data });
   };
 
-  const scopefilterHandler = (id, category, name, useId) => {
+  const scopefilterHandler = (id, category, useId) => {
     let filetedData = detailData.scope.filter((ele) => {
-      if (
-        ele.category === category &&
-        ele.name === name &&
-        ele.useId === useId
-      ) {
+      if (ele.category === category && ele.useId === useId) {
         return false;
       }
       return true;
