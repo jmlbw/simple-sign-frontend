@@ -1,12 +1,18 @@
 import React, { createContext, useContext, useState } from 'react';
 
-const searchInitState = { id: 0, compName: '', formName: '', status: 1 };
+const searchInitState = {
+  id: 0,
+  compId: '',
+  compName: '',
+  formName: '',
+  status: 1,
+};
 
 const setInitState = {
   compList: [],
   statusList: [
-    { name: '사용', value: 1 },
-    { name: '미사용', value: 0 },
+    { name: '사용', id: 1 },
+    { name: '미사용', id: 0 },
   ],
 };
 

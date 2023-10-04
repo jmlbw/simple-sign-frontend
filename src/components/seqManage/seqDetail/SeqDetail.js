@@ -37,7 +37,7 @@ export default function SeqDetail() {
           if (!res.ok) {
             throw new Error(res.status);
           }
-          alert('새 양식이 생성되었습니다.');
+          alert('새 채번이 생성되었습니다.');
         })
         .catch((err) => {
           console.error(err);

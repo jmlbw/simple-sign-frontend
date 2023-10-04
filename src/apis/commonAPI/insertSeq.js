@@ -10,6 +10,7 @@ export default function insertSeq(data) {
   };
   const jsonData = JSON.stringify(data);
 
+  console.log(data);
   return fetch(url, {
     method: 'POST',
     headers: {
