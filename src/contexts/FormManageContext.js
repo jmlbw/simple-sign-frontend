@@ -18,6 +18,7 @@ const setInitState = {
 
 const detailInitState = {
   code: '',
+  compId: '',
   compName: '',
   formName: '',
   scope: [],
@@ -39,7 +40,11 @@ const FormManageProvider = ({ children }) => {
 
   const createDetailData = () => {
     setFlagData(1);
-    setDetailData(detailInitState);
+    setDetailData({
+      ...detailInitState,
+      compId: setData.compList[0].id,
+      compName: setData.compList[0].name,
+    });
   };
   const updateDetailData = () => {
     setFlagData(2);

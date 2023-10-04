@@ -6,9 +6,9 @@ import {
   FileBox,
   AreaBox,
   RadioBox,
+  SelectBox,
 } from './DetailTableItem';
 import { useFormManage } from '../../../../contexts/FormManageContext';
-import { SelectComp } from '../../searchBox/components/SearchItem';
 
 export default function DetailTable() {
   const { detailData, flagData, setDetailData, setData } = useFormManage();
@@ -42,10 +42,9 @@ export default function DetailTable() {
           <>
             <TitleBox title={'회사명'} />
             {flagData === 1 ? (
-              <SelectComp
-                width={'170px'}
-                options={setData.compList}
+              <SelectBox
                 id={'compName'}
+                data={setData.compList}
                 dataHandler={dataUpdateHandler}
               />
             ) : (
