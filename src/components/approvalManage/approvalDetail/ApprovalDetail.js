@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InnerBox from '../../../components/common/InnerBox';
-import FormListItem from '../../../components/approvalManage/formList/FormListItem';
 import Button from '../../../components/common/Button';
 import DetailForm from './DetailForm';
 import PopUp from '../../common/PopUp';
+import PopUpFoot from '../../common/PopUpFoot';
 
 export default function ApprovalDetail(props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mode, setMode] = useState('');
+  const openModal = (mode) => {
+    setIsModalOpen(true);
+    if (mode === 'approve') {
+      setMode('승인');
+    } else if (mode === 'return') {
+      setMode('반려');
+    }
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const approveHandler = () => {
     fetch(`http://localhost:8080/approve/approval/${props.page}`, {
       method: 'POST',
@@ -40,11 +54,41 @@ export default function ApprovalDetail(props) {
   const returnTitleComponent = () => {
     return (
       <>
-        <Button label={'승인'} btnStyle={'gray_btn'} onClick={approveHandler} />
-        <Button label={'반려'} btnStyle={'gray_btn'} onClick={returnHandler} />
+        <Button
+          label={'승인'}
+          btnStyle={'gray_btn'}
+          onClick={() => openModal('approve')}
+        />
+        <Button
+          label={'반려'}
+          btnStyle={'gray_btn'}
+          onClick={() => openModal('return')}
+        />
       </>
     );
   };
+
+  const BlueAndGrayBtn = [
+    {
+      label: '반영',
+      onClick: () => {
+        if (mode === '승인') {
+          approveHandler();
+        } else if (mode === '반려') {
+          returnHandler();
+        }
+        closeModal();
+      },
+      btnStyle: 'popup_blue_btn',
+    },
+    {
+      label: '취소',
+      onClick: () => {
+        closeModal();
+      },
+      btnStyle: 'popup_gray_btn',
+    },
+  ];
 
   return (
     <div>
@@ -57,6 +101,27 @@ export default function ApprovalDetail(props) {
           children={<DetailForm approval_doc_id={props.page} />}
         ></InnerBox>
       </div>
+
+      {/* 모달 */}
+      {isModalOpen && (
+        <PopUp
+          btnStyle={'popup_non_btn'}
+          width="600px"
+          height="600px"
+          title={mode}
+          isModalOpen={isModalOpen}
+          openModal={openModal}
+          closeModal={closeModal}
+          children={
+            <>
+              <div>
+                <div>{mode}하시겠습니까?</div>
+              </div>
+              <PopUpFoot buttons={BlueAndGrayBtn} />
+            </>
+          }
+        ></PopUp>
+      )}
     </div>
   );
 }
