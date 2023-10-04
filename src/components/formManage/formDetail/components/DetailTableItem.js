@@ -40,9 +40,10 @@ const AreaBox = ({ id, data, dataHandler }) => {
     <div className={`${styled.contentBox} ${styled.areaContent}`}>
       <div className={styled.areaContentBox}>
         {data.length > 0
-          ? data.map((ele) => {
+          ? data.map((ele, index) => {
               return (
                 <Optionbox
+                  key={index}
                   id={id}
                   category={ele.category}
                   name={ele.name}

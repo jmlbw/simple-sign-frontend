@@ -3,11 +3,6 @@ import styles from '../../styles/components/common/Optionbox.module.css';
 import React from 'react';
 
 function OptionboxItem(props) {
-  const handleIconCloseClick = () => {
-    // onValueChange 함수를 호출하여 value 상태를 변경
-    props.onValueChange('false'); // 변경할 새로운 값으로 설정
-  };
-
   return (
     <div className={styles.whole}>
       <div className={styles.element}>
@@ -15,8 +10,12 @@ function OptionboxItem(props) {
         <div className={styles.text}>
           <a>{props.name}</a>
         </div>
-        {/* x 버튼 */}
-        <div className={styles.iconX} onClick={handleIconCloseClick}>
+        <div
+          className={styles.iconX}
+          onClick={() => {
+            props.onValueChange(props.id, props.category, props.useId);
+          }}
+        >
           <IoMdClose />
         </div>
       </div>

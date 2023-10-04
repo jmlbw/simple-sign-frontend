@@ -20,13 +20,9 @@ export default function SeqDetailTable() {
     setDetailData({ ...detailData, [id]: data });
   };
 
-  const deptScopefilterHandler = (id, category, name, useId) => {
+  const deptScopefilterHandler = (id, category, useId) => {
     let filetedData = detailData.deptScope.filter((ele) => {
-      if (
-        ele.category === category &&
-        ele.name === name &&
-        ele.useId === useId
-      ) {
+      if (ele.category === category && ele.useId === useId) {
         return false;
       }
       return true;
@@ -34,13 +30,9 @@ export default function SeqDetailTable() {
     setDetailData({ ...detailData, [id]: filetedData });
   };
 
-  const formScopefilterHandler = (id, category, name, useId) => {
+  const formScopefilterHandler = (id, category, useId) => {
     let filetedData = detailData.formScope.filter((ele) => {
-      if (
-        ele.category === category &&
-        ele.name === name &&
-        ele.useId === useId
-      ) {
+      if (ele.category === category && ele.useId === useId) {
         return false;
       }
       return true;
