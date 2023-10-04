@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   DetailBox,
   TitleBox,
@@ -15,6 +15,14 @@ import { SelectComp } from '../../../formManage/searchBox/components/SearchItem'
 
 export default function SeqDetailTable() {
   const { detailData, flagData, setData, setDetailData } = useSeqManage();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const dataUpdateHandler = (id, data) => {
     setDetailData({ ...detailData, [id]: data });
@@ -159,6 +167,9 @@ export default function SeqDetailTable() {
                     width={'900px'}
                     height={'600px'}
                     title={'채번값 설정'}
+                    isModalOpen={isModalOpen}
+                    openModal={openModal}
+                    closeModal={closeModal}
                     children={
                       <>
                         <div className={styled.contentContainer}>
