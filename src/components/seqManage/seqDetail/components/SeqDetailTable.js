@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DetailBox,
   TitleBox,
   InputBox,
   AreaBox,
+  SelectBox,
 } from '../../../formManage/formDetail/components/DetailTableItem';
 import { useSeqManage } from '../../../../contexts/SeqManageContext';
 import PopUp from '../../../common/PopUp';
@@ -11,10 +12,18 @@ import styled from '../../../../styles/components/seqManage/seqDetail/SeqDetailT
 import { FiEdit } from 'react-icons/fi';
 import PopUpFoot from '../../../common/PopUpFoot';
 import SeqSet from '../../seqSetPopUp/SeqSet';
-import { SelectComp } from '../../../formManage/searchBox/components/SearchItem';
+import getSeqItemList from '../../../../apis/commonAPI/getSeqItemList';
 
 export default function SeqDetailTable() {
-  const { detailData, flagData, setData, setDetailData } = useSeqManage();
+  const {
+    detailData,
+    flagData,
+    setData,
+    setDetailData,
+    seqItems,
+    setSeqItems,
+  } = useSeqManage();
+  const [seqList, setseqList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
     setIsModalOpen(true);
@@ -22,6 +31,51 @@ export default function SeqDetailTable() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    getSeqItemList()
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.status);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setSeqItems(data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    const itemIdList = detailData.seqString.split(',');
+    if (detailData.seqString !== '') {
+      let result = seqItems.filter((ele) => {
+        if (itemIdList.includes(ele.id)) {
+          return true;
+        }
+        return false;
+      });
+      setseqList([...result]);
+    }
+  }, [detailData.seqString]);
+
+  const seqConfirm = () => {
+    setDetailData({
+      ...detailData,
+      seqList: seqList
+        .map((ele) => {
+          return ele.value;
+        })
+        .join(' '),
+      seqString: seqList
+        .map((ele) => {
+          return ele.id;
+        })
+        .join(','),
+    });
   };
 
   const dataUpdateHandler = (id, data) => {
@@ -51,7 +105,10 @@ export default function SeqDetailTable() {
   const grayAndBlueBtn = [
     {
       label: '반영',
-      onClick: () => {},
+      onClick: () => {
+        seqConfirm();
+        closeModal();
+      },
       btnStyle: 'popup_blue_btn',
     },
   ];
@@ -63,10 +120,9 @@ export default function SeqDetailTable() {
           <>
             <TitleBox title={'회사명'} />
             {flagData === 1 ? (
-              <SelectComp
-                width={'170px'}
-                options={setData.compList}
+              <SelectBox
                 id={'compName'}
+                data={setData.compList}
                 dataHandler={dataUpdateHandler}
               />
             ) : (
@@ -173,7 +229,12 @@ export default function SeqDetailTable() {
                     children={
                       <>
                         <div className={styled.contentContainer}>
-                          <SeqSet />
+                          <SeqSet
+                            seqItems={seqItems}
+                            seqList={seqList}
+                            setseqList={setseqList}
+                            initData={detailData.seqString}
+                          />
                         </div>
                         <PopUpFoot buttons={grayAndBlueBtn} />
                       </>
