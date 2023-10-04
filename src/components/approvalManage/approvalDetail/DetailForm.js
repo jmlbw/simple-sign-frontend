@@ -18,7 +18,6 @@ export default function DetailForm(props) {
         return res.json();
       })
       .then((json) => {
-        console.log(json);
         setDefaultForm(json.defaultForm);
         setUserName(json.userName);
         setDeptName(json.deptName);
@@ -75,9 +74,9 @@ export default function DetailForm(props) {
                     </div>
                   );
                 }
-                if (domNode.attribs && domNode.attribs.id == 'title') {
+                if (domNode.attribs && domNode.attribs.id == 'form_title') {
                   return (
-                    <div id="title" contentEditable="false">
+                    <div id="form_title" contentEditable="false">
                       {title}
                     </div>
                   );

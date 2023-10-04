@@ -39,14 +39,6 @@ export default function ApprovalForm({
     setEnforceDate(newValue);
   };
   const handleClick = () => {
-    if (divRef.current) {
-      console.log(divRef.current.innerHTML); // DOM 내용을 가져옵니다.
-      divRef.current.style.backgroundColor = 'red'; // 스타일 변경
-    }
-    if (titleRef.current) {
-      console.log(titleRef.current.innerHTML);
-    }
-    console.log(form_code);
     const data = {
       userId: userId,
       deptId: deptId,
@@ -135,10 +127,10 @@ export default function ApprovalForm({
                 </div>
               );
             }
-            if (domNode.attribs && domNode.attribs.id == 'title') {
+            if (domNode.attribs && domNode.attribs.id == 'form_title') {
               return (
-                <div id="title" contentEditable="true" ref={titleRef}>
-                  제목입니다.ㅁㄴㅇㄹㅁ
+                <div id="form_title" contentEditable="true" ref={titleRef}>
+                  제목을 입력하세요
                 </div>
               );
             }
