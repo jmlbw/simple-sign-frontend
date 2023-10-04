@@ -31,6 +31,7 @@ export default function SeqListArea({ rows }) {
       })
       .then((res) => {
         updateDetailData();
+        console.log(data.compName);
         setDetailData({
           ...detailData,
           ...res,

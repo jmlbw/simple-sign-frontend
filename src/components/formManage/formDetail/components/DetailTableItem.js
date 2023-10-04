@@ -19,6 +19,29 @@ const TitleBox = ({ title }) => {
   return <div className={styled.titleBox}>{title}</div>;
 };
 
+const SelectBox = ({ id, data, dataHandler, width = '90%' }) => {
+  return (
+    <div className={styled.contentBox}>
+      <select
+        style={{ width: `${width}` }}
+        onChange={(e) => {
+          dataHandler(id, e.target.value);
+        }}
+      >
+        {data
+          ? data.map((ele, index) => {
+              return (
+                <option key={index} value={ele.id}>
+                  {ele.name}
+                </option>
+              );
+            })
+          : null}
+      </select>
+    </div>
+  );
+};
+
 const InputBox = ({ id, data, dataHandler, width = '90%', children }) => {
   return (
     <div className={styled.contentBox}>
@@ -157,4 +180,4 @@ const RadioBox = ({ id, buttons, data, dataHandler }) => {
   );
 };
 
-export { DetailBox, TitleBox, InputBox, FileBox, AreaBox, RadioBox };
+export { DetailBox, TitleBox, SelectBox, InputBox, FileBox, AreaBox, RadioBox };

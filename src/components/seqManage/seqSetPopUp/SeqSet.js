@@ -4,12 +4,8 @@ import styled from '../../../styles/components/seqManage/seqSetPopUp/SeqSet.modu
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import DataList from '../../formManage/formList/DataList';
 import { columns } from '../../../assets/datas/seq_popup_list';
-import getSeqItemList from '../../../apis/commonAPI/getSeqItemList';
 
-export default function SeqSet() {
-  const [seqItemList, setSeqItemList] = useState([]);
-
-  const [seqList, setseqList] = useState([]);
+export default function SeqSet({ seqItems, seqList, setseqList, initData }) {
   const [previewData, setPreviewData] = useState('');
   const [leftSelectedRow, setLeftSelectedRow] = useState({});
   const [rightSelectedRow, setRightSelectedRow] = useState({});
@@ -40,23 +36,6 @@ export default function SeqSet() {
   };
 
   useEffect(() => {
-    getSeqItemList()
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(res.status);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setSeqItemList(data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
-
-  useEffect(() => {
     setPreviewData(
       seqList
         .map((ele) => {
@@ -72,7 +51,7 @@ export default function SeqSet() {
       <div className={styled.seqListArea}>
         <div>
           <DataList
-            rows={seqItemList}
+            rows={seqItems}
             columns={columns}
             dataHandler={leftDataHandler}
           />
