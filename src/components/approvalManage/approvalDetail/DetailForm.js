@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactHtmlParser from 'html-react-parser';
+import moment from 'moment';
 
 export default function DetailForm(props) {
   const [default_form, setDefaultForm] = useState('');
@@ -23,7 +24,7 @@ export default function DetailForm(props) {
         setDeptName(json.deptName);
         setProductNum(json.productNum);
         setTitle(json.approvalDocTitle);
-        setCreatedAt(json.createdAt);
+        setCreatedAt(moment(json.createdAt).format('YYYY-MM-DD HH:mm:ss'));
         setEnforcementDate(json.enforcementDate);
         setContents(json.contents);
         setIsLoading(false);
@@ -106,12 +107,19 @@ export default function DetailForm(props) {
                 if (domNode.attribs && domNode.attribs.id == 'enforcer') {
                   return <div id="enforcer" contentEditable="false"></div>;
                 }
+                if (domNode.attribs && domNode.attribs.id == 'content') {
+                  return (
+                    <>
+                      <h4>신청내용</h4>
+                      <div id="content" contentEditable="false">
+                        {ReactHtmlParser(contents)}
+                      </div>
+                    </>
+                  );
+                }
               },
             })}
           </div>
-          <br />
-          <hr />
-          <div>{ReactHtmlParser(contents)}</div>
         </>
       )}
     </>

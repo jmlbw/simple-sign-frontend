@@ -19,7 +19,7 @@ export function TinyEditor({ init, editorHandler, dataHandler }) {
     if (editorRef) {
       editorHandler(editorRef.current);
     }
-  }, [editorRef]);
+  }, [editorRef, editorHandler]);
 
   return (
     <>
