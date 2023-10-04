@@ -78,6 +78,7 @@
 }
 
 .docContainer {
+  width: 100%;
   inset: 0px;
   max-height: 100%;
   margin-right: -17px;

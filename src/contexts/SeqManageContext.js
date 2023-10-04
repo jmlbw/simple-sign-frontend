@@ -1,7 +1,13 @@
 import React, { createContext, useContext, useState } from 'react';
 
 // 검색박스 데이터
-const searchInitState = { id: 0, compName: '', seqName: '', code: '' };
+const searchInitState = {
+  id: 0,
+  compId: '',
+  compName: '',
+  seqName: '',
+  code: '',
+};
 
 // 초기 검색창 데이터
 const setInitState = {

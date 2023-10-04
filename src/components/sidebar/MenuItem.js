@@ -81,6 +81,7 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
               }`}
               onClick={() => {
                 clickMenu(index, subitem.name);
+                setState((prevState) => ({ ...prevState, searchInput: '' }));
               }}
             >
               <ListItemText

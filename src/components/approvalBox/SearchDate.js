@@ -4,7 +4,7 @@ import { ko } from 'date-fns/esm/locale';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../../styles/components/ApprovalBox/SearchDate.module.css';
 
-function SearchDate() {
+function SearchDate({ onDateChange }) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -12,6 +12,7 @@ function SearchDate() {
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
+    onDateChange(start, end);
   };
 
   return (

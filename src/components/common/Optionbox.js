@@ -1,36 +1,31 @@
 import OptionboxItem from './OptionboxItem';
 import { BiSolidUser, BiSolidFolder, BiBuildings } from 'react-icons/bi';
+import { AiFillFolder } from 'react-icons/ai';
 import React, { useState } from 'react';
 
 function Optionbox({ id, category, name, useId, dataHandler }) {
-  const [department] = useState(category);
-  const [cName, setCName] = useState(name);
-
-  const handleValueChange = () => {
-    // value 상태를 변경
-    dataHandler(id, category, name, useId);
-    console.log('삭제');
-  };
-
-  /* department 값 바꾸는 부분 */
-
   let icon = null;
 
-  if (department === 'null') {
-  } else if (department === 'U') {
+  if (category === 'null') {
+  } else if (category === 'U') {
     icon = <BiSolidUser />;
-  } else if (department === 'D') {
+  } else if (category === 'D') {
     icon = <BiSolidFolder />;
-  } else if (department === 'C') {
+  } else if (category === 'C') {
     icon = <BiBuildings />;
+  } else if (category === 'E') {
+    icon = <AiFillFolder />;
   }
 
   return (
     <div>
       <OptionboxItem
         icon={icon}
-        name={cName}
-        onValueChange={handleValueChange}
+        name={name}
+        id={id}
+        category={category}
+        useId={useId}
+        onValueChange={dataHandler}
       ></OptionboxItem>
     </div>
   );

@@ -23,16 +23,12 @@ export default function SeqManagePage() {
         return res.json();
       })
       .then((data) => {
-        setSearchData({ ...searchData, compName: data[0].name });
+        setSearchData({ ...searchData, compId: data[0].id });
         setSetData({ ...setData, compList: data });
       })
       .catch((err) => {
         console.error(err);
       });
-  }, []);
-
-  useEffect(() => {
-    setState({ ...state, curPage: 'SeqManage' });
   }, []);
 
   // 검색 및 테이블 데이터 셋팅
