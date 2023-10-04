@@ -13,7 +13,6 @@ export default function SmallBox(props) {
 
   const dataHandler = (data) => {
     setFormData(data);
-    console.log(formData);
   };
 
   const editorHandler = (ref) => {
@@ -21,7 +20,6 @@ export default function SmallBox(props) {
   };
 
   const handleSaveToDatabase = () => {
-    console.log('a');
     fetch(`http://localhost:8080/approve/register`, {
       method: 'post',
       headers: {
@@ -34,7 +32,6 @@ export default function SmallBox(props) {
         contents: formData,
       }),
     }).then((res) => {
-      console.log(res);
       return res;
     });
   };
@@ -54,11 +51,14 @@ export default function SmallBox(props) {
       height="600px"
       title="결재작성상세"
       children={
-        <ApprovalForm
-          form_code={props.form_code}
-          dataHandler={dataHandler}
-          editorHandler={editorHandler}
-        />
+        <>
+          <h4>{props.form_name}</h4>
+          <ApprovalForm
+            form_code={props.form_code}
+            dataHandler={dataHandler}
+            editorHandler={editorHandler}
+          />
+        </>
       }
       handleSaveToDatabase={handleSaveToDatabase}
     ></PopUp>
