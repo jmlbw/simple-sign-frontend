@@ -50,7 +50,7 @@ function AppContent() {
             <Route path="/ABV" element={<ApprovalBoxViewPage />} />
             <Route path="/SAM" element={<SeqManagePage />} />
             <Route path="/FL" element={<FormListPage />} />
-            <Route path="/AD" element={<ApprovalDetail page={66} />} />
+            <Route path="/AD" element={<ApprovalDetail page={73} />} />
           </Routes>
         </div>
       </div>
