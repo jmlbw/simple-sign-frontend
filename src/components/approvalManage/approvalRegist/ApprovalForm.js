@@ -8,7 +8,6 @@ import React, {
 import ReactHtmlParser from 'html-react-parser';
 import Selectbox from '../../common/Selectbox';
 import SelectDate from './components/SelectDate';
-import Editor from './components/Editor';
 import { TinyEditor } from '../../common/TinyEditor';
 import styled from '../../../styles/components/approvalManage/approvalRegist/ApprovalForm.module.css';
 
