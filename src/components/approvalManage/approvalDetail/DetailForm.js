@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ReactHtmlParser from 'html-react-parser';
+import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 export default function DetailForm(props) {
+  const navigate = useNavigate();
   const [default_form, setDefaultForm] = useState('');
   const [userName, setUserName] = useState('');
   const [deptName, setDeptName] = useState('');
@@ -28,6 +30,10 @@ export default function DetailForm(props) {
         setEnforcementDate(json.enforcementDate);
         setContents(json.contents);
         setIsLoading(false);
+      })
+      .catch(() => {
+        alert('문서를 찾을 수 없습니다');
+        navigate('/');
       });
 
     console.error = (function (_error) {
