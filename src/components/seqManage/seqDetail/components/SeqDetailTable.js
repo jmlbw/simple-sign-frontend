@@ -13,6 +13,8 @@ import { FiEdit } from 'react-icons/fi';
 import PopUpFoot from '../../../common/PopUpFoot';
 import SeqSet from '../../seqSetPopUp/SeqSet';
 import getSeqItemList from '../../../../apis/commonAPI/getSeqItemList';
+import FormListPopUp from '../../popup/FormListPopUp';
+import { AiOutlineOrderedList } from 'react-icons/ai';
 
 export default function SeqDetailTable() {
   const {
@@ -25,12 +27,22 @@ export default function SeqDetailTable() {
   } = useSeqManage();
   const [seqList, setseqList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [gridData, setGridData] = useState({});
   const openModal = () => {
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const openFormModal = () => {
+    setIsFormModalOpen(true);
+  };
+
+  const closeFormModal = () => {
+    setIsFormModalOpen(false);
   };
 
   useEffect(() => {
@@ -61,6 +73,18 @@ export default function SeqDetailTable() {
       setseqList([...result]);
     }
   }, [detailData.seqString]);
+
+  const formConfirm = () => {
+    gridData.category = 'F';
+    gridData.useId = parseInt(gridData.id);
+    gridData.name = gridData.formName;
+    delete gridData.id;
+    delete gridData.formName;
+    detailData.formScope.push(gridData);
+    setDetailData({
+      ...detailData,
+    });
+  };
 
   const seqConfirm = () => {
     setDetailData({
@@ -108,6 +132,17 @@ export default function SeqDetailTable() {
       onClick: () => {
         seqConfirm();
         closeModal();
+      },
+      btnStyle: 'popup_blue_btn',
+    },
+  ];
+
+  const grayAndBlueBtn_form_popup = [
+    {
+      label: '반영',
+      onClick: () => {
+        formConfirm();
+        closeFormModal();
       },
       btnStyle: 'popup_blue_btn',
     },
@@ -179,6 +214,20 @@ export default function SeqDetailTable() {
               id={'formScope'}
               data={detailData.formScope}
               dataHandler={formScopefilterHandler}
+            />
+            <PopUp
+              label={<AiOutlineOrderedList />}
+              width={'400px'}
+              height={'600px'}
+              isModalOpen={isFormModalOpen}
+              openModal={openFormModal}
+              closeModal={closeFormModal}
+              children={
+                <>
+                  <FormListPopUp setGridData={setGridData} />
+                  <PopUpFoot buttons={grayAndBlueBtn_form_popup} />
+                </>
+              }
             />
           </>
         }
