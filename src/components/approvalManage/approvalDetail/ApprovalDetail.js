@@ -4,8 +4,10 @@ import Button from '../../../components/common/Button';
 import DetailForm from './DetailForm';
 import PopUp from '../../common/PopUp';
 import PopUpFoot from '../../common/PopUpFoot';
+import { useNavigate } from 'react-router-dom';
 
 export default function ApprovalDetail(props) {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState('');
   const openModal = (mode) => {
@@ -68,6 +70,26 @@ export default function ApprovalDetail(props) {
     );
   };
 
+  const updateHandler = () => {
+    navigate('/AD');
+  };
+
+  const deleteHandler = () => {
+    fetch(`http://localhost:8080/approve/${props.page}`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          alert('문서가 삭제되었습니다.');
+        } else {
+          alert('삭제를 실패했습니다.');
+        }
+      })
+      .catch((e) => {
+        alert('삭제를 실패했습니다.');
+      });
+  };
+
   const BlueAndGrayBtn = [
     {
       label: '반영',
@@ -98,7 +120,21 @@ export default function ApprovalDetail(props) {
           width={'100%'}
           height={'100%'}
           titleChildren={returnTitleComponent()}
-          children={<DetailForm approval_doc_id={props.page} />}
+          children={
+            <>
+              <DetailForm approval_doc_id={props.page} />
+              <Button
+                label={'문서수정'}
+                btnStyle={'blue_btn'}
+                onClick={updateHandler}
+              />
+              <Button
+                label={'문서삭제'}
+                btnStyle={'gray_btn'}
+                onClick={deleteHandler}
+              />
+            </>
+          }
         ></InnerBox>
       </div>
 
