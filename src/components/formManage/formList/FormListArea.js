@@ -6,6 +6,7 @@ import { useFormManage } from '../../../contexts/FormManageContext';
 import React from 'react';
 import Button from '../../common/Button';
 import delForm from '../../../apis/commonAPI/delForm';
+import getDefaultApprovalLine from '../../../apis/commonAPI/getDefaultApprovalLine';
 
 export default function FormListArea({ rows }) {
   const { detailData, setDetailData, updateDetailData } = useFormManage();
@@ -24,18 +25,27 @@ export default function FormListArea({ rows }) {
   };
 
   const dataHandler = (data) => {
-    getFormDetail(data.id)
-      .then((res) => {
-        return res.json();
+    Promise.all([getFormDetail(data.id), getDefaultApprovalLine(data.id)])
+      .then(([formDetailRes, approvalLineRes]) => {
+        return Promise.all([formDetailRes.json(), approvalLineRes.json()]);
       })
-      .then((res) => {
-        updateDetailData();
+      .then(([formDetailData, approvalLineData]) => {
+        let approvalLineList = approvalLineData.map((ele, index) => {
+          ele.approvalKind = '결재기본라인';
+          ele.id = index + 1;
+          return ele;
+        });
+
         setDetailData({
           ...detailData,
-          ...res,
+          ...formDetailData,
           compName: data.compName,
-          status: res.status === true ? 1 : 0,
+          status: formDetailData.status === true ? 1 : 0,
+          approvalLine: approvalLineList,
         });
+      })
+      .then(() => {
+        updateDetailData();
       })
       .catch((err) => {
         console.error(err);

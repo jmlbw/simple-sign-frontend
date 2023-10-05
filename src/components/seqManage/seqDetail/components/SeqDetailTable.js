@@ -165,6 +165,7 @@ export default function SeqDetailTable() {
                 id={'compName'}
                 data={detailData.compName}
                 dataHandler={dataUpdateHandler}
+                disabled={true}
               />
             )}
           </>
@@ -178,6 +179,7 @@ export default function SeqDetailTable() {
               id={'code'}
               data={detailData.code}
               dataHandler={dataUpdateHandler}
+              disabled={true}
             />
           </>
         }
@@ -265,6 +267,7 @@ export default function SeqDetailTable() {
               data={detailData.seqList}
               dataHandler={dataUpdateHandler}
               width="80%"
+              disabled={true}
               children={
                 <div className={styled.popupBox}>
                   <PopUp
