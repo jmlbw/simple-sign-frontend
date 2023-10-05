@@ -11,7 +11,7 @@ export default function updateForm(data) {
     },
   ];
   data = { ...data, approvalLine: sample };
-  console.log(data);
+
   const jsonData = JSON.stringify(data);
 
   return fetch(url, {
