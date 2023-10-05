@@ -2,6 +2,8 @@ import styled from '../../../styles/components/ApprovalBox/DocItem.module.css';
 import defaultUserIcon from '../../../assets/imgs/default_user.png';
 import React from 'react';
 import PopUp from '../../common/PopUp';
+import ApprovalDetail from '../../approvalManage/approvalDetail/ApprovalDetail';
+import { useState } from 'react';
 
 function DocItem(props) {
   //문서상태에 따른 글자색
@@ -52,60 +54,50 @@ function DocItem(props) {
   const bgColor = getBgColor();
 
   return (
-    <PopUp
-      label={
-        <div>
-          <li className={styled.itembox}>
-            {/* <div className={styled.checkboxArea}>
+    <ul>
+      <li className={styled.itembox} onClick={props.onClick}>
+        {/* <div className={styled.checkboxArea}>
               <input type="checkbox"></input>
             </div> */}
-            <div className={styled.dateText}>{props.date}</div>
-            <div className={styled.element}>
-              <div className={styled.elementText}>
-                <span>{props.title}</span>
-              </div>
-              <div className={styled.info}>
-                <div className={styled.txtinfo}>{props.formName}</div>
-                <div className={styled.bar}>|</div>
-                <div className={styled.txtinfo}>{props.docNumber}</div>
-              </div>
-            </div>
-            <div className={styled.docUser}>
-              <div className={styled.imginfo}>
-                <img src={defaultUserIcon} alt="userphoto" />
-              </div>
-              <div className={styled.userinfo}>
-                <div className={styled.name}>{props.sendUser}</div>
-                <div className={styled.departementInfo}>
-                  <div className={styled.departementList}>
-                    <div className={styled.txtdep}>{props.sendDepart}</div>
-                    {/* <div className={styled.txtdep}>|</div> */}
-                    <div className={styled.txtdep}>
-                      {props.sendDepartDetail}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styled.docStatus}>
-                <div className={styled.process}>
-                  <div
-                    className={styled.txtline}
-                    style={{ color: txtColor, backgroundColor: bgColor }} // 백그라운드 컬러 속성명 수정
-                  >
-                    <span>{getStatusText()}</span>
-                    <span>{'(' + props.lastUser + ')'}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
+        <div className={styled.dateText}>{props.date}</div>
+        <div className={styled.element}>
+          <div className={styled.elementText}>
+            <span>{props.title}</span>
+          </div>
+          <div className={styled.info}>
+            <div className={styled.txtinfo}>{props.formName}</div>
+            <div className={styled.bar}>|</div>
+            <div className={styled.txtinfo}>{props.docNumber}</div>
+          </div>
         </div>
-      }
-      btnStyle={'popup_non_btn'}
-      title="결재문서상세"
-      width="1300px"
-      height="600px"
-    ></PopUp>
+        <div className={styled.docUser}>
+          <div className={styled.imginfo}>
+            <img src={defaultUserIcon} alt="userphoto" />
+          </div>
+          <div className={styled.userinfo}>
+            <div className={styled.name}>{props.sendUser}</div>
+            <div className={styled.departementInfo}>
+              <div className={styled.departementList}>
+                <div className={styled.txtdep}>{props.sendDepart}</div>
+                {/* <div className={styled.txtdep}>|</div> */}
+                <div className={styled.txtdep}>{props.sendDepartDetail}</div>
+              </div>
+            </div>
+          </div>
+          <div className={styled.docStatus}>
+            <div className={styled.process}>
+              <div
+                className={styled.txtline}
+                style={{ color: txtColor, backgroundColor: bgColor }} // 백그라운드 컬러 속성명 수정
+              >
+                <span>{getStatusText()}</span>
+                <span>{'(' + props.lastUser + ')'}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
   );
 }
 export default DocItem;
