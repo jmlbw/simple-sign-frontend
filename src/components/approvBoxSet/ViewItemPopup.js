@@ -6,6 +6,16 @@ import Button from '../common/Button';
 
 function ViewItemPopup() {
   const [selectAll, setSelectAll] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // 모달을 닫기 위한 함수
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   // 각 체크박스의 상태를 관리하는 상태 배열
   const [checkboxStates, setCheckboxStates] = useState({
@@ -39,6 +49,9 @@ function ViewItemPopup() {
       title="조회항목 선택"
       width="400px"
       height="440px"
+      isModalOpen={isModalOpen} // 여기에 상태 전달
+      openModal={openModal} // 여기에 함수 전달
+      closeModal={closeModal} // 여기에 함수 전달
       children={
         <div>
           <div className={styled.viewItemContainer}>
