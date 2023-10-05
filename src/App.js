@@ -18,6 +18,7 @@ import FormListPage from './pages/FormListPage';
 import AppContext from './contexts/AppContext';
 import Login from './pages/Login';
 import ApprovalBoxSetPage from './pages/ApprovalBoxSetPage';
+import ApprovalUpdatePage from '../src/pages/ApprovalUpdatePage';
 import ApprovalDetail from '../src/components/approvalManage/approvalDetail/ApprovalDetail';
 
 function AppContent() {
@@ -50,7 +51,8 @@ function AppContent() {
             <Route path="/ABV" element={<ApprovalBoxViewPage />} />
             <Route path="/SAM" element={<SeqManagePage />} />
             <Route path="/FL" element={<FormListPage />} />
-            <Route path="/AD" element={<ApprovalDetail page={73} />} />
+            <Route path="/ADD" element={<ApprovalDetail page={78} />} />
+            <Route path="/AD" element={<ApprovalUpdatePage page={78} />} />
           </Routes>
         </div>
       </div>

@@ -78,7 +78,7 @@ export default function SmallBox(props) {
       approvalDocTitle: titleRef.current.innerHTML,
       docStatus: docStatus,
       seqCode: sequence_code,
-      approverList: [1, 2],
+      approverList: [1, 2, 3],
       receiveRefList: [3],
       createdAt: drafting_time,
       enforcementDate: enforce_date,
