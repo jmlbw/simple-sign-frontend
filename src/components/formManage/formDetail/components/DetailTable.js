@@ -52,6 +52,7 @@ export default function DetailTable() {
                 id={'compName'}
                 data={detailData.compName}
                 dataHandler={dataUpdateHandler}
+                disabled={true}
               />
             )}
           </>
