@@ -4,19 +4,22 @@ import { SearchContextProvider } from './SearchContext';
 import { FormManageProvider } from './FormManageContext';
 import { ApprovalBoxProvider } from './ApprovalBoxContext';
 import { SeqManageProvider } from './SeqManageContext';
+import { LoadingProvider } from './LoadingContext';
 import React from 'react';
 
 export default function ContextProvider({ children }) {
   return (
     <AppProvider>
       <PageProvier>
-        <SearchContextProvider>
-          <FormManageProvider>
-            <ApprovalBoxProvider>
-              <SeqManageProvider>{children}</SeqManageProvider>
-            </ApprovalBoxProvider>
-          </FormManageProvider>
-        </SearchContextProvider>
+        <LoadingProvider>
+          <SearchContextProvider>
+            <FormManageProvider>
+              <ApprovalBoxProvider>
+                <SeqManageProvider>{children}</SeqManageProvider>
+              </ApprovalBoxProvider>
+            </FormManageProvider>
+          </SearchContextProvider>
+        </LoadingProvider>
       </PageProvier>
     </AppProvider>
   );
