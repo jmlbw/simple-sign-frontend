@@ -42,7 +42,14 @@ const SelectBox = ({ id, data, dataHandler, width = '90%' }) => {
   );
 };
 
-const InputBox = ({ id, data, dataHandler, width = '90%', children }) => {
+const InputBox = ({
+  id,
+  data,
+  dataHandler,
+  width = '90%',
+  children,
+  disabled,
+}) => {
   return (
     <div className={styled.contentBox}>
       <input
@@ -52,6 +59,7 @@ const InputBox = ({ id, data, dataHandler, width = '90%', children }) => {
         onChange={(e) => {
           dataHandler(id, e.target.value);
         }}
+        disabled={disabled}
       />
       {children}
     </div>
