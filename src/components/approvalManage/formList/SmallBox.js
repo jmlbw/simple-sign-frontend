@@ -3,6 +3,7 @@ import styled from '../../../styles/components/approvalManage/formList/SmallBox.
 import ApprovalForm from '../approvalRegist/ApprovalForm';
 import PopUp from '../../common/PopUp';
 import PopUpFoot from '../../common/PopUpFoot';
+import moment from 'moment';
 
 export default function SmallBox(props) {
   const innerBoxStyle = {
@@ -15,8 +16,8 @@ export default function SmallBox(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [main_form, setMainForm] = useState('');
   const [sequence_code, setSequenceCode] = useState('');
-  const [drafting_time, setDraftingTime] = useState(new Date());
-  const [enforce_date, setEnforceDate] = useState(new Date());
+  const [drafting_time, setDraftingTime] = useState(moment());
+  const [enforce_date, setEnforceDate] = useState(moment());
   const [userId, setUserId] = useState(1);
   const [deptId, setDeptId] = useState(1);
   const divRef = useRef(null);
@@ -34,10 +35,9 @@ export default function SmallBox(props) {
   };
 
   const editorHandler = (ref) => {
-    setEditor(ref.editor);
+    setEditor(ref.currentContent);
   };
 
-  // 선택된 값이 변경될 때 호출될 함수
   const handleSelectBoxChange = (newValue) => {
     setSequenceCode(newValue);
   };
@@ -48,19 +48,41 @@ export default function SmallBox(props) {
     setEnforceDate(newValue);
   };
 
-  const handleClick = () => {
+  // const extractTableData = () => {
+  //   const table = document.querySelector('table');
+  //   const rows = table.querySelectorAll('tr');
+  //   const data = {};
+
+  //   rows.forEach((row) => {
+  //     const cells = row.querySelectorAll('td');
+  //     if (cells.length === 2) {
+  //       const key = cells[0].textContent.trim();
+  //       const value = cells[1].textContent.trim();
+  //       data[key] = value;
+  //     }
+  //   });
+  //   return data;
+  // };
+
+  const handleClick = (state) => {
+    let docStatus = 'T';
+    if (state === 'regist') {
+      docStatus = 'W';
+    }
+    // let searchContents = extractTableData(editor);
+    // console.log(searchContents);
     const data = {
       userId: userId,
       deptId: deptId,
       formCode: props.form_code,
       approvalDocTitle: titleRef.current.innerHTML,
-      contents: main_form,
-      docStatus: 'W',
+      docStatus: docStatus,
       seqCode: sequence_code,
-      approverList: [1, 2],
+      approverList: [1, 2, 3],
       receiveRefList: [3],
       createdAt: drafting_time,
       enforcementDate: enforce_date,
+      contents: editor,
     };
 
     fetch(`http://localhost:8080/approve/register`, {
@@ -82,14 +104,14 @@ export default function SmallBox(props) {
     {
       label: '상신',
       onClick: () => {
-        handleClick();
+        handleClick('regist');
       },
       btnStyle: 'popup_blue_btn',
     },
     {
       label: '임시저장',
       onClick: () => {
-        closeModal();
+        handleClick('temporal');
       },
       btnStyle: 'popup_gray_btn',
     },

@@ -8,7 +8,6 @@ import React, {
 import ReactHtmlParser from 'html-react-parser';
 import Selectbox from '../../common/Selectbox';
 import SelectDate from './components/SelectDate';
-import Editor from './components/Editor';
 import { TinyEditor } from '../../common/TinyEditor';
 import styled from '../../../styles/components/approvalManage/approvalRegist/ApprovalForm.module.css';
 
@@ -48,6 +47,17 @@ export default function ApprovalForm({
       .then((json) => {
         setSequence(json);
       });
+
+    console.error = (function (_error) {
+      return function (message, ...args) {
+        if (
+          typeof message !== 'string' ||
+          message.indexOf('component is `contentEditable`') === -1
+        ) {
+          _error.apply(console, args);
+        }
+      };
+    })(console.error);
   }, [form_code]);
 
   return (
@@ -108,15 +118,19 @@ export default function ApprovalForm({
                 <div id="enforcer" contentEditable="true" ref={divRef}></div>
               );
             }
+            if (domNode.attribs && domNode.attribs.id == 'content') {
+              return (
+                <div id="content" className={styled.container}>
+                  <TinyEditor
+                    init={main_form}
+                    editorHandler={editorHandler}
+                    dataHandler={dataHandler}
+                  />
+                </div>
+              );
+            }
           },
         })}
-      </div>
-      <div className={styled.container}>
-        <TinyEditor
-          init={main_form}
-          editorHandler={editorHandler}
-          dataHandler={dataHandler}
-        />
       </div>
     </>
   );

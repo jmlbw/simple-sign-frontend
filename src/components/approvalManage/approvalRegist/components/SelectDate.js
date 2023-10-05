@@ -6,9 +6,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import styled from '../../../../styles/components/approvalManage/approvalRegist/components/SelectDate.module.css';
+import moment from 'moment';
 
-export default function SelectDate(onChange) {
-  const [value, setValue] = useState(dayjs(new Date()));
+export default function SelectDate({ onChange, baseDate }) {
+  const [value, setValue] = useState(
+    baseDate !== null ? dayjs(baseDate) : dayjs(moment())
+  );
 
   useEffect(() => {
     if (typeof onChange === 'function') {
