@@ -5,6 +5,8 @@ import DetailForm from './DetailForm';
 import { useLocation } from 'react-router-dom';
 import PopUp from '../../common/PopUp';
 import PopUpFoot from '../../common/PopUpFoot';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export default function ApprovalDetail(props) {
   const location = useLocation();
@@ -69,6 +71,26 @@ export default function ApprovalDetail(props) {
         />
       </>
     );
+  };
+
+  const updateHandler = () => {
+    navigate('/AD');
+  };
+
+  const deleteHandler = () => {
+    fetch(`http://localhost:8080/approve/${props.page}`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          alert('문서가 삭제되었습니다.');
+        } else {
+          alert('삭제를 실패했습니다.');
+        }
+      })
+      .catch((e) => {
+        alert('삭제를 실패했습니다.');
+      });
   };
 
   const BlueAndGrayBtn = [
