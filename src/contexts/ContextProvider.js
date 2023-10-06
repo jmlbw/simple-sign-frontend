@@ -4,6 +4,7 @@ import { SearchContextProvider } from './SearchContext';
 import { FormManageProvider } from './FormManageContext';
 import { ApprovalBoxProvider } from './ApprovalBoxContext';
 import { SeqManageProvider } from './SeqManageContext';
+import { ApprovalBoxManageProvider } from './ApprovalBoxManageContext';
 import React from 'react';
 
 export default function ContextProvider({ children }) {
@@ -13,7 +14,9 @@ export default function ContextProvider({ children }) {
         <SearchContextProvider>
           <FormManageProvider>
             <ApprovalBoxProvider>
-              <SeqManageProvider>{children}</SeqManageProvider>
+              <ApprovalBoxManageProvider>
+                <SeqManageProvider>{children}</SeqManageProvider>
+              </ApprovalBoxManageProvider>
             </ApprovalBoxProvider>
           </FormManageProvider>
         </SearchContextProvider>

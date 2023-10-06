@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import Button from '../../components/common/Button';
 import InnerBox from '../common/InnerBox';
 import DetailBox from './DetailBox';
+import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 
 function DetailApprovalBox() {
+  const { state, setState } = useApprovalBoxManage();
   return (
     <InnerBox
       height="100%"
@@ -12,7 +14,7 @@ function DetailApprovalBox() {
       text="결재함 상세"
       titleChildren={<Button label={'저장'} btnStyle={'gray_btn'} />}
     >
-      <DetailBox />
+      <DetailBox boxId={state.boxId} />
     </InnerBox>
   );
 }
