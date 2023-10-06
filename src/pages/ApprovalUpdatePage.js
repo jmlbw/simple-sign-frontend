@@ -2,8 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import InnerBox from '../components/common/InnerBox';
 import UpdateForm from '../components/approvalManage/approvalUpdate/UpdateForm';
 import Button from '../components/common/Button';
+import { useLocation } from 'react-router-dom';
 
-export default function ApprovalDetail(props) {
+export default function ApprovalUpdatePage(props) {
+  const location = useLocation();
   const [drafting_time, setDraftingTime] = useState('');
   const [sequence_code, setSequenceCode] = useState('');
   const [enforce_date, setEnforceDate] = useState('');
@@ -36,7 +38,7 @@ export default function ApprovalDetail(props) {
       contents: editor,
     };
 
-    fetch(`http://localhost:8080/approve/${props.page}`, {
+    fetch(`http://localhost:8080/approve/${location.search.split('=')[1]}`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
@@ -67,7 +69,7 @@ export default function ApprovalDetail(props) {
           children={
             <>
               <UpdateForm
-                approval_doc_id={props.page}
+                approval_doc_id={location.search.split('=')[1]}
                 handleSelectTimeChange={handleSelectTimeChange}
                 handleSelectBoxChange={handleSelectBoxChange}
                 dataHandler={dataHandler}
