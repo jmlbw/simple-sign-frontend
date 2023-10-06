@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import ReactHtmlParser from 'html-react-parser';
 import moment from 'moment';
+import SelectDate from '../approvalRegist/components/SelectDate';
+import SelectBox from '../../common/Selectbox';
+import { TinyEditor } from '../../common/TinyEditor';
+import styled from '../../../styles/components/approvalManage/approvalUpdate/UpdateForm.module.css';
 
-export default function DetailForm(props) {
+export default function UpdateForm({
+  approval_doc_id,
+  handleSelectTimeChange,
+  handleSelectBoxChange,
+  dataHandler,
+  editorHandler,
+  titleRef,
+}) {
   const [default_form, setDefaultForm] = useState('');
   const [userName, setUserName] = useState('');
   const [deptName, setDeptName] = useState('');
@@ -12,9 +23,10 @@ export default function DetailForm(props) {
   const [enforcementDate, setEnforcementDate] = useState('');
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
-
+  const [form_code, setFormCode] = useState(0);
+  const [sequence, setSequence] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:8080/approve/detail/${props.approval_doc_id}`)
+    fetch(`http://localhost:8080/approve/detail/${approval_doc_id}`)
       .then((res) => {
         return res.json();
       })
@@ -24,11 +36,24 @@ export default function DetailForm(props) {
         setDeptName(json.deptName);
         setProductNum(json.productNum);
         setTitle(json.approvalDocTitle);
-        setCreatedAt(moment(json.createdAt).format('YYYY-MM-DD HH:mm:ss'));
-        setEnforcementDate(json.enforcementDate);
+        setCreatedAt(moment(json.createdAt));
+        setEnforcementDate(moment(json.enforcementDate));
         setContents(json.contents);
+        setFormCode(json.formCode);
         setIsLoading(false);
       });
+
+    if (form_code !== 0) {
+      fetch(
+        `http://localhost:8080/manage/form/seqTitleList?formCode=${form_code}`
+      )
+        .then((res) => {
+          return res.json();
+        })
+        .then((json) => {
+          setSequence(json);
+        });
+    }
 
     console.error = (function (_error) {
       return function (message, ...args) {
@@ -40,7 +65,7 @@ export default function DetailForm(props) {
         }
       };
     })(console.error);
-  }, []);
+  }, [form_code]);
 
   return (
     <>
@@ -53,11 +78,7 @@ export default function DetailForm(props) {
               replace: (domNode) => {
                 if (domNode.attribs && domNode.attribs.id == 'approval_line') {
                   return (
-                    <div
-                      id="approval_line"
-                      contentEditable="false"
-                      suppressContentEditableWarning={true}
-                    >
+                    <div id="approval_line" contentEditable="true">
                       결재라인입니다.
                     </div>
                   );
@@ -65,14 +86,26 @@ export default function DetailForm(props) {
                 if (domNode.attribs && domNode.attribs.id === 'doc_num') {
                   return (
                     <div id="doc_num" contentEditable="false">
-                      {productNum}
+                      {productNum === null ? (
+                        <SelectBox
+                          selectList={sequence}
+                          width={'300'}
+                          height={'40'}
+                          onChange={handleSelectBoxChange}
+                        />
+                      ) : (
+                        productNum
+                      )}
                     </div>
                   );
                 }
                 if (domNode.attribs && domNode.attribs.id === 'drafting_time') {
                   return (
-                    <div id="drafting_time" contentEditable="false">
-                      {createdAt}
+                    <div id="drafting_time">
+                      <SelectDate
+                        onChange={handleSelectTimeChange}
+                        baseDate={createdAt}
+                      />
                     </div>
                   );
                 }
@@ -92,15 +125,18 @@ export default function DetailForm(props) {
                 }
                 if (domNode.attribs && domNode.attribs.id == 'form_title') {
                   return (
-                    <div id="form_title" contentEditable="false">
+                    <div id="form_title" contentEditable="true" ref={titleRef}>
                       {title}
                     </div>
                   );
                 }
                 if (domNode.attribs && domNode.attribs.id == 'enforce_date') {
                   return (
-                    <div id="enforce_date" contentEditable="false">
-                      {enforcementDate}
+                    <div id="enforce_date" contentEditable="true">
+                      <SelectDate
+                        onChange={handleSelectTimeChange}
+                        baseDate={enforcementDate}
+                      />
                     </div>
                   );
                 }
@@ -111,8 +147,12 @@ export default function DetailForm(props) {
                   return (
                     <>
                       <h4>신청내용</h4>
-                      <div id="content" contentEditable="false">
-                        {ReactHtmlParser(contents)}
+                      <div id="content" className={styled.container}>
+                        <TinyEditor
+                          init={contents}
+                          editorHandler={editorHandler}
+                          dataHandler={dataHandler}
+                        />
                       </div>
                     </>
                   );

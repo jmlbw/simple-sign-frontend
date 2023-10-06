@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '../../../styles/components/formManage/formDetail/FormDetail.module.css';
 import DetailTable from './components/DetailTable';
 import Button from '../../common/Button';
@@ -7,13 +7,23 @@ import { useFormManage } from '../../../contexts/FormManageContext';
 import insertForm from '../../../apis/commonAPI/insertForm';
 import updateForm from '../../../apis/commonAPI/updateForm';
 import FormDetailNav from './components/FormDetailNav';
+import DataList from '../formList/DataList';
+import { columns } from '../../../assets/datas/form_approval_line';
 
 export default function FormDetail({ searchHandler }) {
   const { detailData, flagData, createDetailData } = useFormManage();
   const [activeButton, setActiveButton] = useState(1);
 
+  useEffect(() => {
+    console.log(detailData);
+  }, [detailData]);
+
   const handleButtonClick = (buttonId) => {
     setActiveButton(buttonId);
+  };
+
+  const dataHandler = (data) => {
+    console.log(data);
   };
 
   const updateDetailFunc = () => {
@@ -79,9 +89,17 @@ export default function FormDetail({ searchHandler }) {
           activeButton={activeButton}
           handleButtonClick={handleButtonClick}
         ></FormDetailNav>
-        <div className={styled.form_detail_area}>
-          <DetailTable />
-        </div>
+        {activeButton === 1 ? (
+          <div className={styled.form_detail_area}>
+            <DetailTable />
+          </div>
+        ) : (
+          <DataList
+            rows={detailData.approvalLine}
+            columns={columns}
+            dataHandler={dataHandler}
+          />
+        )}
       </>
     );
   };

@@ -18,6 +18,7 @@ import FormListPage from './pages/FormListPage';
 import AppContext from './contexts/AppContext';
 import Login from './pages/Login';
 import ApprovalBoxSetPage from './pages/ApprovalBoxSetPage';
+import ApprovalUpdatePage from '../src/pages/ApprovalUpdatePage';
 import ApprovalDetail from '../src/components/approvalManage/approvalDetail/ApprovalDetail';
 
 function AppContent() {

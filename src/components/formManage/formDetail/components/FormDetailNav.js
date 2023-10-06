@@ -16,12 +16,6 @@ export default function FormDetailNav({ activeButton, handleButtonClick }) {
       >
         결재라인
       </button>
-      <button
-        className={activeButton === 3 ? styled.selectBtn : null}
-        onClick={() => handleButtonClick(3)}
-      >
-        옵션
-      </button>
     </div>
   );
 }

@@ -7,13 +7,17 @@ import getCompanyList from '../apis/commonAPI/getCompanyList';
 import getFormAndCompList from '../apis/commonAPI/getFormAndCompList';
 import { useFormManage } from '../contexts/FormManageContext';
 import { usePage } from '../contexts/PageContext';
+import { useLoading } from '../contexts/LoadingContext';
+import Loading from '../components/common/Loading';
 
 export default function FormManagePage() {
   const [formListData, setFormListData] = useState([]);
   const { searchData, setSearchData, setData, setSetData } = useFormManage();
+  const { isLoading, showLoading, hideLoading } = useLoading();
   const { state, setState } = usePage();
 
   useEffect(() => {
+    showLoading();
     //페이지 데이터 셋팅
     setState({ ...state, curPage: 'FormManage' });
 
@@ -26,13 +30,18 @@ export default function FormManagePage() {
         setSearchData({ ...searchData, compId: data[0].id });
         setSetData({ ...setData, compList: data });
       })
+      .then(() => {
+        hideLoading();
+      })
       .catch((err) => {
+        hideLoading();
         console.error(err);
       });
   }, []);
 
   // 검색 및 테이블 데이터 셋팅
   const searchHandler = () => {
+    showLoading();
     getFormAndCompList(searchData)
       .then((res) => {
         if (!res.ok) {
@@ -43,7 +52,11 @@ export default function FormManagePage() {
       .then((data) => {
         setFormListData(data);
       })
+      .then(() => {
+        hideLoading();
+      })
       .catch((err) => {
+        hideLoading();
         if (err.message === '404') {
           alert('검색된 양식가 없습니다.');
         }
@@ -61,6 +74,7 @@ export default function FormManagePage() {
           <FormDetail searchHandler={searchHandler} />
         </div>
       </div>
+      <Loading />
     </div>
   );
 }

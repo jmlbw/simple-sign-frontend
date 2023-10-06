@@ -3,7 +3,6 @@ import DataList from '../../formManage/formList/DataList';
 import { columns } from '../../../assets/datas/seq_manage_list';
 import React from 'react';
 import Button from '../../common/Button';
-import delForm from '../../../apis/commonAPI/delForm';
 import getSeqDetail from '../../../apis/commonAPI/getSeqDetail';
 import { useSeqManage } from '../../../contexts/SeqManageContext';
 import delSeq from '../../../apis/commonAPI/delSeq';
@@ -31,6 +30,7 @@ export default function SeqListArea({ rows }) {
       })
       .then((res) => {
         updateDetailData();
+        console.log(res);
         setDetailData({
           ...detailData,
           ...res,

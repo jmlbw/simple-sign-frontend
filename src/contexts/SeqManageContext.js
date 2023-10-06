@@ -14,6 +14,11 @@ const setInitState = {
   compList: [],
 };
 
+// seqItems 데이터
+const setInitSeqItems = {
+  seqList: [],
+};
+
 const detailInitState = {
   compName: '',
   code: '',
@@ -22,8 +27,8 @@ const detailInitState = {
   formScope: [],
   description: '',
   sortOrder: '',
-  seqList: [],
-  seqString: '01, 02, 03',
+  seqList: '',
+  seqString: '',
 };
 
 //0: default, 1: create, 2: update,
@@ -36,10 +41,15 @@ const SeqManageProvider = ({ children }) => {
   const [setData, setSetData] = useState(setInitState);
   const [detailData, setDetailData] = useState(detailInitState);
   const [flagData, setFlagData] = useState(flagInitState);
+  const [seqItems, setSeqItems] = useState(setInitSeqItems);
 
   const createDetailData = () => {
     setFlagData(1);
-    setDetailData(detailInitState);
+    setDetailData({
+      ...detailInitState,
+      compId: setData.compList[0].id,
+      compName: setData.compList[0].name,
+    });
   };
   const updateDetailData = () => {
     setFlagData(2);
@@ -61,6 +71,8 @@ const SeqManageProvider = ({ children }) => {
         createDetailData,
         updateDetailData,
         defaultDetailData,
+        seqItems,
+        setSeqItems,
       }}
     >
       {children}

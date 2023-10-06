@@ -5,29 +5,30 @@ import Button from '../../common/Button';
 import { useSeqManage } from '../../../contexts/SeqManageContext';
 import InnerBox from '../../common/InnerBox';
 import insertSeq from '../../../apis/commonAPI/insertSeq';
+import updateSeq from '../../../apis/commonAPI/updateSeq';
 
 export default function SeqDetail() {
   const { detailData, flagData, createDetailData } = useSeqManage();
 
   const updateDetailFunc = () => {
-    // if (flagData === 2) {
-    //   updateForm(detailData)
-    //     .then((res) => {
-    //       if (!res.ok) {
-    //         throw new Error(res.status);
-    //       }
-    //       alert('양식이 수정되었습니다.');
-    //     })
-    //     .then(() => {
-    //       searchHandler();
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //       if (err.message === '404') {
-    //         alert('검색된 데이터가 없습니다.');
-    //       }
-    //     });
-    // }
+    if (flagData === 2) {
+      updateSeq(detailData)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(res.status);
+          }
+          alert('양식이 수정되었습니다.');
+        })
+        .then(() => {
+          // searchHandler();
+        })
+        .catch((err) => {
+          console.error(err);
+          if (err.message === '404') {
+            alert('검색된 데이터가 없습니다.');
+          }
+        });
+    }
   };
 
   const createDetailFunc = () => {
