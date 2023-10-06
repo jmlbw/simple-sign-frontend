@@ -4,42 +4,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7); /* 배경을 연하게 설정합니다. */
+  background: rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* 다른 요소 위에 표시하기 위한 z-index 값 설정 */
-}
-
-.loading_container {
-  text-align: center;
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.loading_spinner {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #3498db;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 2s linear infinite;
-  margin: 0 auto;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  z-index: 9999;
 }
 
 .loading_image {
-  width: 100px; /* 이미지의 너비 설정 */
-  height: 100px; /* 이미지의 높이 설정 */
+  width: 100px;
+  height: 100px;
   animation: spin 2s linear infinite;
 }
