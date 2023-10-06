@@ -9,25 +9,25 @@ import updateForm from '../../../apis/commonAPI/updateForm';
 import FormDetailNav from './components/FormDetailNav';
 import DataList from '../formList/DataList';
 import { columns } from '../../../assets/datas/form_approval_line';
+import { useLoading } from '../../../contexts/LoadingContext';
 
 export default function FormDetail({ searchHandler }) {
   const { detailData, flagData, createDetailData } = useFormManage();
   const [activeButton, setActiveButton] = useState(1);
-
-  useEffect(() => {
-    console.log(detailData);
-  }, [detailData]);
+  const { showLoading, hideLoading } = useLoading();
 
   const handleButtonClick = (buttonId) => {
     setActiveButton(buttonId);
   };
 
+  //결재라인 핸들러
   const dataHandler = (data) => {
     console.log(data);
   };
 
   const updateDetailFunc = () => {
     if (flagData === 2) {
+      showLoading();
       updateForm(detailData)
         .then((res) => {
           if (!res.ok) {
@@ -43,12 +43,16 @@ export default function FormDetail({ searchHandler }) {
           if (err.message === '404') {
             alert('검색된 데이터가 없습니다.');
           }
+        })
+        .finally(() => {
+          hideLoading();
         });
     }
   };
 
   const createDetailFunc = () => {
     if (flagData === 1) {
+      showLoading();
       insertForm(detailData)
         .then((res) => {
           if (!res.ok) {
@@ -61,6 +65,9 @@ export default function FormDetail({ searchHandler }) {
           if (err.message === '404') {
             alert('검색된 데이터가 없습니다.');
           }
+        })
+        .finally(() => {
+          hideLoading();
         });
     }
   };

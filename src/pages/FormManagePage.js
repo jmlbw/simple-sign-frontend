@@ -13,7 +13,7 @@ import Loading from '../components/common/Loading';
 export default function FormManagePage() {
   const [formListData, setFormListData] = useState([]);
   const { searchData, setSearchData, setData, setSetData } = useFormManage();
-  const { isLoading, showLoading, hideLoading } = useLoading();
+  const { showLoading, hideLoading } = useLoading();
   const { state, setState } = usePage();
 
   useEffect(() => {
@@ -36,6 +36,9 @@ export default function FormManagePage() {
       .catch((err) => {
         hideLoading();
         console.error(err);
+      })
+      .finally(() => {
+        hideLoading();
       });
   }, []);
 
@@ -60,6 +63,9 @@ export default function FormManagePage() {
         if (err.message === '404') {
           alert('검색된 양식가 없습니다.');
         }
+      })
+      .finally(() => {
+        hideLoading();
       });
   };
 

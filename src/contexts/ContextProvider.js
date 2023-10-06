@@ -5,12 +5,14 @@ import { FormManageProvider } from './FormManageContext';
 import { ApprovalBoxProvider } from './ApprovalBoxContext';
 import { SeqManageProvider } from './SeqManageContext';
 import { ApprovalBoxManageProvider } from './ApprovalBoxManageContext';
+import { LoadingProvider } from './LoadingContext';
 import React from 'react';
 
 export default function ContextProvider({ children }) {
   return (
     <AppProvider>
       <PageProvier>
+       <LoadingProvider>
         <SearchContextProvider>
           <FormManageProvider>
             <ApprovalBoxProvider>
@@ -20,6 +22,7 @@ export default function ContextProvider({ children }) {
             </ApprovalBoxProvider>
           </FormManageProvider>
         </SearchContextProvider>
+       </LoadingProvider>
       </PageProvier>
     </AppProvider>
   );
