@@ -5,8 +5,10 @@ import Button from '../../components/common/Button';
 import InnerBox from '../common/InnerBox';
 import Datalist from './Datalist';
 import SearchIcon from '@mui/icons-material/Search';
+import { useState } from 'react';
 
 function ViewApprovalBoxList() {
+  const [selectedCompanyId, setSelectedCompanyId] = useState(0);
   return (
     <InnerBox
       height="100%"
@@ -16,7 +18,7 @@ function ViewApprovalBoxList() {
       titleChildren={<Button label={'추가'} btnStyle={'gray_btn'} />}
     >
       <div className={styled.searchbox}>
-        <Datalist />
+        <Datalist onCompanyChange={setSelectedCompanyId} />
         <div className={styled.inputSearch}>
           <input type="text" placeholder="결재함명을 입력하세요" />
           <button className={styled.searchbtn}>
@@ -25,7 +27,7 @@ function ViewApprovalBoxList() {
         </div>
       </div>
       <div className={styled.boxlist}>
-        <ApprovalBoxList />
+        <ApprovalBoxList companyId={selectedCompanyId} />
       </div>
     </InnerBox>
   );

@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import InnerBox from '../../../components/common/InnerBox';
 import Button from '../../../components/common/Button';
 import DetailForm from './DetailForm';
+import { useLocation } from 'react-router-dom';
 import PopUp from '../../common/PopUp';
 import PopUpFoot from '../../common/PopUpFoot';
 
 export default function ApprovalDetail(props) {
+  const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState('');
   const openModal = (mode) => {
@@ -51,6 +53,7 @@ export default function ApprovalDetail(props) {
         alert('결재반려를 실패했습니다.');
       });
   };
+  
   const returnTitleComponent = () => {
     return (
       <>
@@ -98,7 +101,9 @@ export default function ApprovalDetail(props) {
           width={'100%'}
           height={'100%'}
           titleChildren={returnTitleComponent()}
-          children={<DetailForm approval_doc_id={props.page} />}
+          children={
+            <DetailForm approval_doc_id={location.search.split('=')[1]} />
+          }
         ></InnerBox>
       </div>
 

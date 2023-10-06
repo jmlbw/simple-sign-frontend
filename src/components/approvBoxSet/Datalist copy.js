@@ -3,7 +3,7 @@ import Select from 'react-select';
 import styled from '../../styles/pages/ApprovalBoxSetPage.module.css';
 import getCompanyList from '../../apis/commonAPI/getCompanyList';
 
-function Datalist({ onCompanyChange, selectedCompId }) {
+function Datalist({ onCompanyChange }) {
   const [selectedOption, setSelectedOption] = useState({
     value: 0,
     label: '전체',
@@ -70,27 +70,21 @@ function Datalist({ onCompanyChange, selectedCompId }) {
 
         setCompanyOptions(transformedData);
 
-        // 선택된 회사의 id를 상위 컴포넌트로 전달
-        const initialOption = transformedData.find(
-          (option) => option.value === selectedCompId
-        ) || { value: 0, label: '전체' };
-
+        // 선택된 옵션을 초기값으로 설정
+        const initialOption = { value: 0, label: '전체' };
         setSelectedOption(initialOption);
 
-        if (typeof onCompanyChange === 'function') {
-          onCompanyChange(initialOption.value);
-        }
+        // 선택된 회사의 id를 상위 컴포넌트로 전달
+        onCompanyChange(initialOption.value);
       })
       .catch((error) => {
         console.error('Error fetching company list:', error);
       });
-  }, [selectedCompId]);
+  }, []);
 
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
-    if (typeof onCompanyChange === 'function') {
-      onCompanyChange(selectedOption.value); // 선택된 회사의 id를 상위 컴포넌트로 전달
-    }
+    onCompanyChange(selectedOption.value); // 선택된 회사의 id를 상위 컴포넌트로 전달
   };
 
   return (
