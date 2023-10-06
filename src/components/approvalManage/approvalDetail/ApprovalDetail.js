@@ -6,9 +6,10 @@ import { useLocation } from 'react-router-dom';
 import PopUp from '../../common/PopUp';
 import PopUpFoot from '../../common/PopUpFoot';
 import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import ApprovalUpdatePage from '../../../pages/ApprovalUpdatePage';
 
-export default function ApprovalDetail(props) {
+export default function ApprovalDetail() {
+  const navigate = useNavigate();
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState('');
@@ -25,9 +26,12 @@ export default function ApprovalDetail(props) {
   };
 
   const approveHandler = () => {
-    fetch(`http://localhost:8080/approve/approval/${props.page}`, {
-      method: 'POST',
-    })
+    fetch(
+      `http://localhost:8080/approve/approval/${location.search.split('=')[1]}`,
+      {
+        method: 'POST',
+      }
+    )
       .then((res) => {
         if (res.status === 200) {
           alert('결재가 승인되었습니다.');
@@ -41,9 +45,12 @@ export default function ApprovalDetail(props) {
   };
 
   const returnHandler = () => {
-    fetch(`http://localhost:8080/approve/return/${props.page}`, {
-      method: 'POST',
-    })
+    fetch(
+      `http://localhost:8080/approve/return/${location.search.split('=')[1]}`,
+      {
+        method: 'POST',
+      }
+    )
       .then((res) => {
         if (res.status === 200) {
           alert('결재가 반려되었습니다.');
@@ -55,7 +62,7 @@ export default function ApprovalDetail(props) {
         alert('결재반려를 실패했습니다.');
       });
   };
-  
+
   const returnTitleComponent = () => {
     return (
       <>
@@ -74,11 +81,12 @@ export default function ApprovalDetail(props) {
   };
 
   const updateHandler = () => {
-    navigate('/AD');
+    console.log(location.search.split('=')[1]);
+    navigate(`/ADD?page=${location.search.split('=')[1]}`);
   };
 
   const deleteHandler = () => {
-    fetch(`http://localhost:8080/approve/${props.page}`, {
+    fetch(`http://localhost:8080/approve/${location.search.split('=')[1]}`, {
       method: 'DELETE',
     })
       .then((res) => {
@@ -124,7 +132,19 @@ export default function ApprovalDetail(props) {
           height={'100%'}
           titleChildren={returnTitleComponent()}
           children={
-            <DetailForm approval_doc_id={location.search.split('=')[1]} />
+            <>
+              <DetailForm approval_doc_id={location.search.split('=')[1]} />
+              <Button
+                label={'문서수정'}
+                btnStyle={'blue_btn'}
+                onClick={updateHandler}
+              />
+              <Button
+                label={'문서삭제'}
+                btnStyle={'gray_btn'}
+                onClick={deleteHandler}
+              />
+            </>
           }
         ></InnerBox>
       </div>
