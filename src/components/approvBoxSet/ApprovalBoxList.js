@@ -3,6 +3,8 @@ import styled from '../../styles/components/ApprovalBox/ApprovalBoxList.module.c
 import { BiSolidFolder } from 'react-icons/bi';
 import getDocBoxList from '../../apis/approvalBoxAPI/getApprovalBox';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
+import deleteApprovalBox from '../../apis/approvalBoxAPI/deleteApprovalBox';
+import PopUp from '../common/PopUp';
 
 function ApprovalBoxList({ companyId }) {
   const { state, setState } = useApprovalBoxManage();
@@ -12,18 +14,28 @@ function ApprovalBoxList({ companyId }) {
     setState((prevState) => ({ ...prevState, boxId: boxId }));
   }
 
+  const fetchApprovalBoxList = async () => {
+    try {
+      const company = companyId;
+      const response = await getDocBoxList(company);
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const deleteBtnHandler = async (btnId) => {
+    try {
+      await deleteApprovalBox(btnId);
+      fetchApprovalBoxList(); // 삭제 후 새로운 목록 가져오기
+    } catch (error) {
+      console.error('Error deleting box:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const company = companyId; // 원하는 값으로 설정하세요
-        const response = await getDocBoxList(company);
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
+    fetchApprovalBoxList();
   }, [companyId]);
 
   return (
@@ -39,8 +51,12 @@ function ApprovalBoxList({ companyId }) {
           >
             {item.approvalBoxName}
           </div>
-
-          <div className={styled.deleteButton}>삭제</div>
+          <div
+            className={styled.deleteButton}
+            onClick={() => deleteBtnHandler(item.approvalBoxId)}
+          >
+            삭제
+          </div>
         </div>
       ))}
     </div>

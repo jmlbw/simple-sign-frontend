@@ -84,7 +84,7 @@ function ViewItemPopup() {
             </div>
           </div>
           <div className={styled.submitBtn}>
-            <Button label="확인" btnStyle="blue_btn" />
+            <Button label="확인" onClick={closeModal} btnStyle="blue_btn" />
           </div>
         </div>
       }

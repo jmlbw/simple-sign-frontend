@@ -3,8 +3,10 @@ import InnerBox from '../../../components/common/InnerBox';
 import FormListItem from '../../../components/approvalManage/formList/FormListItem';
 import Button from '../../../components/common/Button';
 import DetailForm from './DetailForm';
+import { useLocation } from 'react-router-dom';
 
-export default function ApprovalDetail(props) {
+export default function ApprovalDetail() {
+  const location = useLocation();
   const returnTitleComponent = () => {
     return (
       <>
@@ -22,7 +24,9 @@ export default function ApprovalDetail(props) {
           width={'100%'}
           height={'100%'}
           titleChildren={returnTitleComponent()}
-          children={<DetailForm approval_doc_id={props.page} />}
+          children={
+            <DetailForm approval_doc_id={location.search.split('=')[1]} />
+          }
         ></InnerBox>
       </div>
     </div>
