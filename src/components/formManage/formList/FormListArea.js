@@ -7,11 +7,14 @@ import React from 'react';
 import Button from '../../common/Button';
 import delForm from '../../../apis/commonAPI/delForm';
 import getDefaultApprovalLine from '../../../apis/commonAPI/getDefaultApprovalLine';
+import { useLoading } from '../../../contexts/LoadingContext';
 
 export default function FormListArea({ rows }) {
   const { detailData, setDetailData, updateDetailData } = useFormManage();
+  const { showLoading, hideLoading } = useLoading();
 
   const delHandler = () => {
+    showLoading();
     delForm(detailData.code)
       .then((res) => {
         if (!res.ok) {
@@ -21,10 +24,14 @@ export default function FormListArea({ rows }) {
       })
       .catch((err) => {
         console.log('데이터 삭제를 실패했습니다.');
+      })
+      .finally(() => {
+        hideLoading();
       });
   };
 
   const dataHandler = (data) => {
+    showLoading();
     Promise.all([getFormDetail(data.id), getDefaultApprovalLine(data.id)])
       .then(([formDetailRes, approvalLineRes]) => {
         return Promise.all([formDetailRes.json(), approvalLineRes.json()]);
@@ -46,9 +53,13 @@ export default function FormListArea({ rows }) {
       })
       .then(() => {
         updateDetailData();
+        hideLoading();
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        hideLoading();
       });
   };
   return (

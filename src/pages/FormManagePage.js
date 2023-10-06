@@ -8,12 +8,11 @@ import getFormAndCompList from '../apis/commonAPI/getFormAndCompList';
 import { useFormManage } from '../contexts/FormManageContext';
 import { usePage } from '../contexts/PageContext';
 import { useLoading } from '../contexts/LoadingContext';
-import Loading from '../components/common/Loading';
 
 export default function FormManagePage() {
   const [formListData, setFormListData] = useState([]);
   const { searchData, setSearchData, setData, setSetData } = useFormManage();
-  const { isLoading, showLoading, hideLoading } = useLoading();
+  const { showLoading, hideLoading } = useLoading();
   const { state, setState } = usePage();
 
   useEffect(() => {
@@ -30,12 +29,11 @@ export default function FormManagePage() {
         setSearchData({ ...searchData, compId: data[0].id });
         setSetData({ ...setData, compList: data });
       })
-      .then(() => {
-        hideLoading();
-      })
       .catch((err) => {
-        hideLoading();
         console.error(err);
+      })
+      .finally(() => {
+        hideLoading();
       });
   }, []);
 
@@ -52,14 +50,13 @@ export default function FormManagePage() {
       .then((data) => {
         setFormListData(data);
       })
-      .then(() => {
-        hideLoading();
-      })
       .catch((err) => {
-        hideLoading();
         if (err.message === '404') {
           alert('검색된 양식가 없습니다.');
         }
+      })
+      .finally(() => {
+        hideLoading();
       });
   };
 
@@ -74,7 +71,6 @@ export default function FormManagePage() {
           <FormDetail searchHandler={searchHandler} />
         </div>
       </div>
-      <Loading />
     </div>
   );
 }
