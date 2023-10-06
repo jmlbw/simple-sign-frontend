@@ -5,54 +5,9 @@ import DetailForm from './DetailForm';
 import PopUp from '../../common/PopUp';
 import PopUpFoot from '../../common/PopUpFoot';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export default function ApprovalDetail(props) {
-  const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [mode, setMode] = useState('');
-  const openModal = (mode) => {
-    setIsModalOpen(true);
-    if (mode === 'approve') {
-      setMode('승인');
-    } else if (mode === 'return') {
-      setMode('반려');
-    }
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const approveHandler = () => {
-    fetch(`http://localhost:8080/approve/approval/${props.page}`, {
-      method: 'POST',
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          alert('결재가 승인되었습니다.');
-        } else {
-          alert('결재가 실패했습니다.');
-        }
-      })
-      .catch((e) => {
-        alert('결재가 실패했습니다.');
-      });
-  };
-
-  const returnHandler = () => {
-    fetch(`http://localhost:8080/approve/return/${props.page}`, {
-      method: 'POST',
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          alert('결재가 반려되었습니다.');
-        } else {
-          alert('결재반려를 실패했습니다.');
-        }
-      })
-      .catch((e) => {
-        alert('결재반려를 실패했습니다.');
-      });
-  };
   const returnTitleComponent = () => {
     return (
       <>
@@ -120,21 +75,7 @@ export default function ApprovalDetail(props) {
           width={'100%'}
           height={'100%'}
           titleChildren={returnTitleComponent()}
-          children={
-            <>
-              <DetailForm approval_doc_id={props.page} />
-              <Button
-                label={'문서수정'}
-                btnStyle={'blue_btn'}
-                onClick={updateHandler}
-              />
-              <Button
-                label={'문서삭제'}
-                btnStyle={'gray_btn'}
-                onClick={deleteHandler}
-              />
-            </>
-          }
+          children={<DetailForm approval_doc_id={props.page} />}
         ></InnerBox>
       </div>
 
