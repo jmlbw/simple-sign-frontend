@@ -7,12 +7,10 @@ import getDocsList, {
   detailSearchDocs,
 } from '../../../apis/approvalBoxAPI/getDocsList';
 import styled from '../../../styles/components/ApprovalBox/ViewDocBox.module.css';
-import SearchContext from '../../../contexts/SearchContext';
 import TableHeader from './TableHeader';
 import { useNavigate } from 'react-router-dom';
 
 function ViewDocBox() {
-  const { view } = useContext(SearchContext);
   const { state, setState, detailSearchState } = useApprovalBox();
   const [docData, setDocData] = useState([]);
   const [page, setPage] = useState(1);
@@ -20,7 +18,7 @@ function ViewDocBox() {
   const [totalPages, setTotalPages] = useState(0);
   const { viewItem } = state;
   const docListStyles = {
-    maxHeight: view ? '250px' : '400px',
+    maxHeight: state.view ? '250px' : '400px',
   };
 
   // Helper function to fetch data
@@ -29,13 +27,7 @@ function ViewDocBox() {
       const offset = (page - 1) * 10;
       const response = isDetailSearch
         ? await detailSearchDocs(viewItem, 10, offset, detailSearchState)
-        : await getDocsList(
-            viewItem,
-            10,
-            offset,
-            state.searchInput,
-            state.detailSearchState
-          );
+        : await getDocsList(viewItem, 10, offset, state.searchInput);
 
       const { docList, count } = response.data;
       setTotalCount(count);

@@ -1,20 +1,22 @@
-import SelectBox from '../common/Selectbox';
-import SearchDate from './SearchDate';
 import styles from '../../styles/components/ApprovalBox/ApprovalRightHeader.module.css';
 import React, { useContext, useState } from 'react';
 import Search from './Search';
-import SearchContext from '../../contexts/SearchContext';
 import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
 
 function ApprovalRightHeader() {
   const [isDropdownView, setDropdownView] = useState(false);
-  const { view, setView } = useContext(SearchContext);
-
   const { state, setState } = useApprovalBox();
+
+  const { detailSearchState, setDetailSearchState, detailSearchInitState } =
+    useApprovalBox();
 
   const handleClickContainer = () => {
     setDropdownView(!isDropdownView);
-    setView(!view);
+    setState((prevState) => ({
+      ...prevState,
+      view: !prevState.view,
+    }));
+    setDetailSearchState(detailSearchInitState);
   };
 
   const handleBlurContainer = () => {
