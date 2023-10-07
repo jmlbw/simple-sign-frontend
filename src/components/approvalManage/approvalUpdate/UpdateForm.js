@@ -26,6 +26,7 @@ export default function UpdateForm({
   const [form_code, setFormCode] = useState(0);
   const [sequence, setSequence] = useState([]);
   useEffect(() => {
+    console.log(approval_doc_id);
     fetch(`http://localhost:8080/approve/detail/${approval_doc_id}`)
       .then((res) => {
         return res.json();
@@ -41,6 +42,9 @@ export default function UpdateForm({
         setContents(json.contents);
         setFormCode(json.formCode);
         setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
       });
 
     if (form_code !== 0) {

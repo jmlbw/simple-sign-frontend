@@ -1,10 +1,5 @@
 import styled from '../../../styles/components/formManage/formSelectPopUp/FormSelect.module.css';
 import React from 'react';
-import {
-  columns,
-  fields,
-  rows,
-} from '../../../assets/datas/formList_sample_data';
 
 export default function FormSelect() {
   return (

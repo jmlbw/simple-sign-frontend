@@ -5,12 +5,13 @@ const initialState = {
   searchBtnStatus: false,
   shouldFetchDocs: false,
   searchInput: '',
+  view: false,
 };
 
 const detailSearchInitState = {
   searchDate: '',
-  startDate: '',
-  endDate: '',
+  startDate: null,
+  endDate: null,
   searchTitle: '',
   searchContent: '',
   searchDept: '',
@@ -31,7 +32,13 @@ export const ApprovalBoxProvider = ({ children }) => {
 
   return (
     <ApprovalBoxContext.Provider
-      value={{ state, setState, detailSearchState, setDetailSearchState }}
+      value={{
+        state,
+        setState,
+        detailSearchState,
+        setDetailSearchState,
+        detailSearchInitState,
+      }}
     >
       {children}
     </ApprovalBoxContext.Provider>

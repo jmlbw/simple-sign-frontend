@@ -20,7 +20,7 @@ import Login from './pages/Login';
 import ApprovalBoxSetPage from './pages/ApprovalBoxSetPage';
 import ApprovalUpdatePage from '../src/pages/ApprovalUpdatePage';
 import ApprovalDetail from '../src/components/approvalManage/approvalDetail/ApprovalDetail';
-
+import Loading from './components/common/Loading';
 function AppContent() {
   const { state } = useContext(AppContext);
   const navigate = useNavigate();
@@ -32,36 +32,41 @@ function AppContent() {
     }
   }, [state.isLoggedIn, navigate]);
 
-  return state.isLoggedIn ? (
-    //로그인이 되었을 때 모든 페이지
+  return (
     <>
-      <Header />
-      <Sidebar />
-      <div className="contentContainer">
-        <Titlebox
-          title="상신문서"
-          view="approval"
-          componentProp={<ApprovalRightHeader />}
-        ></Titlebox>
-        <div className="contentsArea">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/EAM" element={<FormManagePage />} />
-            <Route path="/ABS" element={<ApprovalBoxSetPage />} />
-            <Route path="/ABV" element={<ApprovalBoxViewPage />} />
-            <Route path="/SAM" element={<SeqManagePage />} />
-            <Route path="/FL" element={<FormListPage />} />
-            <Route path="/AD" element={<ApprovalDetail />} />
-          </Routes>
-        </div>
-      </div>
+      {state.isLoggedIn ? ( //로그인이 되었을 때 모든 페이지
+        <>
+          <Header />
+          <Sidebar />
+          <div className="contentContainer">
+            <Titlebox
+              title="상신문서"
+              view="approval"
+              componentProp={<ApprovalRightHeader />}
+            ></Titlebox>
+            <div className="contentsArea">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/EAM" element={<FormManagePage />} />
+                <Route path="/ABS" element={<ApprovalBoxSetPage />} />
+                <Route path="/ABV" element={<ApprovalBoxViewPage />} />
+                <Route path="/SAM" element={<SeqManagePage />} />
+                <Route path="/FL" element={<FormListPage />} />
+                <Route path="/AD" element={<ApprovalDetail />} />
+                <Route path="/ADD" element={<ApprovalUpdatePage />} />
+              </Routes>
+            </div>
+          </div>
+        </>
+      ) : (
+        //로그인이 되지 않았을 때 로그인 페이지
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/*" element={<Navigate to="/login" />} />
+        </Routes>
+      )}
+      <Loading />
     </>
-  ) : (
-    //로그인이 되지 않았을 때 로그인 페이지
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/*" element={<Navigate to="/login" />} />
-    </Routes>
   );
 }
 

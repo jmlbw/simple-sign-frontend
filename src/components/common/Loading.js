@@ -9,11 +9,7 @@ const Loading = () => {
 
   return isLoading ? (
     <div className={styled.loading_overlay}>
-      {/* <div className={styled.loading_container}> */}
-      {/* <div className={styled.loading_spinner}></div> */}
       <img src={loadingGif} alt="로딩 중" className={styled.loading_image} />
-      {/* <div className={styled.loading_text}>로딩 중...</div> */}
-      {/* </div> */}
     </div>
   ) : null;
 };
