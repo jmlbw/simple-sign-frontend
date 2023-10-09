@@ -5,6 +5,9 @@ import SelectDate from '../approvalRegist/components/SelectDate';
 import SelectBox from '../../common/Selectbox';
 import { TinyEditor } from '../../common/TinyEditor';
 import styled from '../../../styles/components/approvalManage/approvalUpdate/UpdateForm.module.css';
+import PopUp from '../../common/PopUp';
+import PopUpFoot from '../../common/PopUpFoot';
+import OrgChart from '../../org/OrgChart';
 
 export default function UpdateForm({
   approval_doc_id,
@@ -13,6 +16,8 @@ export default function UpdateForm({
   dataHandler,
   editorHandler,
   titleRef,
+  org_use_id,
+  setOrgUseId,
 }) {
   const [default_form, setDefaultForm] = useState('');
   const [userName, setUserName] = useState('');
@@ -25,6 +30,23 @@ export default function UpdateForm({
   const [contents, setContents] = useState('');
   const [form_code, setFormCode] = useState(0);
   const [sequence, setSequence] = useState([]);
+  const [approval_line, setApprovalLine] = useState('');
+  const [dataParent, setDataParent] = useState([]);
+  const [condition, setCondition] = useState('rec_ref');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const handleApprovalClick = () => {
+    setCondition('approval');
+    openModal();
+  };
+
   useEffect(() => {
     console.log(approval_doc_id);
     fetch(`http://localhost:8080/approve/detail/${approval_doc_id}`)
@@ -41,6 +63,7 @@ export default function UpdateForm({
         setEnforcementDate(moment(json.enforcementDate));
         setContents(json.contents);
         setFormCode(json.formCode);
+        setApprovalLine(json.approvalLineList);
         setIsLoading(false);
       })
       .catch((e) => {
@@ -58,6 +81,14 @@ export default function UpdateForm({
           setSequence(json);
         });
     }
+    if (approval_line.length !== 0) {
+      approval_line.map((data, id) => {
+        if (data.userId) {
+          const updateOrgUse = [...org_use_id, data.userId];
+          setOrgUseId(updateOrgUse);
+        }
+      });
+    }
 
     console.error = (function (_error) {
       return function (message, ...args) {
@@ -71,6 +102,23 @@ export default function UpdateForm({
     })(console.error);
   }, [form_code]);
 
+  const BlueAndGrayBtn = [
+    {
+      label: '반영',
+      onClick: () => {
+        closeModal();
+      },
+      btnStyle: 'popup_blue_btn',
+    },
+    {
+      label: '취소',
+      onClick: () => {
+        closeModal();
+      },
+      btnStyle: 'popup_gray_btn',
+    },
+  ];
+
   return (
     <>
       {isLoading ? (
@@ -82,8 +130,65 @@ export default function UpdateForm({
               replace: (domNode) => {
                 if (domNode.attribs && domNode.attribs.id == 'approval_line') {
                   return (
-                    <div id="approval_line" contentEditable="true">
-                      결재라인입니다.
+                    <div id="approval_line">
+                      <table
+                        border={'1px solid'}
+                        style={{ width: '100%', borderCollapse: 'collapse' }}
+                        onClick={handleApprovalClick}
+                      >
+                        <tr style={{ height: '50px' }}>
+                          <td>결재자1</td>
+                          <td>결재자2</td>
+                          <td>결재자3</td>
+                          <td>결재자4</td>
+                          <td>결재자5</td>
+                          <td>결재자6</td>
+                          <td>결재자7</td>
+                          <td>결재자8</td>
+                        </tr>
+                        <tr style={{ height: '50px' }}>
+                          <td>
+                            {approval_line.length > 0
+                              ? approval_line[0].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 1
+                              ? approval_line[1].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 2
+                              ? approval_line[2].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 3
+                              ? approval_line[3].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 4
+                              ? approval_line[4].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 5
+                              ? approval_line[5].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 6
+                              ? approval_line[6].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 7
+                              ? approval_line[7].userName
+                              : ''}
+                          </td>
+                        </tr>
+                      </table>
                     </div>
                   );
                 }
@@ -166,6 +271,29 @@ export default function UpdateForm({
           </div>
         </>
       )}
+
+      {/*모달*/}
+      <PopUp
+        title="조직도"
+        width="1300px"
+        height="600px"
+        isModalOpen={isModalOpen}
+        openModal={openModal}
+        closeModal={closeModal}
+        children={
+          condition === 'approval' ? (
+            <>
+              <OrgChart view={'user'} onDataUpdate={setApprovalLine} />
+              <PopUpFoot buttons={BlueAndGrayBtn} />
+            </>
+          ) : (
+            <>
+              <OrgChart view={'user'} onDataUpdate={setDataParent} />
+              <PopUpFoot buttons={BlueAndGrayBtn} />
+            </>
+          )
+        }
+      />
     </>
   );
 }

@@ -13,6 +13,7 @@ export default function ApprovalUpdatePage(props) {
   const [editor, setEditor] = useState(null);
   const divRef = useRef(null);
   const titleRef = useRef(null);
+  const [org_use_id, setOrgUseId] = useState('');
 
   const handleSelectTimeChange = (newValue) => {
     setDraftingTime(newValue);
@@ -32,10 +33,11 @@ export default function ApprovalUpdatePage(props) {
     const data = {
       approvalDocTitle: titleRef.current.innerHTML,
       seqCode: sequence_code,
-      receiveRefList: [3],
+      receiveRefList: [{ id: 3, category: 'U', name: 'joe' }],
       createdAt: drafting_time,
       enforcementDate: enforce_date,
       contents: editor,
+      approverList: org_use_id,
     };
 
     fetch(`http://localhost:8080/approve/${location.search.split('=')[1]}`, {
@@ -75,6 +77,8 @@ export default function ApprovalUpdatePage(props) {
                 dataHandler={dataHandler}
                 editorHandler={editorHandler}
                 titleRef={titleRef}
+                org_use_id={org_use_id}
+                setOrgUseId={setOrgUseId}
               />
               <Button
                 label={'수정'}

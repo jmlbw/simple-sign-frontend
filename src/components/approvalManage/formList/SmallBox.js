@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from '../../../styles/components/approvalManage/formList/SmallBox.module.css';
 import ApprovalForm from '../approvalRegist/ApprovalForm';
 import PopUp from '../../common/PopUp';
@@ -22,6 +22,9 @@ export default function SmallBox(props) {
   const [deptId, setDeptId] = useState(1);
   const divRef = useRef(null);
   const titleRef = useRef(null);
+  const [rec_ref, setRecRef] = useState([]);
+  const [org_use_id, setOrgUseId] = useState([]);
+  const receiveRefList = [];
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -70,7 +73,7 @@ export default function SmallBox(props) {
       docStatus = 'W';
     }
     // let searchContents = extractTableData(editor);
-    // console.log(searchContents);
+    console.log(org_use_id);
     const data = {
       userId: userId,
       deptId: deptId,
@@ -78,9 +81,9 @@ export default function SmallBox(props) {
       approvalDocTitle: titleRef.current.innerHTML,
       docStatus: docStatus,
       seqCode: sequence_code,
-      approverList: [1, 2, 3],
-      receiveRefList: [3],
-      createdAt: drafting_time,
+      approverList: org_use_id,
+      receiveRefList: rec_ref,
+      approvalDate: drafting_time,
       enforcementDate: enforce_date,
       contents: editor,
     };
@@ -95,6 +98,7 @@ export default function SmallBox(props) {
     }).then((res) => {
       if (res.status == '200') {
         alert('상신되었습니다.');
+        setRecRef('');
         closeModal();
       }
     });
@@ -149,6 +153,10 @@ export default function SmallBox(props) {
               userId={userId}
               deptId={deptId}
               titleRef={titleRef}
+              rec_ref={rec_ref}
+              setRecRef={setRecRef}
+              org_use_id={org_use_id}
+              setOrgUseId={setOrgUseId}
               dataHandler={dataHandler}
               editorHandler={editorHandler}
               handleSelectBoxChange={handleSelectBoxChange}

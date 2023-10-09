@@ -14,6 +14,8 @@ export default function DetailForm(props) {
   const [enforcementDate, setEnforcementDate] = useState('');
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
+  const [approval_line, setApprovalLine] = useState('');
+  const [receiveRefOpt, setReceiveRefOpt] = useState('');
 
   useEffect(() => {
     fetch(`http://localhost:8080/approve/detail/${props.approval_doc_id}`)
@@ -30,6 +32,8 @@ export default function DetailForm(props) {
         setEnforcementDate(json.enforcementDate);
         setContents(json.contents);
         setIsLoading(false);
+        setApprovalLine(json.approvalLineList);
+        setReceiveRefOpt(json.receivedRefList);
       })
       .catch(() => {
         alert('문서를 찾을 수 없습니다');
@@ -59,12 +63,64 @@ export default function DetailForm(props) {
               replace: (domNode) => {
                 if (domNode.attribs && domNode.attribs.id == 'approval_line') {
                   return (
-                    <div
-                      id="approval_line"
-                      contentEditable="false"
-                      suppressContentEditableWarning={true}
-                    >
-                      결재라인입니다.
+                    <div id="approval_line">
+                      <table
+                        border={'1px solid'}
+                        style={{ width: '100%', borderCollapse: 'collapse' }}
+                      >
+                        <tr style={{ height: '50px' }}>
+                          <td>결재자1</td>
+                          <td>결재자2</td>
+                          <td>결재자3</td>
+                          <td>결재자4</td>
+                          <td>결재자5</td>
+                          <td>결재자6</td>
+                          <td>결재자7</td>
+                          <td>결재자8</td>
+                        </tr>
+                        <tr style={{ height: '50px' }}>
+                          <td>
+                            {approval_line.length > 0
+                              ? approval_line[0].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 1
+                              ? approval_line[1].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 2
+                              ? approval_line[2].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 3
+                              ? approval_line[3].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 4
+                              ? approval_line[4].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 5
+                              ? approval_line[5].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 6
+                              ? approval_line[6].userName
+                              : ''}
+                          </td>
+                          <td>
+                            {approval_line.length > 7
+                              ? approval_line[7].userName
+                              : ''}
+                          </td>
+                        </tr>
+                      </table>
                     </div>
                   );
                 }
@@ -108,6 +164,15 @@ export default function DetailForm(props) {
                     <div id="enforce_date" contentEditable="false">
                       {enforcementDate}
                     </div>
+                  );
+                }
+                if (domNode.attribs && domNode.attribs.id == 'rec_ref') {
+                  return (
+                    <>
+                      {receiveRefOpt.map((data, index) => (
+                        <div id="receiveList">{data.userName}</div>
+                      ))}
+                    </>
                   );
                 }
                 if (domNode.attribs && domNode.attribs.id == 'enforcer') {
