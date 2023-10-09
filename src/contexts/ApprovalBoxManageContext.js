@@ -1,7 +1,16 @@
 import React, { createContext, useState, useContext } from 'react';
 
 const initialState = {
-  boxId: '',
+  boxId: null,
+};
+
+const approvalBoxInit = {
+  selectedCompany: null,
+  boxName: null,
+  viewItems: [],
+  useStatus: false,
+  menuUseArray: null,
+  sortOrder: null,
 };
 
 const ApprovalBoxManageContext = createContext();
