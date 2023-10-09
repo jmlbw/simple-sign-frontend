@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Datalist from './Datalist';
-import Radiobtn from './Radiobtn';
-import PopUp from '../common/PopUp';
 import styled from '../../styles/pages/ApprovalBoxSetPage.module.css';
 import getBoxDetail from '../../apis/approvalBoxAPI/getBoxDetail';
 import ViewItem from './DetailBox/ViewItem';
@@ -9,6 +6,7 @@ import BoxCompany from './DetailBox/BoxCompany';
 import BoxName from './DetailBox/BoxName';
 import BoxUseStatus from './DetailBox/BoxUseStatus';
 import MenuUseRange from './DetailBox/MenuUseRange';
+import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 
 const commonCellStyle = {
   width: '30%',
@@ -18,7 +16,9 @@ const commonDataStyle = {
   width: '70%',
 };
 
-function DetailBox({ boxId }) {
+function DetailBox() {
+  const { state } = useApprovalBoxManage();
+  const boxId = state.boxId;
   const [menuOption, setMenuOption] = useState('T');
   const [useStatus, setUseStatus] = useState(1);
   const [data, setData] = useState([]);
@@ -33,15 +33,19 @@ function DetailBox({ boxId }) {
     const fetchData = async () => {
       try {
         const parsedBoxId = parseInt(boxId, 10);
-        if (!isNaN(parsedBoxId)) {
-          const response = await getBoxDetail(parsedBoxId);
-          setData(response.data);
-          if (response.data.length > 0) {
-            setUseStatus(
-              response.data[0].approvalBoxUsedStatus === 1 ? '사용' : '미사용'
-            );
-            setMenuOption(response.data[0].menuUsingRange);
-          }
+        // boxId 값이 없거나, 유효한 숫자가 아니면 API 호출을 스킵
+        if (isNaN(parsedBoxId)) {
+          setData([]);
+          return;
+        }
+
+        const response = await getBoxDetail(parsedBoxId);
+        setData(response.data);
+        if (response.data.length > 0) {
+          setUseStatus(
+            response.data[0].approvalBoxUsedStatus === 1 ? '사용' : '미사용'
+          );
+          setMenuOption(response.data[0].menuUsingRange);
         }
       } catch (error) {
         console.error('Error fetching box details:', error);
@@ -49,7 +53,51 @@ function DetailBox({ boxId }) {
     };
 
     fetchData();
-  }, [boxId]);
+  }, [state.boxId]);
+
+  if (isNaN(boxId)) {
+    return (
+      <div className={styled.formcontainer}>
+        <BoxCompany
+          commonCellStyle={commonCellStyle}
+          commonDataStyle={commonDataStyle}
+        />
+        <BoxName
+          commonCellStyle={commonCellStyle}
+          commonDataStyle={commonDataStyle}
+          handleInputChange={handleInputChange}
+        />
+        <ViewItem
+          commonCellStyle={commonCellStyle}
+          commonDataStyle={commonDataStyle}
+        />
+        <BoxUseStatus
+          commonCellStyle={commonCellStyle}
+          commonDataStyle={commonDataStyle}
+          handleUseStatusChange={handleUseStatusChange}
+        />
+        <MenuUseRange
+          commonCellStyle={commonCellStyle}
+          commonDataStyle={commonDataStyle}
+          setMenuOption={setMenuOption}
+        />
+        <div className={styled.inputItem}>
+          <div style={commonCellStyle}>
+            <div className={styled.text}>정렬순서</div>
+          </div>
+          <div style={commonDataStyle}>
+            <div>
+              <input
+                type="text"
+                className={styled.inputstyle}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styled.formcontainer}>
@@ -69,6 +117,7 @@ function DetailBox({ boxId }) {
           <ViewItem
             commonCellStyle={commonCellStyle}
             commonDataStyle={commonDataStyle}
+            boxId={boxId}
           />
           <BoxUseStatus
             commonCellStyle={commonCellStyle}

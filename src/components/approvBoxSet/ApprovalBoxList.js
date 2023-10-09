@@ -21,7 +21,11 @@ function ApprovalBoxList({ companyId }) {
   };
 
   function boxNameClickHandler(boxId) {
-    setState((prevState) => ({ ...prevState, boxId: boxId }));
+    setState((prevState) => ({
+      ...prevState,
+      boxId: boxId,
+      viewItem: [], // viewItem 초기화
+    }));
   }
 
   const fetchApprovalBoxList = async () => {
