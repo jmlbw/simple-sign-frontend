@@ -4,6 +4,9 @@ import MenuItem from './MenuItem';
 import BasicButton from './Button';
 import AuthorityBtn from './AuthorityBtn';
 import styled from '../../styles/components/sidebar/Sidebar.module.css';
+import { useEffect } from 'react';
+import getApprovalBoxList from '../../apis/approvalBoxAPI/getApprovalBoxList';
+import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
 
 //추후 backend data변경예정
 const userData = [
@@ -27,7 +30,7 @@ const userData = [
   {
     id: '3',
     name: '결재분류함',
-    submenu: [{ id: 1, name: '상신문서' }],
+    submenu: [],
   },
 ];
 
@@ -49,7 +52,39 @@ const managerData = [
 
 function Sidebar() {
   let [data, setData] = useState(userData);
-  const [isSubMenuVisible, setSubMenuVisible] = useState([false, false]);
+  const [isSubMenuVisible, setSubMenuVisible] = useState([false, false, false]);
+  const { customBoxViewItemState, setCustomBoxViewItemState } =
+    useApprovalBox();
+
+  //결재분류함(커스텀) 데이터 받아오기
+  useEffect(() => {
+    getApprovalBoxList()
+      .then((response) => {
+        const newSubmenu = response.boxList.map((item) => {
+          return {
+            id: item.approvalBoxId,
+            name: item.approvalBoxName,
+          };
+        });
+
+        const updatedUserData = [...userData];
+        updatedUserData[2].submenu = newSubmenu;
+        setData(updatedUserData);
+
+        const newCustomBoxViewItems = response.boxList.map((item) => ({
+          boxId: item.approvalBoxId,
+          approvalBoxName: item.approvalBoxName,
+          viewItems: response.viewItems
+            .filter((viewItem) => viewItem.approvalBoxId === item.approvalBoxId)
+            .map((viewItem) => viewItem.codeValue), // assuming `name` is the field you want from viewItem
+        }));
+
+        setCustomBoxViewItemState(newCustomBoxViewItems);
+      })
+      .catch((error) =>
+        console.error('Error fetching approval box list:', error)
+      );
+  }, []);
 
   const authorityManage = (value) => {
     if (value == 'user') {
