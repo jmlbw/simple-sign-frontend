@@ -4,13 +4,16 @@ import Optionbox from '../../common/Optionbox';
 import styled from '../../../styles/pages/ApprovalBoxSetPage.module.css';
 import getViewItems from '../../../apis/approvalBoxAPI/getViewItems';
 import { useApprovalBox } from '../../../contexts/ApprovalBoxContext';
+import { useApprovalBoxManage } from '../../../contexts/ApprovalBoxManageContext';
 
 const BASE_RADIX = 10;
 
 function ViewItem(props) {
   const [data, setData] = useState([]);
+  const [viewItemsLocal, setViewItemsLocal] = useState([]);
   const [error, setError] = useState(null);
   const { state, setState } = useApprovalBox();
+  const { approvalBoxState } = useApprovalBoxManage();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +27,6 @@ function ViewItem(props) {
 
           response.data.forEach((viewItem) => {
             if (viewItem.codeId.includes('01')) {
-              console.log(viewItem.codeId);
               updatedViewItem.push('send');
             } else if (viewItem.codeId.includes('02')) {
               updatedViewItem.push('pend');
@@ -50,7 +52,21 @@ function ViewItem(props) {
       }
     };
     fetchData();
-  }, [props.boxId]);
+  }, [props.boxId, approvalBoxState.viewItems]);
+
+  useEffect(() => {
+    if (approvalBoxState && approvalBoxState.viewItems) {
+      setViewItemsLocal(approvalBoxState.viewItems); // approvalBoxState.viewItems 값이 변경될 때마다 로컬 상태 업데이트
+    }
+  }, [approvalBoxState.viewItems, approvalBoxState]); // approvalBoxState.viewItems 값의 변경을 감지
+
+  let itemsToRender;
+
+  if (viewItemsLocal && viewItemsLocal.length > 0) {
+    itemsToRender = viewItemsLocal;
+  } else {
+    itemsToRender = data ? data.map((item) => item.codeValue) : [];
+  }
 
   return (
     <div className={styled.inputItem}>
@@ -60,12 +76,12 @@ function ViewItem(props) {
       <div style={props.commonDataStyle}>
         <div className={styled.viewUseField}>
           <div className={styled.viewItemBox}>
-            {data.map((viewItem) => (
-              <Optionbox key={viewItem.codeId} name={viewItem.codeValue} />
+            {itemsToRender.map((viewItemValue, index) => (
+              <Optionbox key={index} name={viewItemValue} />
             ))}
           </div>
 
-          <ViewItemPopup />
+          <ViewItemPopup checkedItems={data} />
         </div>
       </div>
     </div>

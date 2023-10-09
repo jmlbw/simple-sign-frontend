@@ -8,7 +8,13 @@ import PopUp from '../common/PopUp';
 import Button from '../common/Button';
 
 function ApprovalBoxList({ companyId }) {
-  const { state, setState } = useApprovalBoxManage();
+  const {
+    state,
+    setState,
+    approvalBoxState,
+    setApprovalBoxState,
+    approvalBoxInit,
+  } = useApprovalBoxManage();
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,6 +31,11 @@ function ApprovalBoxList({ companyId }) {
       ...prevState,
       boxId: boxId,
       viewItem: [], // viewItem 초기화
+    }));
+    setApprovalBoxState((prevState) => ({
+      ...prevState,
+      ...approvalBoxInit,
+      approvalBoxId: boxId,
     }));
   }
 

@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '../../styles/pages/ApprovalBoxSetPage.module.css';
 import PopUp from '../common/PopUp';
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
 import Button from '../common/Button';
+import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 
-function ViewItemPopup() {
+function ViewItemPopup({ checkedItems }) {
   const [selectAll, setSelectAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { approvalBoxState, setApprovalBoxState } = useApprovalBoxManage();
 
   const openModal = () => {
     setIsModalOpen(true);
   };
 
-  // 모달을 닫기 위한 함수
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-  // 각 체크박스의 상태를 관리하는 상태 배열
   const [checkboxStates, setCheckboxStates] = useState({
     상신내역: false,
     미결내역: false,
@@ -26,7 +26,26 @@ function ViewItemPopup() {
     반려내역: false,
     수신참조내역: false,
   });
-  // "조회항목" 체크박스 클릭 시 모든 하위 체크박스 상태 변경
+
+  useEffect(() => {
+    const initialCheckboxStates = {
+      상신내역: false,
+      미결내역: false,
+      '기결내역-종결': false,
+      '기결내역-진행': false,
+      반려내역: false,
+      수신참조내역: false,
+    };
+
+    checkedItems.forEach((item) => {
+      if (item.codeValue) {
+        initialCheckboxStates[item.codeValue] = true;
+      }
+    });
+
+    setCheckboxStates(initialCheckboxStates);
+  }, [checkedItems]);
+
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
     const newCheckboxStates = { ...checkboxStates };
@@ -36,11 +55,25 @@ function ViewItemPopup() {
     setCheckboxStates(newCheckboxStates);
   };
 
-  // 하위 체크박스 클릭 시 해당 체크박스 상태 변경
   const handleCheckboxChange = (itemName) => {
     const newCheckboxStates = { ...checkboxStates };
     newCheckboxStates[itemName] = !newCheckboxStates[itemName];
     setCheckboxStates(newCheckboxStates);
+  };
+
+  const handleSave = () => {
+    // 선택된 값을 저장하는 코드
+    const selectedItems = Object.keys(checkboxStates).filter(
+      (itemName) => checkboxStates[itemName]
+    );
+
+    setApprovalBoxState({
+      ...approvalBoxState,
+      viewItems: selectedItems,
+    });
+
+    // 모달 닫기
+    closeModal();
   };
 
   return (
@@ -49,9 +82,9 @@ function ViewItemPopup() {
       title="조회항목 선택"
       width="400px"
       height="440px"
-      isModalOpen={isModalOpen} // 여기에 상태 전달
-      openModal={openModal} // 여기에 함수 전달
-      closeModal={closeModal} // 여기에 함수 전달
+      isModalOpen={isModalOpen}
+      openModal={openModal}
+      closeModal={closeModal}
       children={
         <div>
           <div className={styled.viewItemContainer}>
@@ -67,7 +100,6 @@ function ViewItemPopup() {
                 </div>
                 <div className={styled.topViewItem}>조회항목</div>
               </div>
-              {/* 다른 하위 체크박스들 */}
               {Object.keys(checkboxStates).map((itemName, index) => (
                 <div className={styled.viewitem} key={index}>
                   <div className={styled.checkbox}>
@@ -84,7 +116,7 @@ function ViewItemPopup() {
             </div>
           </div>
           <div className={styled.submitBtn}>
-            <Button label="확인" onClick={closeModal} btnStyle="blue_btn" />
+            <Button label="확인" onClick={handleSave} btnStyle="blue_btn" />
           </div>
         </div>
       }

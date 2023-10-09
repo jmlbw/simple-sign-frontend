@@ -7,6 +7,7 @@ import BoxName from './DetailBox/BoxName';
 import BoxUseStatus from './DetailBox/BoxUseStatus';
 import MenuUseRange from './DetailBox/MenuUseRange';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
+import SortOrder from './DetailBox/SortOrder';
 
 const commonCellStyle = {
   width: '30%',
@@ -65,7 +66,6 @@ function DetailBox() {
         <BoxName
           commonCellStyle={commonCellStyle}
           commonDataStyle={commonDataStyle}
-          handleInputChange={handleInputChange}
         />
         <ViewItem
           commonCellStyle={commonCellStyle}
@@ -81,20 +81,10 @@ function DetailBox() {
           commonDataStyle={commonDataStyle}
           setMenuOption={setMenuOption}
         />
-        <div className={styled.inputItem}>
-          <div style={commonCellStyle}>
-            <div className={styled.text}>정렬순서</div>
-          </div>
-          <div style={commonDataStyle}>
-            <div>
-              <input
-                type="text"
-                className={styled.inputstyle}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-        </div>
+        <SortOrder
+          commonCellStyle={commonCellStyle}
+          commonDataStyle={commonDataStyle}
+        />
       </div>
     );
   }
@@ -131,21 +121,12 @@ function DetailBox() {
             menuOption={menuOption}
             setMenuOption={setMenuOption}
           />
-          <div className={styled.inputItem}>
-            <div style={commonCellStyle}>
-              <div className={styled.text}>정렬순서</div>
-            </div>
-            <div style={commonDataStyle}>
-              <div>
-                <input
-                  type="text"
-                  value={boxDetail.sortOrder}
-                  className={styled.inputstyle}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-          </div>
+          <SortOrder
+            commonCellStyle={commonCellStyle}
+            commonDataStyle={commonDataStyle}
+            handleInputChange={handleInputChange}
+            boxName={boxDetail.sortOrder}
+          />
         </React.Fragment>
       ))}
     </div>

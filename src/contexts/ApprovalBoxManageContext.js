@@ -5,11 +5,12 @@ const initialState = {
 };
 
 const approvalBoxInit = {
-  selectedCompany: null,
-  boxName: null,
+  approvalBoxId: null,
+  compId: null,
+  approvalBoxName: null,
   viewItems: [],
-  useStatus: false,
-  menuUseArray: null,
+  approvalBoxUsedStatus: 0,
+  menuUsingRange: null,
   sortOrder: null,
 };
 
@@ -17,9 +18,18 @@ const ApprovalBoxManageContext = createContext();
 
 export const ApprovalBoxManageProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
+  const [approvalBoxState, setApprovalBoxState] = useState(approvalBoxInit);
 
   return (
-    <ApprovalBoxManageContext.Provider value={{ state, setState }}>
+    <ApprovalBoxManageContext.Provider
+      value={{
+        state,
+        setState,
+        approvalBoxState,
+        setApprovalBoxState,
+        approvalBoxInit,
+      }}
+    >
       {children}
     </ApprovalBoxManageContext.Provider>
   );
