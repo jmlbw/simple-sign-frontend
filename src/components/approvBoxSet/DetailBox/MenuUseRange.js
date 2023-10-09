@@ -4,9 +4,19 @@ import PopUp from '../../common/PopUp';
 import Radiobtn from '../Radiobtn';
 import { useState } from 'react';
 import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
+import { useApprovalBoxManage } from '../../../contexts/ApprovalBoxManageContext';
+import { useEffect } from 'react';
 
 function MenuUseRange(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { approvalBoxState, setApprovalBoxState } = useApprovalBoxManage();
+
+  useEffect(() => {
+    setApprovalBoxState((prevState) => ({
+      ...prevState,
+      menuUsingRange: props.menuOption,
+    }));
+  }, [props.menuOption, setApprovalBoxState]);
 
   const openModal = () => {
     setIsModalOpen(true);

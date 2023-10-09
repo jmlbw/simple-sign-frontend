@@ -22,9 +22,9 @@ export default function OrgSearch({ view, onCheckBox, onSearch }) {
     }
   };
 
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
   const handleCheckBox = (e) => {
-    setIsChecked(e.target.checked);
+    // setIsChecked(e.target.checked);
     onCheckBox(e.target.checked);
   };
 

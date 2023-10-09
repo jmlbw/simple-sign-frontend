@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '../../../styles/pages/ApprovalBoxSetPage.module.css';
 import Radiobtn from '../Radiobtn';
+import { useApprovalBoxManage } from '../../../contexts/ApprovalBoxManageContext';
 
 function BoxUseStatus(props) {
+  const { approvalBoxState, setApprovalBoxState } = useApprovalBoxManage();
+
+  useEffect(() => {
+    setApprovalBoxState((prevState) => ({
+      ...prevState,
+      approvalBoxUsedStatus: props.useStatus,
+    }));
+  }, [props.useStatus, setApprovalBoxState]);
+
   return (
     <div className={styled.inputItem}>
       <div style={props.commonCellStyle}>
@@ -20,4 +30,5 @@ function BoxUseStatus(props) {
     </div>
   );
 }
+
 export default BoxUseStatus;

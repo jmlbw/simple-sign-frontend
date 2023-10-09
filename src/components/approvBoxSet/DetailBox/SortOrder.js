@@ -4,20 +4,20 @@ import { useApprovalBoxManage } from '../../../contexts/ApprovalBoxManageContext
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-function BoxName(props) {
-  const [localBoxName, setLocalBoxName] = useState('');
+function SortOrder(props) {
+  const [localSortOrder, setLocalSortOrder] = useState('');
   const { approvalBoxState, setApprovalBoxState } = useApprovalBoxManage();
 
   useEffect(() => {
-    setLocalBoxName(props.boxName); // props로 전달받은 boxName을 로컬 상태에 설정
-  }, [props.boxName]);
+    setLocalSortOrder(props.boxName); // props로 전달받은 boxName을 로컬 상태에 설정
+  }, [props.sortOrder]);
 
   const handleLocalInputChange = (e) => {
     const updatedName = e.target.value;
-    setLocalBoxName(updatedName);
+    setLocalSortOrder(updatedName);
     setApprovalBoxState((prevState) => ({
       ...prevState,
-      approvalBoxName: updatedName,
+      boxName: updatedName,
     }));
     props.handleInputChange && props.handleInputChange(e);
   };
@@ -25,13 +25,13 @@ function BoxName(props) {
   return (
     <div className={styled.inputItem}>
       <div style={props.commonCellStyle}>
-        <div className={styled.text}>명칭</div>
+        <div className={styled.text}>정렬순서</div>
       </div>
       <div style={props.commonDataStyle}>
         <div>
           <input
             type="text"
-            value={localBoxName || ''}
+            value={localSortOrder || ''}
             className={styled.inputstyle}
             onChange={handleLocalInputChange}
           />
@@ -40,4 +40,4 @@ function BoxName(props) {
     </div>
   );
 }
-export default BoxName;
+export default SortOrder;

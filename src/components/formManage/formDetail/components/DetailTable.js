@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DetailBox,
   TitleBox,
@@ -9,12 +9,42 @@ import {
   SelectBox,
 } from './DetailTableItem';
 import { useFormManage } from '../../../../contexts/FormManageContext';
+import OrgChart from '../../../org/OrgChart';
 
 export default function DetailTable() {
   const { detailData, flagData, setDetailData, setData } = useFormManage();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const dataUpdateHandler = (id, data) => {
     setDetailData({ ...detailData, [id]: data });
+  };
+
+  const scopeConfirm = (data) => {
+    const editedScope = data.map((ele) => {
+      if (ele.userId !== undefined) {
+        ele.useId = ele.userId;
+        ele.name = ele.userName;
+        ele.category = 'U';
+      } else if (ele.deptId !== undefined) {
+        ele.useId = ele.deptId;
+        ele.name = ele.deptName;
+        ele.category = 'D';
+      } else if (ele.compId !== undefined) {
+        ele.useId = ele.compId;
+        ele.name = ele.compName;
+        ele.category = 'C';
+      }
+      return ele;
+    });
+
+    dataUpdateHandler('scope', editedScope);
   };
 
   const scopefilterHandler = (id, category, useId) => {
@@ -78,6 +108,14 @@ export default function DetailTable() {
               id={'scope'}
               data={detailData.scope}
               dataHandler={scopefilterHandler}
+            />
+            <OrgChart
+              view={'user'}
+              initData={detailData.scope}
+              isModalOpen={isModalOpen}
+              openModal={openModal}
+              closeModal={closeModal}
+              confirmHandler={scopeConfirm}
             />
           </>
         }

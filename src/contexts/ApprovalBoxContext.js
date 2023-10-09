@@ -1,11 +1,12 @@
 import React, { createContext, useState, useContext } from 'react';
 
 const initialState = {
-  viewItem: ['send'],
+  viewItem: [],
   searchBtnStatus: false,
   shouldFetchDocs: false,
   searchInput: '',
   view: false,
+  boxViewItems: [],
 };
 
 const detailSearchInitState = {
@@ -22,12 +23,17 @@ const detailSearchInitState = {
   searchDocNumber: '',
 };
 
+const customBoxViewItemInitState = [];
+
 const ApprovalBoxContext = createContext();
 
 export const ApprovalBoxProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const [detailSearchState, setDetailSearchState] = useState(
     detailSearchInitState
+  );
+  const [customBoxViewItemState, setCustomBoxViewItemState] = useState(
+    customBoxViewItemInitState
   );
 
   return (
@@ -38,6 +44,8 @@ export const ApprovalBoxProvider = ({ children }) => {
         detailSearchState,
         setDetailSearchState,
         detailSearchInitState,
+        customBoxViewItemState,
+        setCustomBoxViewItemState,
       }}
     >
       {children}
