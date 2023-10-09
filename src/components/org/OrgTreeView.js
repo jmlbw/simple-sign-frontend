@@ -121,6 +121,7 @@ function renderTreeItems(data) {
 export default function OrgTreeView({ onNodeSelect }) {
   const handleNode = (e, nodeId) => {
     if (onNodeSelect) {
+      console.log('nid:', nodeId);
       onNodeSelect(nodeId);
     }
   };
