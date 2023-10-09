@@ -1,6 +1,5 @@
 import { AppProvider } from './AppContext';
 import { PageProvier } from './PageContext';
-import { SearchContextProvider } from './SearchContext';
 import { FormManageProvider } from './FormManageContext';
 import { ApprovalBoxProvider } from './ApprovalBoxContext';
 import { SeqManageProvider } from './SeqManageContext';
@@ -12,8 +11,7 @@ export default function ContextProvider({ children }) {
   return (
     <AppProvider>
       <PageProvier>
-       <LoadingProvider>
-        <SearchContextProvider>
+        <LoadingProvider>
           <FormManageProvider>
             <ApprovalBoxProvider>
               <ApprovalBoxManageProvider>
@@ -21,8 +19,7 @@ export default function ContextProvider({ children }) {
               </ApprovalBoxManageProvider>
             </ApprovalBoxProvider>
           </FormManageProvider>
-        </SearchContextProvider>
-       </LoadingProvider>
+        </LoadingProvider>
       </PageProvier>
     </AppProvider>
   );

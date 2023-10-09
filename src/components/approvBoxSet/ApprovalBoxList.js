@@ -5,10 +5,20 @@ import getDocBoxList from '../../apis/approvalBoxAPI/getApprovalBox';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 import deleteApprovalBox from '../../apis/approvalBoxAPI/deleteApprovalBox';
 import PopUp from '../common/PopUp';
+import Button from '../common/Button';
 
 function ApprovalBoxList({ companyId }) {
   const { state, setState } = useApprovalBoxManage();
   const [data, setData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   function boxNameClickHandler(boxId) {
     setState((prevState) => ({ ...prevState, boxId: boxId }));
@@ -28,6 +38,7 @@ function ApprovalBoxList({ companyId }) {
   const deleteBtnHandler = async (btnId) => {
     try {
       await deleteApprovalBox(btnId);
+      closeModal();
       fetchApprovalBoxList(); // 삭제 후 새로운 목록 가져오기
     } catch (error) {
       console.error('Error deleting box:', error);
@@ -51,12 +62,33 @@ function ApprovalBoxList({ companyId }) {
           >
             {item.approvalBoxName}
           </div>
-          <div
-            className={styled.deleteButton}
-            onClick={() => deleteBtnHandler(item.approvalBoxId)}
-          >
-            삭제
-          </div>
+          <PopUp
+            label={<div className={styled.deleteButton}>삭제</div>}
+            title="결재함 삭제"
+            width="400px"
+            height="200px"
+            isModalOpen={isModalOpen}
+            closeModal={closeModal}
+            openModal={openModal}
+            btnStyle="popup_non_btn"
+            children={
+              <div style={{ textAlign: 'center', padding: '30px' }}>
+                정말로 삭제하시겠습니까?
+                <div style={{ marginTop: '40px' }}>
+                  <Button
+                    btnStyle="blue_btn"
+                    label="확인"
+                    onClick={() => deleteBtnHandler(item.approvalBoxId)}
+                  />
+                  <Button
+                    btnStyle="gray_btn"
+                    label="취소"
+                    onClick={closeModal}
+                  />
+                </div>
+              </div>
+            }
+          />
         </div>
       ))}
     </div>

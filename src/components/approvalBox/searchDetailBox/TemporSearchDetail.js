@@ -9,6 +9,7 @@ import SearchDate from '../SearchDate';
 import styled from '../../../styles/components/ApprovalBox/SearchDeatil.module.css';
 import React, { useEffect } from 'react';
 import { useApprovalBox } from '../../../contexts/ApprovalBoxContext';
+import Button from '../../common/Button';
 
 function TemporSearchDetail(props) {
   const { state, setState, detailSearchState, setDetailSearchState } =
@@ -51,50 +52,56 @@ function TemporSearchDetail(props) {
 
   return (
     <div className={styled.SearchDetailBox}>
-      <ItemBox
-        children={
-          <>
-            <TextComp text={dateName} />
-            <SearchDate onDateChange={handleDateChange} />
-          </>
-        }
-      ></ItemBox>
-      <ItemBox
-        children={
-          <>
-            <TextComp text={'제목'} />
-            <InputComp
-              width={'220px'}
-              dataHandler={handleDataChange('searchTitle')}
-            />
-          </>
-        }
-      ></ItemBox>
-      <ItemBox
-        children={
-          <>
-            <TextComp text={'내용'} />
-            <InputComp
-              width={'220px'}
-              dataHandler={handleDataChange('searchContent')}
-            />
-            <button onClick={handleSearchIconClick}>
-              <AiOutlineSearch />
-            </button>
-          </>
-        }
-      ></ItemBox>
-      <ItemBox
-        children={
-          <>
-            <TextComp text={'문서양식'} />
-            <InputComp
-              width={'200px'}
-              dataHandler={handleDataChange('searchDocForm')}
-            />
-          </>
-        }
-      ></ItemBox>
+      <div className={styled.searchItems}>
+        <ItemBox
+          children={
+            <>
+              <TextComp text={dateName} />
+              <SearchDate onDateChange={handleDateChange} />
+            </>
+          }
+        ></ItemBox>
+        <ItemBox
+          children={
+            <>
+              <TextComp text={'제목'} />
+              <InputComp
+                width={'220px'}
+                dataHandler={handleDataChange('searchTitle')}
+              />
+            </>
+          }
+        ></ItemBox>
+        <ItemBox
+          children={
+            <>
+              <TextComp text={'내용'} />
+              <InputComp
+                width={'220px'}
+                dataHandler={handleDataChange('searchContent')}
+              />
+            </>
+          }
+        ></ItemBox>
+        <ItemBox
+          children={
+            <>
+              <TextComp text={'문서양식'} />
+              <InputComp
+                width={'208px'}
+                dataHandler={handleDataChange('searchDocForm')}
+              />
+            </>
+          }
+        ></ItemBox>
+      </div>
+      <div className={styled.btnArea}>
+        <Button
+          label="검색"
+          onClick={handleSearchIconClick}
+          btnStyle="blue_btn"
+        />
+      </div>
     </div>
   );
 }

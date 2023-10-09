@@ -9,6 +9,7 @@ import {
 import SearchDate from '../SearchDate';
 import styled from '../../../styles/components/ApprovalBox/SearchDeatil.module.css';
 import { useApprovalBox } from '../../../contexts/ApprovalBoxContext';
+import Button from '../../common/Button';
 
 function RemainSearchDetail() {
   const { state, setState, detailSearchState, setDetailSearchState } =
@@ -101,82 +102,88 @@ function RemainSearchDetail() {
 
   return (
     <div className={styled.SearchDetailBox}>
-      <ItemBox>
-        <SelectComp
-          dataHandler={handleSearchDate}
-          options={optionlist()}
-          width="54px"
-        />
-        <SearchDate onDateChange={handleDateChange} />
-      </ItemBox>
+      <div className={styled.searchItems}>
+        <ItemBox>
+          <SelectComp
+            dataHandler={handleSearchDate}
+            options={optionlist()}
+            width="54px"
+          />
+          <SearchDate onDateChange={handleDateChange} />
+        </ItemBox>
 
-      <ItemBox>
-        <TextComp text={'제목'} />
-        <InputComp
-          width={'220px'}
-          dataHandler={handleDataChange('searchTitle')}
-        />
-      </ItemBox>
+        <ItemBox>
+          <TextComp text={'제목'} />
+          <InputComp
+            width={'220px'}
+            dataHandler={handleDataChange('searchTitle')}
+          />
+        </ItemBox>
 
-      <ItemBox>
-        <TextComp text={'내용'} />
-        <InputComp
-          width={'220px'}
-          dataHandler={handleDataChange('searchContent')}
-        />
-        <button onClick={handleSearchIconClick}>
-          <AiOutlineSearch />
-        </button>
-      </ItemBox>
+        <ItemBox>
+          <TextComp text={'내용'} />
+          <InputComp
+            width={'220px'}
+            dataHandler={handleDataChange('searchContent')}
+          />
+        </ItemBox>
 
-      <ItemBox>
-        <TextComp text={'기안부서'} />
-        <InputComp
-          width={'220px'}
-          dataHandler={handleDataChange('searchDept')}
-        />
-      </ItemBox>
+        <ItemBox>
+          <TextComp text={'기안부서'} />
+          <InputComp
+            width={'220px'}
+            dataHandler={handleDataChange('searchDept')}
+          />
+        </ItemBox>
 
-      <ItemBox>
-        <TextComp text={'기안자'} />
-        <InputComp
-          width={'211px'}
-          dataHandler={handleDataChange('searchWriter')}
-        />
-      </ItemBox>
+        <ItemBox>
+          <TextComp text={'기안자'} />
+          <InputComp
+            width={'211px'}
+            dataHandler={handleDataChange('searchWriter')}
+          />
+        </ItemBox>
 
-      <ItemBox>
-        <TextComp text={'결재자'} />
-        <InputComp
-          width={'211px'}
-          dataHandler={handleDataChange('searchApprovUser')}
-        />
-      </ItemBox>
+        <ItemBox>
+          <TextComp text={'결재자'} />
+          <InputComp
+            width={'211px'}
+            dataHandler={handleDataChange('searchApprovUser')}
+          />
+        </ItemBox>
 
-      <ItemBox>
-        <TextComp text={'결재상태'} />
-        <SelectComp
-          options={docStatus}
-          width={'200px'}
-          dataHandler={handleSelectedData}
-        />
-      </ItemBox>
+        <ItemBox>
+          <TextComp text={'결재상태'} />
+          <SelectComp
+            options={docStatus}
+            width={'220px'}
+            dataHandler={handleSelectedData}
+          />
+        </ItemBox>
 
-      <ItemBox>
-        <TextComp text={'문서양식'} />
-        <InputComp
-          width={'199px'}
-          dataHandler={handleDataChange('searchDocForm')}
-        />
-      </ItemBox>
+        <ItemBox>
+          <TextComp text={'문서양식'} />
+          <InputComp
+            width={'199px'}
+            dataHandler={handleDataChange('searchDocForm')}
+          />
+        </ItemBox>
 
-      <ItemBox>
-        <TextComp text={'문서번호'} />
-        <InputComp
-          width={'199px'}
-          dataHandler={handleDataChange('searchDocNumber')}
+        <ItemBox>
+          <TextComp text={'문서번호'} />
+          <InputComp
+            width={'199px'}
+            dataHandler={handleDataChange('searchDocNumber')}
+          />
+        </ItemBox>
+      </div>
+      <div className={styled.btnArea}>
+        <Button
+          label="검색"
+          onClick={handleSearchIconClick}
+          btnStyle="blue_btn"
         />
-      </ItemBox>
+      </div>
     </div>
   );
 }
