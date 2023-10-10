@@ -76,9 +76,7 @@ const AreaBox = ({ id, data, dataHandler }) => {
                 <Optionbox
                   key={index}
                   id={id}
-                  category={ele.category}
-                  name={ele.name}
-                  useId={ele.useId}
+                  initData={ele}
                   dataHandler={dataHandler}
                 ></Optionbox>
               );

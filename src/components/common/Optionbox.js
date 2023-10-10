@@ -1,12 +1,23 @@
 import OptionboxItem from './OptionboxItem';
 import { BiSolidUser, BiSolidFolder, BiBuildings } from 'react-icons/bi';
 import { AiFillFolder } from 'react-icons/ai';
-import React, { useState } from 'react';
+import React from 'react';
 
-function Optionbox({ id, category, name, useId, dataHandler }) {
+function Optionbox(props) {
   let icon = null;
+  let initData = props.initData;
+  console.log('initData:', initData);
+  let id = props.id;
+  let name =
+    initData.user ||
+    initData.department ||
+    initData.establishment ||
+    initData.company;
+  let category = initData.category;
+  let useId =
+    initData.userId || initData.deptId || initData.estId || initData.compId;
 
-  if (category === 'null') {
+  if (props.category === 'null') {
   } else if (category === 'U') {
     icon = <BiSolidUser />;
   } else if (category === 'D') {
@@ -25,7 +36,7 @@ function Optionbox({ id, category, name, useId, dataHandler }) {
         id={id}
         category={category}
         useId={useId}
-        onValueChange={dataHandler}
+        onValueChange={props.dataHandler}
       ></OptionboxItem>
     </div>
   );
