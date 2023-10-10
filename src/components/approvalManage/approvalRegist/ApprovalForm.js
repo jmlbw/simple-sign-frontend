@@ -30,14 +30,12 @@ export default function ApprovalForm({
   dataHandler,
   editorHandler,
   handleSelectBoxChange,
-  handleEnforceDateChange,
-  handleSelectTimeChange,
+  handleEnforcementTime,
+  handleDraftingTime,
 }) {
   const [sequence, setSequence] = useState([]);
   const [default_form, setDefaultForm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [approvalLine, setApprovalLine] = useState([]);
-  const [dataParent, setDataParent] = useState([]);
   const [receiveRefOpt, setReceiveRefOpt] = useState([]);
   const [condition, setCondition] = useState('rec_ref');
   const { showLoading, hideLoading } = useLoading();
@@ -79,8 +77,8 @@ export default function ApprovalForm({
 
     deleteContentEditableError();
 
-    if (dataParent.length !== 0) {
-      dataParent.map((data, id) => {
+    if (rec_ref.length !== 0) {
+      rec_ref.map((data, id) => {
         if (data.compId) {
           const updatedRecRefOpt = [
             ...receiveRefOpt,
@@ -107,46 +105,8 @@ export default function ApprovalForm({
           setReceiveRefOpt(updatedRecRefOpt);
         }
       });
-      dataParent.map((data, id) => {
-        if (data.compId) {
-          const updatedRecRef = [
-            ...rec_ref,
-            { category: 'C', id: data.compId, name: data.compName },
-          ];
-          setRecRef(updatedRecRef);
-        } else if (data.estId) {
-          const updatedRecRef = [
-            ...rec_ref,
-            { category: 'E', id: data.estId, name: data.estName },
-          ];
-          setRecRef(updatedRecRef);
-        } else if (data.deptId) {
-          const updatedRecRef = [
-            ...rec_ref,
-            { category: 'D', id: data.deptId, name: data.deptName },
-          ];
-          setRecRef(updatedRecRef);
-        } else if (data.userId) {
-          const updatedRecRef = [
-            ...rec_ref,
-            { category: 'U', id: data.userId, name: data.userName },
-          ];
-          setRecRef(updatedRecRef);
-        }
-      });
     }
-  }, [form_code, dataParent]);
-
-  useEffect(() => {
-    if (approvalLine.length !== 0) {
-      approvalLine.map((data, id) => {
-        if (data.userId) {
-          const updateOrgUse = [...org_use_list, data.userId];
-          setOrgUseId(updateOrgUse);
-        }
-      });
-    }
-  }, [approvalLine]);
+  }, [form_code, rec_ref]);
 
   const BlueAndGrayBtn = [
     {
@@ -190,43 +150,43 @@ export default function ApprovalForm({
                     </tr>
                     <tr style={{ height: '50px' }}>
                       <td>
-                        {approvalLine.length > 0
-                          ? approvalLine[0].userName
+                        {org_use_list.length > 0
+                          ? org_use_list[0].userName
                           : ''}
                       </td>
                       <td>
-                        {approvalLine.length > 1
-                          ? approvalLine[1].userName
+                        {org_use_list.length > 1
+                          ? org_use_list[1].userName
                           : ''}
                       </td>
                       <td>
-                        {approvalLine.length > 2
-                          ? approvalLine[2].userName
+                        {org_use_list.length > 2
+                          ? org_use_list[2].userName
                           : ''}
                       </td>
                       <td>
-                        {approvalLine.length > 3
-                          ? approvalLine[3].userName
+                        {org_use_list.length > 3
+                          ? org_use_list[3].userName
                           : ''}
                       </td>
                       <td>
-                        {approvalLine.length > 4
-                          ? approvalLine[4].userName
+                        {org_use_list.length > 4
+                          ? org_use_list[4].userName
                           : ''}
                       </td>
                       <td>
-                        {approvalLine.length > 5
-                          ? approvalLine[5].userName
+                        {org_use_list.length > 5
+                          ? org_use_list[5].userName
                           : ''}
                       </td>
                       <td>
-                        {approvalLine.length > 6
-                          ? approvalLine[6].userName
+                        {org_use_list.length > 6
+                          ? org_use_list[6].userName
                           : ''}
                       </td>
                       <td>
-                        {approvalLine.length > 7
-                          ? approvalLine[7].userName
+                        {org_use_list.length > 7
+                          ? org_use_list[7].userName
                           : ''}
                       </td>
                     </tr>
@@ -245,7 +205,7 @@ export default function ApprovalForm({
               );
             }
             if (domNode.attribs && domNode.attribs.id === 'drafting_time') {
-              return <SelectDate onChange={handleSelectTimeChange} />;
+              return <SelectDate handleSelectTimeChange={handleDraftingTime} />;
             }
             if (domNode.attribs && domNode.attribs.id === 'drafter') {
               return (
@@ -271,7 +231,7 @@ export default function ApprovalForm({
             if (domNode.attribs && domNode.attribs.id == 'enforce_date') {
               return (
                 <div id="enforce_date" contentEditable="true">
-                  <SelectDate onChange={handleEnforceDateChange} />
+                  <SelectDate handleSelectTimeChange={handleEnforcementTime} />
                 </div>
               );
             }
@@ -324,12 +284,12 @@ export default function ApprovalForm({
         children={
           condition === 'approval' ? (
             <>
-              <OrgChart view={'user'} onDataUpdate={setApprovalLine} />
+              <OrgChart view={'user'} onDataUpdate={setOrgUseId} />
               <PopUpFoot buttons={BlueAndGrayBtn} />
             </>
           ) : (
             <>
-              <OrgChart view={'user'} onDataUpdate={setDataParent} />
+              <OrgChart view={'user'} onDataUpdate={setRecRef} />
               <PopUpFoot buttons={BlueAndGrayBtn} />
             </>
           )

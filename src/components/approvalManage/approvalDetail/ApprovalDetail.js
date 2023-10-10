@@ -31,6 +31,7 @@ export default function ApprovalDetail() {
 
   const approveHandler = () => {
     showLoading();
+    //결재승인
     insertApproval(location.search.split('=')[1])
       .then((res) => {
         if (res.status === 200) {
@@ -51,6 +52,7 @@ export default function ApprovalDetail() {
 
   const returnHandler = () => {
     showLoading();
+    //결재반려
     insertReturn(location.search.split('=')[1])
       .then((res) => {
         if (res.status === 200) {

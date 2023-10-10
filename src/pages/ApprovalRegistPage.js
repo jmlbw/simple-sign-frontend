@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
-import styled from '../../../styles/components/approvalManage/formList/SmallBox.module.css';
-import ApprovalForm from '../approvalRegist/ApprovalForm';
-import PopUp from '../../common/PopUp';
-import PopUpFoot from '../../common/PopUpFoot';
+import styled from '../styles/pages/ApprovalRegistPage.module.css';
+import ApprovalForm from '../components/approvalManage/approvalRegist/ApprovalForm';
+import PopUp from '../components/common/PopUp';
+import PopUpFoot from '../components/common/PopUpFoot';
 import moment from 'moment';
-import { useLoading } from '../../../contexts/LoadingContext';
-import insertApprovalDoc from '../../../apis/approvalManaageAPI/insertApproval.js';
+import { useLoading } from '../contexts/LoadingContext';
+import insertApprovalDoc from '../apis/approvalManageAPI/insertApprovalDoc';
 
 export default function SmallBox(props) {
   const innerBoxStyle = {
@@ -13,9 +13,15 @@ export default function SmallBox(props) {
     height: props.height,
   };
 
+  //에디터
   const [formData, setFormData] = useState(null);
   const [editor, setEditor] = useState(null);
+  //모달
   const [isModalOpen, setIsModalOpen] = useState(false);
+  //로딩
+  const { showLoading, hideLoading } = useLoading();
+
+  //register 데이터
   const [main_form, setMainForm] = useState('');
   const [sequence_code, setSequenceCode] = useState('');
   const [drafting_time, setDraftingTime] = useState(moment());
@@ -23,11 +29,9 @@ export default function SmallBox(props) {
   const [userId, setUserId] = useState(1);
   const [deptId, setDeptId] = useState(1);
   const divRef = useRef(null);
-  const titleRef = useRef(null);
-  const [rec_ref, setRecRef] = useState([]);
-  const [org_use_list, setOrgUseId] = useState([]);
-  const receiveRefList = [];
-  const { showLoading, hideLoading } = useLoading();
+  const titleRef = useRef(null); //제목
+  const [rec_ref, setRecRef] = useState([]); //수신참조
+  const [org_use_list, setOrgUseId] = useState([]); //결재라인
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -47,10 +51,10 @@ export default function SmallBox(props) {
   const handleSelectBoxChange = (newValue) => {
     setSequenceCode(newValue);
   };
-  const handleSelectTimeChange = (newValue) => {
+  const handleDraftingTime = (newValue) => {
     setDraftingTime(newValue);
   };
-  const handleEnforceDateChange = (newValue) => {
+  const handleEnforcementTime = (newValue) => {
     setEnforceDate(newValue);
   };
 
@@ -72,6 +76,40 @@ export default function SmallBox(props) {
 
   const handleClick = (state) => {
     showLoading();
+    const orgUserIdList = [];
+    org_use_list.map((data, index) => {
+      orgUserIdList.push(data.userId);
+    });
+
+    const recRefList = [];
+    rec_ref.map((data) => {
+      if (data.compId) {
+        recRefList.push({
+          id: data.compId,
+          category: 'C',
+          name: data.compName,
+        });
+      } else if (data.estId) {
+        recRefList.push({
+          id: data.estId,
+          category: 'E',
+          name: data.estName,
+        });
+      } else if (data.deptId) {
+        recRefList.push({
+          id: data.deptId,
+          category: 'D',
+          name: data.deptName,
+        });
+      } else if (data.userId) {
+        recRefList.push({
+          id: data.userId,
+          category: 'U',
+          name: data.userName,
+        });
+      }
+    });
+
     let docStatus = 'T';
     if (state === 'regist') {
       docStatus = 'W';
@@ -84,10 +122,10 @@ export default function SmallBox(props) {
       approvalDocTitle: titleRef.current.innerHTML,
       docStatus: docStatus,
       seqCode: sequence_code,
-      approverList: org_use_list,
-      receiveRefList: rec_ref,
-      approvalDate: drafting_time,
-      enforcementDate: enforce_date,
+      approverList: orgUserIdList,
+      receiveRefList: recRefList,
+      approvalDate: drafting_time.format('YYYY-MM-DDTHH:mm:ss'),
+      enforcementDate: enforce_date.format('YYYY-MM-DDTHH:mm:ss'),
       contents: editor,
     };
 
@@ -165,8 +203,8 @@ export default function SmallBox(props) {
               dataHandler={dataHandler}
               editorHandler={editorHandler}
               handleSelectBoxChange={handleSelectBoxChange}
-              handleSelectTimeChange={handleSelectTimeChange}
-              handleEnforceDateChange={handleEnforceDateChange}
+              handleDraftingTime={handleDraftingTime}
+              handleEnforcementTime={handleEnforcementTime}
             />
             <PopUpFoot buttons={BlueAndGrayBtn} />
           </>

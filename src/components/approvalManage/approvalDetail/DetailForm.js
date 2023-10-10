@@ -12,7 +12,7 @@ export default function DetailForm(props) {
   const [userName, setUserName] = useState('');
   const [deptName, setDeptName] = useState('');
   const [productNum, setProductNum] = useState('');
-  const [createdAt, setCreatedAt] = useState('');
+  const [approvalDate, setApprovalDate] = useState('');
   const [enforcementDate, setEnforcementDate] = useState('');
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
@@ -25,12 +25,13 @@ export default function DetailForm(props) {
     //문서상세조회
     getApprovalDoc(props.approval_doc_id)
       .then((json) => {
+        console.log(json);
         setDefaultForm(json.defaultForm);
         setUserName(json.userName);
         setDeptName(json.deptName);
         setProductNum(json.productNum);
         setTitle(json.approvalDocTitle);
-        setCreatedAt(moment(json.createdAt).format('YYYY-MM-DD HH:mm:ss'));
+        setApprovalDate(json.approvalDate);
         setEnforcementDate(json.enforcementDate);
         setContents(json.contents);
         setApprovalLine(json.approvalLineList);
@@ -126,7 +127,7 @@ export default function DetailForm(props) {
             if (domNode.attribs && domNode.attribs.id === 'drafting_time') {
               return (
                 <div id="drafting_time" contentEditable="false">
-                  {createdAt}
+                  {approvalDate}
                 </div>
               );
             }
