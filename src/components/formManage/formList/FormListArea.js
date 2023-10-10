@@ -3,7 +3,7 @@ import DataList from './DataList';
 import { columns } from '../../../assets/datas/form_manage_list';
 import getFormDetail from '../../../apis/commonAPI/getFormDetail';
 import { useFormManage } from '../../../contexts/FormManageContext';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '../../common/Button';
 import delForm from '../../../apis/commonAPI/delForm';
 import getDefaultApprovalLine from '../../../apis/commonAPI/getDefaultApprovalLine';
@@ -62,6 +62,14 @@ export default function FormListArea({ rows }) {
         hideLoading();
       });
   };
+
+  useEffect(() => {
+    console.log('rows:', rows);
+    if (rows.length > 0) {
+      dataHandler(rows[0]);
+    }
+  }, [rows]);
+
   return (
     <InnerBox
       text={'양식목록'}
