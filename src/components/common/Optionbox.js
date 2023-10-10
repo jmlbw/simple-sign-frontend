@@ -6,7 +6,6 @@ import React from 'react';
 function Optionbox(props) {
   let icon = null;
   let initData = props.initData;
-  console.log('initData:', initData);
   let id = props.id;
   let name =
     initData.user ||
