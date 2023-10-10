@@ -27,24 +27,6 @@ export default function DetailTable() {
   };
 
   const scopeConfirm = (data) => {
-    // const editedScope = data.map((ele) => {
-    //   if (ele.userId !== undefined) {
-    //     ele.useId = ele.userId;
-    //     ele.name = ele.userName;
-    //     ele.category = 'U';
-    //   } else if (ele.deptId !== undefined) {
-    //     ele.useId = ele.deptId;
-    //     ele.name = ele.deptName;
-    //     ele.category = 'D';
-    //   } else if (ele.compId !== undefined) {
-    //     ele.useId = ele.compId;
-    //     ele.name = ele.compName;
-    //     ele.category = 'C';
-    //   }
-    //   return ele;
-    // });
-    console.log('data:', data);
-
     dataUpdateHandler('scope', data);
   };
 

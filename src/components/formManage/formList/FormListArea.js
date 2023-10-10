@@ -64,7 +64,6 @@ export default function FormListArea({ rows }) {
   };
 
   useEffect(() => {
-    console.log('rows:', rows);
     if (rows.length > 0) {
       dataHandler(rows[0]);
     }

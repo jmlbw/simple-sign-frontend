@@ -39,7 +39,6 @@ export default function FormManagePage() {
   }, []);
 
   useEffect(() => {
-    console.log('setData:', setData);
     if (setData.compList.length > 0) {
       searchHandler();
     }

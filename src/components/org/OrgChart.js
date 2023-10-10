@@ -32,7 +32,6 @@ export default function OrgChart({
 }) {
   // view
   // 임시 상태값 저장 set 메서드
-  console.log('init:', initData);
   const [selectedNode, setSelectedNode] = useState(null);
   const [selectedRow, setSelectedRow] = useState([]);
   const removeRow = (rowId) => {
@@ -48,7 +47,6 @@ export default function OrgChart({
   const [search, setSearch] = useState({});
 
   const handleRow = (row) => {
-    console.log('handle:', row);
     const isDuplicate = selectedRow.some(
       (selected) =>
         selected.company === row.company &&
