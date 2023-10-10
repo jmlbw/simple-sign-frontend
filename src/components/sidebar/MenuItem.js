@@ -9,6 +9,8 @@ import React, { useState, useEffect } from 'react';
 import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
 
 function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
+  const { customBoxViewItemState, setCustomBoxViewItemState } =
+    useApprovalBox();
   const { state, setState } = useApprovalBox();
   const navigate = useNavigate();
   const [clickStates, setClickStates] = useState([
@@ -18,6 +20,12 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
     false,
     false,
   ]);
+  const viewItemMapping = {
+    상신내역: 'send',
+    미결내역: 'pend',
+    '기결내역-종결': 'end',
+    '기결내역-진행': 'progress',
+  };
 
   useEffect(() => {
     if (!isSubMenuVisible[item.id - 1]) {
@@ -27,6 +35,9 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
   }, [isSubMenuVisible]);
 
   const clickMenu = (index, name) => {
+    const customBoxNames = customBoxViewItemState.map(
+      (box) => box.approvalBoxName
+    );
     const updateClickStates = clickStates.map((state, i) =>
       i === index ? true : false
     );
@@ -51,6 +62,23 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
     } else if (name === '수신참조문서') {
       navigate('/ABV');
       setState((prevState) => ({ ...prevState, viewItem: ['reference'] }));
+    }
+    if (customBoxNames.includes(name)) {
+      navigate('/ABV');
+
+      const matchedBox = customBoxViewItemState.find(
+        (box) => box.approvalBoxName === name
+      );
+      const matchedViewItems = matchedBox ? matchedBox.viewItems : [];
+
+      const transformedViewItems = matchedViewItems.map(
+        (item) => viewItemMapping[item] || item
+      );
+
+      setState((prevState) => ({
+        ...prevState,
+        viewItem: transformedViewItems,
+      }));
     }
   };
 

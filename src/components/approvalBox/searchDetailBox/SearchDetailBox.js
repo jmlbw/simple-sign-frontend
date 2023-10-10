@@ -27,11 +27,7 @@ function SearchDetailBox() {
     searchDetailComponent = <TemporSearchDetail dateName={setDatename()} />;
   } else if (viewItem.includes('send')) {
     searchDetailComponent = <SendSearchDetail dateName={setDatename()} />;
-  } else if (
-    viewItem.includes('pend') ||
-    viewItem.includes('concluded') ||
-    viewItem.includes('reference')
-  ) {
+  } else {
     searchDetailComponent = <RemainSearchDetail dateName={setDatename()} />;
   }
 
