@@ -15,6 +15,7 @@ import SeqSet from '../../seqSetPopUp/SeqSet';
 import getSeqItemList from '../../../../apis/commonAPI/getSeqItemList';
 import FormListPopUp from '../../popup/FormListPopUp';
 import { AiOutlineOrderedList } from 'react-icons/ai';
+import OrgChart from '../../../org/OrgChart';
 
 export default function SeqDetailTable() {
   const {
@@ -27,6 +28,7 @@ export default function SeqDetailTable() {
   } = useSeqManage();
   const [seqList, setseqList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeptModalOpen, setIDeptModalOpen] = useState(false);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [gridData, setGridData] = useState({});
   const openModal = () => {
@@ -37,12 +39,24 @@ export default function SeqDetailTable() {
     setIsModalOpen(false);
   };
 
+  const openDeptModal = () => {
+    setIDeptModalOpen(true);
+  };
+
+  const closeDeptModal = () => {
+    setIDeptModalOpen(false);
+  };
+
   const openFormModal = () => {
     setIsFormModalOpen(true);
   };
 
   const closeFormModal = () => {
     setIsFormModalOpen(false);
+  };
+
+  const deptScopeConfirm = (data) => {
+    dataUpdateHandler('deptScope', data);
   };
 
   useEffect(() => {
@@ -117,6 +131,7 @@ export default function SeqDetailTable() {
   };
 
   const formScopefilterHandler = (id, category, useId) => {
+    console.log(id, category, useId);
     let filetedData = detailData.formScope.filter((ele) => {
       if (ele.category === category && ele.useId === useId) {
         return false;
@@ -174,19 +189,6 @@ export default function SeqDetailTable() {
       <DetailBox
         children={
           <>
-            <TitleBox title={'코드'} />
-            <InputBox
-              id={'code'}
-              data={detailData.code}
-              dataHandler={dataUpdateHandler}
-              disabled={true}
-            />
-          </>
-        }
-      ></DetailBox>
-      <DetailBox
-        children={
-          <>
             <TitleBox title={'채번명'} />
             <InputBox
               id={'seqName'}
@@ -204,6 +206,17 @@ export default function SeqDetailTable() {
               id={'deptScope'}
               data={detailData.deptScope}
               dataHandler={deptScopefilterHandler}
+            />
+            <OrgChart
+              view={'user'}
+              initData={detailData.deptScope.map((ele, index) => {
+                ele.id = index;
+                return ele;
+              })}
+              isModalOpen={isDeptModalOpen}
+              openModal={openDeptModal}
+              closeModal={closeDeptModal}
+              confirmHandler={deptScopeConfirm}
             />
           </>
         }

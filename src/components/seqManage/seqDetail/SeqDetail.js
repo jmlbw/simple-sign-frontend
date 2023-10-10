@@ -6,12 +6,15 @@ import { useSeqManage } from '../../../contexts/SeqManageContext';
 import InnerBox from '../../common/InnerBox';
 import insertSeq from '../../../apis/commonAPI/insertSeq';
 import updateSeq from '../../../apis/commonAPI/updateSeq';
+import { useLoading } from '../../../contexts/LoadingContext';
 
-export default function SeqDetail() {
+export default function SeqDetail({ searchHandler }) {
   const { detailData, flagData, createDetailData } = useSeqManage();
+  const { showLoading, hideLoading } = useLoading();
 
   const updateDetailFunc = () => {
     if (flagData === 2) {
+      showLoading();
       updateSeq(detailData)
         .then((res) => {
           if (!res.ok) {
@@ -20,19 +23,23 @@ export default function SeqDetail() {
           alert('양식이 수정되었습니다.');
         })
         .then(() => {
-          // searchHandler();
+          searchHandler();
         })
         .catch((err) => {
           console.error(err);
           if (err.message === '404') {
             alert('검색된 데이터가 없습니다.');
           }
+        })
+        .finally(() => {
+          hideLoading();
         });
     }
   };
 
   const createDetailFunc = () => {
     if (flagData === 1) {
+      showLoading();
       insertSeq(detailData)
         .then((res) => {
           if (!res.ok) {
@@ -40,11 +47,17 @@ export default function SeqDetail() {
           }
           alert('새 채번이 생성되었습니다.');
         })
+        .then(() => {
+          searchHandler();
+        })
         .catch((err) => {
           console.error(err);
           if (err.message === '404') {
             alert('검색된 데이터가 없습니다.');
           }
+        })
+        .finally(() => {
+          hideLoading();
         });
     }
   };

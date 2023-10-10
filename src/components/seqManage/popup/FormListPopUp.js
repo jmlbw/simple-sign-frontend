@@ -6,10 +6,8 @@ import {
   InputComp,
 } from '../../formManage/searchBox/components/SearchItem';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useSeqManage } from '../../../contexts/SeqManageContext';
 import DataList from '../../formManage/formList/DataList';
 import { columns } from '../../../assets/datas/form_popup_list';
-import getFormAndCompList from '../../../apis/commonAPI/getFormAndCompList';
 import getFormListAll from '../../../apis/commonAPI/getFormListAll';
 
 export default function FormListPopUp({ setGridData }) {
