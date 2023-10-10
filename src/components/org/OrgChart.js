@@ -32,18 +32,23 @@ export default function OrgChart({
 }) {
   // view
   // 임시 상태값 저장 set 메서드
-
+  console.log('init:', initData);
   const [selectedNode, setSelectedNode] = useState(null);
-  const [selectedRow, setSelectedRow] = useState(initData);
+  const [selectedRow, setSelectedRow] = useState([]);
   const removeRow = (rowId) => {
     setSelectedRow((prevRows) => prevRows.filter((row) => row.id !== rowId));
   };
+
+  useEffect(() => {
+    setSelectedRow(() => [...initData]);
+  }, [initData]);
 
   const [isChecked, setIsChecked] = useState(false);
 
   const [search, setSearch] = useState({});
 
   const handleRow = (row) => {
+    console.log('handle:', row);
     const isDuplicate = selectedRow.some(
       (selected) =>
         selected.company === row.company &&
@@ -66,25 +71,61 @@ export default function OrgChart({
   // return되는 데이터 매핑
   const dataForParent = useMemo(() => {
     return selectedRow.map((row) => {
+      let returnObj = {
+        category: '',
+        compId: 0,
+        company: '',
+        department: '',
+        deptId: 0,
+        estId: 0,
+        establishment: '',
+        grade: '',
+        position: '',
+        useId: 0,
+        user: '',
+        userId: 0,
+      };
       if (view === 'user' && row.userId && row.user) {
         return {
+          ...returnObj,
+          category: 'U',
           userId: row.userId,
-          userName: row.user,
+          user: row.user,
+          grade: row.grade,
+          position: row.position,
+          deptId: row.deptId,
+          department: row.department,
+          estId: row.estId,
+          establishment: row.establishment,
+          compId: row.compId,
+          company: row.company,
         };
       } else if (row.deptId && row.department) {
         return {
+          ...returnObj,
+          category: 'D',
           deptId: row.deptId,
-          deptName: row.department,
+          department: row.department,
+          estId: row.estId,
+          establishment: row.establishment,
+          compId: row.compId,
+          company: row.company,
         };
       } else if (view === 'dept' && row.estId && row.establishment) {
         return {
+          ...returnObj,
+          category: 'E',
           estId: row.estId,
-          estName: row.establishment,
+          establishment: row.establishment,
+          compId: row.compId,
+          company: row.company,
         };
       } else if (row.compId && row.company) {
         return {
+          ...returnObj,
+          category: 'C',
           compId: row.compId,
-          compName: row.company,
+          company: row.company,
         };
       }
       return {};
