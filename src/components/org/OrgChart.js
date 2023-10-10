@@ -87,6 +87,7 @@ export default function OrgChart({
         return {
           ...returnObj,
           category: 'U',
+          useId: row.userId,
           userId: row.userId,
           user: row.user,
           grade: row.grade,
@@ -102,6 +103,7 @@ export default function OrgChart({
         return {
           ...returnObj,
           category: 'D',
+          useId: row.deptId,
           deptId: row.deptId,
           department: row.department,
           estId: row.estId,
@@ -113,6 +115,7 @@ export default function OrgChart({
         return {
           ...returnObj,
           category: 'E',
+          useId: row.estId,
           estId: row.estId,
           establishment: row.establishment,
           compId: row.compId,
@@ -122,6 +125,7 @@ export default function OrgChart({
         return {
           ...returnObj,
           category: 'C',
+          useId: row.compId,
           compId: row.compId,
           company: row.company,
         };
