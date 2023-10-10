@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import InnerBox from '../../../components/common/InnerBox';
 import Button from '../../../components/common/Button';
 import DetailForm from './DetailForm';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PopUp from '../../common/PopUp';
 import PopUpFoot from '../../common/PopUpFoot';
-import { useNavigate } from 'react-router-dom';
-import ApprovalUpdatePage from '../../../pages/ApprovalUpdatePage';
+import insertApproval from '../../../apis/approvalManageAPI/insertApproval';
+import insertReturn from '../../../apis/approvalManageAPI/insertReturn';
+import deleteApprovalDoc from '../../../apis/approvalManageAPI/deleteApprovalDoc';
+import { useLoading } from '../../../contexts/LoadingContext';
 
 export default function ApprovalDetail() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState('');
+  const { showLoading, hideLoading } = useLoading();
+
   const openModal = (mode) => {
     setIsModalOpen(true);
     if (mode === 'approve') {
@@ -26,31 +30,30 @@ export default function ApprovalDetail() {
   };
 
   const approveHandler = () => {
-    fetch(
-      `http://localhost:8080/approve/approval/${location.search.split('=')[1]}`,
-      {
-        method: 'POST',
-      }
-    )
+    showLoading();
+    //결재승인
+    insertApproval(location.search.split('=')[1])
       .then((res) => {
         if (res.status === 200) {
           alert('결재가 승인되었습니다.');
         } else {
           alert('결재가 실패했습니다.');
+          hideLoading();
         }
       })
       .catch((e) => {
         alert('결재가 실패했습니다.');
+        hideLoading();
+      })
+      .finally(() => {
+        hideLoading();
       });
   };
 
   const returnHandler = () => {
-    fetch(
-      `http://localhost:8080/approve/return/${location.search.split('=')[1]}`,
-      {
-        method: 'POST',
-      }
-    )
+    showLoading();
+    //결재반려
+    insertReturn(location.search.split('=')[1])
       .then((res) => {
         if (res.status === 200) {
           alert('결재가 반려되었습니다.');
@@ -60,6 +63,9 @@ export default function ApprovalDetail() {
       })
       .catch((e) => {
         alert('결재반려를 실패했습니다.');
+      })
+      .finally(() => {
+        hideLoading();
       });
   };
 
@@ -81,14 +87,11 @@ export default function ApprovalDetail() {
   };
 
   const updateHandler = () => {
-    console.log(location.search.split('=')[1]);
     navigate(`/ADD?page=${location.search.split('=')[1]}`);
   };
 
   const deleteHandler = () => {
-    fetch(`http://localhost:8080/approve/${location.search.split('=')[1]}`, {
-      method: 'DELETE',
-    })
+    deleteApprovalDoc(location.search.split('=')[1])
       .then((res) => {
         if (res.status === 200) {
           alert('문서가 삭제되었습니다.');
