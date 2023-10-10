@@ -1,11 +1,8 @@
 .container {
   padding: 10px;
-  flex-grow: 1;
   display: flex;
-  flex-direction: row;
   grid-gap: 20px;
   gap: 20px;
-  display: flex;
   height: 100%;
   width: 100%;
 }
@@ -33,7 +30,7 @@
   width: 100%;
   max-height: 495.45px;
   overflow-y: scroll;
-  border: 1px solid #ced4da;
+  border-top: 1px solid #edeff1;
 }
 .customSelect {
   /* z-index: 9999; */
@@ -43,11 +40,10 @@
 .inputItem {
   display: flex;
   width: 100%;
-  padding: 10px;
   border-bottom: 1px solid #edeff1;
 }
 .text {
-  font-size: 12px;
+  font-size: 13.4px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -61,6 +57,9 @@
 .inputstyle {
   width: 100%;
   color: black;
+  font-size: 12px;
+  height: 27px;
+  border: 1px solid #ced4da;
 }
 .viewItemBox {
   width: 90%;
@@ -147,4 +146,25 @@ input[type='checkbox'] {
   align-items: center;
   justify-content: center;
   padding-top: 10px;
+}
+
+/* 전체 스크롤바의 너비 설정 */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* 스크롤바의 트랙 부분 (바탕 부분) */
+::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+/* 스크롤바의 핸들 부분 (움직이는 부분) */
+::-webkit-scrollbar-thumb {
+  background-color: #b6b6b6;
+}
+
+/* 핸들 부분에 호버했을 때의 스타일 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #808080;
 }

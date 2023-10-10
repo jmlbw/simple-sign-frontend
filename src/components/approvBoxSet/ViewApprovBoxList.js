@@ -24,12 +24,12 @@ function ViewApprovalBoxList() {
     <InnerBox
       height="100%"
       width="50%"
-      font_size="14px"
+      font_size="15px"
       text="결재함 목록"
       titleChildren={
         <Button
           label={'추가'}
-          btnStyle={'gray_btn'}
+          btnStyle={'red_btn'}
           onClick={handleAddButtonClick}
         />
       }

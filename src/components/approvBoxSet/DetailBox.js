@@ -11,10 +11,14 @@ import SortOrder from './DetailBox/SortOrder';
 
 const commonCellStyle = {
   width: '30%',
+  backgroundColor: '#f1f5f7',
+  padding: '13.6px',
 };
 
 const commonDataStyle = {
   width: '70%',
+  color: '#6c757d',
+  padding: '13.6px',
 };
 
 function DetailBox() {

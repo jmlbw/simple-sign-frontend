@@ -69,7 +69,7 @@ function ApprovalBoxList({ companyId }) {
       {data.map((item) => (
         <div key={item.approvalBoxId} className={styled.itemBox}>
           <div className={styled.iconimg}>
-            <BiSolidFolder />
+            <BiSolidFolder style={{ fontSize: '17px' }} />
           </div>
           <div
             className={styled.boxName}

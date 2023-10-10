@@ -20,12 +20,12 @@ function DetailApprovalBox() {
     <InnerBox
       height="100%"
       width="50%"
-      font_size="14px"
+      font_size="15px"
       text="결재함 상세"
       titleChildren={
         <Button
           label={'저장'}
-          btnStyle={'gray_btn'}
+          btnStyle={'green_btn'}
           onClick={handleSaveClick}
         />
       }
