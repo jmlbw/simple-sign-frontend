@@ -4,16 +4,29 @@ import styled from '../styles/pages/FormListPage.module.css';
 import SmallBox from '../components/approvalManage/formList/SmallBox';
 import FormListItem from '../components/approvalManage/formList/FormListItem';
 import React, { useEffect, useState } from 'react';
+import { useLoading } from '../contexts/LoadingContext';
+import getFormList from '../apis/approvalManaageAPI/getFormList';
 
 export default function FormListPage() {
   const [formList, setFormList] = useState([]);
+  const { showLoading, hideLoading } = useLoading();
+
   useEffect(() => {
-    //console.log('useEffect 호출');
-    fetch('http://localhost:8080/manage/form/formTitleList')
+    showLoading();
+
+    //양식리스트 조회
+    getFormList()
       .then((res) => {
         return res.json();
       })
-      .then((json) => setFormList(json));
+      .then((json) => setFormList(json))
+      .catch((e) => {
+        console.error(e);
+        hideLoading();
+      })
+      .finally(() => {
+        hideLoading();
+      });
   }, []);
 
   return (

@@ -4,6 +4,8 @@ import ApprovalForm from '../approvalRegist/ApprovalForm';
 import PopUp from '../../common/PopUp';
 import PopUpFoot from '../../common/PopUpFoot';
 import moment from 'moment';
+import { useLoading } from '../../../contexts/LoadingContext';
+import insertApprovalDoc from '../../../apis/approvalManaageAPI/insertApproval.js';
 
 export default function SmallBox(props) {
   const innerBoxStyle = {
@@ -23,8 +25,9 @@ export default function SmallBox(props) {
   const divRef = useRef(null);
   const titleRef = useRef(null);
   const [rec_ref, setRecRef] = useState([]);
-  const [org_use_id, setOrgUseId] = useState([]);
+  const [org_use_list, setOrgUseId] = useState([]);
   const receiveRefList = [];
+  const { showLoading, hideLoading } = useLoading();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -68,12 +71,12 @@ export default function SmallBox(props) {
   // };
 
   const handleClick = (state) => {
+    showLoading();
     let docStatus = 'T';
     if (state === 'regist') {
       docStatus = 'W';
     }
     // let searchContents = extractTableData(editor);
-    console.log(org_use_id);
     const data = {
       userId: userId,
       deptId: deptId,
@@ -81,27 +84,29 @@ export default function SmallBox(props) {
       approvalDocTitle: titleRef.current.innerHTML,
       docStatus: docStatus,
       seqCode: sequence_code,
-      approverList: org_use_id,
+      approverList: org_use_list,
       receiveRefList: rec_ref,
       approvalDate: drafting_time,
       enforcementDate: enforce_date,
       contents: editor,
     };
 
-    fetch(`http://localhost:8080/approve/register`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.status == '200') {
-        alert('상신되었습니다.');
-        setRecRef('');
-        closeModal();
-      }
-    });
+    //결재상신
+    insertApprovalDoc(data)
+      .then((res) => {
+        if (res.status == '200') {
+          alert('상신되었습니다.');
+          setRecRef('');
+          closeModal();
+        }
+      })
+      .catch((e) => {
+        hideLoading();
+        console.error(e);
+      })
+      .finally(() => {
+        hideLoading();
+      });
   };
 
   const BlueAndGrayBtn = [
@@ -155,7 +160,7 @@ export default function SmallBox(props) {
               titleRef={titleRef}
               rec_ref={rec_ref}
               setRecRef={setRecRef}
-              org_use_id={org_use_id}
+              org_use_list={org_use_list}
               setOrgUseId={setOrgUseId}
               dataHandler={dataHandler}
               editorHandler={editorHandler}

@@ -8,6 +8,9 @@ import styled from '../../../styles/components/approvalManage/approvalUpdate/Upd
 import PopUp from '../../common/PopUp';
 import PopUpFoot from '../../common/PopUpFoot';
 import OrgChart from '../../org/OrgChart';
+import getApprovalDoc from '../../../apis/approvalManageAPI/getApprovalDoc';
+import getSequenceList from '../../../apis/approvalManageAPI/getSequenceList';
+import deleteContentEditableError from '../../../apis/approvalManageAPI/deleteContentEditableError';
 
 export default function UpdateForm({
   approval_doc_id,
@@ -48,11 +51,8 @@ export default function UpdateForm({
   };
 
   useEffect(() => {
-    console.log(approval_doc_id);
-    fetch(`http://localhost:8080/approve/detail/${approval_doc_id}`)
-      .then((res) => {
-        return res.json();
-      })
+    //결재문서 상세조회
+    getApprovalDoc(approval_doc_id)
       .then((json) => {
         setDefaultForm(json.defaultForm);
         setUserName(json.userName);
@@ -71,15 +71,9 @@ export default function UpdateForm({
       });
 
     if (form_code !== 0) {
-      fetch(
-        `http://localhost:8080/manage/form/seqTitleList?formCode=${form_code}`
-      )
-        .then((res) => {
-          return res.json();
-        })
-        .then((json) => {
-          setSequence(json);
-        });
+      getSequenceList(form_code).then((json) => {
+        setSequence(json);
+      });
     }
     if (approval_line.length !== 0) {
       approval_line.map((data, id) => {
@@ -90,16 +84,7 @@ export default function UpdateForm({
       });
     }
 
-    console.error = (function (_error) {
-      return function (message, ...args) {
-        if (
-          typeof message !== 'string' ||
-          message.indexOf('component is `contentEditable`') === -1
-        ) {
-          _error.apply(console, args);
-        }
-      };
-    })(console.error);
+    deleteContentEditableError();
   }, [form_code]);
 
   const BlueAndGrayBtn = [

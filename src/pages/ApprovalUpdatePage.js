@@ -3,6 +3,7 @@ import InnerBox from '../components/common/InnerBox';
 import UpdateForm from '../components/approvalManage/approvalUpdate/UpdateForm';
 import Button from '../components/common/Button';
 import { useLocation } from 'react-router-dom';
+import updateApprovalDoc from '../apis/approvalManageAPI/updateApprovalDoc';
 
 export default function ApprovalUpdatePage(props) {
   const location = useLocation();
@@ -39,15 +40,8 @@ export default function ApprovalUpdatePage(props) {
       contents: editor,
       approverList: org_use_id,
     };
-
-    fetch(`http://localhost:8080/approve/${location.search.split('=')[1]}`, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
+    //문서수정
+    updateApprovalDoc(location.search.split('=')[1], data)
       .then((res) => {
         if (res.status == '200') {
           alert('문서가 수정되었습니다.');

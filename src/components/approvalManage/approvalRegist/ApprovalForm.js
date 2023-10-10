@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactHtmlParser from 'html-react-parser';
 import Selectbox from '../../common/Selectbox';
 import SelectDate from './components/SelectDate';
@@ -16,6 +10,10 @@ import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
 import OrgChart from '../../org/OrgChart';
 import Optionbox from '../../common/Optionbox';
 import Button from '../../common/Button';
+import { useLoading } from '../../../contexts/LoadingContext';
+import getForm from '../../../apis/approvalManageAPI/getForm';
+import getSequenceList from '../../../apis/approvalManageAPI/getSequenceList';
+import deleteContentEditableError from '../../../apis/approvalManageAPI/deleteContentEditableError';
 
 export default function ApprovalForm({
   form_code,
@@ -27,7 +25,7 @@ export default function ApprovalForm({
   titleRef,
   rec_ref,
   setRecRef,
-  org_use_id,
+  org_use_list,
   setOrgUseId,
   dataHandler,
   editorHandler,
@@ -42,6 +40,8 @@ export default function ApprovalForm({
   const [dataParent, setDataParent] = useState([]);
   const [receiveRefOpt, setReceiveRefOpt] = useState([]);
   const [condition, setCondition] = useState('rec_ref');
+  const { showLoading, hideLoading } = useLoading();
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -60,35 +60,24 @@ export default function ApprovalForm({
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8080/manage/form/detail/${form_code}`)
-      .then((res) => {
-        return res.json();
-      })
+    showLoading();
+
+    //양식 상세조회
+    getForm(form_code)
       .then((json) => {
         setDefaultForm(json.defaultForm);
         setMainForm(json.mainForm);
-      });
-
-    fetch(
-      `http://localhost:8080/manage/form/seqTitleList?formCode=${form_code}`
-    )
-      .then((res) => {
-        return res.json();
       })
-      .then((json) => {
-        setSequence(json);
+      .finally(() => {
+        hideLoading();
       });
 
-    console.error = (function (_error) {
-      return function (message, ...args) {
-        if (
-          typeof message !== 'string' ||
-          message.indexOf('component is `contentEditable`') === -1
-        ) {
-          _error.apply(console, args);
-        }
-      };
-    })(console.error);
+    //채번리스트 조회
+    getSequenceList(form_code).then((json) => {
+      setSequence(json);
+    });
+
+    deleteContentEditableError();
 
     if (dataParent.length !== 0) {
       dataParent.map((data, id) => {
@@ -152,7 +141,7 @@ export default function ApprovalForm({
     if (approvalLine.length !== 0) {
       approvalLine.map((data, id) => {
         if (data.userId) {
-          const updateOrgUse = [...org_use_id, data.userId];
+          const updateOrgUse = [...org_use_list, data.userId];
           setOrgUseId(updateOrgUse);
         }
       });
