@@ -1,12 +1,5 @@
 export default function insertForm(data) {
   let url = 'http://localhost:8080/manage/form/detail';
-  data = {
-    ...data,
-    scope: [
-      { category: 'C', useId: 1, name: 'Company A' },
-      { category: 'C', useId: 2, name: 'Company B' },
-    ],
-  };
   const jsonData = JSON.stringify(data);
 
   return fetch(url, {
