@@ -5,7 +5,7 @@ import ApprovalRegist from './ApprovalRegistPage';
 import FormListItem from '../components/approvalManage/formList/FormListItem';
 import React, { useEffect, useState } from 'react';
 import { useLoading } from '../contexts/LoadingContext';
-import getFormList from '../apis/approvalManaageAPI/getFormList';
+import getFormList from '../apis/approvalManageAPI/getFormList';
 
 export default function FormListPage() {
   const [formList, setFormList] = useState([]);
