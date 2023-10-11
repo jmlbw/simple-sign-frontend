@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext } from 'react';
 
 const initialState = {
   boxId: null,
+  insertStatus: 0,
 };
 
 const approvalBoxInit = {
@@ -9,9 +10,34 @@ const approvalBoxInit = {
   compId: null,
   approvalBoxName: null,
   viewItems: [],
-  approvalBoxUsedStatus: 0,
+  approvalBoxUsedStatus: 1,
   menuUsingRange: null,
   sortOrder: null,
+};
+
+const orgInitState = {
+  code: '',
+  compId: '',
+  compName: '',
+  formName: '',
+  scope: [],
+  defaultForm: '',
+  mainForm: '',
+  status: '',
+  approvalLine: [],
+};
+
+const initData = {
+  name: [],
+  user: '',
+  userId: '',
+  department: '',
+  deptId: '',
+  establishment: '',
+  estId: '',
+  company: '',
+  compId: '',
+  category: null,
 };
 
 const ApprovalBoxManageContext = createContext();
@@ -19,7 +45,7 @@ const ApprovalBoxManageContext = createContext();
 export const ApprovalBoxManageProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const [approvalBoxState, setApprovalBoxState] = useState(approvalBoxInit);
-
+  const [initDataState, setInitDataState] = useState(initData);
   return (
     <ApprovalBoxManageContext.Provider
       value={{
@@ -28,6 +54,9 @@ export const ApprovalBoxManageProvider = ({ children }) => {
         approvalBoxState,
         setApprovalBoxState,
         approvalBoxInit,
+        initDataState,
+        setInitDataState,
+        initData,
       }}
     >
       {children}

@@ -11,19 +11,33 @@ import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 
 function ViewApprovalBoxList() {
   const [selectedCompanyId, setSelectedCompanyId] = useState(0);
-  const { state, setState } = useApprovalBoxManage();
+  const {
+    state,
+    setState,
+    setInitDataState,
+    initData,
+    setApprovalBoxState,
+    approvalBoxInit,
+  } = useApprovalBoxManage();
 
   const handleAddButtonClick = () => {
     setState((prevState) => ({
       ...prevState,
       boxId: undefined,
+      insertStatus: 1,
+    }));
+    setInitDataState((prevState) => ({
+      initData,
+    }));
+    setApprovalBoxState((prevState) => ({
+      approvalBoxInit,
     }));
   };
 
   return (
     <InnerBox
       height="100%"
-      width="50%"
+      width="45%"
       font_size="15px"
       text="결재함 목록"
       titleChildren={
@@ -31,16 +45,27 @@ function ViewApprovalBoxList() {
           label={'추가'}
           btnStyle={'red_btn'}
           onClick={handleAddButtonClick}
+          width="65px"
+          height="30px"
+          fontSize="12px"
         />
       }
     >
       <div className={styled.searchbox}>
-        <Datalist onCompanyChange={setSelectedCompanyId} />
+        <div className={styled.selectContainer}>
+          {' '}
+          <Datalist onCompanyChange={setSelectedCompanyId} />
+        </div>
+
         <div className={styled.inputSearch}>
           <input type="text" placeholder="결재함명을 입력하세요" />
-          <button className={styled.searchbtn}>
-            <SearchIcon style={{ fontSize: '15px' }} />
-          </button>
+          <Button
+            label={<SearchIcon style={{ fontSize: '15px' }} />}
+            btnStyle={'dark_btn'}
+            width="27px"
+            height="27px"
+            fontSize="12px"
+          />
         </div>
       </div>
       <div className={styled.boxlist}>
