@@ -1,10 +1,16 @@
 .list {
-  margin-left: 20px !important;
+  margin-left: 5px !important;
 }
 
 .menutext span {
-  font-size: 18px !important;
-  font-weight: bold;
+  font-size: 0.95rem;
+  font-weight: 560;
+  color: #6e768e;
+  margin-left: 15px;
+}
+.menutext span:hover {
+  color: #3bafda;
+  background-color: transparent !important;
 }
 
 .mainmenu:hover {
@@ -13,7 +19,7 @@
 }
 
 .submenu {
-  padding-left: 40px;
+  margin-left: 40px;
 }
 
 .subitem:hover {
@@ -22,7 +28,12 @@
 }
 
 .sub_menutext span {
-  font-size: 15px !important;
+  font-size: 0.9rem;
+  color: #6e768e;
+}
+.sub_menutext span:hover {
+  color: #3bafda;
+  background-color: transparent !important;
 }
 
 .color {
