@@ -20,10 +20,12 @@
 }
 
 .boxtitle {
-  font-size: 18px;
   line-height: 49px;
   letter-spacing: -0.8px;
-  color: #000;
+  font-size: 1.1rem;
+  margin: 0;
+  color: #323a46;
+  font-weight: bold;
 }
 
 .docCount {

@@ -1,8 +1,8 @@
 .container {
-  padding: 10px;
+  padding: 15px;
   display: flex;
-  grid-gap: 20px;
-  gap: 20px;
+  grid-gap: 30px;
+  gap: 25px;
   height: 100%;
   width: 100%;
 }
@@ -10,12 +10,16 @@
   padding: 13px 5px 13px 5px;
   background-color: #f1f5f7;
   border: 1px solid #edeff1;
+  border-top-right-radius: 0.25rem;
+  border-top-left-radius: 0.25rem;
 }
 .selectbox {
   width: 100%;
 }
 .boxlist {
   border: 1px solid #edeff1;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
   width: 100%;
   height: 420px;
   overflow-y: scroll;
@@ -44,7 +48,8 @@
   border-bottom: 1px solid #edeff1;
 }
 .text {
-  font-size: 13.4px;
+  font-size: 13px;
+  font-weight: 600;
   height: 100%;
   display: flex;
   align-items: center;
@@ -61,11 +66,19 @@
   font-size: 12px;
   height: 27px;
   border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding-left: 10px;
 }
 .viewItemBox {
   width: 90%;
   height: 155.4px;
   border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  overflow-y: scroll;
+  padding: 8px 10px 10px 10px;
+  column-gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 .btn {
   width: 27px;
@@ -95,6 +108,7 @@
   width: 100%;
   height: 27px;
   border: 1px solid #ccc;
+  border-radius: 0.25rem;
   margin-right: 3px;
   padding-left: 9px;
   font-size: 12px;

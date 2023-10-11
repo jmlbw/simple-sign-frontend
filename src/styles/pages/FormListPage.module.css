@@ -8,3 +8,7 @@
 .left_box {
   margin-bottom: 45px;
 }
+.searchBoxContainer {
+  padding: 10px 0 12px 0;
+  border-bottom: 1px solid #edeff1;
+}
