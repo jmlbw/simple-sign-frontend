@@ -14,6 +14,7 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
   const location = useLocation();
   const currentPath = location.pathname;
   const { state: pageState, setState: setPageState } = usePage();
+
   const { customBoxViewItemState, setCustomBoxViewItemState } =
     useApprovalBox();
   const { state, setState } = useApprovalBox();
@@ -32,6 +33,7 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
     '기결내역-진행': 'progress',
     수신참조내역: 'reference',
     반려내역: 'reject',
+
   };
 
   useEffect(() => {

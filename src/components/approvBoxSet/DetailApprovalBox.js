@@ -10,7 +10,6 @@ function DetailApprovalBox() {
   const { state, setState, approvalBoxState } = useApprovalBoxManage();
 
   const handleSaveClick = async () => {
-    console.log(approvalBoxState);
     try {
       if (state.insertStatus === 1) {
         const response = await insertApprovalBox(approvalBoxState);

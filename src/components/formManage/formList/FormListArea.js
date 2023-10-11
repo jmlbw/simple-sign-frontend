@@ -9,7 +9,7 @@ import delForm from '../../../apis/commonAPI/delForm';
 import getDefaultApprovalLine from '../../../apis/commonAPI/getDefaultApprovalLine';
 import { useLoading } from '../../../contexts/LoadingContext';
 
-export default function FormListArea({ rows }) {
+export default function FormListArea({ rows, searchHandler }) {
   const { detailData, setDetailData, updateDetailData } = useFormManage();
   const { showLoading, hideLoading } = useLoading();
 
@@ -22,8 +22,11 @@ export default function FormListArea({ rows }) {
         }
         alert('데이터가 삭제되었습니다.');
       })
+      .then(() => {
+        searchHandler();
+      })
       .catch((err) => {
-        console.log('데이터 삭제를 실패했습니다.');
+        console.log(`데이터 삭제를 실패했습니다. [${err}]`);
       })
       .finally(() => {
         hideLoading();
@@ -64,7 +67,6 @@ export default function FormListArea({ rows }) {
   };
 
   useEffect(() => {
-    console.log('rows:', rows);
     if (rows.length > 0) {
       dataHandler(rows[0]);
     }

@@ -46,6 +46,7 @@ export const ApprovalBoxManageProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const [approvalBoxState, setApprovalBoxState] = useState(approvalBoxInit);
   const [initDataState, setInitDataState] = useState(initData);
+
   return (
     <ApprovalBoxManageContext.Provider
       value={{

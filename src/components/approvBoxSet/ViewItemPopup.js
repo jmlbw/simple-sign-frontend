@@ -75,7 +75,6 @@ function ViewItemPopup({ checkedItems, currentViewItems }) {
     );
 
     setSavedItems(selectedItems); // 추가된 코드
-
     setApprovalBoxState({
       ...approvalBoxState,
       viewItems: selectedItems,

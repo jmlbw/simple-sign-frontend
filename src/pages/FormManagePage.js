@@ -8,7 +8,6 @@ import getFormAndCompList from '../apis/commonAPI/getFormAndCompList';
 import { useFormManage } from '../contexts/FormManageContext';
 import { usePage } from '../contexts/PageContext';
 import { useLoading } from '../contexts/LoadingContext';
-import Loading from '../components/common/Loading';
 
 export default function FormManagePage() {
   const [formListData, setFormListData] = useState([]);
@@ -39,7 +38,6 @@ export default function FormManagePage() {
   }, []);
 
   useEffect(() => {
-    console.log('setData:', setData);
     if (setData.compList.length > 0) {
       searchHandler();
     }
@@ -77,13 +75,12 @@ export default function FormManagePage() {
       <FormSearchBox searchHandler={searchHandler} />
       <div className={styled.contentArea}>
         <div className={styled.formListArea}>
-          <FormListArea rows={formListData} />
+          <FormListArea rows={formListData} searchHandler={searchHandler} />
         </div>
         <div className={styled.formDetailArea}>
           <FormDetail searchHandler={searchHandler} />
         </div>
       </div>
-      <Loading />
     </div>
   );
 }

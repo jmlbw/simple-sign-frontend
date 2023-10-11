@@ -7,11 +7,13 @@ import SeqListArea from '../components/seqManage/seqList/SeqListArea';
 import getCompanyList from '../apis/commonAPI/getCompanyList';
 import { useSeqManage } from '../contexts/SeqManageContext';
 import getSeqAndCompList from '../apis/commonAPI/getSeqAndCompList';
+import { useLoading } from '../contexts/LoadingContext';
 
 export default function SeqManagePage() {
   const { state, setState } = usePage();
   const [formListData, setFormListData] = useState([]);
   const { searchData, setSearchData, setData, setSetData } = useSeqManage();
+  const { showLoading, hideLoading } = useLoading();
 
   useEffect(() => {
     //페이지 데이터 셋팅
@@ -31,8 +33,15 @@ export default function SeqManagePage() {
       });
   }, []);
 
+  useEffect(() => {
+    if (setData.compList.length > 0) {
+      searchHandler();
+    }
+  }, [setData.compList]);
+
   // 검색 및 테이블 데이터 셋팅
   const searchHandler = () => {
+    showLoading();
     getSeqAndCompList(searchData)
       .then((res) => {
         if (!res.ok) {
@@ -47,6 +56,9 @@ export default function SeqManagePage() {
         if (err.message === '404') {
           alert('검색된 채번이 없습니다.');
         }
+      })
+      .finally(() => {
+        hideLoading();
       });
   };
 
@@ -55,10 +67,10 @@ export default function SeqManagePage() {
       <SeqSearchBox searchHandler={searchHandler} />
       <div className={styled.contentArea}>
         <div className={styled.formListArea}>
-          <SeqListArea rows={formListData} />
+          <SeqListArea rows={formListData} searchHandler={searchHandler} />
         </div>
         <div className={styled.formDetailArea}>
-          <SeqDetail />
+          <SeqDetail searchHandler={searchHandler} />
         </div>
       </div>
     </div>

@@ -60,6 +60,9 @@ export default function FormDetail({ searchHandler }) {
           }
           alert('새 양식이 생성되었습니다.');
         })
+        .then(() => {
+          searchHandler();
+        })
         .catch((err) => {
           console.error(err);
           if (err.message === '404') {

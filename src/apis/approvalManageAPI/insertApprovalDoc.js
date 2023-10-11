@@ -1,8 +1,7 @@
-export default function insertSeq(data) {
-  let url = 'http://localhost:8080/manage/seq/detail';
+export default function insertApprovalDoc(data) {
+  let url = `http://localhost:8080/approve/register`;
   const jsonData = JSON.stringify(data);
 
-  console.log(data);
   return fetch(url, {
     method: 'POST',
     headers: {
