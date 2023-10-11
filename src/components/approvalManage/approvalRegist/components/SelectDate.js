@@ -8,16 +8,10 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import styled from '../../../../styles/components/approvalManage/approvalRegist/components/SelectDate.module.css';
 import moment from 'moment';
 
-export default function SelectDate({ onChange, baseDate }) {
+export default function SelectDate({ handleSelectTimeChange, baseDate }) {
   const [value, setValue] = useState(
     baseDate !== null ? dayjs(baseDate) : dayjs(moment())
   );
-
-  useEffect(() => {
-    if (typeof onChange === 'function') {
-      onChange(value);
-    }
-  }, [value, onChange]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -25,13 +19,13 @@ export default function SelectDate({ onChange, baseDate }) {
         <DatePicker
           label="날짜"
           value={value}
-          onChange={(newValue) => setValue(newValue)}
+          onChange={(newValue) => handleSelectTimeChange(newValue)}
           className={styled.inputbox}
         />
         <TimePicker
           label="시간"
           value={value}
-          onChange={(newValue) => setValue(newValue)}
+          onChange={(newValue) => handleSelectTimeChange(newValue)}
           className={styled.inputbox}
         />
       </DemoContainer>

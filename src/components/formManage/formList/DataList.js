@@ -18,7 +18,7 @@ export default function DataList({ columns, rows, dataHandler }) {
     <div style={{ height: '100%', width: '100%', overflow: 'auto' }}>
       <DataGrid
         autoHeight
-        // autoWidth
+        autoWidth
         // autoPageSize={true}
         rows={rows}
         columns={columnsWithFlex}

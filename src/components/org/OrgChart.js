@@ -32,7 +32,6 @@ export default function OrgChart({
 }) {
   // view
   // 임시 상태값 저장 set 메서드
-  console.log('init:', initData);
   const [selectedNode, setSelectedNode] = useState(null);
   const [selectedRow, setSelectedRow] = useState([]);
   const removeRow = (rowId) => {
@@ -48,7 +47,6 @@ export default function OrgChart({
   const [search, setSearch] = useState({});
 
   const handleRow = (row) => {
-    console.log('handle:', row);
     const isDuplicate = selectedRow.some(
       (selected) =>
         selected.company === row.company &&
@@ -89,6 +87,7 @@ export default function OrgChart({
         return {
           ...returnObj,
           category: 'U',
+          useId: row.userId,
           userId: row.userId,
           user: row.user,
           grade: row.grade,
@@ -104,6 +103,7 @@ export default function OrgChart({
         return {
           ...returnObj,
           category: 'D',
+          useId: row.deptId,
           deptId: row.deptId,
           department: row.department,
           estId: row.estId,
@@ -115,6 +115,7 @@ export default function OrgChart({
         return {
           ...returnObj,
           category: 'E',
+          useId: row.estId,
           estId: row.estId,
           establishment: row.establishment,
           compId: row.compId,
@@ -124,6 +125,7 @@ export default function OrgChart({
         return {
           ...returnObj,
           category: 'C',
+          useId: row.compId,
           compId: row.compId,
           company: row.company,
         };

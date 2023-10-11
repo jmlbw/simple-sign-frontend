@@ -5,7 +5,6 @@ import loadingGif from '../../assets/imgs/loading.gif';
 
 const Loading = () => {
   const { isLoading } = useLoading();
-  console.log(isLoading);
 
   return isLoading ? (
     <div className={styled.loading_overlay}>
