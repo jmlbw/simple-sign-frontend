@@ -19,8 +19,10 @@ export default function FormListPage() {
   return (
     <div className={styled.align}>
       <div className={styled.left_box}>
-        <SearchBox width="200px" />
         <InnerBox width="100%" height="100%">
+          <div className={styled.searchBoxContainer}>
+            <SearchBox width="200px" />
+          </div>
           <FormListItem />
         </InnerBox>
       </div>

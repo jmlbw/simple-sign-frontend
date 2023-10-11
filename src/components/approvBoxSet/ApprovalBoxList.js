@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '../../styles/components/ApprovalBox/ApprovalBoxList.module.css';
 import { BiSolidFolder } from 'react-icons/bi';
+import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 import getDocBoxList from '../../apis/approvalBoxAPI/getApprovalBox';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 import deleteApprovalBox from '../../apis/approvalBoxAPI/deleteApprovalBox';
@@ -15,6 +16,7 @@ function ApprovalBoxList({ companyId }) {
     setApprovalBoxState,
     approvalBoxInit,
   } = useApprovalBoxManage();
+  const [selectedBoxId, setSelectedBoxId] = useState(null);
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -30,7 +32,7 @@ function ApprovalBoxList({ companyId }) {
     setState((prevState) => ({
       ...prevState,
       boxId: boxId,
-      viewItem: [], // viewItem 초기화
+      insertStatus: 0,
     }));
     setApprovalBoxState((prevState) => ({
       ...prevState,
@@ -50,9 +52,9 @@ function ApprovalBoxList({ companyId }) {
     }
   };
 
-  const deleteBtnHandler = async (btnId) => {
+  const deleteBtnHandler = async () => {
     try {
-      await deleteApprovalBox(btnId);
+      await deleteApprovalBox(selectedBoxId);
       closeModal();
       fetchApprovalBoxList(); // 삭제 후 새로운 목록 가져오기
     } catch (error) {
@@ -69,11 +71,14 @@ function ApprovalBoxList({ companyId }) {
       {data.map((item) => (
         <div key={item.approvalBoxId} className={styled.itemBox}>
           <div className={styled.iconimg}>
-            <BiSolidFolder />
+            <BiSolidFolder style={{ fontSize: '17px', color: '#f7b84b' }} />
           </div>
           <div
             className={styled.boxName}
             onClick={() => boxNameClickHandler(item.approvalBoxId)}
+            style={
+              state.boxId === item.approvalBoxId ? { fontWeight: 650 } : {}
+            }
           >
             {item.approvalBoxName}
           </div>
@@ -84,7 +89,10 @@ function ApprovalBoxList({ companyId }) {
             height="200px"
             isModalOpen={isModalOpen}
             closeModal={closeModal}
-            openModal={openModal}
+            openModal={() => {
+              setSelectedBoxId(item.approvalBoxId);
+              openModal();
+            }}
             btnStyle="popup_non_btn"
             children={
               <div style={{ textAlign: 'center', padding: '30px' }}>

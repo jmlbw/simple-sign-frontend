@@ -5,10 +5,11 @@ import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
 import Button from '../common/Button';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 
-function ViewItemPopup({ checkedItems }) {
+function ViewItemPopup({ checkedItems, currentViewItems }) {
   const [selectAll, setSelectAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { approvalBoxState, setApprovalBoxState } = useApprovalBoxManage();
+  const [savedItems, setSavedItems] = useState([]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -28,23 +29,29 @@ function ViewItemPopup({ checkedItems }) {
   });
 
   useEffect(() => {
+    // currentViewItems의 변경을 감지하고 checkboxStates 업데이트
+    const updatedCheckboxStates = {};
+
+    // 모든 항목에 대해 체크 여부를 결정
+    for (const key in checkboxStates) {
+      updatedCheckboxStates[key] = currentViewItems.includes(key);
+    }
+
+    setCheckboxStates(updatedCheckboxStates);
+  }, [currentViewItems]);
+
+  useEffect(() => {
     const initialCheckboxStates = {
-      상신내역: false,
-      미결내역: false,
-      '기결내역-종결': false,
-      '기결내역-진행': false,
-      반려내역: false,
-      수신참조내역: false,
+      상신내역: savedItems.includes('상신내역'),
+      미결내역: savedItems.includes('미결내역'),
+      '기결내역-종결': savedItems.includes('기결내역-종결'),
+      '기결내역-진행': savedItems.includes('기결내역-진행'),
+      반려내역: savedItems.includes('반려내역'),
+      수신참조내역: savedItems.includes('수신참조내역'),
     };
 
-    checkedItems.forEach((item) => {
-      if (item.codeValue) {
-        initialCheckboxStates[item.codeValue] = true;
-      }
-    });
-
     setCheckboxStates(initialCheckboxStates);
-  }, [checkedItems]);
+  }, [checkedItems, savedItems]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -67,6 +74,8 @@ function ViewItemPopup({ checkedItems }) {
       (itemName) => checkboxStates[itemName]
     );
 
+    setSavedItems(selectedItems); // 추가된 코드
+
     setApprovalBoxState({
       ...approvalBoxState,
       viewItems: selectedItems,
@@ -78,13 +87,16 @@ function ViewItemPopup({ checkedItems }) {
 
   return (
     <PopUp
-      label={<GridViewRoundedIcon style={{ color: 'grey' }} />}
+      label={
+        <GridViewRoundedIcon style={{ color: 'grey', fontSize: '20px' }} />
+      }
       title="조회항목 선택"
       width="400px"
       height="440px"
       isModalOpen={isModalOpen}
       openModal={openModal}
       closeModal={closeModal}
+      btnStyle={'gray_btn'}
       children={
         <div>
           <div className={styled.viewItemContainer}>

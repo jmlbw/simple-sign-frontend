@@ -21,9 +21,11 @@ import ApprovalBoxSetPage from './pages/ApprovalBoxSetPage';
 import ApprovalUpdatePage from '../src/pages/ApprovalUpdatePage';
 import ApprovalDetail from '../src/components/approvalManage/approvalDetail/ApprovalDetail';
 import Loading from './components/common/Loading';
+import { usePage } from './contexts/PageContext';
 function AppContent() {
   const { state } = useContext(AppContext);
   const navigate = useNavigate();
+  const { state: pageState, setState: setPageState } = usePage();
 
   //로그인이 되지 않으면 로그인 페이지로
   useEffect(() => {
@@ -40,9 +42,11 @@ function AppContent() {
           <Sidebar />
           <div className="contentContainer">
             <Titlebox
-              title="상신문서"
-              view="approval"
-              componentProp={<ApprovalRightHeader />}
+              title={pageState.curPage}
+              view={pageState.isApprovalBox ? 'approval' : ''}
+              componentProp={
+                pageState.isApprovalBox ? <ApprovalRightHeader /> : ''
+              }
             ></Titlebox>
             <div className="contentsArea">
               <Routes>

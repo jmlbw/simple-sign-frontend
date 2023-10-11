@@ -17,7 +17,6 @@ export default function FormManagePage() {
   const { state, setState } = usePage();
 
   useEffect(() => {
-    showLoading();
     //페이지 데이터 셋팅
     setState({ ...state, curPage: 'FormManage' });
 
@@ -30,9 +29,6 @@ export default function FormManagePage() {
         setSearchData({ ...searchData, compId: data[0].id });
         setSetData({ ...setData, compList: data });
       })
-      .then(() => {
-        hideLoading();
-      })
       .catch((err) => {
         hideLoading();
         console.error(err);
@@ -41,6 +37,13 @@ export default function FormManagePage() {
         hideLoading();
       });
   }, []);
+
+  useEffect(() => {
+    console.log('setData:', setData);
+    if (setData.compList.length > 0) {
+      searchHandler();
+    }
+  }, [setData.compList]);
 
   // 검색 및 테이블 데이터 셋팅
   const searchHandler = () => {

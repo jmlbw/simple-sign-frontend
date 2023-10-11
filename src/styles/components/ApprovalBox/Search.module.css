@@ -1,16 +1,17 @@
 .searchbox {
-  border: 1px solid #cfcdcd;
-  height: 27px;
-  margin-left: 10px;
+  background-color: #f1f5f7;
+  border: 1px solid #f1f5f7;
+  border-radius: 50px;
   display: flex;
+  padding: 5px 15px 5px 10px;
 }
 
 .searchbox input {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
   border-style: none;
-  height: 25px;
+  background-color: #f1f5f7;
 }
-.searchbox button {
-  /* border-style: none; */
-  /* background-color: white; */
-  height: 25px;
+input:focus {
+  outline: none;
 }

@@ -1,14 +1,18 @@
 .box {
   padding: 0px 20px;
   background-color: white;
-  border-radius: 10px;
+  border: 1px solid #e7eaed;
+  border-radius: 0.25rem;
 }
 
 hr {
   margin-top: 0px;
+  border: none;
+  border: 1px solid #e5e8eb !important;
 }
 
 .titleArea {
+  padding-top: 3px;
   display: flex;
   flex-direction: row;
 }

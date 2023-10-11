@@ -46,6 +46,7 @@ function MenuUseRange(props) {
         {props.menuOption === 'P' && ( // menuOption이 'P'일 때만 렌더링
           <div className={styled.viewUseField}>
             <div className={styled.viewItemBox}></div>
+
             <PopUp
               title="메뉴 사용범위"
               width="1300px"
