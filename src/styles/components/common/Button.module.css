@@ -118,6 +118,7 @@
   align-items: center;
   cursor: pointer;
   border: 1px solid #6c757d;
+  border-radius: 0.25rem;
   transition: background-color 0.3s, border 0.3s;
 }
 .dark_btn:hover {

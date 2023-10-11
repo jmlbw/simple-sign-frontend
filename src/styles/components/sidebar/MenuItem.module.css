@@ -1,5 +1,5 @@
 .list {
-  margin-left: 5px !important;
+  margin-right: 5px !important;
 }
 
 .menutext span {
@@ -19,7 +19,8 @@
 }
 
 .submenu {
-  margin-left: 40px;
+  margin-left: 30px;
+  margin-top: 10px;
 }
 
 .subitem:hover {
