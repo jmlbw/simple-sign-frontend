@@ -7,8 +7,14 @@ import styled from '../../styles/components/sidebar/MenuItem.module.css';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
+import { usePage } from '../../contexts/PageContext';
+import { useLocation } from 'react-router-dom';
 
 function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const { state: pageState, setState: setPageState } = usePage();
+
   const { customBoxViewItemState, setCustomBoxViewItemState } =
     useApprovalBox();
   const { state, setState } = useApprovalBox();
@@ -25,6 +31,9 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
     미결내역: 'pend',
     '기결내역-종결': 'end',
     '기결내역-진행': 'progress',
+    수신참조내역: 'reference',
+    반려내역: 'reject',
+
   };
 
   useEffect(() => {
@@ -35,6 +44,11 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
   }, [isSubMenuVisible]);
 
   const clickMenu = (index, name) => {
+    setPageState((prevState) => ({
+      ...prevState,
+      curPage: name,
+    }));
+
     const customBoxNames = customBoxViewItemState.map(
       (box) => box.approvalBoxName
     );
@@ -82,6 +96,22 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
     }
   };
 
+  useEffect(() => {
+    switch (currentPath) {
+      case '/ABV':
+        setPageState((prevState) => ({
+          ...prevState,
+          isApprovalBox: true,
+        }));
+        break;
+      default:
+        setPageState((prevState) => ({
+          ...prevState,
+          isApprovalBox: false,
+        }));
+    }
+  }, [currentPath]);
+
   return (
     <List className={styled.list}>
       <ListItemButton
@@ -92,12 +122,12 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
           toggleSubMenu(item.id);
         }}
       >
-        {isSubMenuVisible[item.id - 1] ? (
-          <KeyboardArrowDownIcon />
-        ) : (
-          <KeyboardArrowRightIcon />
-        )}
         <ListItemText primary={item.name} className={styled.menutext} />
+        {isSubMenuVisible[item.id - 1] ? (
+          <KeyboardArrowDownIcon htmlColor="#3bafda;" />
+        ) : (
+          <KeyboardArrowRightIcon htmlColor="#6e768e" />
+        )}
       </ListItemButton>
       {item.submenu && isSubMenuVisible[item.id - 1] && (
         <div className={styled.submenu}>

@@ -11,11 +11,9 @@ const BASE_RADIX = 10;
 function ViewItem(props) {
   const [data, setData] = useState([]);
   const [viewItemsLocal, setViewItemsLocal] = useState([]);
-  const [viewItemsLocal2, setViewItemsLocal2] = useState([]);
   const [error, setError] = useState(null);
   const { state, setState } = useApprovalBox();
-  const { approvalBoxState, initDataState, setInitDataState } =
-    useApprovalBoxManage();
+  const { approvalBoxState } = useApprovalBoxManage();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +21,7 @@ function ViewItem(props) {
         const parsedBoxId = parseInt(props.boxId, BASE_RADIX);
         if (!isNaN(parsedBoxId)) {
           const response = await getViewItems(parsedBoxId);
+          setData(response.data);
 
           let updatedViewItem = [];
 
@@ -41,16 +40,10 @@ function ViewItem(props) {
               updatedViewItem.push('수신참조내역');
             }
           });
-
-          setInitDataState((prevState) => ({
-            ...prevState,
-            name: updatedViewItem,
-          }));
-          console.log(initDataState);
-
-          setViewItemsLocal2((prevItems) => {
+          setViewItemsLocal((prevItems) => {
             return updatedViewItem;
           });
+
           setState((prevState) => ({
             ...prevState,
             boxViewItems: updatedViewItem,
@@ -68,26 +61,22 @@ function ViewItem(props) {
     if (approvalBoxState && approvalBoxState.viewItems) {
       setViewItemsLocal(approvalBoxState.viewItems); // approvalBoxState.viewItems 값이 변경될 때마다 로컬 상태 업데이트
     }
-  }, [approvalBoxState.viewItems, approvalBoxState]); // approvalBoxState.viewItems 값의 변경을 감지
+  }, [approvalBoxState.viewItems]); // approvalBoxState.viewItems 값의 변경을 감지
 
   let itemsToRender;
 
   if (viewItemsLocal && viewItemsLocal.length > 0) {
     itemsToRender = viewItemsLocal;
-  } else if (viewItemsLocal2 && viewItemsLocal2.length > 0) {
-    itemsToRender = viewItemsLocal2;
   } else {
-    itemsToRender = initDataState.name
-      ? initDataState.name.map((item) => item.codeValue)
-      : [];
+    itemsToRender = data ? data.map((item) => item.codeValue) : [];
   }
 
   useEffect(() => {
-    console.log('Updated viewItemsLocal:', viewItemsLocal2);
-  }, [viewItemsLocal2]);
+    console.log('Updated viewItemsLocal:', viewItemsLocal);
+  }, [viewItemsLocal]);
 
   function handleDataChange(name) {
-    setViewItemsLocal2((prevState) => {
+    setViewItemsLocal((prevState) => {
       return prevState.filter((item) => item !== name);
     });
   }
@@ -104,7 +93,6 @@ function ViewItem(props) {
               <Optionbox
                 id={viewItemValue}
                 key={index}
-                initData={{ ...initDataState, name: viewItemValue }} // name을 단일 값으로 전달
                 name={viewItemValue}
                 dataHandler={handleDataChange}
               />
@@ -113,7 +101,7 @@ function ViewItem(props) {
 
           <ViewItemPopup
             checkedItems={data}
-            currentViewItems={viewItemsLocal2}
+            currentViewItems={viewItemsLocal}
           />
         </div>
       </div>

@@ -1,13 +1,11 @@
 .blue_btn {
-  /* width: 44.09px; */
-  height: 27px;
   font-size: 12px;
   text-align: center;
   color: #ffffff;
   font-family: '돋움', Dotum;
   border: 1px solid #3bafda;
   background: #3bafda;
-  margin: 0px 5px;
+  padding: 5px 5px;
 }
 
 .blue_btn:hover {
@@ -15,15 +13,13 @@
 }
 
 .gray_btn {
-  /* width: 44.09px; */
-  height: 27px;
   font-size: 12px;
   text-align: center;
   color: #000000;
   font-family: '돋움', Dotum;
   border: 1px solid #ccc;
   background: linear-gradient(0deg, #f0f0f0, #fff);
-  margin: 0px 5px;
+  padding: 5px 5px;
 }
 
 .gray_btn:hover {
@@ -31,15 +27,13 @@
 }
 
 .popup_blue_btn {
-  /* width: 61.6px; */
-  height: 32px;
   font-size: 15px;
   text-align: center;
   color: #ffffff;
   font-family: '돋움', Dotum;
   border: 1px solid #3bafda;
   background: #3bafda;
-  margin: 0px 5px;
+  padding: 5px 5px;
 }
 
 .popup_blue_btn:hover {
@@ -47,15 +41,13 @@
 }
 
 .popup_gray_btn {
-  /* width: 61.6px; */
-  height: 32px;
   font-size: 15px;
   text-align: center;
   color: #000000;
   font-family: '돋움', Dotum;
   border: 1px solid #ccc;
   background: linear-gradient(0deg, #f0f0f0, #fff);
-  margin: 0px 5px;
+  padding: 5px 5px;
 }
 
 .popup_gray_btn:hover {
@@ -66,4 +58,88 @@
   width: 100%;
   background-color: white;
   border: none;
+}
+
+.green_btn {
+  font-weight: 500;
+  border: 0;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: #fff;
+  padding: 5px 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* 수평 가운데 정렬을 위한 속성 추가 */
+  cursor: pointer;
+  transition: background-color 0.3s, border 0.3s;
+  background-color: #1abc9c;
+  border: 1px solid #1abc9c;
+}
+
+.green_btn:hover {
+  background-color: #16987d; /* 약간 어둡게 변경된 배경색 */
+  border: 1px solid #12866b; /* 어두운 테두리 추가 */
+}
+
+.red_btn {
+  font-weight: 500;
+  border: 0;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  background-color: #f1556c;
+  color: #fff;
+  padding: 5px 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid #f1556c;
+  transition: background-color 0.3s, border 0.3s;
+}
+
+.red_btn:hover {
+  background-color: #e0455b;
+  border-color: #d2354c;
+}
+
+.dark_btn {
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  border: 0;
+  border-radius: 2px;
+  background-color: #6c757d;
+  color: #fff;
+  padding: 5px 5px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #6c757d;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s, border 0.3s;
+}
+.dark_btn:hover {
+  background-color: #5a646c;
+  border-color: #5a646c;
+}
+
+.search_btn {
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  border: 0;
+  border-radius: 2px;
+  background-color: #f1f5f7;
+  color: #323a46;
+  padding: 5px 5px;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #f1f5f7;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  transition: background-color 0.3s, border 0.3s;
 }
