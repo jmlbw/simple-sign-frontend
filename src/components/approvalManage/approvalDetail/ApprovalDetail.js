@@ -9,6 +9,7 @@ import insertApproval from '../../../apis/approvalManageAPI/insertApproval';
 import insertReturn from '../../../apis/approvalManageAPI/insertReturn';
 import deleteApprovalDoc from '../../../apis/approvalManageAPI/deleteApprovalDoc';
 import { useLoading } from '../../../contexts/LoadingContext';
+import ReplyForm from './ReplyForm';
 
 export default function ApprovalDetail() {
   const navigate = useNavigate();
@@ -147,6 +148,7 @@ export default function ApprovalDetail() {
                 btnStyle={'gray_btn'}
                 onClick={deleteHandler}
               />
+              <ReplyForm approval_doc_id={location.search.split('=')[1]} />
             </>
           }
         ></InnerBox>
