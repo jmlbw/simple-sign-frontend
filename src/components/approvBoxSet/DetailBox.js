@@ -12,7 +12,7 @@ import SortOrder from './DetailBox/SortOrder';
 const commonCellStyle = {
   width: '30%',
   backgroundColor: '#f1f5f7',
-  padding: '13.6px',
+  padding: '13.6px 0 13.6px 13.6px',
 };
 
 const commonDataStyle = {

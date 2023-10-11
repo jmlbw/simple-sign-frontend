@@ -76,7 +76,7 @@ function Sidebar() {
           approvalBoxName: item.approvalBoxName,
           viewItems: response.viewItems
             .filter((viewItem) => viewItem.approvalBoxId === item.approvalBoxId)
-            .map((viewItem) => viewItem.codeValue), // assuming `name` is the field you want from viewItem
+            .map((viewItem) => viewItem.codeValue),
         }));
 
         setCustomBoxViewItemState(newCustomBoxViewItems);

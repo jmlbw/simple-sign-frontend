@@ -1,6 +1,6 @@
 import styles from '../../styles/components/ApprovalBox/ApprovalRightHeader.module.css';
 import React, { useContext, useState } from 'react';
-import Search from './Search';
+import Search from './SearchBox';
 import { useApprovalBox } from '../../contexts/ApprovalBoxContext';
 
 function ApprovalRightHeader() {
@@ -25,9 +25,18 @@ function ApprovalRightHeader() {
     }, 200);
   };
 
+  const handleSearch = (value) => {
+    console.log('User searched for:', value);
+    setState((prevState) => ({
+      ...prevState,
+      searchInput: value,
+      searchBtnStatus: !prevState.searchBtnStatus,
+    }));
+  };
+
   return (
     <div className={styles.list}>
-      <Search></Search>
+      <Search onSearch={handleSearch} fontSize="17px" />
       <div className={styles.container} onBlur={handleBlurContainer}>
         <label onClick={handleClickContainer}>
           <button className={styles.dropdownBtn}>

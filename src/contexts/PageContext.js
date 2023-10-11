@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext } from 'react';
 
 const initialState = {
   curPage: 'Home',
+  isApprovalBox: false,
 };
 
 const PageContext = createContext();

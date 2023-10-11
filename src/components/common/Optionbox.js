@@ -9,6 +9,7 @@ function Optionbox(props) {
   console.log('initData:', initData);
   let id = props.id;
   let name =
+    initData.name ||
     initData.user ||
     initData.department ||
     initData.establishment ||
