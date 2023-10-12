@@ -51,7 +51,6 @@ function ViewItem(props) {
           setViewItemsLocal2((prevItems) => {
             return updatedViewItem;
           });
-
           setState((prevState) => ({
             ...prevState,
             boxViewItems: updatedViewItem,
