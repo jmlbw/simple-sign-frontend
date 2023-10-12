@@ -65,7 +65,7 @@
 .inputstyle {
   width: 100%;
   color: black;
-  font-size: 12px;
+  font-size: 13px;
   height: 27px;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
@@ -84,15 +84,15 @@
   margin-right: 5px;
 }
 .btn {
-  width: 27px;
-  height: 27px;
+  width: 32px;
+  height: 32px;
 }
 .viewUseField {
   display: flex;
 }
 .searchbtn {
-  height: 27px;
-  width: 27px;
+  height: 32px;
+  width: 32px;
   align-items: center;
 }
 .selectContainer {
@@ -114,7 +114,7 @@
   border-radius: 0.25rem;
   margin-right: 3px;
   padding-left: 9px;
-  font-size: 12px;
+  font-size: 13px;
 }
 .viewItemContainer {
   width: 100%;
@@ -139,7 +139,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
 }
 .topCheckbox {
   background-color: #edeff1;
@@ -167,7 +167,7 @@ input[type='checkbox'] {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
 }
 .submitBtn {
   display: flex;

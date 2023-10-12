@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 
 export default function RowRadioButtonsGroup() {
   const labelStyle = {
-    fontSize: '12px', // 폰트 크기
+    fontSize: '12.4px', // 폰트 크기
     color: '#6c757d', // 폰트 색상
   };
 
