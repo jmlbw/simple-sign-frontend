@@ -1,6 +1,10 @@
-.sidebarContainer {
-    margin-top: 100px;
-    border: 1px solid #000000;
-    width: 200px;
-    height: 100%;
+.sidebar {
+  position: fixed;
+  margin-top: 70px;
+  width: 240px;
+  height: 860px;
+  background-color: transparent;
+  /* border-right: 1px solid; */
+  overflow: auto;
+  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
 }

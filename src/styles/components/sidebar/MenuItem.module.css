@@ -1,0 +1,43 @@
+.list {
+  margin-right: 5px !important;
+}
+
+.menutext span {
+  font-size: 0.95rem;
+  font-weight: 560;
+  color: #6e768e;
+  margin-left: 15px;
+}
+.menutext span:hover {
+  color: #3bafda;
+  background-color: transparent !important;
+}
+
+.mainmenu:hover {
+  color: #3bafda;
+  background-color: transparent !important;
+}
+
+.submenu {
+  margin-left: 30px;
+  margin-top: 10px;
+}
+
+.subitem:hover {
+  color: #3bafda;
+  background-color: white !important;
+}
+
+.sub_menutext span {
+  font-size: 0.9rem;
+  color: #6e768e;
+}
+.sub_menutext span:hover {
+  color: #3bafda;
+  background-color: transparent !important;
+}
+
+.color {
+  color: #3bafda !important;
+  background-color: white !important;
+}

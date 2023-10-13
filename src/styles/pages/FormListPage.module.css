@@ -1,0 +1,14 @@
+.align {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 20px;
+}
+
+.left_box {
+  margin-bottom: 45px;
+}
+.searchBoxContainer {
+  padding: 10px 0 12px 0;
+  border-bottom: 1px solid #edeff1;
+}

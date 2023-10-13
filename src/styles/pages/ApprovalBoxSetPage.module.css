@@ -1,0 +1,195 @@
+.container {
+  padding: 15px;
+  display: flex;
+  grid-gap: 30px;
+  gap: 25px;
+  height: 100%;
+  width: 100%;
+}
+.searchbox {
+  padding: 13px 5px 13px 5px;
+  background-color: #f1f5f7;
+  border: 1px solid #edeff1;
+  border-top-right-radius: 0.25rem;
+  border-top-left-radius: 0.25rem;
+}
+.selectbox {
+  width: 100%;
+}
+.boxlist {
+  border: 1px solid #edeff1;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  width: 100%;
+  height: 420px;
+  overflow-y: scroll;
+  padding-top: 20px;
+  padding-left: 30px;
+}
+
+.boxlist ul {
+  width: 100%;
+}
+
+.formcontainer {
+  width: 100%;
+  max-height: 495.45px;
+  overflow-y: scroll;
+  border-top: 1px solid #edeff1;
+}
+.customSelect {
+  /* z-index: 9999; */
+  /* height: 27px; */
+  font-size: 12px;
+}
+.inputItem {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #edeff1;
+}
+.text {
+  font-size: 13px;
+  font-weight: 600;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 20px;
+  color: #343a40;
+}
+.vertical-center {
+  vertical-align: middle;
+}
+.inputstyle {
+  width: 100%;
+  color: black;
+  font-size: 12px;
+  height: 27px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding-left: 10px;
+}
+.viewItemBox {
+  width: 90%;
+  height: 155.4px;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  overflow-y: scroll;
+  padding: 8px 10px 10px 10px;
+  column-gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.btn {
+  width: 27px;
+  height: 27px;
+}
+.viewUseField {
+  display: flex;
+}
+.searchbtn {
+  height: 27px;
+  width: 27px;
+  align-items: center;
+}
+.selectContainer {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.inputSearch {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  width: 100%;
+  display: flex;
+}
+.inputSearch input {
+  width: 100%;
+  height: 27px;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  margin-right: 3px;
+  padding-left: 9px;
+  font-size: 12px;
+}
+.viewItemContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+}
+.viewItemList {
+  width: 338px;
+  height: fit-content;
+  border: 1px solid #ccc;
+}
+.viewitem {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+}
+.topViewItem {
+  background-color: #edeff1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.topCheckbox {
+  background-color: #edeff1;
+  border-right: 1px solid #ccc;
+  height: 35px;
+  min-width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkbox {
+  border-right: 1px solid #ccc;
+  height: 35px;
+  min-width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+input[type='checkbox'] {
+  width: 17px;
+  height: 17px;
+}
+.itemName {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+.submitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+/* 전체 스크롤바의 너비 설정 */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* 스크롤바의 트랙 부분 (바탕 부분) */
+::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+/* 스크롤바의 핸들 부분 (움직이는 부분) */
+::-webkit-scrollbar-thumb {
+  background-color: #b6b6b6;
+}
+
+/* 핸들 부분에 호버했을 때의 스타일 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #808080;
+}
