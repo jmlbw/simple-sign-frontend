@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import updateApprovalDoc from '../apis/approvalManageAPI/updateApprovalDoc';
 import { useLoading } from '../contexts/LoadingContext';
 import moment from 'moment';
+import { usePage } from '../contexts/PageContext';
 
 export default function ApprovalUpdatePage() {
   const location = useLocation();
@@ -14,6 +15,7 @@ export default function ApprovalUpdatePage() {
   const [editor, setEditor] = useState(null);
   //로딩
   const { showLoading, hideLoading } = useLoading();
+  const { state, setState } = usePage();
 
   //update 데이터
   const [sequence_code, setSequenceCode] = useState('');
@@ -41,6 +43,8 @@ export default function ApprovalUpdatePage() {
   };
 
   const handleClick = () => {
+    //페이지 데이터 셋팅
+    setState({ ...state, curPage: '결재문서수정' });
     showLoading();
     const orgUserIdList = [];
     org_use_list.map((data, index) => {

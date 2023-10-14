@@ -155,21 +155,21 @@ export default function SmallBox(props) {
       onClick: () => {
         handleClick('regist');
       },
-      btnStyle: 'popup_blue_btn',
+      btnStyle: 'red_btn',
     },
     {
       label: '임시저장',
       onClick: () => {
         handleClick('temporal');
       },
-      btnStyle: 'popup_gray_btn',
+      btnStyle: 'green_btn',
     },
     {
       label: '취소',
       onClick: () => {
         closeModal();
       },
-      btnStyle: 'popup_gray_btn',
+      btnStyle: 'dark_btn',
     },
   ];
 

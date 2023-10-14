@@ -118,7 +118,7 @@ export default function ApprovalForm({
 
   return (
     <>
-      <div>
+      <div className={styled.container}>
         {ReactHtmlParser(default_form, {
           replace: (domNode) => {
             if (domNode.attribs && domNode.attribs.id == 'approval_line') {
@@ -235,7 +235,7 @@ export default function ApprovalForm({
             }
             if (domNode.attribs && domNode.attribs.id == 'content') {
               return (
-                <div id="content" className={styled.container}>
+                <div id="content" className={styled.editor}>
                   <TinyEditor
                     init={main_form}
                     editorHandler={editorHandler}

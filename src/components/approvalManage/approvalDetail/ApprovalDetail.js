@@ -10,6 +10,8 @@ import insertReturn from '../../../apis/approvalManageAPI/insertReturn';
 import deleteApprovalDoc from '../../../apis/approvalManageAPI/deleteApprovalDoc';
 import { useLoading } from '../../../contexts/LoadingContext';
 import ReplyForm from './ReplyForm';
+import { usePage } from '../../../contexts/PageContext';
+import { useApp } from '../../../contexts/AppContext';
 
 export default function ApprovalDetail() {
   const navigate = useNavigate();
@@ -17,6 +19,9 @@ export default function ApprovalDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mode, setMode] = useState('');
   const { showLoading, hideLoading } = useLoading();
+  const { state: pageState, setState: setPageState } = usePage();
+  const { state, setState } = useApp();
+  const [hasPermission, setHasPermission] = useState(false);
 
   const openModal = (mode) => {
     setIsModalOpen(true);
@@ -30,7 +35,28 @@ export default function ApprovalDetail() {
     setIsModalOpen(false);
   };
 
+  ////권한목록 가져와서 해당 사용자가 있으면 승인 버튼
+  const getHasPermission = () => {
+    console.log(state); //해당 사용자 권한 가져오기
+    fetch(
+      `http://localhost:8080/approve/PermissionList/${
+        location.search.split('=')[1]
+      }`
+    )
+      .then((res) => {
+        return res.json;
+      })
+      .then((res) => {
+        //구현예정
+        // console.log(res);
+        // if(res.userId.contains(state.user) {
+        //   setHasPermission(true);
+        // });
+      });
+  };
+
   const approveHandler = () => {
+    setPageState({ ...pageState, curPage: '결재상세' });
     showLoading();
     //결재승인
     insertApproval(location.search.split('=')[1])
@@ -71,7 +97,7 @@ export default function ApprovalDetail() {
   };
 
   const returnTitleComponent = () => {
-    return (
+    return hasPermission ? (
       <>
         <Button
           label={'승인'}
@@ -84,7 +110,7 @@ export default function ApprovalDetail() {
           onClick={() => openModal('return')}
         />
       </>
-    );
+    ) : null;
   };
 
   const updateHandler = () => {
@@ -116,14 +142,14 @@ export default function ApprovalDetail() {
         }
         closeModal();
       },
-      btnStyle: 'popup_blue_btn',
+      btnStyle: 'red_btn',
     },
     {
       label: '취소',
       onClick: () => {
         closeModal();
       },
-      btnStyle: 'popup_gray_btn',
+      btnStyle: 'dark_btn',
     },
   ];
 
@@ -140,12 +166,12 @@ export default function ApprovalDetail() {
               <DetailForm approval_doc_id={location.search.split('=')[1]} />
               <Button
                 label={'문서수정'}
-                btnStyle={'blue_btn'}
+                btnStyle={'red_btn'}
                 onClick={updateHandler}
               />
               <Button
                 label={'문서삭제'}
-                btnStyle={'gray_btn'}
+                btnStyle={'green_btn'}
                 onClick={deleteHandler}
               />
               <ReplyForm approval_doc_id={location.search.split('=')[1]} />
