@@ -76,6 +76,8 @@ export default function SmallBox(props) {
 
   const handleClick = (state) => {
     showLoading();
+    console.log(org_use_list);
+    console.log(rec_ref);
     const orgUserIdList = [];
     org_use_list.map((data, index) => {
       orgUserIdList.push(data.userId);
@@ -83,25 +85,25 @@ export default function SmallBox(props) {
 
     const recRefList = [];
     rec_ref.map((data) => {
-      if (data.compId) {
+      if (data.category === 'C') {
         recRefList.push({
           id: data.compId,
           category: 'C',
           name: data.compName,
         });
-      } else if (data.estId) {
+      } else if (data.category === 'E') {
         recRefList.push({
           id: data.estId,
           category: 'E',
           name: data.estName,
         });
-      } else if (data.deptId) {
+      } else if (data.category === 'D') {
         recRefList.push({
           id: data.deptId,
           category: 'D',
           name: data.deptName,
         });
-      } else if (data.userId) {
+      } else if (data.category === 'U') {
         recRefList.push({
           id: data.userId,
           category: 'U',

@@ -4,8 +4,6 @@ import Selectbox from '../../common/Selectbox';
 import SelectDate from './components/SelectDate';
 import { TinyEditor } from '../../common/TinyEditor';
 import styled from '../../../styles/components/approvalManage/approvalRegist/ApprovalForm.module.css';
-import PopUp from '../../common/PopUp';
-import PopUpFoot from '../../common/PopUpFoot';
 import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
 import OrgChart from '../../org/OrgChart';
 import Optionbox from '../../common/Optionbox';
@@ -14,6 +12,7 @@ import { useLoading } from '../../../contexts/LoadingContext';
 import getForm from '../../../apis/approvalManageAPI/getForm';
 import getSequenceList from '../../../apis/approvalManageAPI/getSequenceList';
 import deleteContentEditableError from '../../../apis/approvalManageAPI/deleteContentEditableError';
+import OptionboxItem from '../../common/OptionboxItem';
 
 export default function ApprovalForm({
   form_code,
@@ -48,11 +47,13 @@ export default function ApprovalForm({
     setIsModalOpen(false);
   };
   const handleApprovalClick = () => {
+    console.log('approval입니다');
     setCondition('approval');
     openModal();
   };
 
   const handleReceiveClick = () => {
+    console.log('receive입니다');
     setCondition('receive');
     openModal();
   };
@@ -77,53 +78,43 @@ export default function ApprovalForm({
 
     deleteContentEditableError();
 
+    console.log(rec_ref);
     if (rec_ref.length !== 0) {
-      rec_ref.map((data, id) => {
-        if (data.compId) {
-          const updatedRecRefOpt = [
-            ...receiveRefOpt,
-            <Optionbox key={id} category={'C'} name={data.compName} />,
-          ];
-          setReceiveRefOpt(updatedRecRefOpt);
-        } else if (data.estId) {
-          const updatedRecRefOpt = [
-            ...receiveRefOpt,
-            <Optionbox key={id} category={'E'} name={data.estName} />,
-          ];
-          setReceiveRefOpt(updatedRecRefOpt);
-        } else if (data.deptId) {
-          const updatedRecRefOpt = [
-            ...receiveRefOpt,
-            <Optionbox key={id} category={'D'} name={data.deptName} />,
-          ];
-          setReceiveRefOpt(updatedRecRefOpt);
-        } else if (data.userId) {
-          const updatedRecRefOpt = [
-            ...receiveRefOpt,
-            <Optionbox key={id} category={'U'} name={data.userName} />,
-          ];
-          setReceiveRefOpt(updatedRecRefOpt);
+      // 새로운 상태 배열을 생성
+      const updatedRecRefOpt = [];
+
+      rec_ref.forEach((data, id) => {
+        if (data.category == 'C') {
+          updatedRecRefOpt.push(
+            <OptionboxItem key={`C_${id}`} category={'C'} name={data.company} />
+          );
+        } else if (data.category == 'E') {
+          updatedRecRefOpt.push(
+            <OptionboxItem
+              key={`E_${id}`}
+              category={'E'}
+              name={data.establishment}
+            />
+          );
+        } else if (data.category == 'D') {
+          updatedRecRefOpt.push(
+            <OptionboxItem
+              key={`D_${id}`}
+              category={'D'}
+              name={data.department}
+            />
+          );
+        } else if (data.category == 'U') {
+          updatedRecRefOpt.push(
+            <OptionboxItem key={`U_${id}`} category={'U'} name={data.user} />
+          );
         }
       });
+
+      // 한 번에 상태를 설정
+      setReceiveRefOpt(updatedRecRefOpt);
     }
   }, [form_code, rec_ref]);
-
-  const BlueAndGrayBtn = [
-    {
-      label: '반영',
-      onClick: () => {
-        closeModal();
-      },
-      btnStyle: 'popup_blue_btn',
-    },
-    {
-      label: '취소',
-      onClick: () => {
-        closeModal();
-      },
-      btnStyle: 'popup_gray_btn',
-    },
-  ];
 
   return (
     <>
@@ -150,44 +141,28 @@ export default function ApprovalForm({
                     </tr>
                     <tr style={{ height: '50px' }}>
                       <td>
-                        {org_use_list.length > 0
-                          ? org_use_list[0].userName
-                          : ''}
+                        {org_use_list.length > 0 ? org_use_list[0].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 1
-                          ? org_use_list[1].userName
-                          : ''}
+                        {org_use_list.length > 1 ? org_use_list[1].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 2
-                          ? org_use_list[2].userName
-                          : ''}
+                        {org_use_list.length > 2 ? org_use_list[2].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 3
-                          ? org_use_list[3].userName
-                          : ''}
+                        {org_use_list.length > 3 ? org_use_list[3].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 4
-                          ? org_use_list[4].userName
-                          : ''}
+                        {org_use_list.length > 4 ? org_use_list[4].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 5
-                          ? org_use_list[5].userName
-                          : ''}
+                        {org_use_list.length > 5 ? org_use_list[5].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 6
-                          ? org_use_list[6].userName
-                          : ''}
+                        {org_use_list.length > 6 ? org_use_list[6].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 7
-                          ? org_use_list[7].userName
-                          : ''}
+                        {org_use_list.length > 7 ? org_use_list[7].user : ''}
                       </td>
                     </tr>
                   </table>
@@ -274,27 +249,25 @@ export default function ApprovalForm({
       </div>
 
       {/*모달*/}
-      <PopUp
-        title="조직도"
-        width="1300px"
-        height="600px"
-        isModalOpen={isModalOpen}
-        openModal={openModal}
-        closeModal={closeModal}
-        children={
-          condition === 'approval' ? (
-            <>
-              <OrgChart view={'user'} onDataUpdate={setOrgUseId} />
-              <PopUpFoot buttons={BlueAndGrayBtn} />
-            </>
-          ) : (
-            <>
-              <OrgChart view={'user'} onDataUpdate={setRecRef} />
-              <PopUpFoot buttons={BlueAndGrayBtn} />
-            </>
-          )
-        }
-      />
+      {condition === 'approval' ? (
+        <OrgChart
+          initData={''}
+          view={'user'}
+          isModalOpen={isModalOpen}
+          openModal={openModal}
+          closeModal={closeModal}
+          confirmHandler={setOrgUseId}
+        />
+      ) : (
+        <OrgChart
+          initData={''}
+          view={'user'}
+          isModalOpen={isModalOpen}
+          openModal={openModal}
+          closeModal={closeModal}
+          confirmHandler={setRecRef}
+        />
+      )}
     </>
   );
 }
