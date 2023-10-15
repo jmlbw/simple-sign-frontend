@@ -26,8 +26,6 @@ export default function SmallBox(props) {
   const [sequence_code, setSequenceCode] = useState('');
   const [drafting_time, setDraftingTime] = useState(moment());
   const [enforce_date, setEnforceDate] = useState(moment());
-  const [userId, setUserId] = useState(1);
-  const [deptId, setDeptId] = useState(1);
   const divRef = useRef(null);
   const titleRef = useRef(null); //제목
   const [rec_ref, setRecRef] = useState([]); //수신참조
@@ -118,8 +116,6 @@ export default function SmallBox(props) {
     }
     // let searchContents = extractTableData(editor);
     const data = {
-      userId: userId,
-      deptId: deptId,
       formCode: props.form_code,
       approvalDocTitle: titleRef.current.innerHTML,
       docStatus: docStatus,
@@ -195,8 +191,6 @@ export default function SmallBox(props) {
               main_form={main_form}
               setMainForm={setMainForm}
               divRef={divRef}
-              userId={userId}
-              deptId={deptId}
               titleRef={titleRef}
               rec_ref={rec_ref}
               setRecRef={setRecRef}

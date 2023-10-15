@@ -8,7 +8,9 @@ const initialState = {
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState({
+    isLoggedIn: JSON.parse(localStorage.getItem('isLoggedIn')) || false,
+  });
 
   useEffect(() => {
     localStorage.setItem('isLoggedIn', JSON.stringify(state.isLoggedIn));
@@ -21,11 +23,12 @@ export const AppProvider = ({ children }) => {
   );
 };
 
-export const useApp = () => {
+export function useApp() {
   const context = useContext(AppContext);
   if (!context) {
-    throw new Error('useFormManage must be used within a FormManageProvider');
+    throw new Error('Cannot find useApp');
   }
   return context;
-};
+}
+
 export default AppContext;

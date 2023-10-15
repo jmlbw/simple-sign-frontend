@@ -18,8 +18,6 @@ export default function ApprovalForm({
   form_code,
   main_form,
   setMainForm,
-  userId,
-  deptId,
   divRef,
   titleRef,
   rec_ref,
@@ -183,18 +181,10 @@ export default function ApprovalForm({
               return <SelectDate handleSelectTimeChange={handleDraftingTime} />;
             }
             if (domNode.attribs && domNode.attribs.id === 'drafter') {
-              return (
-                <div id="drafter" contentEditable="false">
-                  {userId}
-                </div>
-              );
+              return <div id="drafter" contentEditable="false"></div>;
             }
             if (domNode.attribs && domNode.attribs.id === 'drafter_dept') {
-              return (
-                <div id="drafter_dept" contentEditable="false">
-                  {deptId}
-                </div>
-              );
+              return <div id="drafter_dept" contentEditable="false"></div>;
             }
             if (domNode.attribs && domNode.attribs.id == 'form_title') {
               return (

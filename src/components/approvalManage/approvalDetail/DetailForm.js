@@ -25,7 +25,7 @@ export default function DetailForm(props) {
     //문서상세조회
     getApprovalDoc(props.approval_doc_id)
       .then((json) => {
-        console.log(json);
+        //console.log(json);
         setDefaultForm(json.defaultForm);
         setUserName(json.userName);
         setDeptName(json.deptName);
