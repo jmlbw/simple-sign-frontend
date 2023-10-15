@@ -24,22 +24,24 @@ export default function ReplyForm({ approval_doc_id }) {
   }, [approval_doc_id]);
 
   useEffect(() => {
-    const updatedGroupReplies = {};
-    replyList.forEach((data, index) => {
-      if (!updatedGroupReplies[data.groupNo]) {
-        updatedGroupReplies[data.groupNo] = [];
-        const updateShowReplyTextarea = [...showReplyTextarea];
-        updateShowReplyTextarea.push(false);
-        setShowReplyTextarea(updateShowReplyTextarea);
+    if (replyList.length !== 0) {
+      const updatedGroupReplies = {};
+      replyList.forEach((data, index) => {
+        if (!updatedGroupReplies[data.groupNo]) {
+          updatedGroupReplies[data.groupNo] = [];
+          const updateShowReplyTextarea = [...showReplyTextarea];
+          updateShowReplyTextarea.push(false);
+          setShowReplyTextarea(updateShowReplyTextarea);
 
-        // replyRefs를 업데이트할 때 새로운 Ref 생성
-        const newRefs = [...replyRefs.current];
-        newRefs.push(React.createRef());
-        replyRefs.current = newRefs;
-      }
-      updatedGroupReplies[data.groupNo].push(data);
-    });
-    setGroupedReplies(updatedGroupReplies);
+          // replyRefs를 업데이트할 때 새로운 Ref 생성
+          const newRefs = [...replyRefs.current];
+          newRefs.push(React.createRef());
+          replyRefs.current = newRefs;
+        }
+        updatedGroupReplies[data.groupNo].push(data);
+      });
+      setGroupedReplies(updatedGroupReplies);
+    }
   }, [replyList]);
 
   const handleInsertReply = (index) => {

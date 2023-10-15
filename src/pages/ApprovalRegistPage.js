@@ -26,8 +26,6 @@ export default function SmallBox(props) {
   const [sequence_code, setSequenceCode] = useState('');
   const [drafting_time, setDraftingTime] = useState(moment());
   const [enforce_date, setEnforceDate] = useState(moment());
-  const [userId, setUserId] = useState(1);
-  const [deptId, setDeptId] = useState(1);
   const divRef = useRef(null);
   const titleRef = useRef(null); //제목
   const [rec_ref, setRecRef] = useState([]); //수신참조
@@ -76,6 +74,8 @@ export default function SmallBox(props) {
 
   const handleClick = (state) => {
     showLoading();
+    console.log(org_use_list);
+    console.log(rec_ref);
     const orgUserIdList = [];
     org_use_list.map((data, index) => {
       orgUserIdList.push(data.userId);
@@ -83,25 +83,25 @@ export default function SmallBox(props) {
 
     const recRefList = [];
     rec_ref.map((data) => {
-      if (data.compId) {
+      if (data.category === 'C') {
         recRefList.push({
           id: data.compId,
           category: 'C',
           name: data.compName,
         });
-      } else if (data.estId) {
+      } else if (data.category === 'E') {
         recRefList.push({
           id: data.estId,
           category: 'E',
           name: data.estName,
         });
-      } else if (data.deptId) {
+      } else if (data.category === 'D') {
         recRefList.push({
           id: data.deptId,
           category: 'D',
           name: data.deptName,
         });
-      } else if (data.userId) {
+      } else if (data.category === 'U') {
         recRefList.push({
           id: data.userId,
           category: 'U',
@@ -116,8 +116,6 @@ export default function SmallBox(props) {
     }
     // let searchContents = extractTableData(editor);
     const data = {
-      userId: userId,
-      deptId: deptId,
       formCode: props.form_code,
       approvalDocTitle: titleRef.current.innerHTML,
       docStatus: docStatus,
@@ -153,21 +151,21 @@ export default function SmallBox(props) {
       onClick: () => {
         handleClick('regist');
       },
-      btnStyle: 'popup_blue_btn',
+      btnStyle: 'red_btn',
     },
     {
       label: '임시저장',
       onClick: () => {
         handleClick('temporal');
       },
-      btnStyle: 'popup_gray_btn',
+      btnStyle: 'green_btn',
     },
     {
       label: '취소',
       onClick: () => {
         closeModal();
       },
-      btnStyle: 'popup_gray_btn',
+      btnStyle: 'dark_btn',
     },
   ];
 
@@ -193,8 +191,6 @@ export default function SmallBox(props) {
               main_form={main_form}
               setMainForm={setMainForm}
               divRef={divRef}
-              userId={userId}
-              deptId={deptId}
               titleRef={titleRef}
               rec_ref={rec_ref}
               setRecRef={setRecRef}

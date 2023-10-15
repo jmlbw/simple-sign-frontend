@@ -6,12 +6,14 @@ import FormListItem from '../components/approvalManage/formList/FormListItem';
 import React, { useEffect, useState } from 'react';
 import { useLoading } from '../contexts/LoadingContext';
 import getFormList from '../apis/approvalManageAPI/getFormList';
+import { usePage } from '../contexts/PageContext';
 
 export default function FormListPage() {
   const [formList, setFormList] = useState([]);
   const { showLoading, hideLoading } = useLoading();
-
+  const { state: pageState, setState: setPageState } = usePage();
   useEffect(() => {
+    setPageState({ ...pageState, curPage: '양식조회' });
     showLoading();
 
     //양식리스트 조회
