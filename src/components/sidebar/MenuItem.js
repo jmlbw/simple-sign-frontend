@@ -33,7 +33,6 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
     '기결내역-진행': 'progress',
     수신참조내역: 'reference',
     반려내역: 'reject',
-
   };
 
   useEffect(() => {
@@ -47,6 +46,11 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
     setPageState((prevState) => ({
       ...prevState,
       curPage: name,
+    }));
+
+    setState((prevState) => ({
+      ...prevState,
+      view: false,
     }));
 
     const customBoxNames = customBoxViewItemState.map(

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Pagination from '@mui/material/Pagination';
-import PaginationItem from '@mui/material/PaginationItem';
 import DocItem from './DocItem';
 import { useApprovalBox } from '../../../contexts/ApprovalBoxContext';
 import getDocsList, {
@@ -17,10 +16,6 @@ function ViewDocBox() {
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const { viewItem } = state;
-  const docListStyles = {
-    maxHeight: state.view ? '250px' : '400px',
-  };
-
   // Helper function to fetch data
   const fetchData = async (isDetailSearch = false) => {
     try {
@@ -68,7 +63,7 @@ function ViewDocBox() {
     <div className={styled.container}>
       <TableHeader />
       <div className={styled.docContainer}>
-        <ul className={styled.docList} style={docListStyles}>
+        <div className={styled.docList}>
           {docData.map((docItem) => (
             <DocItem
               key={docItem.approvalDocId}
@@ -82,7 +77,7 @@ function ViewDocBox() {
               onClick={() => handleItemClick(docItem.approvalDocId)}
             />
           ))}
-        </ul>
+        </div>
       </div>
       <div className={styled.pagination}>
         <Pagination
