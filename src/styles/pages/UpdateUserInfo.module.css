@@ -1,0 +1,19 @@
+.profile_img {
+  width: 50px;
+  height: 50px;
+}
+
+.sign_img {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.usercompany {
+  margin: 20px;
+}
+
+.userinfo_table_th {
+  padding: 10px;
+  text-align: left;
+}
