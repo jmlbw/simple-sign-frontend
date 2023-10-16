@@ -17,6 +17,7 @@ import getHasApproval from '../../../apis/approvalManageAPI/getHasApproval';
 import getPermissionList from '../../../apis/approvalManageAPI/getPermissionList';
 import getHasUpdate from '../../../apis/approvalManageAPI/getHasUpdate';
 import getHasDelete from '../../../apis/approvalManageAPI/getHasDelete';
+import styled from '../../../styles/components/approvalManage/approvalDetail/ApprovalDetail.module.css';
 
 export default function ApprovalDetail() {
   const navigate = useNavigate();
@@ -200,8 +201,8 @@ export default function ApprovalDetail() {
   ];
 
   return (
-    <div>
-      <div>
+    <>
+      <div className={styled.detailContainer}>
         <InnerBox
           text={'결재문서상세페이지'}
           width={'100%'}
@@ -210,20 +211,22 @@ export default function ApprovalDetail() {
           children={
             <>
               <DetailForm approval_doc_id={location.search.split('=')[1]} />
-              {hasUpdate ? (
-                <Button
-                  label={'문서수정'}
-                  btnStyle={'red_btn'}
-                  onClick={updateHandler}
-                />
-              ) : null}
-              {hasDelete ? (
-                <Button
-                  label={'문서삭제'}
-                  btnStyle={'green_btn'}
-                  onClick={deleteHandler}
-                />
-              ) : null}
+              <div className={styled.updateAndDeleteBtn}>
+                {hasUpdate ? (
+                  <Button
+                    label={'문서수정'}
+                    btnStyle={'red_btn'}
+                    onClick={updateHandler}
+                  />
+                ) : null}
+                {hasDelete ? (
+                  <Button
+                    label={'문서삭제'}
+                    btnStyle={'green_btn'}
+                    onClick={deleteHandler}
+                  />
+                ) : null}
+              </div>
               <ReplyForm approval_doc_id={location.search.split('=')[1]} />
             </>
           }
@@ -250,6 +253,6 @@ export default function ApprovalDetail() {
           }
         ></PopUp>
       )}
-    </div>
+    </>
   );
 }

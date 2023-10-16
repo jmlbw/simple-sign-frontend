@@ -22,12 +22,6 @@ const CustomDatePicker = MUIStyled(
 });
 
 export default function SelectDate({ handleSelectTimeChange, baseDate }) {
-  const customInputStyle = {
-    // 원하는 스타일을 설정합니다.
-    backgroundColor: 'lightblue',
-    color: 'darkblue',
-  };
-  //const classes = useStyles();
   const [value, setValue] = useState(
     baseDate !== null ? dayjs(baseDate) : dayjs(moment())
   );
