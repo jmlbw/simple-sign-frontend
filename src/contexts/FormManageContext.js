@@ -54,6 +54,11 @@ const FormManageProvider = ({ children }) => {
     setFlagData(0);
   };
 
+  const resetDetailData = () => {
+    setDetailData(detailInitState);
+    setFlagData(0);
+  };
+
   return (
     <FormManageContext.Provider
       value={{
@@ -67,6 +72,7 @@ const FormManageProvider = ({ children }) => {
         createDetailData,
         updateDetailData,
         defaultDetailData,
+        resetDetailData,
       }}
     >
       {children}
