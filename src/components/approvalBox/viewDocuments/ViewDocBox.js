@@ -7,7 +7,8 @@ import getDocsList, {
 } from '../../../apis/approvalBoxAPI/getDocsList';
 import styled from '../../../styles/components/ApprovalBox/ViewDocBox.module.css';
 import TableHeader from './TableHeader';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { usePage } from '../../../contexts/PageContext';
 
 function ViewDocBox() {
   const { state, setState, detailSearchState } = useApprovalBox();
@@ -15,23 +16,42 @@ function ViewDocBox() {
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const { viewItem } = state;
-  // Helper function to fetch data
+
+  const location = useLocation(); // URL의 위치 정보를 얻음
+  const queryParams = new URLSearchParams(location.search);
+  const viewItemsString = queryParams.get('viewItems');
+  const viewItems = viewItemsString ? viewItemsString.split(',') : [];
+  const { state: pageState, setState: setPageState } = usePage();
+
   const fetchData = async (isDetailSearch = false) => {
     try {
       const offset = (page - 1) * 10;
       const response = isDetailSearch
-        ? await detailSearchDocs(viewItem, 10, offset, detailSearchState)
-        : await getDocsList(viewItem, 10, offset, state.searchInput);
+        ? await detailSearchDocs(viewItems, 10, offset, detailSearchState)
+        : await getDocsList(viewItems, 10, offset, state.searchInput);
 
       const { docList, count } = response.data;
-      setTotalCount(count);
+
+      let filteredDocList = docList;
+
+      if (state.radioSortValue === 'ongoingdoc') {
+        filteredDocList = docList.filter(
+          (docItem) => docItem.docStatus === 'P'
+        );
+      } else if (state.radioSortValue === 'writtendoc') {
+        filteredDocList = docList.filter((docItem) =>
+          ['A', 'R'].includes(docItem.docStatus)
+        );
+      }
+
       setDocData(
-        docList.map((docItem) => ({
+        filteredDocList.map((docItem) => ({
           ...docItem,
           createdAt: new Date(docItem.createdAt),
         }))
       );
+
+      setTotalCount(count);
       setTotalPages(Math.ceil(count / 10));
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -40,7 +60,7 @@ function ViewDocBox() {
 
   useEffect(() => {
     fetchData();
-  }, [viewItem, state.searchInput, page]);
+  }, [pageState.curPage, state.searchInput, page, state.radioSortValue]);
 
   useEffect(() => {
     if (state.shouldFetchDocs) {
@@ -51,7 +71,14 @@ function ViewDocBox() {
 
   useEffect(() => {
     setPage(1);
-  }, [viewItem, state.searchInput]);
+  }, [pageState.curPage, state.searchInput]);
+
+  useEffect(() => {
+    if (state.rerender) {
+      fetchData();
+      setState((prevState) => ({ ...prevState, rerender: false }));
+    }
+  }, [state.rerender]);
 
   const navigate = useNavigate();
 

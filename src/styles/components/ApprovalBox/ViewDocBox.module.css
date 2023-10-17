@@ -69,7 +69,6 @@
 }
 .docList {
   list-style: none;
-  margin: 10px 0 0;
   padding-inline-start: 0px !important;
   max-height: 400px;
   overflow-y: scroll;

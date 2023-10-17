@@ -26,7 +26,6 @@ function ApprovalRightHeader() {
   };
 
   const handleSearch = (value) => {
-    console.log('User searched for:', value);
     setState((prevState) => ({
       ...prevState,
       searchInput: value,
