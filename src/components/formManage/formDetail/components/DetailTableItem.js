@@ -11,7 +11,6 @@ import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-import { mdiAbugidaThai } from '@mdi/js';
 
 const customStyles = {
   control: (base) => ({
@@ -100,16 +99,18 @@ const SelectBox = ({ id, data, dataHandler }) => {
 const InputBox = ({ id, data, dataHandler, children, disabled }) => {
   return (
     <div className={styled.dataBox}>
-      <input
-        type="text"
-        value={data}
-        onChange={(e) => {
-          dataHandler(id, e.target.value);
-        }}
-        disabled={disabled}
-        className={styled.inputStyle}
-      />
-      {children}
+      <div className={styled.viewUseField}>
+        <input
+          type="text"
+          value={data}
+          onChange={(e) => {
+            dataHandler(id, e.target.value);
+          }}
+          disabled={disabled}
+          className={styled.inputStyle}
+        />
+        {children}
+      </div>
     </div>
   );
 };
