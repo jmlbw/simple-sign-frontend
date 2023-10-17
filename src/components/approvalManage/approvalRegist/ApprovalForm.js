@@ -4,15 +4,16 @@ import Selectbox from '../../common/Selectbox';
 import SelectDate from './components/SelectDate';
 import { TinyEditor } from '../../common/TinyEditor';
 import styled from '../../../styles/components/approvalManage/approvalRegist/ApprovalForm.module.css';
-import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
 import OrgChart from '../../org/OrgChart';
-import Optionbox from '../../common/Optionbox';
-import Button from '../../common/Button';
 import { useLoading } from '../../../contexts/LoadingContext';
 import getForm from '../../../apis/approvalManageAPI/getForm';
 import getSequenceList from '../../../apis/approvalManageAPI/getSequenceList';
 import deleteContentEditableError from '../../../apis/approvalManageAPI/deleteContentEditableError';
-import OptionboxItem from '../../common/OptionboxItem';
+import {
+  DetailBox,
+  AreaBox,
+} from '../../formManage/formDetail/components/DetailTableItem';
+import { useFormManage } from '../../../contexts/FormManageContext';
 
 export default function ApprovalForm({
   form_code,
@@ -33,27 +34,38 @@ export default function ApprovalForm({
   const [sequence, setSequence] = useState([]);
   const [default_form, setDefaultForm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [receiveRefOpt, setReceiveRefOpt] = useState([]);
   const [condition, setCondition] = useState('rec_ref');
   const { showLoading, hideLoading } = useLoading();
+  const { detailData, setDetailData, resetDetailData } = useFormManage();
 
   const openModal = () => {
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    setCondition('');
     setIsModalOpen(false);
   };
   const handleApprovalClick = () => {
-    console.log('approval입니다');
     setCondition('approval');
     openModal();
   };
 
-  const handleReceiveClick = () => {
-    console.log('receive입니다');
-    setCondition('receive');
-    openModal();
+  const dataUpdateHandler = (id, data) => {
+    setDetailData({ ...detailData, [id]: data });
+  };
+  const scopeConfirm = (data) => {
+    dataUpdateHandler('scope', data);
+  };
+
+  const scopefilterHandler = (id, category, useId) => {
+    let filetedData = detailData.scope.filter((ele) => {
+      if (ele.category === category && ele.useId === useId) {
+        return false;
+      }
+      return true;
+    });
+    setDetailData({ ...detailData, [id]: filetedData });
   };
 
   useEffect(() => {
@@ -76,43 +88,14 @@ export default function ApprovalForm({
 
     deleteContentEditableError();
 
-    console.log(rec_ref);
-    if (rec_ref.length !== 0) {
-      // 새로운 상태 배열을 생성
-      const updatedRecRefOpt = [];
+    //수신참조 내역 넣기
+    setRecRef(detailData.scope);
+  }, [form_code, detailData]);
 
-      rec_ref.forEach((data, id) => {
-        if (data.category == 'C') {
-          updatedRecRefOpt.push(
-            <OptionboxItem key={`C_${id}`} category={'C'} name={data.company} />
-          );
-        } else if (data.category == 'E') {
-          updatedRecRefOpt.push(
-            <OptionboxItem
-              key={`E_${id}`}
-              category={'E'}
-              name={data.establishment}
-            />
-          );
-        } else if (data.category == 'D') {
-          updatedRecRefOpt.push(
-            <OptionboxItem
-              key={`D_${id}`}
-              category={'D'}
-              name={data.department}
-            />
-          );
-        } else if (data.category == 'U') {
-          updatedRecRefOpt.push(
-            <OptionboxItem key={`U_${id}`} category={'U'} name={data.user} />
-          );
-        }
-      });
-
-      // 한 번에 상태를 설정
-      setReceiveRefOpt(updatedRecRefOpt);
-    }
-  }, [form_code, rec_ref]);
+  useEffect(() => {
+    setOrgUseId('');
+    resetDetailData();
+  }, []);
 
   return (
     <>
@@ -121,50 +104,52 @@ export default function ApprovalForm({
           replace: (domNode) => {
             if (domNode.attribs && domNode.attribs.id == 'approval_line') {
               return (
-                <div id="approval_line">
-                  <table
-                    border={'1px solid'}
-                    style={{ width: '100%', borderCollapse: 'collapse' }}
-                    onClick={handleApprovalClick}
-                  >
-                    <tr style={{ height: '50px' }}>
-                      <td>결재자1</td>
-                      <td>결재자2</td>
-                      <td>결재자3</td>
-                      <td>결재자4</td>
-                      <td>결재자5</td>
-                      <td>결재자6</td>
-                      <td>결재자7</td>
-                      <td>결재자8</td>
-                    </tr>
-                    <tr style={{ height: '50px' }}>
-                      <td>
-                        {org_use_list.length > 0 ? org_use_list[0].user : ''}
-                      </td>
-                      <td>
-                        {org_use_list.length > 1 ? org_use_list[1].user : ''}
-                      </td>
-                      <td>
-                        {org_use_list.length > 2 ? org_use_list[2].user : ''}
-                      </td>
-                      <td>
-                        {org_use_list.length > 3 ? org_use_list[3].user : ''}
-                      </td>
-                      <td>
-                        {org_use_list.length > 4 ? org_use_list[4].user : ''}
-                      </td>
-                      <td>
-                        {org_use_list.length > 5 ? org_use_list[5].user : ''}
-                      </td>
-                      <td>
-                        {org_use_list.length > 6 ? org_use_list[6].user : ''}
-                      </td>
-                      <td>
-                        {org_use_list.length > 7 ? org_use_list[7].user : ''}
-                      </td>
-                    </tr>
-                  </table>
-                </div>
+                <>
+                  <div id="approval_line">
+                    <table
+                      border={'1px solid'}
+                      style={{ width: '100%', borderCollapse: 'collapse' }}
+                      onClick={handleApprovalClick}
+                    >
+                      <tr style={{ height: '20px' }}>
+                        <td>결재자1</td>
+                        <td>결재자2</td>
+                        <td>결재자3</td>
+                        <td>결재자4</td>
+                        <td>결재자5</td>
+                        <td>결재자6</td>
+                        <td>결재자7</td>
+                        <td>결재자8</td>
+                      </tr>
+                      <tr style={{ height: '70px' }}>
+                        <td>
+                          {org_use_list.length > 0 ? org_use_list[0].user : ''}
+                        </td>
+                        <td>
+                          {org_use_list.length > 1 ? org_use_list[1].user : ''}
+                        </td>
+                        <td>
+                          {org_use_list.length > 2 ? org_use_list[2].user : ''}
+                        </td>
+                        <td>
+                          {org_use_list.length > 3 ? org_use_list[3].user : ''}
+                        </td>
+                        <td>
+                          {org_use_list.length > 4 ? org_use_list[4].user : ''}
+                        </td>
+                        <td>
+                          {org_use_list.length > 5 ? org_use_list[5].user : ''}
+                        </td>
+                        <td>
+                          {org_use_list.length > 6 ? org_use_list[6].user : ''}
+                        </td>
+                        <td>
+                          {org_use_list.length > 7 ? org_use_list[7].user : ''}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </>
               );
             }
             if (domNode.attribs && domNode.attribs.id === 'doc_num') {
@@ -172,13 +157,17 @@ export default function ApprovalForm({
                 <Selectbox
                   selectList={sequence}
                   width={'300'}
-                  height={'40'}
+                  height={'30'}
                   onChange={handleSelectBoxChange}
                 />
               );
             }
             if (domNode.attribs && domNode.attribs.id === 'drafting_time') {
-              return <SelectDate handleSelectTimeChange={handleDraftingTime} />;
+              return (
+                <div className={styled.selectContainer}>
+                  <SelectDate handleSelectTimeChange={handleDraftingTime} />
+                </div>
+              );
             }
             if (domNode.attribs && domNode.attribs.id === 'drafter') {
               return <div id="drafter" contentEditable="false"></div>;
@@ -195,7 +184,11 @@ export default function ApprovalForm({
             }
             if (domNode.attribs && domNode.attribs.id == 'enforce_date') {
               return (
-                <div id="enforce_date" contentEditable="true">
+                <div
+                  id="enforce_date"
+                  contentEditable="true"
+                  className={styled.selectContainer}
+                >
                   <SelectDate handleSelectTimeChange={handleEnforcementTime} />
                 </div>
               );
@@ -204,16 +197,28 @@ export default function ApprovalForm({
               return (
                 <>
                   <div id="receiveList">
-                    {receiveRefOpt}
-                    <Button
-                      label={
-                        <AccountTreeRoundedIcon
-                          style={{ color: 'grey' }}
-                          onClick={handleReceiveClick}
-                        />
+                    <DetailBox
+                      children={
+                        <>
+                          <AreaBox
+                            id={'scope'}
+                            data={detailData.scope}
+                            dataHandler={scopefilterHandler}
+                          />
+                          <OrgChart
+                            view={'user'}
+                            initData={detailData.scope.map((ele, index) => {
+                              ele.id = index;
+                              return ele;
+                            })}
+                            isModalOpen={isModalOpen}
+                            openModal={openModal}
+                            closeModal={closeModal}
+                            confirmHandler={scopeConfirm}
+                          />
+                        </>
                       }
-                      onClick={() => openModal('receiveRef')}
-                    />
+                    ></DetailBox>
                   </div>
                 </>
               );
@@ -248,16 +253,7 @@ export default function ApprovalForm({
           closeModal={closeModal}
           confirmHandler={setOrgUseId}
         />
-      ) : (
-        <OrgChart
-          initData={''}
-          view={'user'}
-          isModalOpen={isModalOpen}
-          openModal={openModal}
-          closeModal={closeModal}
-          confirmHandler={setRecRef}
-        />
-      )}
+      ) : null}
     </>
   );
 }
