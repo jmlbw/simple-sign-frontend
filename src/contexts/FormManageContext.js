@@ -43,8 +43,10 @@ const FormManageProvider = ({ children }) => {
     setFlagData(1);
     setDetailData({
       ...detailInitState,
+      code: '',
       compId: setData.compList[0].id,
       compName: setData.compList[0].name,
+      status: 1,
     });
   };
   const updateDetailData = () => {
