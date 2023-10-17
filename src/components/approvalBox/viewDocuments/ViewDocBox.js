@@ -9,6 +9,7 @@ import styled from '../../../styles/components/ApprovalBox/ViewDocBox.module.css
 import TableHeader from './TableHeader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { usePage } from '../../../contexts/PageContext';
+import insertDocView from '../../../apis/approvalBoxAPI/insertDocView';
 
 function ViewDocBox() {
   const { state, setState, detailSearchState } = useApprovalBox();
@@ -60,7 +61,13 @@ function ViewDocBox() {
 
   useEffect(() => {
     fetchData();
-  }, [pageState.curPage, state.searchInput, page, state.radioSortValue]);
+  }, [
+    pageState.curPage,
+    state.searchInput,
+    page,
+    state.radioSortValue,
+    state.isReadDoc,
+  ]);
 
   useEffect(() => {
     if (state.shouldFetchDocs) {
@@ -82,8 +89,16 @@ function ViewDocBox() {
 
   const navigate = useNavigate();
 
-  const handleItemClick = (docId) => {
+  const handleItemClick = async (docId) => {
+    setState((prevState) => ({ ...prevState, isReadDoc: docId }));
     navigate(`/AD?page=${docId}`);
+    if (viewItems.includes('reference')) {
+      try {
+        await insertDocView(docId);
+      } catch (error) {
+        console.error('Error inserting document view:', error);
+      }
+    }
   };
 
   return (
@@ -101,6 +116,10 @@ function ViewDocBox() {
               sendUser={docItem.userName}
               docStatus={docItem.docStatus}
               sendDepartDetail={docItem.deptName}
+              isRead={
+                viewItems.includes('reference') &&
+                state.docView.includes(docItem.approvalDocId)
+              }
               onClick={() => handleItemClick(docItem.approvalDocId)}
             />
           ))}
