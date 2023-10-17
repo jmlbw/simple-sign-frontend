@@ -7,6 +7,8 @@ const initialState = {
   view: false,
   boxViewItems: [],
   radioSortValue: 'alldoc',
+  selectSortDate: '기안일',
+  topSelectSortDate: '기안일',
   rerender: false,
   isReadDoc: '',
   docView: [],

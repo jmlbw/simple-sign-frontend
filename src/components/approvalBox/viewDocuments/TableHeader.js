@@ -2,6 +2,26 @@ import React from 'react';
 import styled from '../../../styles/components/ApprovalBox/ViewDocBox.module.css';
 import { useApprovalBox } from '../../../contexts/ApprovalBoxContext';
 import { useLocation } from 'react-router-dom';
+import SelectBox from '../../common/Selectbox';
+import { SelectComp } from '../../formManage/searchBox/components/SearchItem';
+import { useEffect } from 'react';
+
+const OPTIONS = {
+  pend: [
+    { name: '기안일', value: 'sendDate' },
+    { name: '도착일', value: 'arrivedDate' },
+  ],
+  concluded: [
+    { name: '기안일', value: 'sendDate' },
+    { name: '결재일', value: 'approvDate' },
+    { name: '종결일', value: 'closedDate' },
+  ],
+  reference: [
+    { name: '기안일', value: 'sendDate' },
+    { name: '도착일', value: 'arrivedDate' },
+    { name: '종결일', value: 'closedDate' },
+  ],
+};
 
 function TableHeader() {
   const { state, setState } = useApprovalBox();
@@ -11,17 +31,66 @@ function TableHeader() {
   const viewItemsString = queryParams.get('viewItems');
   const viewItems = viewItemsString ? viewItemsString.split(',') : [];
 
+  const optionlist = () => {
+    for (const option in OPTIONS) {
+      if (viewItems.includes(option)) {
+        return OPTIONS[option].map((item) => ({
+          seqCode: item.value,
+          name: item.name,
+        }));
+      }
+    }
+    return [];
+  };
+
+  const handleSearchDate = (id, selectedDate) => {
+    setState((prevState) => ({ ...prevState, selectSortDate: selectedDate }));
+  };
+
   const setDatename = () => {
-    if (viewItems.includes('send') || viewItems.includes('reference')) {
+    if (viewItems.includes('send')) {
       return '기안일';
     } else if (viewItems.includes('tempor')) {
       return '작성일';
     } else if (viewItems.includes('pend')) {
-      return '도착일';
+      return (
+        <SelectComp
+          dataHandler={handleSearchDate}
+          options={optionlist()}
+          width="100"
+          height="30"
+          initialValue={optionlist()[0].seqCode}
+          value={state.topSelectSortDate}
+        />
+      );
     } else if (viewItems.includes('concluded')) {
-      return '결재일';
+      return (
+        <SelectComp
+          dataHandler={handleSearchDate}
+          options={optionlist()}
+          width="100"
+          height="30"
+          initialValue={optionlist()[1].seqCode}
+          value={state.topSelectSortDate}
+        />
+      );
+    } else if (viewItems.includes('reference')) {
+      return (
+        <SelectComp
+          dataHandler={handleSearchDate}
+          options={optionlist()}
+          width="100"
+          height="30"
+          initialValue={optionlist()[1].seqCode}
+          value={state.topSelectSortDate}
+        />
+      );
     }
   };
+
+  useEffect(() => {
+    handleSearchDate(null, state.topSelectSortDate);
+  }, [state.topSelectSortDate]);
 
   return (
     <div className={styled.tableheader}>

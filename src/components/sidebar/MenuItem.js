@@ -54,6 +54,7 @@ function MenuItem({ item, isSubMenuVisible, toggleSubMenu }) {
       ...prevState,
       view: false,
       radioSortValue: 'alldoc',
+      selectSortDate: '기안일',
     }));
 
     const customBoxNames = customBoxViewItemState.map(

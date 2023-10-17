@@ -33,6 +33,7 @@ function ViewDocBox() {
 
       const { docList, count } = response.data;
 
+      //조회 필터링
       let filteredDocList = docList;
 
       if (state.radioSortValue === 'ongoingdoc') {
@@ -133,7 +134,20 @@ function ViewDocBox() {
               key={docItem.approvalDocId}
               docNumber={docItem.approvalDocId}
               formName={docItem.formName}
-              date={docItem.createdAt.toLocaleString('ko-KR')}
+              date={
+                state.selectSortDate === '기안일'
+                  ? docItem.sendDate
+                  : state.selectSortDate === '도착일' &&
+                    viewItems.includes('reference')
+                  ? docItem.sendDate
+                  : state.selectSortDate === '도착일'
+                  ? docItem.receiveDate
+                  : state.selectSortDate === '종결일'
+                  ? docItem.endDate
+                  : state.selectSortDate === '결재일'
+                  ? docItem.approvalDate
+                  : docItem.sendDate // 기본값을 기안일로 설정했습니다.
+              }
               title={docItem.approvalDocTitle}
               sendUser={docItem.userName}
               docStatus={docItem.docStatus}
