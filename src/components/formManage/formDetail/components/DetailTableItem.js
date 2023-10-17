@@ -141,6 +141,7 @@ const AreaBox = ({ id, data, dataHandler, children }) => {
 
 const FileBox = ({ id, name, data, dataHandler }) => {
   const [formData, setFormData] = useState(data);
+
   let previewWindow = null;
   const openPreviewWindow = (data) => {
     previewWindow = window.open('', 'Preview', 'width=565,height=800');
@@ -196,11 +197,7 @@ const FileBox = ({ id, name, data, dataHandler }) => {
             btnHeihgt="30px"
             children={
               <>
-                <div className={styled.contentContainer}>
-                  <div>
-                    <FormEdit data={data} dataHandler={setFormData} />
-                  </div>
-                </div>
+                <FormEdit data={data} dataHandler={setFormData} />
                 <PopUpFoot buttons={grayAndBlueBtn} />
               </>
             }
