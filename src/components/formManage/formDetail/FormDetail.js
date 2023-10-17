@@ -123,7 +123,7 @@ export default function FormDetail({ searchHandler }) {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        padding: '0px 0px 25px 0px',
+        padding: '0px 0px 20px 0px',
       }}
       children={returnMainComponent()}
     ></InnerBox>
