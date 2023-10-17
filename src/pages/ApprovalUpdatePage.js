@@ -7,6 +7,7 @@ import updateApprovalDoc from '../apis/approvalManageAPI/updateApprovalDoc';
 import { useLoading } from '../contexts/LoadingContext';
 import moment from 'moment';
 import { usePage } from '../contexts/PageContext';
+import styled from '../styles/pages/ApprovalUpdatePage.module.css';
 
 export default function ApprovalUpdatePage() {
   const location = useLocation();
@@ -110,7 +111,7 @@ export default function ApprovalUpdatePage() {
 
   return (
     <div>
-      <div>
+      <div className={styled.container}>
         <InnerBox
           text={'결재문서수정페이지'}
           width={'100%'}
@@ -130,11 +131,18 @@ export default function ApprovalUpdatePage() {
                 rec_ref={rec_ref}
                 setRecRef={setRecRef}
               />
-              <Button
-                label={'수정'}
-                btnStyle={'blue_btn'}
-                onClick={handleClick}
-              />
+              <div className={styled.updateAndDeleteBtn}>
+                <Button
+                  label={'수정'}
+                  btnStyle={'red_btn'}
+                  onClick={handleClick}
+                />
+                <Button
+                  label={'취소'}
+                  btnStyle={'dark_btn'}
+                  onClick={handleClick}
+                />
+              </div>
             </>
           }
         ></InnerBox>

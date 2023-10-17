@@ -12,10 +12,11 @@ import getApprovalDoc from '../../../apis/approvalManageAPI/getApprovalDoc';
 import getSequenceList from '../../../apis/approvalManageAPI/getSequenceList';
 import deleteContentEditableError from '../../../apis/approvalManageAPI/deleteContentEditableError';
 import { useLoading } from '../../../contexts/LoadingContext';
-import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
-import Button from '../../common/Button';
-import OptionboxItem from '../../common/Optionbox';
-import Optionbox from '../../common/Optionbox';
+import {
+  DetailBox,
+  AreaBox,
+} from '../../formManage/formDetail/components/DetailTableItem';
+import { useFormManage } from '../../../contexts/FormManageContext';
 
 export default function UpdateForm({
   approval_doc_id,
@@ -34,7 +35,7 @@ export default function UpdateForm({
   const [userName, setUserName] = useState('');
   const [deptName, setDeptName] = useState('');
   const [productNum, setProductNum] = useState('');
-  const [createdAt, setCreatedAt] = useState('');
+  const [approvalDate, setApprovalDate] = useState('');
   const [enforcementDate, setEnforcementDate] = useState('');
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
@@ -42,14 +43,15 @@ export default function UpdateForm({
   const [sequence, setSequence] = useState([]);
   const [condition, setCondition] = useState('rec_ref');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [receiveRefOpt, setReceiveRefOpt] = useState([]);
   const { showLoading, hideLoading } = useLoading();
+  const { detailData, setDetailData, resetDetailData } = useFormManage();
 
   const openModal = () => {
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    setCondition('');
     setIsModalOpen(false);
   };
   const handleApprovalClick = () => {
@@ -57,9 +59,26 @@ export default function UpdateForm({
     openModal();
   };
 
-  const handleReceiveClick = () => {
-    setCondition('receive');
-    openModal();
+  const dataUpdateHandler = (id, data) => {
+    setDetailData({ ...detailData, [id]: data });
+  };
+  const scopeConfirm = (data, type) => {
+    if (type === 'approval') {
+      console.log('결재라인들어감');
+      dataUpdateHandler('scope', data);
+    } else {
+      console.log('수신참조들어감');
+      dataUpdateHandler('scope2', data);
+    }
+  };
+  const scopefilterHandler = (id, category, useId) => {
+    let filetedData = detailData.scope.filter((ele) => {
+      if (ele.category === category && ele.useId === useId) {
+        return false;
+      }
+      return true;
+    });
+    setDetailData({ ...detailData, [id]: filetedData });
   };
 
   useEffect(() => {
@@ -73,7 +92,7 @@ export default function UpdateForm({
         setDeptName(json.deptName);
         setProductNum(json.productNum);
         setTitle(json.approvalDocTitle);
-        setCreatedAt(moment(json.createdAt));
+        setApprovalDate(moment(json.approvalDate));
         setEnforcementDate(moment(json.enforcementDate));
         setContents(json.contents);
         setFormCode(json.formCode);
@@ -97,47 +116,13 @@ export default function UpdateForm({
   }, [form_code]);
 
   useEffect(() => {
+    // console.log(rec_ref);
+    // console.log(org_use_list);
+
     if (rec_ref.length !== 0) {
-      const updatedRecRefOpt = rec_ref.map((data, id) => {
-        return (
-          <Optionbox initData={{ name: data.user, category: data.category }} />
-        );
-      });
-
-      setReceiveRefOpt(updatedRecRefOpt);
+      scopeConfirm(rec_ref);
     }
-  }, [rec_ref]);
-
-  const BlueAndGrayBtn = [
-    {
-      label: '반영',
-      onClick: () => {
-        closeModal();
-      },
-      btnStyle: 'popup_blue_btn',
-    },
-    {
-      label: '취소',
-      onClick: () => {
-        closeModal();
-      },
-      btnStyle: 'popup_gray_btn',
-    },
-  ];
-  //////////ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ전달안됨
-  const exampleInitData = {
-    compId: 1,
-    company: 'Company A',
-    department: 'HR Department',
-    deptId: 1,
-    estId: 1,
-    establishment: 'Establishment 1',
-    grade: 'Staff',
-    id: 1,
-    position: 'Manager',
-    user: 'John Doe',
-    userId: 1,
-  };
+  }, [rec_ref, org_use_list]);
 
   return (
     <>
@@ -152,7 +137,7 @@ export default function UpdateForm({
                     style={{ width: '100%', borderCollapse: 'collapse' }}
                     onClick={handleApprovalClick}
                   >
-                    <tr style={{ height: '50px' }}>
+                    <tr style={{ height: '20px' }}>
                       <td>결재자1</td>
                       <td>결재자2</td>
                       <td>결재자3</td>
@@ -162,46 +147,30 @@ export default function UpdateForm({
                       <td>결재자7</td>
                       <td>결재자8</td>
                     </tr>
-                    <tr style={{ height: '50px' }}>
+                    <tr style={{ height: '70px' }}>
                       <td>
-                        {org_use_list.length > 0
-                          ? org_use_list[0].userName
-                          : ''}
+                        {org_use_list.length > 0 ? org_use_list[0].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 1
-                          ? org_use_list[1].userName
-                          : ''}
+                        {org_use_list.length > 1 ? org_use_list[1].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 2
-                          ? org_use_list[2].userName
-                          : ''}
+                        {org_use_list.length > 2 ? org_use_list[2].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 3
-                          ? org_use_list[3].userName
-                          : ''}
+                        {org_use_list.length > 3 ? org_use_list[3].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 4
-                          ? org_use_list[4].userName
-                          : ''}
+                        {org_use_list.length > 4 ? org_use_list[4].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 5
-                          ? org_use_list[5].userName
-                          : ''}
+                        {org_use_list.length > 5 ? org_use_list[5].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 6
-                          ? org_use_list[6].userName
-                          : ''}
+                        {org_use_list.length > 6 ? org_use_list[6].user : ''}
                       </td>
                       <td>
-                        {org_use_list.length > 7
-                          ? org_use_list[7].userName
-                          : ''}
+                        {org_use_list.length > 7 ? org_use_list[7].user : ''}
                       </td>
                     </tr>
                   </table>
@@ -215,7 +184,7 @@ export default function UpdateForm({
                     <SelectBox
                       selectList={sequence}
                       width={'300'}
-                      height={'40'}
+                      height={'30'}
                       onChange={handleSelectBoxChange}
                     />
                   ) : (
@@ -226,10 +195,10 @@ export default function UpdateForm({
             }
             if (domNode.attribs && domNode.attribs.id === 'drafting_time') {
               return (
-                <div id="drafting_time">
+                <div id="drafting_time" className={styled.selectContainer}>
                   <SelectDate
                     handleSelectTimeChange={handleDraftingTime}
-                    baseDate={createdAt}
+                    baseDate={approvalDate}
                   />
                 </div>
               );
@@ -257,7 +226,11 @@ export default function UpdateForm({
             }
             if (domNode.attribs && domNode.attribs.id == 'enforce_date') {
               return (
-                <div id="enforce_date" contentEditable="true">
+                <div
+                  id="enforce_date"
+                  contentEditable="true"
+                  className={styled.selectContainer}
+                >
                   <SelectDate
                     handleSelectTimeChange={handleEnforcementTime}
                     baseDate={enforcementDate}
@@ -272,16 +245,28 @@ export default function UpdateForm({
               return (
                 <>
                   <div id="receiveList">
-                    {receiveRefOpt}
-                    <Button
-                      label={
-                        <AccountTreeRoundedIcon
-                          style={{ color: 'grey' }}
-                          onClick={handleReceiveClick}
-                        />
+                    <DetailBox
+                      children={
+                        <>
+                          <AreaBox
+                            id={'scope'}
+                            data={detailData.scope2}
+                            dataHandler={scopefilterHandler}
+                          />
+                          <OrgChart
+                            view={'user'}
+                            initData={detailData.scope2.map((ele, index) => {
+                              ele.id = index;
+                              return ele;
+                            })}
+                            isModalOpen={isModalOpen}
+                            openModal={openModal}
+                            closeModal={closeModal}
+                            confirmHandler={scopeConfirm}
+                          />
+                        </>
                       }
-                      onClick={() => openModal('receiveRef')}
-                    />
+                    ></DetailBox>
                   </div>
                 </>
               );
@@ -307,23 +292,17 @@ export default function UpdateForm({
       {/*모달*/}
       {condition === 'approval' ? (
         <OrgChart
-          initData={''}
+          initData={detailData.scope.map((ele, index) => {
+            ele.id = index;
+            return ele;
+          })}
           view={'user'}
           isModalOpen={isModalOpen}
           openModal={openModal}
           closeModal={closeModal}
           confirmHandler={setOrgUseId}
         />
-      ) : (
-        <OrgChart
-          initData={''}
-          view={'user'}
-          isModalOpen={isModalOpen}
-          openModal={openModal}
-          closeModal={closeModal}
-          confirmHandler={setRecRef}
-        />
-      )}
+      ) : null}
     </>
   );
 }
