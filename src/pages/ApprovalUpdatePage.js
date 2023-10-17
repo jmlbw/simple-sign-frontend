@@ -47,6 +47,8 @@ export default function ApprovalUpdatePage() {
     //페이지 데이터 셋팅
     setState({ ...state, curPage: '결재문서수정' });
     showLoading();
+    //console.log('org_use_list');
+    //console.log(org_use_list);
     const orgUserIdList = [];
     org_use_list.map((data, index) => {
       orgUserIdList.push(data.userId);
@@ -54,29 +56,29 @@ export default function ApprovalUpdatePage() {
 
     const recRefList = [];
     rec_ref.map((data) => {
-      if (data.compId) {
+      if (data.category === 'C') {
         recRefList.push({
           id: data.compId,
           category: 'C',
-          name: data.compName,
+          name: data.company,
         });
-      } else if (data.estId) {
+      } else if (data.category === 'E') {
         recRefList.push({
           id: data.estId,
           category: 'E',
-          name: data.estName,
+          name: data.establishment,
         });
-      } else if (data.deptId) {
+      } else if (data.category === 'D') {
         recRefList.push({
           id: data.deptId,
           category: 'D',
-          name: data.deptName,
+          name: data.department,
         });
-      } else if (data.userId) {
+      } else {
         recRefList.push({
           id: data.userId,
           category: 'U',
-          name: data.userName,
+          name: data.user,
         });
       }
     });

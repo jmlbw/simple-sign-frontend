@@ -44,7 +44,7 @@ export default function UpdateForm({
   const [condition, setCondition] = useState('rec_ref');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { showLoading, hideLoading } = useLoading();
-  const { detailData, setDetailData, resetDetailData } = useFormManage();
+  const { detailData, setDetailData } = useFormManage();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -60,15 +60,16 @@ export default function UpdateForm({
   };
 
   const dataUpdateHandler = (id, data) => {
-    setDetailData({ ...detailData, [id]: data });
+    setDetailData((prevData) => ({
+      ...prevData,
+      [id]: data,
+    }));
   };
   const scopeConfirm = (data, type) => {
-    if (type === 'approval') {
-      console.log('결재라인들어감');
-      dataUpdateHandler('scope', data);
+    if (condition === 'approval' || type === 'approval') {
+      dataUpdateHandler('approvalLine', data);
     } else {
-      console.log('수신참조들어감');
-      dataUpdateHandler('scope2', data);
+      dataUpdateHandler('scope', data);
     }
   };
   const scopefilterHandler = (id, category, useId) => {
@@ -86,7 +87,6 @@ export default function UpdateForm({
     //결재문서 상세조회
     getApprovalDoc(approval_doc_id)
       .then((json) => {
-        console.log(json);
         setDefaultForm(json.defaultForm);
         setUserName(json.userName);
         setDeptName(json.deptName);
@@ -112,17 +112,32 @@ export default function UpdateForm({
       });
     }
 
+    if (rec_ref.length !== 0) {
+      scopeConfirm(rec_ref);
+    }
+    if (org_use_list.length !== 0) {
+      scopeConfirm(org_use_list, 'approval');
+    }
+
     deleteContentEditableError();
   }, [form_code]);
 
   useEffect(() => {
-    // console.log(rec_ref);
-    // console.log(org_use_list);
+    setOrgUseId(detailData.approvalLine);
 
-    if (rec_ref.length !== 0) {
-      scopeConfirm(rec_ref);
-    }
-  }, [rec_ref, org_use_list]);
+    detailData.scope.forEach((data) => {
+      if (
+        data.category === 'C' ||
+        data.category === 'D' ||
+        data.category === 'E'
+      ) {
+        data.userId = null;
+        data.user = null;
+      }
+    });
+
+    setRecRef(detailData.scope);
+  }, [detailData]);
 
   return (
     <>
@@ -250,12 +265,12 @@ export default function UpdateForm({
                         <>
                           <AreaBox
                             id={'scope'}
-                            data={detailData.scope2}
+                            data={detailData.scope}
                             dataHandler={scopefilterHandler}
                           />
                           <OrgChart
                             view={'user'}
-                            initData={detailData.scope2.map((ele, index) => {
+                            initData={detailData.scope.map((ele, index) => {
                               ele.id = index;
                               return ele;
                             })}
@@ -292,7 +307,7 @@ export default function UpdateForm({
       {/*모달*/}
       {condition === 'approval' ? (
         <OrgChart
-          initData={detailData.scope.map((ele, index) => {
+          initData={detailData.approvalLine.map((ele, index) => {
             ele.id = index;
             return ele;
           })}
@@ -300,7 +315,7 @@ export default function UpdateForm({
           isModalOpen={isModalOpen}
           openModal={openModal}
           closeModal={closeModal}
-          confirmHandler={setOrgUseId}
+          confirmHandler={scopeConfirm}
         />
       ) : null}
     </>
