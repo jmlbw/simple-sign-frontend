@@ -4,7 +4,7 @@ import { AiFillFolder } from 'react-icons/ai';
 import React from 'react';
 
 function Optionbox(props) {
-  console.log('inidt:', initData);
+  // console.log('inidt:', initData);
   let icon = null;
   let initData = props.initData;
   let id = props.id;

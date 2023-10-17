@@ -10,6 +10,7 @@ import {
 } from './DetailTableItem';
 import { useFormManage } from '../../../../contexts/FormManageContext';
 import OrgChart from '../../../org/OrgChart';
+import styled from '../../../../styles/components/formManage/formDetail/components/DetailTable.module.css';
 
 export default function DetailTable() {
   const { detailData, flagData, setDetailData, setData } = useFormManage();
@@ -48,8 +49,12 @@ export default function DetailTable() {
     { name: '미사용', value: false },
   ];
 
+  useEffect(() => {
+    console.log('data:', detailData);
+  }, [detailData]);
+
   return (
-    <>
+    <div className={styled.detailContainer}>
       <DetailBox
         children={
           <>
@@ -91,17 +96,19 @@ export default function DetailTable() {
               id={'scope'}
               data={detailData.scope}
               dataHandler={scopefilterHandler}
-            />
-            <OrgChart
-              view={'user'}
-              initData={detailData.scope.map((ele, index) => {
-                ele.id = index;
-                return ele;
-              })}
-              isModalOpen={isModalOpen}
-              openModal={openModal}
-              closeModal={closeModal}
-              confirmHandler={scopeConfirm}
+              children={
+                <OrgChart
+                  view={'user'}
+                  initData={detailData.scope.map((ele, index) => {
+                    ele.id = index;
+                    return ele;
+                  })}
+                  isModalOpen={isModalOpen}
+                  openModal={openModal}
+                  closeModal={closeModal}
+                  confirmHandler={scopeConfirm}
+                />
+              }
             />
           </>
         }
@@ -145,6 +152,6 @@ export default function DetailTable() {
           </>
         }
       ></DetailBox>
-    </>
+    </div>
   );
 }
