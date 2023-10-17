@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import InnerBox from '../../components/common/InnerBox';
-import Button from '../../components/common/Button';
+import InnerBox from '../components/common/InnerBox';
+import Button from '../components/common/Button';
 import { useNavigate } from 'react-router';
-import getUserInfo from '../../apis/userInfoAPl/getUserInfo';
-import PopUp from '../../components/common/PopUp';
-import PopUpFoot from '../../components/common/PopUpFoot';
-import UserPWChange from '../../components/userinfo/UserPWChange';
-import postPassword from '../../apis/userInfoAPl/postPassword';
-import styled from '../../styles/pages/UserInfo.module.css';
+import getUserInfo from '../apis/userInfoAPl/getUserInfo';
+import PopUp from '../components/common/PopUp';
+import PopUpFoot from '../components/common/PopUpFoot';
+import UserPWChange from '../components/userinfo/UserPWChange';
+import postPassword from '../apis/userInfoAPl/postPassword';
+import { getProfile } from '../apis/userInfoAPl/getProfile';
+import { getSign } from '../apis/userInfoAPl/getSign';
+import { getUpdateSign } from '../apis/userInfoAPl/getSign';
+import styled from '../styles/pages/UserInfo.module.css';
 
 function renderDeptString(deptString) {
   const depts = deptString.split(',');
@@ -110,6 +113,42 @@ export default function UserInfo() {
       });
   }, []);
 
+  // 프로필 api 호출
+  const [profile, setProfile] = useState(null);
+  useEffect(() => {
+    getProfile()
+      .then((response) => {
+        setProfile(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // 사인 api 호출
+  const [sign, setSign] = useState(null);
+  const [dbSign, setDbSign] = useState('');
+
+  useEffect(() => {
+    getSign()
+      .then((response) => {
+        setSign(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    getUpdateSign()
+      .then((response) => {
+        setDbSign(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <div>
       <InnerBox
@@ -121,7 +160,7 @@ export default function UserInfo() {
             btnStyle={'gray_btn'}
             onClick={() => {
               navigate('/updateuser', {
-                state: { userData },
+                state: { userData, profile, sign, dbSign },
               });
             }}
           />
@@ -132,15 +171,23 @@ export default function UserInfo() {
             <tr>
               <th className={styled.userinfo_table_th}>프로필</th>
               <td>
-                <img alt="프로필" />
+                <img
+                  className={styled.userinfo_profile}
+                  src={profile}
+                  alt="프로필"
+                />
               </td>
               <th className={styled.userinfo_table_th}>서명</th>
               <td>
-                <img alt="사인" />
+                {sign === 'default' ? (
+                  <div>
+                    <p className={styled.default_sign}>{userData.userName}</p>
+                  </div>
+                ) : (
+                  <img className={styled.custom_sign} src={sign} alt="사인" />
+                )}
               </td>
             </tr>
-          </tbody>
-          <tbody>
             <tr>
               <th className={styled.userinfo_table_th}>사번</th>
               <td>{userData.employeeNumber}</td>
@@ -163,32 +210,24 @@ export default function UserInfo() {
                 />
               </td>
             </tr>
-          </tbody>
-          <tbody>
             <tr>
               <th className={styled.userinfo_table_th}>이름</th>
               <td>{userData.userName}</td>
               <th className={styled.userinfo_table_th}>로그인아이디</th>
               <td>{userData.loginId}</td>
             </tr>
-          </tbody>
-          <tbody>
             <tr>
               <th className={styled.userinfo_table_th}>이메일</th>
               <td>{userData.email}</td>
               <th className={styled.userinfo_table_th}>전화번호</th>
               <td>{userData.phone}</td>
             </tr>
-          </tbody>
-          <tbody>
             <tr>
               <th className={styled.userinfo_table_th}>생년월일</th>
               <td>{userData.birth}</td>
               <th className={styled.userinfo_table_th}>성별</th>
               <td>{userData.gender}</td>
             </tr>
-          </tbody>
-          <tbody>
             <tr>
               <th className={styled.userinfo_table_th}>주소</th>
               <td colSpan={3}>{userData.address}</td>

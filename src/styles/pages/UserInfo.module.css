@@ -3,6 +3,27 @@
 }
 
 .userinfo_table_th {
-  padding: 10px;
-  text-align: left;
+  background-color: rgb(241, 245, 247);
+  padding: 13.6px 13.6px 13.6px 13.6px;
+  text-align: right;
+}
+
+.userinfo_profile {
+  width: 50px;
+  height: 50px;
+}
+
+.default_sign {
+  background-color: red;
+  width: 50px;
+  height: 50px;
+  font-size: 14px;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.custom_sign {
+  width: 50px;
+  height: 50px;
 }

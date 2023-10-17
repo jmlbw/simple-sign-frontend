@@ -22,8 +22,8 @@ import ApprovalUpdatePage from '../src/pages/ApprovalUpdatePage';
 import ApprovalDetail from '../src/components/approvalManage/approvalDetail/ApprovalDetail';
 import Loading from './components/common/Loading';
 import { usePage } from './contexts/PageContext';
-import UserInfo from './pages/UserInfo/UserInfo';
-import UpdateUserInfo from './pages/UserInfo/UpdateUserInfo';
+import UserInfo from './pages/UserInfo';
+import UpdateUserInfo from './pages/UpdateUserInfo';
 
 function AppContent() {
   const { state } = useContext(AppContext);
