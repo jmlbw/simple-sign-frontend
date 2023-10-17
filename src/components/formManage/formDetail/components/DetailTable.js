@@ -61,13 +61,13 @@ export default function DetailTable() {
             <TitleBox title={'회사명'} />
             {flagData === 1 ? (
               <SelectBox
-                id={'compName'}
+                id={'compId'}
                 data={setData.compList}
                 dataHandler={dataUpdateHandler}
               />
             ) : (
               <InputBox
-                id={'compName'}
+                id={'compId'}
                 data={detailData.compName}
                 dataHandler={dataUpdateHandler}
                 disabled={true}

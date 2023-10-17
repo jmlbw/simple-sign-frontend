@@ -1,6 +1,6 @@
 import styled from '../../../../styles/components/formManage/formDetail/components/DetailTableItems.module.css';
 import DragDrop from './DragDrop';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PopUp from '../../../common/PopUp';
 import FormEdit from '../../formEditPopUp/FormEdit';
 import { FiEdit } from 'react-icons/fi';
@@ -216,17 +216,21 @@ const RadioBox = ({ id, data, dataHandler }) => {
     fontSize: '13px', // 폰트 크기
     color: '#6c757d', // 폰트 색상
   };
-  let initState = data === 1 ? '사용' : '미사용';
-  console.log(id, data, initState);
-  const [selectedOption, setSelectedOption] = useState(initState);
   const labels = ['사용', '미사용'];
+
+  const [selectedOption, setSelectedOption] = useState(labels[0]);
+
+  useEffect(() => {
+    setSelectedOption(data === 1 ? '사용' : '미사용');
+  }, [data]);
+
   return (
     <div className={styled.dataBox}>
       <FormControl>
         <RadioGroup
           row
-          aria-labelledby="demo-row-radio-buttons-group-label"
-          name="row-radio-buttons-group"
+          aria-label="used"
+          name="used"
           value={selectedOption}
           onChange={(e) => {
             console.log('value:', e.target.value);
