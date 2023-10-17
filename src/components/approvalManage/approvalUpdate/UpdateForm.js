@@ -14,6 +14,7 @@ import deleteContentEditableError from '../../../apis/approvalManageAPI/deleteCo
 import { useLoading } from '../../../contexts/LoadingContext';
 import AccountTreeRoundedIcon from '@mui/icons-material/AccountTreeRounded';
 import Button from '../../common/Button';
+import OptionboxItem from '../../common/Optionbox';
 import Optionbox from '../../common/Optionbox';
 
 export default function UpdateForm({
@@ -97,33 +98,13 @@ export default function UpdateForm({
 
   useEffect(() => {
     if (rec_ref.length !== 0) {
-      rec_ref.map((data, id) => {
-        if (data.category === 'C') {
-          const updatedRecRefOpt = [
-            ...receiveRefOpt,
-            <Optionbox key={id} category={'C'} name={data.userName} />,
-          ];
-          setReceiveRefOpt(updatedRecRefOpt);
-        } else if (data.category === 'E') {
-          const updatedRecRefOpt = [
-            ...receiveRefOpt,
-            <Optionbox key={id} category={'E'} name={data.userName} />,
-          ];
-          setReceiveRefOpt(updatedRecRefOpt);
-        } else if (data.category === 'D') {
-          const updatedRecRefOpt = [
-            ...receiveRefOpt,
-            <Optionbox key={id} category={'D'} name={data.userName} />,
-          ];
-          setReceiveRefOpt(updatedRecRefOpt);
-        } else if (data.category === 'U') {
-          const updatedRecRefOpt = [
-            ...receiveRefOpt,
-            <Optionbox key={id} category={'U'} name={data.userName} />,
-          ];
-          setReceiveRefOpt(updatedRecRefOpt);
-        }
+      const updatedRecRefOpt = rec_ref.map((data, id) => {
+        return (
+          <Optionbox initData={{ name: data.user, category: data.category }} />
+        );
       });
+
+      setReceiveRefOpt(updatedRecRefOpt);
     }
   }, [rec_ref]);
 
@@ -143,6 +124,20 @@ export default function UpdateForm({
       btnStyle: 'popup_gray_btn',
     },
   ];
+  //////////ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ전달안됨
+  const exampleInitData = {
+    compId: 1,
+    company: 'Company A',
+    department: 'HR Department',
+    deptId: 1,
+    estId: 1,
+    establishment: 'Establishment 1',
+    grade: 'Staff',
+    id: 1,
+    position: 'Manager',
+    user: 'John Doe',
+    userId: 1,
+  };
 
   return (
     <>
@@ -310,27 +305,25 @@ export default function UpdateForm({
       </div>
 
       {/*모달*/}
-      <PopUp
-        title="조직도"
-        width="1300px"
-        height="600px"
-        isModalOpen={isModalOpen}
-        openModal={openModal}
-        closeModal={closeModal}
-        children={
-          condition === 'approval' ? (
-            <>
-              <OrgChart view={'user'} onDataUpdate={setOrgUseId} />
-              <PopUpFoot buttons={BlueAndGrayBtn} />
-            </>
-          ) : (
-            <>
-              <OrgChart view={'user'} onDataUpdate={setRecRef} />
-              <PopUpFoot buttons={BlueAndGrayBtn} />
-            </>
-          )
-        }
-      />
+      {condition === 'approval' ? (
+        <OrgChart
+          initData={''}
+          view={'user'}
+          isModalOpen={isModalOpen}
+          openModal={openModal}
+          closeModal={closeModal}
+          confirmHandler={setOrgUseId}
+        />
+      ) : (
+        <OrgChart
+          initData={''}
+          view={'user'}
+          isModalOpen={isModalOpen}
+          openModal={openModal}
+          closeModal={closeModal}
+          confirmHandler={setRecRef}
+        />
+      )}
     </>
   );
 }

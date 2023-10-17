@@ -1,4 +1,10 @@
 .container {
+  width: 98%;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+.editor {
   height: 180px;
   overflow: auto;
 }
