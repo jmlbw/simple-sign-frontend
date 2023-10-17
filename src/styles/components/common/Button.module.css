@@ -13,6 +13,7 @@
   cursor: pointer;
   border: 1px solid #3bafda;
   transition: background-color 0.3s, border 0.3s;
+  margin: 10px;
 }
 
 .blue_btn:hover {

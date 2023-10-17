@@ -74,8 +74,8 @@ export default function SmallBox(props) {
 
   const handleClick = (state) => {
     showLoading();
-    console.log(org_use_list);
-    console.log(rec_ref);
+    console.log('결재라인: ' + org_use_list);
+    console.log('수신참조: ' + rec_ref);
     const orgUserIdList = [];
     org_use_list.map((data, index) => {
       orgUserIdList.push(data.userId);
@@ -87,25 +87,25 @@ export default function SmallBox(props) {
         recRefList.push({
           id: data.compId,
           category: 'C',
-          name: data.compName,
+          name: data.company,
         });
       } else if (data.category === 'E') {
         recRefList.push({
           id: data.estId,
           category: 'E',
-          name: data.estName,
+          name: data.establishment,
         });
       } else if (data.category === 'D') {
         recRefList.push({
           id: data.deptId,
           category: 'D',
-          name: data.deptName,
+          name: data.department,
         });
       } else if (data.category === 'U') {
         recRefList.push({
           id: data.userId,
           category: 'U',
-          name: data.userName,
+          name: data.user,
         });
       }
     });
@@ -158,7 +158,7 @@ export default function SmallBox(props) {
       onClick: () => {
         handleClick('temporal');
       },
-      btnStyle: 'green_btn',
+      btnStyle: 'blue_btn',
     },
     {
       label: '취소',
@@ -168,7 +168,9 @@ export default function SmallBox(props) {
       btnStyle: 'dark_btn',
     },
   ];
-
+  useEffect(() => {
+    console.log(rec_ref);
+  }, [rec_ref]);
   return (
     <>
       <PopUp
@@ -182,7 +184,7 @@ export default function SmallBox(props) {
         }
         btnStyle={'popup_non_btn'}
         width="1300px"
-        height="600px"
+        height="800px"
         title="결재작성상세"
         children={
           <>

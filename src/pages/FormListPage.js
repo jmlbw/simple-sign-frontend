@@ -33,7 +33,7 @@ export default function FormListPage() {
 
   return (
     <div className={styled.align}>
-      <div className={styled.left_box}>
+      <div className={styled.containers}>
         <InnerBox width="100%" height="100%">
           <div className={styled.searchBoxContainer}>
             <SearchBox width="200px" />
@@ -41,19 +41,21 @@ export default function FormListPage() {
           <FormListItem />
         </InnerBox>
       </div>
-      <div className={styled.right_box}>
+      <div className={styled.containers}>
         <InnerBox width="100%" height="100%" text="전체양식" font_size="18px">
-          {formList.map(({ formName, formExplain, formCode }) => {
-            return (
-              <ApprovalRegist
-                width="100%"
-                height="78px"
-                form_name={formName}
-                form_explain={formExplain}
-                form_code={formCode}
-              />
-            );
-          })}
+          <div className={styled.innerBox}>
+            {formList.map(({ formName, formExplain, formCode }) => {
+              return (
+                <ApprovalRegist
+                  width="100%"
+                  height="78px"
+                  form_name={formName}
+                  form_explain={formExplain}
+                  form_code={formCode}
+                />
+              );
+            })}
+          </div>
         </InnerBox>
       </div>
     </div>
