@@ -43,6 +43,20 @@ function ViewDocBox() {
         filteredDocList = docList.filter((docItem) =>
           ['A', 'R'].includes(docItem.docStatus)
         );
+      } else if (
+        state.radioSortValue === 'readdoc' &&
+        viewItems.includes('reference')
+      ) {
+        filteredDocList = docList.filter((docItem) =>
+          state.docView.includes(docItem.approvalDocId)
+        );
+      } else if (
+        state.radioSortValue === 'notreaddoc' &&
+        viewItems.includes('reference')
+      ) {
+        filteredDocList = docList.filter(
+          (docItem) => !state.docView.includes(docItem.approvalDocId)
+        );
       }
 
       setDocData(
@@ -78,7 +92,7 @@ function ViewDocBox() {
 
   useEffect(() => {
     setPage(1);
-  }, [pageState.curPage, state.searchInput]);
+  }, [pageState.curPage, state.searchInput, state.radioSortValue]);
 
   useEffect(() => {
     if (state.rerender) {
@@ -94,6 +108,14 @@ function ViewDocBox() {
     navigate(`/AD?page=${docId}`);
     if (viewItems.includes('reference')) {
       try {
+        //클릭된 문서 ID를 state.docView 배열에 추가
+        if (!state.docView.includes(docId)) {
+          setState((prevState) => ({
+            ...prevState,
+            docView: [...prevState.docView, docId],
+          }));
+        }
+
         await insertDocView(docId);
       } catch (error) {
         console.error('Error inserting document view:', error);
