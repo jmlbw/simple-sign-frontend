@@ -168,9 +168,7 @@ export default function SmallBox(props) {
       btnStyle: 'dark_btn',
     },
   ];
-  useEffect(() => {
-    console.log(rec_ref);
-  }, [rec_ref]);
+
   return (
     <>
       <PopUp

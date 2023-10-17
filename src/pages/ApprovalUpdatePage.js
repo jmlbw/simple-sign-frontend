@@ -7,6 +7,7 @@ import updateApprovalDoc from '../apis/approvalManageAPI/updateApprovalDoc';
 import { useLoading } from '../contexts/LoadingContext';
 import moment from 'moment';
 import { usePage } from '../contexts/PageContext';
+import styled from '../styles/pages/ApprovalUpdatePage.module.css';
 
 export default function ApprovalUpdatePage() {
   const location = useLocation();
@@ -46,6 +47,8 @@ export default function ApprovalUpdatePage() {
     //페이지 데이터 셋팅
     setState({ ...state, curPage: '결재문서수정' });
     showLoading();
+    //console.log('org_use_list');
+    //console.log(org_use_list);
     const orgUserIdList = [];
     org_use_list.map((data, index) => {
       orgUserIdList.push(data.userId);
@@ -53,29 +56,29 @@ export default function ApprovalUpdatePage() {
 
     const recRefList = [];
     rec_ref.map((data) => {
-      if (data.compId) {
+      if (data.category === 'C') {
         recRefList.push({
           id: data.compId,
           category: 'C',
-          name: data.compName,
+          name: data.company,
         });
-      } else if (data.estId) {
+      } else if (data.category === 'E') {
         recRefList.push({
           id: data.estId,
           category: 'E',
-          name: data.estName,
+          name: data.establishment,
         });
-      } else if (data.deptId) {
+      } else if (data.category === 'D') {
         recRefList.push({
           id: data.deptId,
           category: 'D',
-          name: data.deptName,
+          name: data.department,
         });
-      } else if (data.userId) {
+      } else {
         recRefList.push({
           id: data.userId,
           category: 'U',
-          name: data.userName,
+          name: data.user,
         });
       }
     });
@@ -110,7 +113,7 @@ export default function ApprovalUpdatePage() {
 
   return (
     <div>
-      <div>
+      <div className={styled.container}>
         <InnerBox
           text={'결재문서수정페이지'}
           width={'100%'}
@@ -130,11 +133,18 @@ export default function ApprovalUpdatePage() {
                 rec_ref={rec_ref}
                 setRecRef={setRecRef}
               />
-              <Button
-                label={'수정'}
-                btnStyle={'blue_btn'}
-                onClick={handleClick}
-              />
+              <div className={styled.updateAndDeleteBtn}>
+                <Button
+                  label={'수정'}
+                  btnStyle={'red_btn'}
+                  onClick={handleClick}
+                />
+                <Button
+                  label={'취소'}
+                  btnStyle={'dark_btn'}
+                  onClick={handleClick}
+                />
+              </div>
             </>
           }
         ></InnerBox>
