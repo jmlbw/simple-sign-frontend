@@ -11,6 +11,7 @@ import { postProfile } from '../apis/userInfoAPl/postProfile';
 import { postSign } from '../apis/userInfoAPl/postSign';
 import DaumPostcode from 'react-daum-postcode';
 import Radio from '@mui/material/Radio';
+import DefaultSign from '../components/userinfo/DefaultSign';
 import styled from '../styles/pages/UpdateUserInfo.module.css';
 
 export default function UpdateUserInfo() {
@@ -270,9 +271,7 @@ export default function UpdateUserInfo() {
                       name="radio-buttons"
                       inputProps={{ 'aria-label': 'D' }}
                     />
-                    <div>
-                      <p className={styled.default_sign}>{userData.userName}</p>
-                    </div>
+                    <DefaultSign name={userData.userName} />
                   </div>
                   <div className={styled.sign_custom_container}>
                     <Radio
