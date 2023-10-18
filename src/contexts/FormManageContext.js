@@ -22,6 +22,7 @@ const detailInitState = {
   compName: '',
   formName: '',
   scope: [],
+  scope2: [],
   defaultForm: '',
   mainForm: '',
   status: '',
