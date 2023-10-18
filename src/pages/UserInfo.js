@@ -11,6 +11,7 @@ import { getProfile } from '../apis/userInfoAPl/getProfile';
 import { getSign } from '../apis/userInfoAPl/getSign';
 import { getUpdateSign } from '../apis/userInfoAPl/getSign';
 import styled from '../styles/pages/UserInfo.module.css';
+import DefaultSign from '../components/userinfo/DefaultSign';
 
 function renderDeptString(deptString) {
   const depts = deptString.split(',');
@@ -180,9 +181,7 @@ export default function UserInfo() {
               <th className={styled.userinfo_table_th}>서명</th>
               <td>
                 {sign === 'default' ? (
-                  <div>
-                    <p className={styled.default_sign}>{userData.userName}</p>
-                  </div>
+                  <DefaultSign name={userData.userName} />
                 ) : (
                   <img className={styled.custom_sign} src={sign} alt="사인" />
                 )}
