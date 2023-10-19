@@ -8,23 +8,23 @@ import { useEffect } from 'react';
 
 const OPTIONS = {
   pend: [
-    { name: '기안일', value: 'sendDate' },
-    { name: '도착일', value: 'arrivedDate' },
+    { name: '기안일', value: '기안일' },
+    { name: '도착일', value: '도착일' },
   ],
   concluded: [
-    { name: '기안일', value: 'sendDate' },
-    { name: '결재일', value: 'approvDate' },
-    { name: '종결일', value: 'closedDate' },
+    { name: '기안일', value: '기안일' },
+    { name: '결재일', value: '결재일' },
+    { name: '종결일', value: '종결일' },
   ],
   reference: [
-    { name: '기안일', value: 'sendDate' },
-    { name: '도착일', value: 'arrivedDate' },
-    { name: '종결일', value: 'closedDate' },
+    { name: '기안일', value: '기안일' },
+    { name: '도착일', value: '도착일' },
+    { name: '종결일', value: '종결일' },
   ],
 };
 
 function TableHeader() {
-  const { state, setState } = useApprovalBox();
+  const { state = { topSelectSortDate: '' }, setState } = useApprovalBox();
 
   const location = useLocation(); // URL의 위치 정보를 얻음
   const queryParams = new URLSearchParams(location.search);
@@ -44,7 +44,11 @@ function TableHeader() {
   };
 
   const handleSearchDate = (id, selectedDate) => {
-    setState((prevState) => ({ ...prevState, selectSortDate: selectedDate }));
+    setState((prevState) => ({
+      ...prevState,
+      selectSortDate: selectedDate,
+      bottomSelectSortDate: selectedDate,
+    }));
   };
 
   const setDatename = () => {
@@ -59,8 +63,11 @@ function TableHeader() {
           options={optionlist()}
           width="100"
           height="30"
-          initialValue={optionlist()[0].seqCode}
-          value={state.topSelectSortDate}
+          values={
+            state.topSelectSortDate != ''
+              ? state.topSelectSortDate
+              : state.selectSortDate
+          }
         />
       );
     } else if (viewItems.includes('concluded')) {
@@ -70,8 +77,11 @@ function TableHeader() {
           options={optionlist()}
           width="100"
           height="30"
-          initialValue={optionlist()[1].seqCode}
-          value={state.topSelectSortDate}
+          values={
+            state.topSelectSortDate != ''
+              ? state.topSelectSortDate
+              : state.selectSortDate
+          }
         />
       );
     } else if (viewItems.includes('reference')) {
@@ -81,8 +91,11 @@ function TableHeader() {
           options={optionlist()}
           width="100"
           height="30"
-          initialValue={optionlist()[1].seqCode}
-          value={state.topSelectSortDate}
+          values={
+            state.topSelectSortDate != ''
+              ? state.topSelectSortDate
+              : state.selectSortDate
+          }
         />
       );
     }
@@ -91,6 +104,10 @@ function TableHeader() {
   useEffect(() => {
     handleSearchDate(null, state.topSelectSortDate);
   }, [state.topSelectSortDate]);
+
+  useEffect(() => {
+    handleSearchDate(null, state.selectSortDate);
+  }, [state.selectSortDate]);
 
   return (
     <div className={styled.tableheader}>

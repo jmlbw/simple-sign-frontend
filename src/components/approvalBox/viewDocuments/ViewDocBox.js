@@ -152,6 +152,15 @@ function ViewDocBox() {
               sendUser={docItem.userName}
               docStatus={docItem.docStatus}
               sendDepartDetail={docItem.deptName}
+              lastUser={
+                docItem.docStatus === 'A' || docItem.docStatus === 'R'
+                  ? docItem.endUser
+                  : docItem.docStatus === 'W'
+                  ? docItem.userName
+                  : docItem.docStatus === 'P'
+                  ? docItem.approver
+                  : ''
+              }
               isRead={
                 viewItems.includes('reference') &&
                 state.docView.includes(docItem.approvalDocId)

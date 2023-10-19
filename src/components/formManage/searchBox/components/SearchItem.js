@@ -26,33 +26,26 @@ const InputComp = ({ id, dataHandler, width, placeholder }) => {
   );
 };
 
-const SelectComp = ({ id, width, options, dataHandler, value }) => {
-  const [localValue, setLocalValue] = React.useState(value);
-
-  React.useEffect(() => {
-    setLocalValue(value);
-  }, [value]);
-
-  const handleChange = (e) => {
-    const selectedValue = e.target.value;
-    if (dataHandler) {
-      dataHandler(id, selectedValue);
-    }
-    setLocalValue(selectedValue); // 사용자가 선택한 값을 내부 상태에도 반영
-  };
-
+const SelectComp = ({ id, width, options, dataHandler, values }) => {
   return (
     <select
       className={styled.select}
       style={{ width: `${width}` }}
-      value={localValue} // 항상 localValue를 사용하여 현재 선택된 값을 표시
-      onChange={handleChange}
+      value={values}
+      onChange={(e) => {
+        console.log(e.target.value);
+        dataHandler(id, e.target.value);
+      }}
     >
-      {options.map((ele, index) => (
-        <option key={index} value={ele.id}>
-          {ele.name}
-        </option>
-      ))}
+      {options
+        ? options.map((ele, index) => {
+            return (
+              <option key={index} value={ele.seqCode ? ele.seqCode : ele.id}>
+                {ele.name}
+              </option>
+            );
+          })
+        : null}
     </select>
   );
 };

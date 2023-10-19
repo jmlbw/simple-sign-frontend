@@ -29,20 +29,24 @@ function RemainSearchDetail() {
   ];
   const OPTIONS = {
     pend: [
-      { name: '기안일', value: 'sendDate' },
-      { name: '도착일', value: 'arrivedDate' },
+      { name: '기안일', value: '기안일' },
+      { name: '도착일', value: '도착일' },
     ],
     concluded: [
-      { name: '기안일', value: 'sendDate' },
-      { name: '결재일', value: 'approvDate' },
-      { name: '종결일', value: 'closedDate' },
+      { name: '기안일', value: '기안일' },
+      { name: '결재일', value: '결재일' },
+      { name: '종결일', value: '종결일' },
     ],
     reference: [
-      { name: '기안일', value: 'sendDate' },
-      { name: '도착일', value: 'arrivedDate' },
-      { name: '종결일', value: 'closedDate' },
+      { name: '기안일', value: '기안일' },
+      { name: '도착일', value: '도착일' },
+      { name: '종결일', value: '종결일' },
     ],
   };
+
+  useEffect(() => {
+    handleSearchDate(null, state.bottomSelectSortDate);
+  }, [state.bottomSelectSortDate]);
 
   const handleSearchIconClick = () => {
     setState((prevState) => ({ ...prevState, shouldFetchDocs: true }));
@@ -68,7 +72,7 @@ function RemainSearchDetail() {
           options={optionlist()}
           width="100"
           height="30"
-          initialValue={optionlist()[0].seqCode}
+          values={state.bottomSelectSortDate}
         />
       );
     } else if (viewItems.includes('concluded')) {
@@ -78,7 +82,7 @@ function RemainSearchDetail() {
           options={optionlist()}
           width="100"
           height="30"
-          initialValue={optionlist()[1].seqCode}
+          values={state.bottomSelectSortDate}
         />
       );
     } else if (viewItems.includes('reference')) {
@@ -88,7 +92,7 @@ function RemainSearchDetail() {
           options={optionlist()}
           width="100"
           height="30"
-          initialValue={optionlist()[1].seqCode}
+          values={state.bottomSelectSortDate}
         />
       );
     }
@@ -108,6 +112,7 @@ function RemainSearchDetail() {
     setState((prevState) => ({
       ...prevState,
       topSelectSortDate: selectedDate,
+      selectSortDate: selectedDate,
     }));
   };
   const handleSelectedData = (id, selectedData) => {
