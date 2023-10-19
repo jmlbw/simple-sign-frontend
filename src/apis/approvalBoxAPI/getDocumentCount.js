@@ -1,6 +1,7 @@
 import axios from 'axios';
+import base_url from '../base_url';
 
 export default function getDocumentsCount(name) {
-  const url = `http://localhost:8080/approvbox/doc/count?boxName=${name}`;
+  const url = base_url + `approvbox/doc/count?boxName=${name}`;
   return axios.get(url);
 }
