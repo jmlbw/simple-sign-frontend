@@ -36,6 +36,9 @@ export default function DetailForm(props) {
         setContents(json.contents);
         setApprovalLine(json.approvalLineList);
         setReceiveRefOpt(json.receivedRefList);
+        if (json.docStatus == 'T') {
+          props.setIsTemporal(true);
+        }
       })
       .catch(() => {
         alert('문서를 찾을 수 없습니다');
