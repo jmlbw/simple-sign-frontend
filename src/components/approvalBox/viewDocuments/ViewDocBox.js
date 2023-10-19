@@ -129,45 +129,50 @@ function ViewDocBox() {
       <TableHeader />
       <div className={styled.docContainer}>
         <div className={styled.docList}>
-          {docData.map((docItem) => (
-            <DocItem
-              key={docItem.approvalDocId}
-              docNumber={docItem.approvalDocId}
-              formName={docItem.formName}
-              date={
-                state.selectSortDate === '기안일'
-                  ? docItem.sendDate
-                  : state.selectSortDate === '도착일' &&
-                    viewItems.includes('reference')
-                  ? docItem.sendDate
-                  : state.selectSortDate === '도착일'
-                  ? docItem.receiveDate
-                  : state.selectSortDate === '종결일'
-                  ? docItem.endDate
-                  : state.selectSortDate === '결재일'
-                  ? docItem.approvalDate
-                  : docItem.sendDate // 기본값을 기안일로 설정했습니다.
-              }
-              title={docItem.approvalDocTitle}
-              sendUser={docItem.userName}
-              docStatus={docItem.docStatus}
-              sendDepartDetail={docItem.deptName}
-              lastUser={
-                docItem.docStatus === 'A' || docItem.docStatus === 'R'
-                  ? docItem.endUser
-                  : docItem.docStatus === 'W'
-                  ? docItem.userName
-                  : docItem.docStatus === 'P'
-                  ? docItem.approver
-                  : ''
-              }
-              isRead={
-                viewItems.includes('reference') &&
-                state.docView.includes(docItem.approvalDocId)
-              }
-              onClick={() => handleItemClick(docItem.approvalDocId)}
-            />
-          ))}
+          {docData
+            .filter(
+              (docItem) =>
+                !(state.selectSortDate === '종결일' && docItem.endDate === null)
+            )
+            .map((docItem) => (
+              <DocItem
+                key={docItem.approvalDocId}
+                docNumber={docItem.approvalDocId}
+                formName={docItem.formName}
+                date={
+                  state.selectSortDate === '기안일'
+                    ? docItem.sendDate
+                    : state.selectSortDate === '도착일' &&
+                      viewItems.includes('reference')
+                    ? docItem.sendDate
+                    : state.selectSortDate === '도착일'
+                    ? docItem.receiveDate
+                    : state.selectSortDate === '종결일'
+                    ? docItem.endDate
+                    : state.selectSortDate === '결재일'
+                    ? docItem.approvalDate
+                    : docItem.sendDate // 기본값을 기안일로 설정했습니다.
+                }
+                title={docItem.approvalDocTitle}
+                sendUser={docItem.userName}
+                docStatus={docItem.docStatus}
+                sendDepartDetail={docItem.deptName}
+                lastUser={
+                  docItem.docStatus === 'A' || docItem.docStatus === 'R'
+                    ? docItem.endUser
+                    : docItem.docStatus === 'W'
+                    ? docItem.userName
+                    : docItem.docStatus === 'P'
+                    ? docItem.approver
+                    : ''
+                }
+                isRead={
+                  viewItems.includes('reference') &&
+                  state.docView.includes(docItem.approvalDocId)
+                }
+                onClick={() => handleItemClick(docItem.approvalDocId)}
+              />
+            ))}
         </div>
       </div>
       <div className={styled.pagination}>
