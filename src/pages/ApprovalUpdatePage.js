@@ -2,14 +2,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import InnerBox from '../components/common/InnerBox';
 import UpdateForm from '../components/approvalManage/approvalUpdate/UpdateForm';
 import Button from '../components/common/Button';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import updateApprovalDoc from '../apis/approvalManageAPI/updateApprovalDoc';
 import { useLoading } from '../contexts/LoadingContext';
 import moment from 'moment';
 import { usePage } from '../contexts/PageContext';
 import styled from '../styles/pages/ApprovalUpdatePage.module.css';
+import updateTemporalApprovalDoc from '../apis/approvalManageAPI/updateTemporalApprovalDoc';
 
 export default function ApprovalUpdatePage() {
+  const navigate = useNavigate();
   const location = useLocation();
   //에디터
   const [formData, setFormData] = useState(null);
@@ -44,45 +46,53 @@ export default function ApprovalUpdatePage() {
     setEditor(ref.currentContent);
   };
 
-  const handleClick = () => {
+  const handleCancel = () => {
+    navigate(`/AD?page=${location.search.split('=')[1]}`);
+  };
+
+  const handleUpdate = (type) => {
     //페이지 데이터 셋팅
     setState({ ...state, curPage: '결재문서수정' });
     showLoading();
     //console.log('org_use_list');
     //console.log(org_use_list);
     const orgUserIdList = [];
-    org_use_list.map((data, index) => {
-      orgUserIdList.push(data.userId);
-    });
+    if (org_use_list !== null) {
+      org_use_list.map((data, index) => {
+        orgUserIdList.push(data.userId);
+      });
+    }
 
     const recRefList = [];
-    rec_ref.map((data) => {
-      if (data.category === 'C') {
-        recRefList.push({
-          id: data.compId,
-          category: 'C',
-          name: data.company,
-        });
-      } else if (data.category === 'E') {
-        recRefList.push({
-          id: data.estId,
-          category: 'E',
-          name: data.establishment,
-        });
-      } else if (data.category === 'D') {
-        recRefList.push({
-          id: data.deptId,
-          category: 'D',
-          name: data.department,
-        });
-      } else {
-        recRefList.push({
-          id: data.userId,
-          category: 'U',
-          name: data.user,
-        });
-      }
-    });
+    if (rec_ref !== null) {
+      rec_ref.map((data) => {
+        if (data.category === 'C') {
+          recRefList.push({
+            id: data.compId,
+            category: 'C',
+            name: data.company,
+          });
+        } else if (data.category === 'E') {
+          recRefList.push({
+            id: data.estId,
+            category: 'E',
+            name: data.establishment,
+          });
+        } else if (data.category === 'D') {
+          recRefList.push({
+            id: data.deptId,
+            category: 'D',
+            name: data.department,
+          });
+        } else {
+          recRefList.push({
+            id: data.userId,
+            category: 'U',
+            name: data.user,
+          });
+        }
+      });
+    }
 
     const data = {
       approvalDocTitle: titleRef.current.innerHTML,
@@ -93,23 +103,36 @@ export default function ApprovalUpdatePage() {
       contents: editor,
       approverList: orgUserIdList,
     };
-
-    //문서수정
-    updateApprovalDoc(location.search.split('=')[1], data)
-      .then((res) => {
-        if (res.status == '200') {
-          alert('문서가 수정되었습니다.');
-        } else {
+    if (type === 'temporal') {
+      updateTemporalApprovalDoc(location.search.split('=')[1], data)
+        .then((res) => {
+          if (res.state == '200') {
+            alert('문서가 수정되었습니다');
+          } else {
+            alert('문서수정을 실패했습니다.');
+          }
+        })
+        .catch((e) => console.error(e));
+    } else if (type === 'update') {
+      //문서수정
+      updateApprovalDoc(location.search.split('=')[1], data)
+        .then((res) => {
+          if (res.status == '200' && docStatus == 'T') {
+            alert('문서가 상신되었습니다.');
+          } else if (res.status == '200') {
+            alert('문서가 수정되었습니다.');
+          } else {
+            alert('문서수정을 실패했습니다.');
+          }
+        })
+        .catch((e) => {
+          console.log(e);
           alert('문서수정을 실패했습니다.');
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-        alert('문서수정을 실패했습니다.');
-      })
-      .finally(() => {
-        hideLoading();
-      });
+        })
+        .finally(() => {
+          hideLoading();
+        });
+    }
   };
 
   return (
@@ -137,21 +160,30 @@ export default function ApprovalUpdatePage() {
               />
               <div className={styled.updateAndDeleteBtn}>
                 {docStatus === 'T' ? (
+                  <>
+                    <Button
+                      label={'상신'}
+                      btnStyle={'red_btn'}
+                      onClick={() => handleUpdate('update')}
+                    />
+                    <Button
+                      label={'수정'}
+                      btnStyle={'green_btn'}
+                      onClick={() => handleUpdate('temporal')}
+                    />
+                  </>
+                ) : (
                   <Button
-                    label={'상신'}
-                    btnStyle={'red_btn'}
-                    onClick={handleClick}
+                    label={'수정'}
+                    btnStyle={'green_btn'}
+                    onClick={() => handleUpdate('update')}
                   />
-                ) : null}
-                <Button
-                  label={'수정'}
-                  btnStyle={'green_btn'}
-                  onClick={handleClick}
-                />
+                )}
+
                 <Button
                   label={'취소'}
                   btnStyle={'dark_btn'}
-                  onClick={handleClick}
+                  onClick={handleCancel}
                 />
               </div>
             </>
