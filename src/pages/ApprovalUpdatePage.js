@@ -51,6 +51,7 @@ export default function ApprovalUpdatePage() {
   };
 
   const handleUpdate = (type) => {
+    console.log(type);
     //페이지 데이터 셋팅
     setState({ ...state, curPage: '결재문서수정' });
     showLoading();
@@ -93,43 +94,58 @@ export default function ApprovalUpdatePage() {
         }
       });
     }
+    console.log(docStatus);
+    let updateDocStatus = { ...docStatus };
+    if (docStatus === 'T' && type === 'update') {
+      updateDocStatus = 'W';
+    } else {
+      updateDocStatus = docStatus[0];
+    }
 
+    console.log(updateDocStatus);
     const data = {
       approvalDocTitle: titleRef.current.innerHTML,
       seqCode: sequence_code,
       receiveRefList: recRefList,
+      docStatus: updateDocStatus,
       createdAt: drafting_time.format('YYYY-MM-DDTHH:mm:ss'),
       enforcementDate: enforce_date.format('YYYY-MM-DDTHH:mm:ss'),
       contents: editor,
       approverList: orgUserIdList,
+      receiveRefList: recRefList,
     };
     if (type === 'temporal') {
       updateTemporalApprovalDoc(location.search.split('=')[1], data)
         .then((res) => {
-          if (res.state == '200') {
+          console.log(res);
+          if (res.status == '200') {
             alert('문서가 수정되었습니다');
           } else {
             alert('문서수정을 실패했습니다.');
           }
         })
-        .catch((e) => console.error(e));
+        .catch((e) => console.error(e))
+        .finally(() => {
+          hideLoading();
+        });
     } else if (type === 'update') {
+      console.log('문서상신입니다');
       //문서수정
       updateApprovalDoc(location.search.split('=')[1], data)
         .then((res) => {
-          if (res.status == '200' && docStatus == 'T') {
+          if (res.status == '200' && docStatus === 'T') {
             alert('문서가 상신되었습니다.');
           } else if (res.status == '200') {
             alert('문서가 수정되었습니다.');
           } else {
             alert('문서수정을 실패했습니다.');
+            hideLoading();
           }
         })
         .catch((e) => {
-          console.log(e);
-          alert('문서수정을 실패했습니다.');
+          console.error(e);
         })
-        .finally(() => {
+        .then(() => {
           hideLoading();
         });
     }
