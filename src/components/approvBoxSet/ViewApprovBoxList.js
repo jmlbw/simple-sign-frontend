@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 
-function ViewApprovalBoxList(compId) {
+function ViewApprovalBoxList() {
   const [selectedCompanyId, setSelectedCompanyId] = useState(0);
 
   const {
@@ -61,11 +61,7 @@ function ViewApprovalBoxList(compId) {
       <div className={styled.searchbox}>
         <div className={styled.selectContainer}>
           {' '}
-          <Datalist
-            onCompanyChange={setSelectedCompanyId}
-            authority="2"
-            compId={compId}
-          />
+          <Datalist onCompanyChange={setSelectedCompanyId} authority="2" />
         </div>
 
         <div className={styled.inputSearch}>
@@ -80,7 +76,7 @@ function ViewApprovalBoxList(compId) {
         </div>
       </div>
       <div className={styled.boxlist}>
-        <ApprovalBoxList companyId={selectedCompanyId} />
+        <ApprovalBoxList companyId={selectedCompanyId} authority="2" />
       </div>
     </InnerBox>
   );
