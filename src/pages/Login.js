@@ -52,7 +52,10 @@ export default function Login() {
     postLogin(loginId, password)
       .then((response) => {
         if (response.status === 200) {
-          //데이터를 받아서 로컬 스토리지에 저장
+          localStorage.setItem(
+            'authority',
+            response.data.userOrgList[0].authorityCode
+          );
           localStorage.setItem('userId', response.data.userId);
           localStorage.setItem('userName', response.data.userName);
           localStorage.setItem(
