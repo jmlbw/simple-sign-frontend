@@ -3,7 +3,8 @@ import Select from 'react-select';
 import styled from '../../styles/pages/ApprovalBoxSetPage.module.css';
 import getCompanyList from '../../apis/commonAPI/getCompanyList';
 
-function Datalist({ onCompanyChange, selectedCompId }) {
+function Datalist({ onCompanyChange, selectedCompId, authority, compId }) {
+  console.log(compId);
   const [selectedOption, setSelectedOption] = useState({
     value: 0,
     label: '전체',
@@ -59,22 +60,36 @@ function Datalist({ onCompanyChange, selectedCompId }) {
     getCompanyList()
       .then((response) => response.json())
       .then((data) => {
-        const transformedData = data.map((company) => ({
+        let transformedData = data.map((company) => ({
           value: company.id,
           label: company.name,
         }));
+        console.log(transformedData);
 
         transformedData.unshift({
-          value: '0',
+          value: 0,
           label: '전체',
         });
+
+        if (authority === '2') {
+          transformedData = transformedData.filter(
+            (option) => option.value === compId.compId
+          );
+        }
 
         setCompanyOptions(transformedData);
 
         // 선택된 회사의 id를 상위 컴포넌트로 전달
-        const initialOption = transformedData.find(
-          (option) => option.value === selectedCompId
-        ) || { value: 0, label: '전체' };
+        let initialOption;
+        if (authority === '2') {
+          initialOption = transformedData.find(
+            (option) => option.value === compId.compId
+          );
+        } else {
+          initialOption = transformedData.find(
+            (option) => option.value === selectedCompId
+          ) || { value: 0, label: '전체' };
+        }
 
         setSelectedOption(initialOption);
 
@@ -85,7 +100,7 @@ function Datalist({ onCompanyChange, selectedCompId }) {
       .catch((error) => {
         console.error('Error fetching company list:', error);
       });
-  }, [selectedCompId]);
+  }, [selectedCompId, authority, compId]);
 
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
