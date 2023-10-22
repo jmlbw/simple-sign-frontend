@@ -34,6 +34,8 @@ export default function Profile() {
     postLogout()
       .then(() => {
         localStorage.clear();
+        document.cookie =
+          'JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         setState({ ...state, isLoggedIn: false });
       })
       .catch((err) => {
