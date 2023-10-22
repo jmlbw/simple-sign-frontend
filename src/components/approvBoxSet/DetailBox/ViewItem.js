@@ -68,7 +68,6 @@ function ViewItem(props) {
 
   useEffect(() => {
     setInitDataItems(approvalBoxState.viewItems || []);
-    console.log('왜,,,: ', approvalBoxState.viewItems);
   }, [approvalBoxState.viewItems]);
 
   useEffect(() => {
@@ -79,7 +78,6 @@ function ViewItem(props) {
 
   function onSave(selectedItems) {
     setViewItemsLocal2(selectedItems);
-    console.log('새로운 선택값 : ', selectedItems);
   }
 
   let itemsToRender;
@@ -95,8 +93,6 @@ function ViewItem(props) {
   }
 
   function handleDataChange(name) {
-    console.log('지우는 이름: ', name);
-    console.log(itemsToRender);
     if (manageState.insertStatus != 1) {
       setViewItemsLocal2((prevState) => {
         return prevState.filter((item) => item !== name);
