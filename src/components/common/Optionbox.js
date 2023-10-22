@@ -9,10 +9,10 @@ function Optionbox(props) {
   let initData = props.initData;
   let id = props.id;
   let name = '';
-  let category = initData.category;
+  let category = initData?.category;
   let useId = '';
 
-  if (props.category === 'null') {
+  if (props.category === null) {
   } else if (category === 'U') {
     icon = <BiSolidUser />;
     name = initData.name || initData.user;
@@ -29,6 +29,8 @@ function Optionbox(props) {
     icon = <AiFillFolder />;
     name = initData.name || initData.establishment;
     useId = initData.useId || initData.estId;
+  } else if (category === undefined) {
+    name = initData;
   }
 
   return (
