@@ -40,6 +40,7 @@ export default function ApprovalForm({
   const { detailData, setDetailData, resetDetailData } = useFormManage();
   const userOrgList = JSON.parse(localStorage.getItem('userOrgList'));
   const deptName = userOrgList[0].deptName;
+  const [files, setFiles] = useState([]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -53,6 +54,8 @@ export default function ApprovalForm({
     setCondition('approval');
     openModal();
   };
+
+  const fileUpdateHandler = () => {};
 
   const dataUpdateHandler = (id, data) => {
     setDetailData({ ...detailData, [id]: data });
@@ -272,12 +275,7 @@ export default function ApprovalForm({
             },
           })}
         </div>
-        <FileBox
-          id={'defaultForm'}
-          name={'파일'}
-          data={detailData.defaultForm}
-          dataHandler={closeModal}
-        />
+        <FileBox id={'file'} data={files} dataHandler={fileUpdateHandler} />
       </div>
 
       {/*모달*/}

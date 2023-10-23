@@ -1,13 +1,14 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from '../../../styles/components/formManage/formDetail/components/DragDrop.module.css';
 import { AiOutlineFileAdd } from 'react-icons/ai';
 
-const DragDrop = ({ id, name, data, dataHandler }) => {
+const DragDrop = ({ id, data, dataHandler }) => {
   const fileId = useRef(0);
   const dragRef = useRef(null);
 
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState([]);
+  const [fileNames, setFileNames] = useState([]);
 
   const handleDragIn = (e) => {
     e.preventDefault();
@@ -34,12 +35,20 @@ const DragDrop = ({ id, name, data, dataHandler }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    onChangeFiles(e);
-    setIsDragging(false);
-  };
+    const droppedFiles = e.dataTransfer.files;
+    const newFiles = Array.from(droppedFiles).map((file) => ({
+      id: fileId.current++,
+      object: file,
+    }));
 
-  const inputFileUpload = (e) => {
-    onChangeFiles(e);
+    const updatedFiles = [...files, ...newFiles];
+    setFiles(updatedFiles);
+
+    const fileNames = updatedFiles.map((file) => file.object.name);
+    setFileNames(fileNames);
+
+    getFileContent();
+    setIsDragging(false);
   };
 
   const initDragEvents = () => {
@@ -60,39 +69,25 @@ const DragDrop = ({ id, name, data, dataHandler }) => {
     }
   };
 
-  const onChangeFiles = (e) => {
-    let selectFiles = [];
-    let tempFiles = files;
+  const inputFileUpload = (e) => {
+    const selectFiles = e.target.files;
+    const newFiles = Array.from(selectFiles).map((file) => ({
+      id: fileId.current++,
+      object: file,
+    }));
 
-    if (e.type === 'drop') {
-      selectFiles = e.dataTransfer.files;
-    } else {
-      selectFiles = e.target.files;
-    }
-    for (const file of selectFiles) {
-      tempFiles = [
-        {
-          id: fileId.current++,
-          object: file,
-        },
-      ];
-    }
-    setFiles(tempFiles);
+    const updatedFiles = [...files, ...newFiles];
+    setFiles(updatedFiles);
+
+    const fileNames = updatedFiles.map((file) => file.object.name);
+    setFileNames(fileNames);
+
+    getFileContent();
   };
 
   useEffect(() => {
-    const modifiedBlob = new Blob([data], {
-      type: 'text/html',
-    });
-    const modifiedFile = new File([modifiedBlob], `${name}.html`);
-    let defaultFile = [
-      {
-        id: fileId.current++,
-        object: modifiedFile,
-      },
-    ];
     initDragEvents();
-    setFiles(defaultFile);
+
     return () => resetDragEvents();
   }, []);
 
@@ -116,10 +111,8 @@ const DragDrop = ({ id, name, data, dataHandler }) => {
     <div>
       <input
         type="file"
-        id={name}
         style={{ display: 'none' }}
         multiple={true}
-        accept=".png"
         onChange={inputFileUpload}
       />
 
@@ -127,13 +120,19 @@ const DragDrop = ({ id, name, data, dataHandler }) => {
         className={
           isDragging ? styled.dragDropFileDragging : styled.dragDropFile
         }
-        htmlFor={name}
         ref={dragRef}
       >
         <div>
           <AiOutlineFileAdd />
         </div>
       </label>
+      {fileNames.length > 0 && (
+        <div>
+          {fileNames.map((file, index) => (
+            <div key={index}>{file}</div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -9,7 +9,7 @@ import insertApprovalDoc from '../apis/approvalManageAPI/insertApprovalDoc';
 import errorHandle from '../apis/errorHandle';
 import { checkFormCreateData } from '../validation/approvalManage/approvalFormSchema';
 
-export default function SmallBox(props) {
+export default function ApprovalRegist(props) {
   const innerBoxStyle = {
     width: props.width,
     height: props.height,
@@ -76,8 +76,6 @@ export default function SmallBox(props) {
 
   const handleClick = (state) => {
     showLoading();
-    // console.log('결재라인: ' + org_use_list);
-    //console.log('수신참조: ' + rec_ref);
     const orgUserIdList = [];
     if (org_use_list.length != 0) {
       org_use_list.map((data, index) => {
