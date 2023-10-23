@@ -111,6 +111,7 @@ function DetailBox() {
             commonCellStyle={commonCellStyle}
             commonDataStyle={commonDataStyle}
             compId={boxDetail.compId}
+            boxId={boxId}
           />
           <BoxName
             commonCellStyle={commonCellStyle}

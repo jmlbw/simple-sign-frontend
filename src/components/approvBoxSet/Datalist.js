@@ -5,7 +5,7 @@ import getCompanyList from '../../apis/commonAPI/getCompanyList';
 import getUserCompany from '../../apis/approvalBoxAPI/getUserCompany';
 import { getAuthrity } from '../../utils/getUser';
 
-function Datalist({ onCompanyChange, selectedCompId }) {
+function Datalist({ onCompanyChange, selectedCompId, readonly }) {
   const authority = getAuthrity();
   const [selectedOption, setSelectedOption] = useState(null);
   const [companyOptions, setCompanyOptions] = useState([]);
@@ -124,6 +124,7 @@ function Datalist({ onCompanyChange, selectedCompId }) {
         onChange={handleChange}
         options={companyOptions}
         isSearchable={true}
+        isDisabled={readonly} // 읽기 전용 설정
         className={styled.customSelect}
         styles={customStyles}
       />

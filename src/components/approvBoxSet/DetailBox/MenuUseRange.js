@@ -68,7 +68,7 @@ function MenuUseRange(props) {
   }, [props.menuOption, setApprovalBoxState]);
 
   useEffect(() => {
-    console.log('변경 : ', approvalBoxState.boxUseDept);
+    console.log('변경 : ', approvalBoxState);
   }, [approvalBoxState]);
 
   const openModal = () => {
@@ -126,7 +126,9 @@ function MenuUseRange(props) {
   return (
     <div className={styled.inputItem}>
       <div style={props.commonCellStyle}>
-        <div className={styled.text}>메뉴 사용범위</div>
+        <div className={styled.text}>
+          <span className={styled.notnull}>*</span>메뉴 사용범위
+        </div>
       </div>
       <div style={props.commonDataStyle}>
         <Radiobtn
