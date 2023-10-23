@@ -12,7 +12,8 @@ const approvalBoxInit = {
   approvalBoxName: null,
   viewItems: [],
   approvalBoxUsedStatus: 1,
-  menuUsingRange: 'T',
+  menuUsingRange: null,
+  boxUseDept: [],
   sortOrder: null,
 };
 

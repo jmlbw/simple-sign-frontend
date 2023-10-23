@@ -98,7 +98,12 @@ function Datalist({ onCompanyChange, selectedCompId }) {
         value: 0,
         label: '전체',
       });
-      setSelectedOption({ value: 0, label: '전체' });
+      const selectedOptionFromCompId = transformedData.find(
+        (option) => option.value === selectedCompId
+      );
+      setSelectedOption(
+        selectedOptionFromCompId || { value: 0, label: '전체' }
+      );
     } else if (authority === '2') {
       transformedData = data.map((company) => ({
         value: company.id,
