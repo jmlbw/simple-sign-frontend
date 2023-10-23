@@ -36,7 +36,11 @@ export default function FormShortCut() {
       {shorCutBtns.map((ele, index) => {
         console.log(ele, index);
         return (
-          <Link key={index} to="./EAM" className={styled.shortCutBtn}>
+          <Link
+            key={index}
+            to={`./FL/${ele.formCode}`}
+            className={styled.shortCutBtn}
+          >
             <RecommentContent icon={<GrDocumentText />} name={ele.formName} />
           </Link>
         );

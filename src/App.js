@@ -69,7 +69,7 @@ function AppContent() {
                   element={checkUserAuthority(2, <SeqManagePage />)}
                 />
                 <Route
-                  path="/FL"
+                  path="/FL/:id"
                   element={checkUserAuthority(3, <FormListPage />)}
                 />
                 <Route
