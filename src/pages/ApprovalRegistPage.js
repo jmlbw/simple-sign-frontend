@@ -7,8 +7,13 @@ import moment from 'moment';
 import { useLoading } from '../contexts/LoadingContext';
 import insertApprovalDoc from '../apis/approvalManageAPI/insertApprovalDoc';
 import errorHandle from '../apis/errorHandle';
+import { checkFormCreateData } from '../validation/approvalManage/approvalFormSchema';
+import { useParams } from 'react-router-dom';
 
 export default function SmallBox(props) {
+  const { id } = useParams();
+  let status = props.form_code === parseInt(id) ? true : false;
+
   const innerBoxStyle = {
     width: props.width,
     height: props.height,
@@ -31,6 +36,12 @@ export default function SmallBox(props) {
   const titleRef = useRef(null); //제목
   const [rec_ref, setRecRef] = useState([]); //수신참조
   const [org_use_list, setOrgUseId] = useState([]); //결재라인
+
+  useEffect(() => {
+    if (status) {
+      openModal();
+    }
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -132,10 +143,21 @@ export default function SmallBox(props) {
       contents: editor,
     };
 
+    checkFormCreateData(data)
+      .then(() => {
+        registApprovalDoc(data, docStatus);
+      })
+      .catch((errors) => {
+        alert(errors.message);
+        hideLoading();
+      });
+  };
+
+  const registApprovalDoc = (data, docStatus) => {
     //결재상신
     insertApprovalDoc(data)
       .then((res) => {
-        if (res.status == '200') {
+        if (res.status === 200) {
           console.log(res);
           if (docStatus === 'T') {
             alert('임시저장되었습니다.');
