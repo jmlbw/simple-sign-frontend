@@ -33,10 +33,15 @@ export default function ApprovalRegist(props) {
   const [rec_ref, setRecRef] = useState([]); //수신참조
   const [org_use_list, setOrgUseId] = useState([]); //결재라인
 
+  const [files, setFiles] = useState([]);
+  const [fileNames, setFileNames] = useState([]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
   const closeModal = () => {
+    setFiles([]);
+    setFileNames([]);
     setIsModalOpen(false);
   };
 
@@ -223,6 +228,10 @@ export default function ApprovalRegist(props) {
               handleSelectBoxChange={handleSelectBoxChange}
               handleDraftingTime={handleDraftingTime}
               handleEnforcementTime={handleEnforcementTime}
+              files={files}
+              fileNames={fileNames}
+              setFiles={setFiles}
+              setFileNames={setFileNames}
             />
 
             <PopUpFoot buttons={BlueAndGrayBtn} />

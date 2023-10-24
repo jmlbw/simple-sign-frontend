@@ -31,6 +31,10 @@ export default function ApprovalForm({
   handleSelectBoxChange,
   handleEnforcementTime,
   handleDraftingTime,
+  files,
+  fileNames,
+  setFiles,
+  setFileNames,
 }) {
   const [sequence, setSequence] = useState([]);
   const [default_form, setDefaultForm] = useState('');
@@ -40,7 +44,6 @@ export default function ApprovalForm({
   const { detailData, setDetailData, resetDetailData } = useFormManage();
   const userOrgList = JSON.parse(localStorage.getItem('userOrgList'));
   const deptName = userOrgList[0].deptName;
-  const [files, setFiles] = useState([]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -55,7 +58,18 @@ export default function ApprovalForm({
     openModal();
   };
 
-  const fileUpdateHandler = () => {};
+  const fileUpdateHandler = (id, fileContents) => {
+    console.log('fileUpdateHandler');
+    console.log(fileContents);
+    fileContents.forEach((fileData) => {
+      console.log(`File ID: ${fileData.file.id}`);
+      console.log(`File Content: ${fileData.content}`);
+      console.log('------------------------');
+    });
+
+    // 또 다른 처리 방식:
+    // 예시 - 파일 내용을 저장하거나 서버에 업로드하는 등의 작업 수행
+  };
 
   const dataUpdateHandler = (id, data) => {
     setDetailData({ ...detailData, [id]: data });
@@ -275,7 +289,14 @@ export default function ApprovalForm({
             },
           })}
         </div>
-        <FileBox id={'file'} data={files} dataHandler={fileUpdateHandler} />
+        <FileBox
+          id={'file'}
+          files={files}
+          fileNames={fileNames}
+          setFiles={setFiles}
+          setFileNames={setFileNames}
+          dataHandler={fileUpdateHandler}
+        />
       </div>
 
       {/*모달*/}
