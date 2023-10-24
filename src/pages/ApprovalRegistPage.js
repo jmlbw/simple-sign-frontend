@@ -8,7 +8,6 @@ import { useLoading } from '../contexts/LoadingContext';
 import insertApprovalDoc from '../apis/approvalManageAPI/insertApprovalDoc';
 import errorHandle from '../apis/errorHandle';
 import { checkFormCreateData } from '../validation/approvalManage/approvalFormSchema';
-import insertApprovalDocFile from '../apis/approvalManageAPI/insertApprovalDocFile';
 
 export default function ApprovalRegist(props) {
   const innerBoxStyle = {
