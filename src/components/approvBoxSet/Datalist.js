@@ -5,7 +5,7 @@ import getCompanyList from '../../apis/commonAPI/getCompanyList';
 import getUserCompany from '../../apis/approvalBoxAPI/getUserCompany';
 import { getAuthrity } from '../../utils/getUser';
 
-function Datalist({ onCompanyChange, selectedCompId, readonly }) {
+function Datalist({ onCompanyChange, selectedCompId, readonly, insertState }) {
   const authority = getAuthrity();
   const [selectedOption, setSelectedOption] = useState(null);
   const [companyOptions, setCompanyOptions] = useState([]);
@@ -94,16 +94,22 @@ function Datalist({ onCompanyChange, selectedCompId, readonly }) {
         label: company.name,
       }));
 
-      transformedData.unshift({
-        value: 0,
-        label: '전체',
-      });
       const selectedOptionFromCompId = transformedData.find(
         (option) => option.value === selectedCompId
       );
-      setSelectedOption(
-        selectedOptionFromCompId || { value: 0, label: '전체' }
-      );
+
+      if (insertState != 1) {
+        transformedData.unshift({
+          value: 0,
+          label: '전체',
+        });
+        setSelectedOption(
+          selectedOptionFromCompId || { value: 0, label: '전체' }
+        );
+      } else {
+        setCompanyOptions(transformedData);
+        setSelectedOption(selectedOptionFromCompId || transformedData[0]);
+      }
     } else if (authority === '2') {
       transformedData = data.map((company) => ({
         value: company.id,
