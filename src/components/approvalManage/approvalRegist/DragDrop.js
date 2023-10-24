@@ -91,8 +91,6 @@ const DragDrop = ({
   };
 
   useEffect(() => {
-    setFiles([]);
-    setFileNames([]);
     initDragEvents();
 
     return () => resetDragEvents();
@@ -103,30 +101,22 @@ const DragDrop = ({
   }, [files]);
 
   const getFileContent = () => {
-    const readers = files.map((file) => {
-      const reader = new FileReader();
-      return new Promise((resolve, reject) => {
-        reader.onload = (event) => {
-          resolve({ file, content: event.target.result });
-        };
-        reader.onerror = (event) => {
-          reject(event);
-        };
-        reader.readAsText(file.object);
-      });
-    });
+    console.log(files);
 
+    files.map((file, index) => {
+      dataHandler(index, file);
+    });
     // 모든 파일의 내용을 읽어온 뒤 dataHandler 함수를 호출
-    Promise.all(readers)
-      .then((fileContents) => {
-        // fileContents는 [{ file: File, content: string }, ...] 형태의 배열
-        // dataHandler 함수를 사용하여 파일 내용을 처리하거나 저장
-        dataHandler(id, fileContents);
-      })
-      .catch((error) => {
-        // 에러 처리: 파일 읽기 중에 오류가 발생한 경우
-        console.error('파일 읽기 오류:', error);
-      });
+    // Promise.all(readers)
+    //   .then((fileContents) => {
+    //     // fileContents는 [{ file: File, content: string }, ...] 형태의 배열
+    //     // dataHandler 함수를 사용하여 파일 내용을 처리하거나 저장
+    //     dataHandler(id, fileContents);
+    //   })
+    //   .catch((error) => {
+    //     // 에러 처리: 파일 읽기 중에 오류가 발생한 경우
+    //     console.error('파일 읽기 오류:', error);
+    //   });
   };
 
   return (

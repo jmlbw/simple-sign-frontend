@@ -8,6 +8,7 @@ import { useLoading } from '../contexts/LoadingContext';
 import insertApprovalDoc from '../apis/approvalManageAPI/insertApprovalDoc';
 import errorHandle from '../apis/errorHandle';
 import { checkFormCreateData } from '../validation/approvalManage/approvalFormSchema';
+import insertApprovalDocFile from '../apis/approvalManageAPI/insertApprovalDocFile';
 
 export default function ApprovalRegist(props) {
   const innerBoxStyle = {
@@ -61,6 +62,16 @@ export default function ApprovalRegist(props) {
   };
   const handleEnforcementTime = (newValue) => {
     setEnforceDate(newValue);
+  };
+
+  const fileUpdateHandler = (id, file) => {
+    console.log('fileUpdateHandler');
+    console.log(file.object);
+
+    const formData = new FormData();
+    formData.append('file', file.object);
+    console.log(files);
+    //insertApprovalDocFile(formData);
   };
 
   // const extractTableData = () => {
@@ -123,8 +134,9 @@ export default function ApprovalRegist(props) {
     if (state === 'regist') {
       docStatus = 'W';
     }
+
     // let searchContents = extractTableData(editor);
-    const data = {
+    const approvalDocReqDTO = {
       formCode: props.form_code,
       approvalDocTitle: titleRef.current.innerHTML,
       docStatus: docStatus,
@@ -136,7 +148,19 @@ export default function ApprovalRegist(props) {
       contents: editor,
     };
 
-    checkFormCreateData(data)
+    const data = new FormData();
+
+    data.append(
+      'approvalDocReqDTO',
+      new Blob([JSON.stringify(approvalDocReqDTO)], {
+        type: 'application/json',
+      })
+    );
+    files.forEach((file, index) => {
+      data.append('files', file.object);
+    });
+
+    checkFormCreateData(approvalDocReqDTO)
       .then(() => {
         registApprovalDoc(data, docStatus);
       })
@@ -160,6 +184,7 @@ export default function ApprovalRegist(props) {
           setRecRef('');
           closeModal();
         } else {
+          //console.log(res);
           errorHandle(res);
         }
       })
@@ -232,6 +257,7 @@ export default function ApprovalRegist(props) {
               fileNames={fileNames}
               setFiles={setFiles}
               setFileNames={setFileNames}
+              fileUpdateHandler={fileUpdateHandler}
             />
 
             <PopUpFoot buttons={BlueAndGrayBtn} />

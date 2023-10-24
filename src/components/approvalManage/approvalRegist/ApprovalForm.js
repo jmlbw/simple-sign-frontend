@@ -35,6 +35,7 @@ export default function ApprovalForm({
   fileNames,
   setFiles,
   setFileNames,
+  fileUpdateHandler,
 }) {
   const [sequence, setSequence] = useState([]);
   const [default_form, setDefaultForm] = useState('');
@@ -56,19 +57,6 @@ export default function ApprovalForm({
   const handleApprovalClick = () => {
     setCondition('approval');
     openModal();
-  };
-
-  const fileUpdateHandler = (id, fileContents) => {
-    console.log('fileUpdateHandler');
-    console.log(fileContents);
-    fileContents.forEach((fileData) => {
-      console.log(`File ID: ${fileData.file.id}`);
-      console.log(`File Content: ${fileData.content}`);
-      console.log('------------------------');
-    });
-
-    // 또 다른 처리 방식:
-    // 예시 - 파일 내용을 저장하거나 서버에 업로드하는 등의 작업 수행
   };
 
   const dataUpdateHandler = (id, data) => {
