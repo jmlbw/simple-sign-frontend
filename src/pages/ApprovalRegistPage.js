@@ -8,8 +8,13 @@ import { useLoading } from '../contexts/LoadingContext';
 import insertApprovalDoc from '../apis/approvalManageAPI/insertApprovalDoc';
 import errorHandle from '../apis/errorHandle';
 import { checkFormCreateData } from '../validation/approvalManage/approvalFormSchema';
+import { useParams } from 'react-router-dom';
+
 
 export default function ApprovalRegist(props) {
+  const { id } = useParams();
+  let status = props.form_code === parseInt(id) ? true : false;
+
   const innerBoxStyle = {
     width: props.width,
     height: props.height,
@@ -32,9 +37,14 @@ export default function ApprovalRegist(props) {
   const titleRef = useRef(null); //제목
   const [rec_ref, setRecRef] = useState([]); //수신참조
   const [org_use_list, setOrgUseId] = useState([]); //결재라인
-
   const [files, setFiles] = useState([]);
   const [fileNames, setFileNames] = useState([]);
+
+  useEffect(() => {
+    if (status) {
+      openModal();
+    }
+  }, []);
 
   const openModal = () => {
     setIsModalOpen(true);
