@@ -4,20 +4,30 @@ import { useApprovalBoxManage } from '../../../contexts/ApprovalBoxManageContext
 import { useState, useEffect } from 'react';
 
 function BoxName(props) {
-  const [localBoxName, setLocalBoxName] = useState(null);
-  const { approvalBoxState, setApprovalBoxState, state } =
+  const { approvalBoxState, setApprovalBoxState, setApprovalBoxState2, state } =
     useApprovalBoxManage();
 
+  // 초기 상태를 props.boxName으로 설정
+  const [localBoxName, setLocalBoxName] = useState(props.boxName || '');
+
   useEffect(() => {
-    if (state.count != 0) {
-      setLocalBoxName(null);
+    if (state.count !== 0) {
+      setLocalBoxName('');
     }
   }, [state.count]);
+
+  useEffect(() => {
+    setLocalBoxName(props.boxName || '');
+  }, [props.boxName]);
 
   const handleLocalInputChange = (e) => {
     const updatedName = e.target.value;
     setLocalBoxName(updatedName);
     setApprovalBoxState((prevState) => ({
+      ...prevState,
+      approvalBoxName: updatedName,
+    }));
+    setApprovalBoxState2((prevState) => ({
       ...prevState,
       approvalBoxName: updatedName,
     }));
@@ -35,7 +45,7 @@ function BoxName(props) {
         <div>
           <input
             type="text"
-            value={localBoxName ? localBoxName : props.boxName}
+            value={localBoxName}
             className={styled.inputstyle}
             onChange={handleLocalInputChange}
           />
@@ -44,4 +54,5 @@ function BoxName(props) {
     </div>
   );
 }
+
 export default BoxName;

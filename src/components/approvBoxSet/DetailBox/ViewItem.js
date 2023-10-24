@@ -16,8 +16,15 @@ function ViewItem(props) {
   const { state, setState } = useApprovalBox();
   const { state: manageState, setState: setManageState } =
     useApprovalBoxManage();
-  const { approvalBoxState, initDataState, setInitDataState } =
-    useApprovalBoxManage();
+  const {
+    approvalBoxState,
+    setApprovalBoxState2,
+    setApprovalBoxState,
+    approvalBoxState2,
+    detailData,
+    initDataState,
+    setInitDataState,
+  } = useApprovalBoxManage();
   const [initDataItems, setInitDataItems] = useState([]);
 
   useEffect(() => {
@@ -50,6 +57,11 @@ function ViewItem(props) {
               updatedViewItem.push(viewItem.codeValue);
             }
           });
+
+          setApprovalBoxState2((prevState) => ({
+            ...prevState,
+            viewItems: updatedViewItem,
+          }));
 
           setInitDataState((prevState) => ({
             ...prevState,
@@ -101,11 +113,27 @@ function ViewItem(props) {
   function handleDataChange(name) {
     if (manageState.insertStatus != 1) {
       setViewItemsLocal2((prevState) => {
-        return prevState.filter((item) => item !== name);
+        const filteredItems = prevState.filter((item) => item !== name);
+
+        // Update approvalBoxState2
+        setApprovalBoxState2((prevApprovalState) => ({
+          ...prevApprovalState,
+          viewItems: filteredItems,
+        }));
+
+        return filteredItems;
       });
     } else {
       setViewItemsLocal((prevState) => {
-        return prevState.filter((item) => item !== name);
+        const filteredItems = prevState.filter((item) => item !== name);
+
+        // Update approvalBoxState
+        setApprovalBoxState((prevApprovalState) => ({
+          ...prevApprovalState,
+          viewItems: filteredItems,
+        }));
+
+        return filteredItems;
       });
     }
   }

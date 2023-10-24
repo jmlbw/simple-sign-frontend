@@ -15,6 +15,7 @@ function MenuUseRange(props) {
   const {
     approvalBoxState,
     setApprovalBoxState,
+    setApprovalBoxState2,
     detailData,
     setDetailData,
     state,
@@ -26,7 +27,6 @@ function MenuUseRange(props) {
         if (state.insertStatus === 1) {
           return;
         }
-
         const response = await getBoxUseDept(props.boxId);
 
         // 받아온 데이터를 detailData.scope에 할당하면서 id 부여
@@ -45,6 +45,12 @@ function MenuUseRange(props) {
             useId: item.useId || '',
             user: item.user || '',
             userId: item.userId || '',
+          }));
+          console.log(dataWithIds);
+
+          setApprovalBoxState2((prevState) => ({
+            ...prevState,
+            boxUseDept: dataWithIds,
           }));
 
           setDetailData((prevState) => ({
@@ -67,6 +73,13 @@ function MenuUseRange(props) {
     }));
   }, [props.menuOption, setApprovalBoxState]);
 
+  useEffect(() => {
+    setApprovalBoxState2((prevState) => ({
+      ...prevState,
+      menuUsingRange: props.menuOption,
+    }));
+  }, [props.menuOption]);
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -82,7 +95,15 @@ function MenuUseRange(props) {
 
   const scopeConfirm = (data) => {
     dataUpdateHandler('scope', data);
-    setApprovalBoxState({ ...detailData, boxUseDept: data });
+
+    setApprovalBoxState((prevState) => ({
+      ...prevState,
+      boxUseDept: data,
+    }));
+    setApprovalBoxState2((prevState) => ({
+      ...prevState,
+      boxUseDept: data,
+    }));
   };
 
   const scopefilterHandler = (id, category, useId) => {
@@ -96,8 +117,14 @@ function MenuUseRange(props) {
     setDetailData((prevData) => {
       const updatedData = { ...prevData, [id]: filteredData };
 
-      // setApprovalBoxState 호출하여 boxUseDept에 결과를 설정
+      // Update the viewItem in approvalBoxState
       setApprovalBoxState((prevState) => ({
+        ...prevState,
+        boxUseDept: updatedData.scope,
+      }));
+
+      // Update the viewItem in approvalBoxState2
+      setApprovalBoxState2((prevState) => ({
         ...prevState,
         boxUseDept: updatedData.scope,
       }));

@@ -8,14 +8,25 @@ const initialState = {
 };
 
 const approvalBoxInit = {
-  approvalBoxId: null,
-  compId: null,
-  approvalBoxName: null,
+  approvalBoxId: '',
+  compId: '',
+  approvalBoxName: '',
   viewItems: [],
   approvalBoxUsedStatus: 1,
   menuUsingRange: 'T',
   boxUseDept: [],
-  sortOrder: null,
+  sortOrder: '',
+};
+
+const approvalBoxInit2 = {
+  approvalBoxId: '',
+  compId: '',
+  approvalBoxName: '',
+  viewItems: [],
+  approvalBoxUsedStatus: 1,
+  menuUsingRange: 'T',
+  boxUseDept: [],
+  sortOrder: '',
 };
 
 const detailInitState = {
@@ -41,6 +52,7 @@ const ApprovalBoxManageContext = createContext();
 export const ApprovalBoxManageProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const [approvalBoxState, setApprovalBoxState] = useState(approvalBoxInit);
+  const [approvalBoxState2, setApprovalBoxState2] = useState(approvalBoxInit2);
   const [initDataState, setInitDataState] = useState(initData);
   const [detailData, setDetailData] = useState(detailInitState);
 
@@ -51,6 +63,8 @@ export const ApprovalBoxManageProvider = ({ children }) => {
         setState,
         approvalBoxState,
         setApprovalBoxState,
+        approvalBoxState2,
+        setApprovalBoxState2,
         approvalBoxInit,
         initDataState,
         setInitDataState,

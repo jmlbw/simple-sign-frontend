@@ -23,7 +23,8 @@ const commonDataStyle = {
 };
 
 function DetailBox() {
-  const { state } = useApprovalBoxManage();
+  const { state, setApprovalBoxState, setApprovalBoxState2 } =
+    useApprovalBoxManage();
   const boxId = state.boxId;
   const [menuOption, setMenuOption] = useState('T');
   const [useStatus, setUseStatus] = useState(1);
@@ -55,11 +56,25 @@ function DetailBox() {
         showLoading();
         const response = await getBoxDetail(parsedBoxId);
         setData(response.data);
+
         if (response.data.length > 0) {
+          const boxDetail = response.data[0];
+
           setUseStatus(
-            response.data[0].approvalBoxUsedStatus === 1 ? '사용' : '미사용'
+            boxDetail.approvalBoxUsedStatus === 1 ? '사용' : '미사용'
           );
-          setMenuOption(response.data[0].menuUsingRange);
+          setMenuOption(boxDetail.menuUsingRange);
+
+          // Update the approvalBoxState with the fetched data
+          setApprovalBoxState2((prevState) => ({
+            ...prevState,
+            approvalBoxId: boxDetail.approvalBoxId,
+            compId: boxDetail.compId,
+            approvalBoxName: boxDetail.approvalBoxName,
+            approvalBoxUsedStatus: boxDetail.approvalBoxUsedStatus,
+            menuUsingRange: boxDetail.menuUsingRange,
+            sortOrder: boxDetail.sortOrder,
+          }));
           hideLoading();
         }
       } catch (error) {

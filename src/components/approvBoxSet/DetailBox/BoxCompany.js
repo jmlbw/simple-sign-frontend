@@ -4,7 +4,7 @@ import Datalist from '../Datalist';
 import { useApprovalBoxManage } from '../../../contexts/ApprovalBoxManageContext';
 
 function BoxCompany(props) {
-  const { approvalBoxState, setApprovalBoxState, state } =
+  const { approvalBoxState, setApprovalBoxState, setApprovalBoxState2, state } =
     useApprovalBoxManage();
   const [selectedCompany, setSelectedCompany] = useState(
     approvalBoxState.selectedCompany
@@ -12,7 +12,8 @@ function BoxCompany(props) {
 
   const handleCompanyChange = (newValue) => {
     setSelectedCompany(newValue);
-    setApprovalBoxState({ ...approvalBoxState, compId: newValue });
+    setApprovalBoxState((prevState) => ({ ...prevState, compId: newValue }));
+    setApprovalBoxState2((prevState) => ({ ...prevState, compId: newValue }));
   };
 
   return (

@@ -8,7 +8,8 @@ import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
   const [selectAll, setSelectAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { approvalBoxState, setApprovalBoxState } = useApprovalBoxManage();
+  const { approvalBoxState, setApprovalBoxState, setApprovalBoxState2 } =
+    useApprovalBoxManage();
   const [savedItems, setSavedItems] = useState([]);
 
   const openModal = () => {
@@ -74,10 +75,14 @@ function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
       (itemName) => checkboxStates[itemName]
     );
     setSavedItems(selectedItems);
-    setApprovalBoxState({
-      ...approvalBoxState,
+    setApprovalBoxState((prevState) => ({
+      ...prevState,
       viewItems: selectedItems,
-    });
+    }));
+    setApprovalBoxState2((prevState) => ({
+      ...prevState,
+      viewItems: selectedItems,
+    }));
 
     onSave && onSave(selectedItems);
 
