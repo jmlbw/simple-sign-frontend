@@ -67,10 +67,6 @@ function MenuUseRange(props) {
     }));
   }, [props.menuOption, setApprovalBoxState]);
 
-  useEffect(() => {
-    console.log('변경 : ', approvalBoxState);
-  }, [approvalBoxState]);
-
   const openModal = () => {
     setIsModalOpen(true);
   };

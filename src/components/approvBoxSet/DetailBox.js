@@ -8,6 +8,7 @@ import BoxUseStatus from './DetailBox/BoxUseStatus';
 import MenuUseRange from './DetailBox/MenuUseRange';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 import SortOrder from './DetailBox/SortOrder';
+import { useLoading } from '../../contexts/LoadingContext';
 
 const commonCellStyle = {
   width: '30%',
@@ -27,6 +28,7 @@ function DetailBox() {
   const [menuOption, setMenuOption] = useState('T');
   const [useStatus, setUseStatus] = useState(1);
   const [data, setData] = useState([]);
+  const { showLoading, hideLoading } = useLoading();
 
   const handleUseStatusChange = (event) => {
     setUseStatus(event.target.value);
@@ -50,15 +52,15 @@ function DetailBox() {
           setData([]);
           return;
         }
-
+        showLoading();
         const response = await getBoxDetail(parsedBoxId);
         setData(response.data);
-        console.log(response.data);
         if (response.data.length > 0) {
           setUseStatus(
             response.data[0].approvalBoxUsedStatus === 1 ? '사용' : '미사용'
           );
           setMenuOption(response.data[0].menuUsingRange);
+          hideLoading();
         }
       } catch (error) {
         console.error('Error fetching box details:', error);
@@ -145,7 +147,8 @@ function DetailBox() {
             commonCellStyle={commonCellStyle}
             commonDataStyle={commonDataStyle}
             handleInputChange={handleInputChange}
-            boxName={boxDetail.sortOrder}
+            sortOrder={boxDetail.sortOrder}
+            boxId={boxId}
           />
         </React.Fragment>
       ))}

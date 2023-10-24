@@ -4,17 +4,14 @@ import { useApprovalBoxManage } from '../../../contexts/ApprovalBoxManageContext
 import { useState, useEffect } from 'react';
 
 function BoxName(props) {
-  const [localBoxName, setLocalBoxName] = useState('');
+  const [localBoxName, setLocalBoxName] = useState(null);
   const { approvalBoxState, setApprovalBoxState, state } =
     useApprovalBoxManage();
 
   useEffect(() => {
-    setLocalBoxName(props.boxName); // props로 전달받은 boxName을 로컬 상태에 설정
-  }, [props.boxName]);
-
-  // approvalBoxState가 변경될 때마다 input 값을 초기화
-  useEffect(() => {
-    setLocalBoxName('');
+    if (state.count != 0) {
+      setLocalBoxName(null);
+    }
   }, [state.count]);
 
   const handleLocalInputChange = (e) => {
@@ -38,7 +35,7 @@ function BoxName(props) {
         <div>
           <input
             type="text"
-            value={localBoxName || ''}
+            value={localBoxName ? localBoxName : props.boxName}
             className={styled.inputstyle}
             onChange={handleLocalInputChange}
           />
