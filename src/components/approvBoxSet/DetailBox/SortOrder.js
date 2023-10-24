@@ -6,7 +6,8 @@ import { useEffect } from 'react';
 
 function SortOrder(props) {
   const [localSortOrder, setLocalSortOrder] = useState('');
-  const { approvalBoxState, setApprovalBoxState } = useApprovalBoxManage();
+  const { approvalBoxState, setApprovalBoxState, state } =
+    useApprovalBoxManage();
 
   useEffect(() => {
     setLocalSortOrder(props.boxName); // props로 전달받은 boxName을 로컬 상태에 설정
@@ -17,10 +18,14 @@ function SortOrder(props) {
     setLocalSortOrder(updatedName);
     setApprovalBoxState((prevState) => ({
       ...prevState,
-      boxName: updatedName,
+      sorOrder: updatedName,
     }));
     props.handleInputChange && props.handleInputChange(e);
   };
+
+  useEffect(() => {
+    setLocalSortOrder('');
+  }, [state.count]);
 
   return (
     <div className={styled.inputItem}>

@@ -4,11 +4,13 @@ import styled from '../../styles/pages/ApprovalBoxSetPage.module.css';
 import getCompanyList from '../../apis/commonAPI/getCompanyList';
 import getUserCompany from '../../apis/approvalBoxAPI/getUserCompany';
 import { getAuthrity } from '../../utils/getUser';
+import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 
 function Datalist({ onCompanyChange, selectedCompId, readonly, insertState }) {
   const authority = getAuthrity();
   const [selectedOption, setSelectedOption] = useState(null);
   const [companyOptions, setCompanyOptions] = useState([]);
+  const { state, setState } = useApprovalBoxManage();
 
   const customStyles = {
     control: (base) => ({
@@ -109,6 +111,10 @@ function Datalist({ onCompanyChange, selectedCompId, readonly, insertState }) {
       } else {
         setCompanyOptions(transformedData);
         setSelectedOption(selectedOptionFromCompId || transformedData[0]);
+        setState((prevState) => ({
+          ...prevState,
+          compId: transformedData[0],
+        }));
       }
     } else if (authority === '2') {
       transformedData = data.map((company) => ({

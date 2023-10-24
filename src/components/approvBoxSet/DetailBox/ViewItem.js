@@ -21,6 +21,12 @@ function ViewItem(props) {
   const [initDataItems, setInitDataItems] = useState([]);
 
   useEffect(() => {
+    setInitDataItems([]);
+    setViewItemsLocal([]);
+    setViewItemsLocal2([]);
+  }, [manageState.count]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const parsedBoxId = parseInt(props.boxId, BASE_RADIX);

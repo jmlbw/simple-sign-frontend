@@ -1,16 +1,21 @@
 import React from 'react';
 import styled from '../../../styles/pages/ApprovalBoxSetPage.module.css';
 import { useApprovalBoxManage } from '../../../contexts/ApprovalBoxManageContext';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 function BoxName(props) {
   const [localBoxName, setLocalBoxName] = useState('');
-  const { approvalBoxState, setApprovalBoxState } = useApprovalBoxManage();
+  const { approvalBoxState, setApprovalBoxState, state } =
+    useApprovalBoxManage();
 
   useEffect(() => {
     setLocalBoxName(props.boxName); // props로 전달받은 boxName을 로컬 상태에 설정
   }, [props.boxName]);
+
+  // approvalBoxState가 변경될 때마다 input 값을 초기화
+  useEffect(() => {
+    setLocalBoxName('');
+  }, [state.count]);
 
   const handleLocalInputChange = (e) => {
     const updatedName = e.target.value;

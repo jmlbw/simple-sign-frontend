@@ -4,6 +4,7 @@ const initialState = {
   boxId: null,
   insertStatus: 0,
   compId: null,
+  count: 0,
 };
 
 const approvalBoxInit = {

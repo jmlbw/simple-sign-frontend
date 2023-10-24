@@ -8,7 +8,6 @@ import BoxUseStatus from './DetailBox/BoxUseStatus';
 import MenuUseRange from './DetailBox/MenuUseRange';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 import SortOrder from './DetailBox/SortOrder';
-import { useLoading } from '../../contexts/LoadingContext';
 
 const commonCellStyle = {
   width: '30%',
@@ -24,7 +23,6 @@ const commonDataStyle = {
 
 function DetailBox() {
   const { state } = useApprovalBoxManage();
-  const { showLoading, hideLoading } = useLoading();
   const boxId = state.boxId;
   const [menuOption, setMenuOption] = useState('T');
   const [useStatus, setUseStatus] = useState(1);
@@ -52,7 +50,7 @@ function DetailBox() {
           setData([]);
           return;
         }
-        showLoading();
+
         const response = await getBoxDetail(parsedBoxId);
         setData(response.data);
         console.log(response.data);
@@ -61,7 +59,6 @@ function DetailBox() {
             response.data[0].approvalBoxUsedStatus === 1 ? '사용' : '미사용'
           );
           setMenuOption(response.data[0].menuUsingRange);
-          hideLoading();
         }
       } catch (error) {
         console.error('Error fetching box details:', error);
@@ -70,6 +67,11 @@ function DetailBox() {
 
     fetchData();
   }, [state.boxId]);
+
+  useEffect(() => {
+    setUseStatus('사용');
+    setMenuOption('T');
+  }, [state.count]);
 
   if (isNaN(boxId)) {
     return (
@@ -114,7 +116,6 @@ function DetailBox() {
             commonCellStyle={commonCellStyle}
             commonDataStyle={commonDataStyle}
             compId={boxDetail.compId}
-            boxId={boxId}
           />
           <BoxName
             commonCellStyle={commonCellStyle}

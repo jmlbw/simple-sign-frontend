@@ -121,7 +121,7 @@ function MenuUseRange(props) {
         scope: [], // 초기화
       }));
     }
-  }, [state.insertStatus]);
+  }, [state.insertStatus, state.count]);
 
   return (
     <div className={styled.inputItem}>
@@ -133,7 +133,7 @@ function MenuUseRange(props) {
       <div style={props.commonDataStyle}>
         <Radiobtn
           labels={['전체', '선택']}
-          values={['T', 'P']} // 여기에 values 추가
+          values={['T', 'P']}
           selectedOption={props.menuOption}
           onChange={handleMenuOptionChange}
         />
