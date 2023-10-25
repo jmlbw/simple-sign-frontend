@@ -114,6 +114,8 @@ export default function ReplyForm({ approval_doc_id }) {
                         replyId={data.replyId}
                         regdate={data.regDate}
                         content={data.replyContent}
+                        filePath={data.approvalFilePath}
+                        userName={data.userName}
                         index={index}
                         isSecondDept={false}
                         handleInsertReply={handleInsertReply}
@@ -146,10 +148,13 @@ export default function ReplyForm({ approval_doc_id }) {
                         user={data.orgUserId}
                         regdate={data.regDate}
                         content={data.replyContent}
+                        filePath={data.approvalFilePath}
+                        userName={data.userName}
                         groupNo={data.groupNo}
                         index={index}
                         groupOrd={data.groupOrd}
                         isSecondDept={true}
+                        getReply={getReply}
                       />
                     </>
                   );

@@ -11,7 +11,6 @@ import getIsEditReply from '../../../apis/approvalManageAPI/getIsEditReply';
 import deleteReply from '../../../apis/approvalManageAPI/deleteReply';
 import updateReply from '../../../apis/approvalManageAPI/updateReply';
 import errorHandle from '../../../apis/errorHandle';
-import { getProfile } from '../../../apis/userInfoAPl/getProfile';
 import { checkReplyCreateData } from '../../../validation/approvalManage/replySchema';
 
 const CustomButton = MUIStyled(Button)({
@@ -25,6 +24,8 @@ export default function ReplyDetail({
   replyId,
   regdate,
   content,
+  filePath,
+  userName,
   index,
   isSecondDept,
   handleInsertReply,
@@ -33,17 +34,6 @@ export default function ReplyDetail({
   const contentEditableRef = useRef(content);
   const [isEdit, setIsEdit] = useState(false);
   const [editedContent, setEditedContent] = useState(content);
-
-  const [profile, setProfile] = useState(null);
-  useEffect(() => {
-    getProfile()
-      .then((response) => {
-        setProfile(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   const updateHandler = () => {
     //권한가져오고 권한이 있으면 contentEditable로 바꿔주기
@@ -82,9 +72,9 @@ export default function ReplyDetail({
         updateReply(replyId, data)
           .then((res) => {
             if (res.status === 200) {
-              alert('댓글이 수정되었습니다.');
               getReply();
               setIsEdit(false);
+              alert('댓글이 수정되었습니다.');
             } else {
               errorHandle(res);
             }
@@ -123,7 +113,7 @@ export default function ReplyDetail({
     >
       {isSecondDept ? <div>ㄴ</div> : null}
       <div>
-        <Avatar alt="프로필" src={profile} />
+        <Avatar alt="프로필" src={filePath} />
       </div>
       <div style={{ flex: 1 }}>
         {' '}
@@ -136,9 +126,7 @@ export default function ReplyDetail({
         >
           <CardContent>
             <div className={styled.innerDisplay}>
-              <div style={{ float: 'left' }}>
-                {localStorage.getItem('userName')}
-              </div>{' '}
+              <div style={{ float: 'left' }}>{userName}</div>{' '}
               <div style={{ float: 'right' }}>{regdate}</div>
             </div>
             <br />
