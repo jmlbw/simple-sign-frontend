@@ -89,23 +89,29 @@ export default function ApprovalDetail() {
     });
   };
 
-  const approveHandler = () => {
+  const approveHandler = (mode) => {
     setPageState({ ...pageState, curPage: '결재상세' });
     showLoading();
     // 비밀번호 확인
     insertPassword(password)
       .then((passwordRes) => {
         if (passwordRes.status === 200) {
-          // 비밀번호가 일치하는 경우에만 결재 승인 수행
-          return insertApproval(location.search.split('=')[1]);
+          if (mode === '승인') {
+            // 비밀번호가 일치하는 경우에만 결재 승인 수행
+            return insertApproval(location.search.split('=')[1]);
+          } else if (mode === '반려') {
+            return insertReturn(location.search.split('=')[1]);
+          } else if (mode === '취소') {
+            return insertCancel(location.search.split('=')[1]);
+          }
         } else {
           errorHandle(passwordRes);
         }
       })
       .then((approvalRes) => {
         if (approvalRes.status === 200) {
-          alert('결재가 승인되었습니다.');
-          navigate(window.location.pathname, { replace: true });
+          alert(`결재가 ${mode}되었습니다.`);
+          getHasPermission();
         } else {
           errorHandle(approvalRes);
         }
@@ -115,72 +121,6 @@ export default function ApprovalDetail() {
       })
       .finally(() => {
         hideLoading();
-      });
-  };
-
-  const returnHandler = () => {
-    showLoading();
-    //비밀번호 확인
-    insertPassword(password)
-      .then((res) => {
-        if (res.status !== 200) {
-          errorHandle(res);
-        } else {
-          //결재반려
-          insertReturn(location.search.split('=')[1])
-            .then((res) => {
-              if (res.status === 200) {
-                alert('결재가 반려되었습니다.');
-              } else {
-                errorHandle(res);
-                hideLoading();
-              }
-            })
-            .catch((e) => {
-              alert('결재반려가 실패했습니다.');
-              hideLoading();
-            });
-        }
-      })
-      .catch((e) => {
-        alert('비밀번호가 일치하지 않습니다.');
-      })
-      .finally(() => {
-        hideLoading();
-        navigate(`/AD?page=${location.search.split('=')[1]}`);
-      });
-  };
-
-  const cancelHandler = () => {
-    showLoading();
-    //비밀번호 확인
-    insertPassword(password)
-      .then((res) => {
-        if (res.status !== 200) {
-          errorHandle(res);
-        } else {
-          //결재취소
-          insertCancel(location.search.split('=')[1])
-            .then((res) => {
-              if (res.status === 200) {
-                alert('결재가 취소되었습니다.');
-              } else {
-                errorHandle(res);
-                hideLoading();
-              }
-            })
-            .catch((e) => {
-              alert('결재취소가 실패했습니다.');
-              hideLoading();
-            });
-        }
-      })
-      .catch((e) => {
-        alert('비밀번호가 일치하지 않습니다.');
-      })
-      .finally(() => {
-        hideLoading();
-        navigate(`/AD?page=${location.search.split('=')[1]}`);
       });
   };
 
@@ -229,13 +169,7 @@ export default function ApprovalDetail() {
     {
       label: '반영',
       onClick: () => {
-        if (mode === '승인') {
-          approveHandler();
-        } else if (mode === '반려') {
-          returnHandler();
-        } else if (mode === '취소') {
-          cancelHandler();
-        }
+        approveHandler(mode);
         closeModal();
       },
       btnStyle: 'red_btn',
