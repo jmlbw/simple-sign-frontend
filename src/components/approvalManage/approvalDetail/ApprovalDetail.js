@@ -8,6 +8,7 @@ import PopUpFoot from '../../common/PopUpFoot';
 import insertApproval from '../../../apis/approvalManageAPI/insertApproval';
 import insertReturn from '../../../apis/approvalManageAPI/insertReturn';
 import insertCancel from '../../../apis/approvalManageAPI/insertCancel';
+import insertPassword from '../../../apis/approvalManageAPI/insertPassword';
 import deleteApprovalDoc from '../../../apis/approvalManageAPI/deleteApprovalDoc';
 import { useLoading } from '../../../contexts/LoadingContext';
 import ReplyForm from './ReplyForm';
@@ -19,6 +20,10 @@ import getHasUpdate from '../../../apis/approvalManageAPI/getHasUpdate';
 import getHasDelete from '../../../apis/approvalManageAPI/getHasDelete';
 import styled from '../../../styles/components/approvalManage/approvalDetail/ApprovalDetail.module.css';
 import errorHandle from '../../../apis/errorHandle';
+import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
+import ContentPasteOffOutlinedIcon from '@mui/icons-material/ContentPasteOffOutlined';
+import AssignmentReturnOutlinedIcon from '@mui/icons-material/AssignmentReturnOutlined';
+import { green, red, grey } from '@mui/material/colors';
 
 export default function ApprovalDetail() {
   const navigate = useNavigate();
@@ -33,6 +38,7 @@ export default function ApprovalDetail() {
   const [hasUpdate, setHasUpdate] = useState(false);
   const [hasDelete, setHasDelete] = useState(false);
   const [isTemporal, setIsTemporal] = useState(false);
+  const [password, setPassword] = useState('');
 
   const openModal = (mode) => {
     setIsModalOpen(true);
@@ -47,9 +53,13 @@ export default function ApprovalDetail() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const passwordChange = (e) => {
+    setPassword(e.target.value);
+  };
 
   useEffect(() => {
     getHasPermission();
+    console.log(location.search.split('=')[1]);
   }, []);
 
   //권한목록 가져와서 해당 사용자가 있으면 버튼 노출
@@ -82,19 +92,26 @@ export default function ApprovalDetail() {
   const approveHandler = () => {
     setPageState({ ...pageState, curPage: '결재상세' });
     showLoading();
-    //결재승인
-    insertApproval(location.search.split('=')[1])
-      .then((res) => {
-        if (res.status === 200) {
-          alert('결재가 승인되었습니다.');
+    // 비밀번호 확인
+    insertPassword(password)
+      .then((passwordRes) => {
+        if (passwordRes.status === 200) {
+          // 비밀번호가 일치하는 경우에만 결재 승인 수행
+          return insertApproval(location.search.split('=')[1]);
         } else {
-          errorHandle(res);
-          hideLoading();
+          errorHandle(passwordRes);
         }
       })
-      .catch((e) => {
-        alert('결재가 실패했습니다.');
-        hideLoading();
+      .then((approvalRes) => {
+        if (approvalRes.status === 200) {
+          alert('결재가 승인되었습니다.');
+          navigate(window.location.pathname, { replace: true });
+        } else {
+          errorHandle(approvalRes);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
       })
       .finally(() => {
         hideLoading();
@@ -103,39 +120,67 @@ export default function ApprovalDetail() {
 
   const returnHandler = () => {
     showLoading();
-    //결재반려
-    insertReturn(location.search.split('=')[1])
+    //비밀번호 확인
+    insertPassword(password)
       .then((res) => {
-        if (res.status === 200) {
-          alert('결재가 반려되었습니다.');
-        } else {
+        if (res.status !== 200) {
           errorHandle(res);
+        } else {
+          //결재반려
+          insertReturn(location.search.split('=')[1])
+            .then((res) => {
+              if (res.status === 200) {
+                alert('결재가 반려되었습니다.');
+              } else {
+                errorHandle(res);
+                hideLoading();
+              }
+            })
+            .catch((e) => {
+              alert('결재반려가 실패했습니다.');
+              hideLoading();
+            });
         }
       })
       .catch((e) => {
-        alert('결재반려를 실패했습니다.');
+        alert('비밀번호가 일치하지 않습니다.');
       })
       .finally(() => {
         hideLoading();
+        navigate(`/AD?page=${location.search.split('=')[1]}`);
       });
   };
 
   const cancelHandler = () => {
     showLoading();
-    //결재취소
-    insertCancel(location.search.split('=')[1])
+    //비밀번호 확인
+    insertPassword(password)
       .then((res) => {
-        if (res.status === 200) {
-          alert('결재가 취소되었습니다.');
-        } else {
+        if (res.status !== 200) {
           errorHandle(res);
+        } else {
+          //결재취소
+          insertCancel(location.search.split('=')[1])
+            .then((res) => {
+              if (res.status === 200) {
+                alert('결재가 취소되었습니다.');
+              } else {
+                errorHandle(res);
+                hideLoading();
+              }
+            })
+            .catch((e) => {
+              alert('결재취소가 실패했습니다.');
+              hideLoading();
+            });
         }
       })
       .catch((e) => {
-        alert('결재취소 실패.');
+        alert('비밀번호가 일치하지 않습니다.');
       })
       .finally(() => {
         hideLoading();
+        navigate(`/AD?page=${location.search.split('=')[1]}`);
       });
   };
 
@@ -254,8 +299,32 @@ export default function ApprovalDetail() {
           closeModal={closeModal}
           children={
             <>
-              <div>
-                <div>{mode}하시겠습니까?</div>
+              <div className={styled.popup}>
+                <div>
+                  {mode === '승인' ? (
+                    <InventoryOutlinedIcon
+                      sx={{ fontSize: 250, color: green['A700'] }}
+                    />
+                  ) : mode === '취소' ? (
+                    <AssignmentReturnOutlinedIcon
+                      sx={{ fontSize: 250, color: grey[800] }}
+                    />
+                  ) : (
+                    <ContentPasteOffOutlinedIcon
+                      sx={{ fontSize: 250, color: red[700] }}
+                    />
+                  )}
+                </div>
+                <div className={styled.font}>{mode}하시겠습니까?</div>
+
+                <div className={styled.password}>
+                  <label>비밀번호입력</label>
+                  <input
+                    type="password"
+                    className={styled.input}
+                    onChange={passwordChange}
+                  ></input>
+                </div>
               </div>
               <PopUpFoot buttons={BlueAndGrayBtn} />
             </>
