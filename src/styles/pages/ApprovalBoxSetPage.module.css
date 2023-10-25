@@ -121,18 +121,26 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  padding-bottom: 50px;
 }
 .viewItemList {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: fit-content;
+  height: 100%;
 }
 .viewitem {
   flex: 1;
-
-  border-bottom: 1px solid #dee2e5;
+  max-height: 50.2;
   display: flex;
+}
+.itemcontainer {
+  border: 3px solid transparent; /* 투명한 테두리 설정 */
+  transition: border-color 0.3s; /* 선택적: 부드러운 전환 효과를 위한 설정 */
+}
+.itemcontainer:hover {
+  border: 3px solid #ceebf6;
+  cursor: pointer;
 }
 .topViewItem {
   background-color: #f1f5f7;
@@ -144,6 +152,8 @@
   color: #343a40;
   font-weight: 600;
   padding: 0.85rem;
+  padding-right: 51.2px;
+  max-height: 50.2 !important;
 }
 .topCheckbox {
   background-color: #f1f5f7;
@@ -158,6 +168,7 @@
   align-items: center;
   justify-content: center;
   padding: 0.85rem;
+  max-height: 50.2 !important;
 }
 
 input[type='checkbox'] {
@@ -205,6 +216,7 @@ input[type='checkbox']:checked {
   font-size: 13.6px;
   color: #6c757d;
   padding: 0.85rem;
+  padding-right: 51.2px;
 }
 .submitBtn {
   display: flex;
