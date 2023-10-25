@@ -36,7 +36,6 @@ function ApprovalBoxList({ companyId }) {
     }));
     setApprovalBoxState((prevState) => ({
       ...prevState,
-      ...approvalBoxInit,
       approvalBoxId: boxId,
     }));
   }

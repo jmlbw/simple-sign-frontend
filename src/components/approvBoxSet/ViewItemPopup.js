@@ -4,6 +4,7 @@ import PopUp from '../common/PopUp';
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
 import Button from '../common/Button';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
+import PopUpFoot from '../common/PopUpFoot';
 
 function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
   const [selectAll, setSelectAll] = useState(false);
@@ -89,12 +90,29 @@ function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
     closeModal();
   };
 
+  const submitBtn = [
+    {
+      label: '반영',
+      onClick: () => {
+        handleSave();
+      },
+      btnStyle: 'blue_btn',
+    },
+    {
+      label: '취소',
+      onClick: () => {
+        closeModal();
+      },
+      btnStyle: 'light_btn',
+    },
+  ];
+
   return (
     <PopUp
       label={<GridViewRoundedIcon style={{ fontSize: '20px' }} />}
       title="조회항목 선택"
       width="400px"
-      height="440px"
+      height="500px"
       isModalOpen={isModalOpen}
       openModal={openModal}
       closeModal={closeModal}
@@ -131,14 +149,7 @@ function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
               ))}
             </div>
           </div>
-          <div className={styled.submitBtn}>
-            <div style={{ marginRight: '10px' }}>
-              <Button label="확인" onClick={handleSave} btnStyle="blue_btn" />
-            </div>
-            <div>
-              <Button label="취소" onClick={closeModal} btnStyle="light_btn" />
-            </div>
-          </div>
+          <PopUpFoot buttons={submitBtn} />
         </div>
       }
     />
