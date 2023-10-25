@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const initialState = {
-  isLoggedIn: null,
+  isLoggedIn: true,
 };
 
 const AppContext = createContext();
