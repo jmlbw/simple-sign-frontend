@@ -6,15 +6,7 @@ const initialState = {
 
 const AppContext = createContext();
 
-// function getCookie(name) {
-//   const value = ';' + document.cookie;
-//   const parts = value.split(';' + name + '=');
-//   return parts.pop().split(';')[0];
-// }
-
 export const AppProvider = ({ children }) => {
-  // const sessionCookie = getCookie('LOGIN_COOKIE');
-
   const [state, setState] = useState(initialState);
 
   return (
