@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -25,6 +25,8 @@ import { usePage } from './contexts/PageContext';
 import UserInfo from './pages/UserInfo';
 import UpdateUserInfo from './pages/UpdateUserInfo';
 import checkUserAuthority from './utils/checkUserAuthority';
+import axios from 'axios';
+import base_url from './apis/base_url';
 
 function getCookie(name) {
   const value = ';' + document.cookie;
@@ -34,26 +36,38 @@ function getCookie(name) {
 
 function AppContent() {
   const { state, setState } = useContext(AppContext);
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { state: pageState, setState: setPageState } = usePage();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const getname = queryParams.get('name');
 
-  //로그인이 되지 않으면 로그인 페이지로
-  useEffect(() => {
-    if (!state.isLoggedIn) {
-      navigate('/login');
-    }
-  }, [state.isLoggedIn]);
+  //const [login, setLogin] = useState(); //appContext 리렌더링을 위한 상태값
 
+  let loginValue = getCookie('LOGIN_COOKIE');
+  //세션 확인 후 쿠키값 삭제 요청 api
   useEffect(() => {
-    setState({ isLoggedIn: getCookie('LOGIN_COOKIE') });
-  }, [pageState, document.cookie]);
+    const checkLoginStatus = async () => {
+      try {
+        const response = await axios(`${base_url}/login/checkout`);
+        if (response.status === 200) {
+          setState({ ...state, isLoggedIn: true });
+        }
+      } catch (err) {
+        document.cookie =
+          'LOGIN_COOKIE=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        localStorage.clear();
+        setState({ ...state, isLoggedIn: false });
+        //setLogin(false);
+      }
+    };
+
+    checkLoginStatus();
+  }, [location.pathname]); //경로가 변경될 때 마다 요청을 보냄
 
   return (
     <>
-      {state.isLoggedIn ? ( //로그인이 되었을 때 모든 페이지
+      {loginValue || state.isLoggedIn ? ( //로그인이 되었을 때 모든 페이지
         <>
           <Header />
           <Sidebar />
@@ -72,7 +86,10 @@ function AppContent() {
                   path="/EAM"
                   element={checkUserAuthority(2, <FormManagePage />)}
                 />
-                <Route path="/ABS" element={<ApprovalBoxSetPage />} />
+                <Route
+                  path="/ABS"
+                  element={checkUserAuthority(2, <ApprovalBoxSetPage />)}
+                />
                 <Route path="/ABV" element={<ApprovalBoxViewPage />} />
                 <Route
                   path="/SAM"
