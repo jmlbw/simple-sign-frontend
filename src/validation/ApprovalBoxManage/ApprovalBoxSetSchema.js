@@ -2,9 +2,10 @@ import { object, string, number, array } from 'yup';
 
 const checkBoxCreateData = (data) => {
   console.log(data);
-  return boxCreateSchema.validate(data);
+  return docSearchSchema.validate(data);
 };
-const boxCreateSchema = object().shape({
+
+const docSearchSchema = object().shape({
   sortOrder: number()
     .nullable()
     .notRequired()
@@ -14,7 +15,7 @@ const boxCreateSchema = object().shape({
       return String(num).length <= 5;
     }),
   viewItems: array()
-    .required('조회항목을 선택해 주세요')
+    .min(1, '조회항목을 선택해 주세요')
     .test('unique', '중복된 항목이 있습니다', (list) => {
       if (!list) return true;
 
@@ -22,8 +23,7 @@ const boxCreateSchema = object().shape({
       return set.size === list.length;
     }),
   approvalBoxName: string()
-    .required('명칭을 입력해 주세요.')
-    .min(1, '명칭은 최소 1글자입니다.')
+    .min(1, '명칭을 입력해 주세요')
     .max(50, '명칭은 최대 50글자입니다.'),
 
   compId: number(),

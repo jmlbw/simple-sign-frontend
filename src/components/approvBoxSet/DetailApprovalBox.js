@@ -33,7 +33,6 @@ function DetailApprovalBox() {
         state.insertStatus === 0 &&
         approvalBoxState.approvalBoxId != null
       ) {
-        console.log('검사 : ', approvalBoxState2);
         await checkBoxCreateData(approvalBoxState2); // 유효성 검사
         if (approvalBoxState.menuUsingRange === 'P') {
           await checkBoxUseDeptData(approvalBoxState2);

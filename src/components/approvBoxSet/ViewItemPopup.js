@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from '../../styles/pages/ApprovalBoxSetPage.module.css';
 import PopUp from '../common/PopUp';
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
-import Button from '../common/Button';
 import { useApprovalBoxManage } from '../../contexts/ApprovalBoxManageContext';
 import PopUpFoot from '../common/PopUpFoot';
 
@@ -68,6 +67,13 @@ function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
     const newCheckboxStates = { ...checkboxStates };
     newCheckboxStates[itemName] = !newCheckboxStates[itemName];
     setCheckboxStates(newCheckboxStates);
+
+    // 모든 체크박스가 체크되어 있는지 확인
+    const allChecked = Object.values(newCheckboxStates).every(
+      (value) => value === true
+    );
+
+    setSelectAll(allChecked);
   };
 
   const handleSave = () => {
@@ -92,18 +98,18 @@ function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
 
   const submitBtn = [
     {
-      label: '반영',
-      onClick: () => {
-        handleSave();
-      },
-      btnStyle: 'blue_btn',
-    },
-    {
       label: '취소',
       onClick: () => {
         closeModal();
       },
       btnStyle: 'light_btn',
+    },
+    {
+      label: '반영',
+      onClick: () => {
+        handleSave();
+      },
+      btnStyle: 'blue_btn',
     },
   ];
 
@@ -112,7 +118,7 @@ function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
       label={<GridViewRoundedIcon style={{ fontSize: '20px' }} />}
       title="조회항목 선택"
       width="400px"
-      height="500px"
+      height="480px"
       isModalOpen={isModalOpen}
       openModal={openModal}
       closeModal={closeModal}
@@ -120,7 +126,7 @@ function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
       btnWidth="30px"
       btnHeihgt="30px"
       children={
-        <div>
+        <div style={{ height: '100%' }}>
           <div className={styled.viewItemContainer}>
             <div className={styled.viewItemList}>
               <div className={styled.viewitem}>
@@ -135,16 +141,23 @@ function ViewItemPopup({ checkedItems, currentViewItems, onSave }) {
                 <div className={styled.topViewItem}>조회항목</div>
               </div>
               {Object.keys(checkboxStates).map((itemName, index) => (
-                <div className={styled.viewitem} key={index}>
-                  <div className={styled.checkbox}>
-                    <input
-                      type="checkbox"
-                      value={itemName}
-                      checked={checkboxStates[itemName]}
-                      onChange={() => handleCheckboxChange(itemName)}
-                    />
+                <div className={styled.itemcontainer} key={index}>
+                  <div className={styled.viewitem}>
+                    <div className={styled.checkbox}>
+                      <input
+                        type="checkbox"
+                        value={itemName}
+                        checked={checkboxStates[itemName]}
+                        onChange={() => handleCheckboxChange(itemName)}
+                      />
+                    </div>
+                    <div
+                      className={styled.itemName}
+                      onClick={() => handleCheckboxChange(itemName)}
+                    >
+                      {itemName}
+                    </div>
                   </div>
-                  <div className={styled.itemName}>{itemName}</div>
                 </div>
               ))}
             </div>
