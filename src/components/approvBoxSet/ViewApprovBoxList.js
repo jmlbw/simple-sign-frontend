@@ -25,13 +25,22 @@ function ViewApprovalBoxList() {
       ...prevState,
       boxId: undefined,
       insertStatus: 1,
+      count: prevState.count + 1,
     }));
     setInitDataState((prevState) => ({
       //조직도
       initData,
     }));
     setApprovalBoxState((prevState) => ({
-      approvalBoxInit,
+      ...prevState,
+      approvalBoxId: approvalBoxInit.approvalBoxId,
+      approvalBoxName: approvalBoxInit.approvalBoxName,
+      approvalBoxUsedStatus: approvalBoxInit.approvalBoxUsedStatus,
+      boxUseDept: approvalBoxInit.boxUseDept,
+      compId: approvalBoxInit.compId,
+      menuUsingRange: approvalBoxInit.menuUsingRange,
+      sortOrder: approvalBoxInit.sortOrder,
+      viewItems: approvalBoxInit.viewItems,
     }));
   };
 
