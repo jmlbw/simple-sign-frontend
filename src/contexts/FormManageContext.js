@@ -26,6 +26,7 @@ const detailInitState = {
   defaultForm: '',
   mainForm: '',
   status: '',
+  approvalLineStatus: 0,
   approvalLine: [],
   formExplain: '',
 };
@@ -46,7 +47,10 @@ const FormManageProvider = ({ children }) => {
     setDetailData({
       ...detailInitState,
       code: '',
-      compId: setData.compList[0].id,
+      compId:
+        setData.compList[0].id === 0
+          ? setData.compList[1].id
+          : setData.compList[0].id,
       compName: setData.compList[0].name,
       status: 1,
     });
