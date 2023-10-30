@@ -71,23 +71,32 @@ const TitleBox = ({ title }) => {
   );
 };
 
-const SelectBox = ({ id, data, dataHandler }) => {
-  console.log('test', data);
-  const [selectedOption, setSelectedOption] = useState(data[0]);
-  data = data.map((ele) => {
+const SelectBox = ({ id, data, dataHandler, init = 0 }) => {
+  let initIndex = 0;
+  data = data.map((ele, index) => {
+    if (ele.id === init) {
+      initIndex = index;
+    }
     ele.value = ele.id;
     ele.label = ele.name;
     return ele;
   });
-  console.log('test1', data);
+
+  useEffect(() => {
+    setSelectedOption(data[initIndex]);
+  }, [initIndex]);
+
+  const [selectedOption, setSelectedOption] = useState(data[0]);
+
   return (
     <div className={styled.dataBox}>
       <Select
         defaultValue={data[0]}
         value={selectedOption}
         onChange={(selectedOption) => {
+          console.log(selectedOption);
           setSelectedOption(selectedOption);
-          dataHandler(id, selectedOption.value);
+          dataHandler(id, selectedOption.value, selectedOption.label);
         }}
         options={data}
         isSearchable={true}
@@ -167,13 +176,13 @@ const FileBox = ({ id, name, data, dataHandler }) => {
   };
 
   const grayAndBlueBtn = [
-    {
+    /*{
       label: '미리보기',
       onClick: () => {
         openPreviewWindow(formData);
       },
       btnStyle: 'popup_gray_btn',
-    },
+    },*/
     {
       label: '반영',
       onClick: () => {
@@ -219,7 +228,7 @@ const FileBox = ({ id, name, data, dataHandler }) => {
                   curForm={formData}
                   formItems={formItems}
                   setFormItems={setFormItems}
-                  requiredItems={required}
+                  requiredItems={id === 'defaultForm' ? required : []}
                   isModalOpen={isModalOpen}
                 />
                 <PopUpFoot buttons={grayAndBlueBtn} />
