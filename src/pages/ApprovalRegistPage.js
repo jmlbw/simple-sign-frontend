@@ -9,6 +9,7 @@ import insertApprovalDoc from '../apis/approvalManageAPI/insertApprovalDoc';
 import errorHandle from '../apis/errorHandle';
 import { checkFormCreateData } from '../validation/approvalManage/approvalFormSchema';
 import { useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 export default function ApprovalRegist(props) {
   const { id } = useParams();
@@ -30,8 +31,8 @@ export default function ApprovalRegist(props) {
   //register 데이터
   const [main_form, setMainForm] = useState('');
   const [sequence_code, setSequenceCode] = useState('');
-  const [drafting_time, setDraftingTime] = useState(moment());
-  const [enforce_date, setEnforceDate] = useState(moment());
+  const [drafting_time, setDraftingTime] = useState(dayjs(moment()));
+  const [enforce_date, setEnforceDate] = useState(dayjs(moment()));
   const divRef = useRef(null);
   const titleRef = useRef(null); //제목
   const [rec_ref, setRecRef] = useState([]); //수신참조
@@ -43,15 +44,23 @@ export default function ApprovalRegist(props) {
     if (status) {
       openModal();
     }
-  }, []);
+    console.log(drafting_time);
+  }, [drafting_time]);
 
   const openModal = () => {
-    setIsModalOpen(true);
+    setIsModalOpen(true); //////////////??? 초기화 안됨..
   };
   const closeModal = () => {
     setFiles([]);
     setFileNames([]);
     setIsModalOpen(false);
+    setMainForm('');
+    titleRef.current = null;
+    setSequenceCode('');
+    setOrgUseId([]);
+    setRecRef([]);
+    setDraftingTime(dayjs(moment()));
+    setEnforceDate(dayjs(moment()));
   };
 
   const dataHandler = (data) => {
@@ -64,12 +73,6 @@ export default function ApprovalRegist(props) {
 
   const handleSelectBoxChange = (newValue) => {
     setSequenceCode(newValue);
-  };
-  const handleDraftingTime = (newValue) => {
-    setDraftingTime(newValue);
-  };
-  const handleEnforcementTime = (newValue) => {
-    setEnforceDate(newValue);
   };
 
   // const extractTableData = () => {
@@ -249,8 +252,10 @@ export default function ApprovalRegist(props) {
               dataHandler={dataHandler}
               editorHandler={editorHandler}
               handleSelectBoxChange={handleSelectBoxChange}
-              handleDraftingTime={handleDraftingTime}
-              handleEnforcementTime={handleEnforcementTime}
+              drafting_time={drafting_time}
+              setDraftingTime={setDraftingTime}
+              enforce_date={enforce_date}
+              setEnforceDate={setEnforceDate}
               files={files}
               fileNames={fileNames}
               setFiles={setFiles}
