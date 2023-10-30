@@ -155,15 +155,15 @@ const FileBox = ({ id, name, data, dataHandler }) => {
   const [formItems, setFormItems] = useState([]);
   const required = [1, 6, 10];
 
-  let previewWindow = null;
-  const openPreviewWindow = (data) => {
-    previewWindow = window.open('', 'Preview', 'width=565,height=800');
-    previewWindow.document.write(
-      '<html><head><title>미리보기</title></head><body>'
-    );
-    previewWindow.document.write(data);
-    previewWindow.document.write('</body></html>');
-  };
+  // let previewWindow = null;
+  // const openPreviewWindow = (data) => {
+  //   previewWindow = window.open('', 'Preview', 'width=565,height=800');
+  //   previewWindow.document.write(
+  //     '<html><head><title>미리보기</title></head><body>'
+  //   );
+  //   previewWindow.document.write(data);
+  //   previewWindow.document.write('</body></html>');
+  // };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -176,13 +176,6 @@ const FileBox = ({ id, name, data, dataHandler }) => {
   };
 
   const grayAndBlueBtn = [
-    /*{
-      label: '미리보기',
-      onClick: () => {
-        openPreviewWindow(formData);
-      },
-      btnStyle: 'popup_gray_btn',
-    },*/
     {
       label: '반영',
       onClick: () => {
