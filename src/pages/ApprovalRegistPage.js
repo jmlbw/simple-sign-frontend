@@ -10,6 +10,12 @@ import errorHandle from '../apis/errorHandle';
 import { checkFormCreateData } from '../validation/approvalManage/approvalFormSchema';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarRateIcon from '@mui/icons-material/StarRate';
+import { yellow } from '@mui/material/colors';
+import insertFavorites from '../apis/approvalManageAPI/insertFavorites';
+import deleteFavorites from '../apis/approvalManageAPI/deleteFavorites';
+import getFavorites from '../apis/approvalManageAPI/getFavorites';
 
 export default function ApprovalRegist(props) {
   const { id } = useParams();
@@ -39,6 +45,7 @@ export default function ApprovalRegist(props) {
   const [org_use_list, setOrgUseId] = useState([]); //결재라인
   const [files, setFiles] = useState([]);
   const [fileNames, setFileNames] = useState([]);
+  const [clickStar, setClickStar] = useState(props.favorites);
 
   useEffect(() => {
     if (status) {
@@ -90,6 +97,16 @@ export default function ApprovalRegist(props) {
   //   });
   //   return data;
   // };
+
+  const handleClickStar = () => {
+    setClickStar(!clickStar);
+
+    if (clickStar) {
+      deleteFavorites(props.form_code);
+    } else if (clickStar === false) {
+      insertFavorites(props.form_code);
+    }
+  };
 
   const handleClick = (state) => {
     showLoading();
@@ -223,7 +240,7 @@ export default function ApprovalRegist(props) {
   ];
 
   return (
-    <>
+    <div className={styled.container}>
       <PopUp
         label={
           <div>
@@ -269,6 +286,13 @@ export default function ApprovalRegist(props) {
         openModal={openModal}
         closeModal={closeModal}
       ></PopUp>
-    </>
+      <div className={styled.star} onClick={handleClickStar}>
+        {clickStar ? (
+          <StarRateIcon sx={{ color: yellow[500] }} fontSize="large" />
+        ) : (
+          <StarBorderIcon sx={{ color: yellow[500] }} fontSize="large" />
+        )}
+      </div>
+    </div>
   );
 }
