@@ -156,7 +156,7 @@ function ViewDocBox() {
           {docData
             .filter(
               (docItem) =>
-                !(state.selectSortDate === '종결일' && docItem.endDate === null)
+                !(state.selectSortDate === 4 && docItem.endDate === null)
             )
             .map((docItem) => (
               <DocItem
@@ -164,16 +164,16 @@ function ViewDocBox() {
                 docNumber={docItem.approvalDocId}
                 formName={docItem.formName}
                 date={
-                  state.selectSortDate === '기안일'
+                  state.selectSortDate === 1
                     ? docItem.sendDate
-                    : state.selectSortDate === '도착일' &&
+                    : state.selectSortDate === 2 &&
                       viewItems.includes('reference')
                     ? docItem.sendDate
-                    : state.selectSortDate === '도착일'
+                    : state.selectSortDate === 2
                     ? docItem.receiveDate
-                    : state.selectSortDate === '종결일'
+                    : state.selectSortDate === 4
                     ? docItem.endDate
-                    : state.selectSortDate === '결재일'
+                    : state.selectSortDate === 3
                     ? docItem.approvalDate
                     : docItem.sendDate // 기본값을 기안일로 설정했습니다.
                 }
