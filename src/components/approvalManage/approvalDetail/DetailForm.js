@@ -8,6 +8,8 @@ import { useLoading } from '../../../contexts/LoadingContext';
 import { getSign, getApproverSign } from '../../../apis/userInfoAPl/getSign';
 import styled from '../../../styles/components/approvalManage/approvalDetail/DetailForm.module.css';
 import errorHandle from '../../../apis/errorHandle';
+import downloadFile from '../../../apis/approvalManageAPI/downloadFile';
+import getFileNames from '../../../apis/approvalManageAPI/getFileNames';
 
 export default function DetailForm(props) {
   const navigate = useNavigate();
@@ -23,7 +25,35 @@ export default function DetailForm(props) {
   const [receiveRefOpt, setReceiveRefOpt] = useState('');
   const { showLoading, hideLoading } = useLoading();
   const [customSign, setCustomSign] = useState('');
+  const [files, setFiles] = useState([]);
 
+  const download = (filePath) => {
+    showLoading();
+    downloadFile(filePath)
+      .then((res) => {
+        if (res.status === 200) {
+          return res.blob();
+        } else {
+          errorHandle(res);
+        }
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = filePath;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+      .finally(() => {
+        hideLoading();
+      });
+  };
   useEffect(() => {
     showLoading();
     //문서상세조회
@@ -31,7 +61,7 @@ export default function DetailForm(props) {
       .then((res) => {
         if (res.status === 200) {
           return res.json().then((data) => {
-            console.log(data);
+            //console.log(data);
             setDefaultForm(data.defaultForm);
             setUserName(data.userName);
             setDeptName(data.deptName);
@@ -51,7 +81,6 @@ export default function DetailForm(props) {
           navigate(`/`);
         }
       })
-
       .catch(() => {
         alert('문서를 찾을 수 없습니다');
         hideLoading();
@@ -61,19 +90,35 @@ export default function DetailForm(props) {
         hideLoading();
       });
 
+    //파일 조회
+    getFileNames(props.approval_doc_id)
+      .then((res) => {
+        setFiles(res);
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+      .finally(() => {
+        hideLoading();
+      });
+
     deleteContentEditableError();
   }, []);
 
   const renderApproval = (approval) => {
+    // console.log(approval);
     if (
       approval &&
       approval.approvalStatus === 'A' &&
-      approval.signState === 0
+      approval.signFileId === 0
     ) {
       return (
         <>
           <div>
             <DefaultSign name={approval.user} />
+          </div>
+          <div className={styled.approvalDate}>
+            결재일:{approval.approvalDate}
           </div>
           {approval.user}
         </>
@@ -81,9 +126,9 @@ export default function DetailForm(props) {
     } else if (
       approval &&
       approval.approvalStatus === 'A' &&
-      approval.signState === 1
+      approval.signFileId !== 0
     ) {
-      getApproverSign(approval.userId)
+      getApproverSign(approval.signFileId)
         .then((response) => {
           setCustomSign(response.data);
         })
@@ -95,18 +140,54 @@ export default function DetailForm(props) {
           <div>
             <img className={styled.custom_sign} src={customSign} alt="사인" />
           </div>
+          <div className={styled.approvalDate}>
+            결재일:{approval.approvalDate}
+          </div>
           {approval.user}
         </>
       );
-    } else if (approval && approval.approvalStatus === 'R') {
+    } else if (
+      approval &&
+      approval.approvalStatus === 'R' &&
+      approval.signFileId === 0
+    ) {
+      return (
+        <div className={styled.container}>
+          <DefaultSign name={approval.user} />
+          <div className={styled.returnSticker}>반려</div>
+          <div className={styled.approvalDate}>
+            반려일:{approval.approvalDate}
+          </div>
+          {approval.user}
+        </div>
+      );
+    } else if (
+      approval &&
+      approval.approvalStatus === 'R' &&
+      approval.signFileId !== 0
+    ) {
+      getApproverSign(approval.signFileId)
+        .then((response) => {
+          setCustomSign(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       return (
         <>
-          <div className={styled.reject}>반려</div>
+          <div>
+            <img className={styled.custom_sign} src={customSign} alt="사인" />
+          </div>
+          <div className={styled.returnSticker}>반려</div>
+          {/* <div className={styled.reject}>반려</div> */}
+          <div className={styled.approvalDate}>
+            반려일:{approval.approvalDate}
+          </div>
           {approval.user}
         </>
       );
     } else if (approval) {
-      return approval.user;
+      return <>{approval.user}</>;
     }
   };
 
@@ -117,35 +198,39 @@ export default function DetailForm(props) {
           replace: (domNode) => {
             if (domNode.attribs && domNode.attribs.id == 'approval_line') {
               return (
-                <div id="approval_line">
-                  <table
-                    border={'1px solid'}
-                    style={{ width: '100%', borderCollapse: 'collapse' }}
-                  >
-                    <tr style={{ height: '20px' }}>
-                      <td>결재자1</td>
-                      <td>결재자2</td>
-                      <td>결재자3</td>
-                      <td>결재자4</td>
-                      <td>결재자5</td>
-                      <td>결재자6</td>
-                      <td>결재자7</td>
-                      <td>결재자8</td>
-                    </tr>
-                    <tr style={{ height: '70px' }}>
-                      {[...Array(8)].map((_, index) => (
-                        <td
-                          style={{
-                            textAlign: 'center',
-                          }}
-                          key={index}
-                        >
-                          {renderApproval(approval_line[index])}
-                        </td>
-                      ))}
-                    </tr>
-                  </table>
-                </div>
+                <table
+                  border={'1px solid'}
+                  style={{
+                    width: '100%',
+                    borderCollapse: 'collapse',
+                    height: '100%',
+                  }}
+                >
+                  <tr style={{ height: '20px' }}>
+                    <td>결재자1</td>
+                    <td>결재자2</td>
+                    <td>결재자3</td>
+                    <td>결재자4</td>
+                    <td>결재자5</td>
+                    <td>결재자6</td>
+                    <td>결재자7</td>
+                    <td>결재자8</td>
+                  </tr>
+                  <tr>
+                    {[...Array(8)].map((_, index) => (
+                      <td
+                        style={{
+                          textAlign: 'center',
+                          width: '12.5%',
+                          height: '70px',
+                        }}
+                        key={index}
+                      >
+                        {renderApproval(approval_line[index])}
+                      </td>
+                    ))}
+                  </tr>
+                </table>
               );
             }
             if (domNode.attribs && domNode.attribs.id === 'doc_num') {
@@ -224,6 +309,17 @@ export default function DetailForm(props) {
             }
           },
         })}
+      </div>
+
+      <div>
+        {files.map((ele) => (
+          <div key={ele.id}>
+            <span>{ele.fileName}</span>
+            <button onClick={() => download(ele.downloadFilePath)}>
+              다운로드
+            </button>
+          </div>
+        ))}
       </div>
     </>
   );
