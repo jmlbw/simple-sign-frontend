@@ -70,7 +70,6 @@ export default function FormEdit({
     `;
     dataHandler(template);
     editor.setContent(template);
-    console.log('default');
   };
 
   useEffect(() => {
