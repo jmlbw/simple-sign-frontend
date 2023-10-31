@@ -100,24 +100,15 @@ export default function ApprovalDetail() {
         if (passwordRes.status === 200) {
           if (mode === '승인') {
             // 비밀번호가 일치하는 경우에만 결재 승인 수행
-            setState((prevState) => ({
-              ...prevState,
-              apprvalState: 'send',
-            }));
+            localStorage.setItem('approvalState', 'send');
 
             return insertApproval(approvalDocId);
           } else if (mode === '반려') {
-            setState((prevState) => ({
-              ...prevState,
-              apprvalState: 'reject',
-            }));
+            localStorage.setItem('approvalState', 'reject');
 
             return insertReturn(approvalDocId);
           } else if (mode === '취소') {
-            setState((prevState) => ({
-              ...prevState,
-              apprvalState: 'cancel',
-            }));
+            localStorage.setItem('approvalState', 'cancel');
             return insertCancel(approvalDocId);
           }
         } else {

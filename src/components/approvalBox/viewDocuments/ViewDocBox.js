@@ -27,6 +27,22 @@ function ViewDocBox() {
   const viewItems = viewItemsString ? viewItemsString.split(',') : [];
   const { state: pageState, setState: setPageState } = usePage();
 
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'approvalState') {
+        const newValue = localStorage.getItem('approvalState');
+        console.log('받아온 스토리지 값 : ', newValue);
+        setState((prevState) => ({ ...prevState, approvalState: newValue }));
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [state]);
+
   const navigate = useNavigate();
 
   const handleItemClick = async (docId) => {
@@ -139,6 +155,7 @@ function ViewDocBox() {
     state.radioSortValue,
     state.isReadDoc,
     state.sortStatus,
+    state.approvalState,
   ]);
 
   useEffect(() => {

@@ -121,7 +121,7 @@ function Sidebar() {
     };
 
     fetchData();
-  }, [state.isReadDoc]);
+  }, [state.isReadDoc, state.approvalState, state.isReadDoc]);
 
   const authorityManage = (value) => {
     if (value == 'user') {
