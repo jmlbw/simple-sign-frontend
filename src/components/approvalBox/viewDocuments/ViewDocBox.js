@@ -62,7 +62,7 @@ function ViewDocBox() {
         } catch (validationError) {
           alert(validationError.message); // 유효성 검사 오류를 alert 창으로 띄웁니다.
           hideLoading();
-          return; // 이후 코드 실행을 중지하고 함수를 종료합니다.
+          return;
         }
 
         // 검사 후 데이터 가져오기
@@ -70,10 +70,17 @@ function ViewDocBox() {
           viewItems,
           10,
           offset,
-          detailSearchState
+          detailSearchState,
+          state.sortStatus
         );
       } else {
-        response = await getDocsList(viewItems, 10, offset, state.searchInput);
+        response = await getDocsList(
+          viewItems,
+          10,
+          offset,
+          state.searchInput,
+          state.sortStatus
+        );
       }
 
       hideLoading();
@@ -129,6 +136,7 @@ function ViewDocBox() {
     page,
     state.radioSortValue,
     state.isReadDoc,
+    state.sortStatus,
   ]);
 
   useEffect(() => {
@@ -182,12 +190,12 @@ function ViewDocBox() {
                 docStatus={docItem.docStatus}
                 sendDepartDetail={docItem.deptName}
                 lastUser={
-                  docItem.docStatus === 'A' || docItem.docStatus === 'R'
-                    ? docItem.endUser
+                  docItem.docStatus === 'A' ||
+                  docItem.docStatus === 'R' ||
+                  docItem.docStatus === 'P'
+                    ? docItem.lastUser
                     : docItem.docStatus === 'W'
                     ? docItem.userName
-                    : docItem.docStatus === 'P'
-                    ? docItem.approver
                     : ''
                 }
                 isRead={

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '../../../styles/components/ApprovalBox/ViewDocBox.module.css';
 import { useApprovalBox } from '../../../contexts/ApprovalBoxContext';
 import { useLocation } from 'react-router-dom';
-import SelectBox from '../../common/Selectbox';
 import { SelectComp } from '../../formManage/searchBox/components/SearchItem';
 import { useEffect } from 'react';
+import { RiSortDesc, RiSortAsc } from 'react-icons/ri';
 
 const OPTIONS = {
   pend: [
@@ -33,7 +33,15 @@ const OPTIONS = {
 };
 
 function TableHeader() {
-  const { state = { topSelectSortDate: '' }, setState } = useApprovalBox();
+  const { state = { topSelectSortDate: '', sortStatus: 'desc' }, setState } =
+    useApprovalBox();
+
+  const toggleSortDirection = () => {
+    setState((prevState) => ({
+      ...prevState,
+      sortStatus: prevState.sortStatus === 'asc' ? 'desc' : 'asc',
+    }));
+  };
 
   const location = useLocation(); // URL의 위치 정보를 얻음
   const queryParams = new URLSearchParams(location.search);
@@ -100,6 +108,9 @@ function TableHeader() {
     <div className={styled.tableheader}>
       <div className={styled.titleAndcontents}>
         <span className={styled.title1}>{setDatename()}</span>
+        <span className={styled.sortbtn} onClick={toggleSortDirection}>
+          {state.sortStatus === 'asc' ? <RiSortAsc /> : <RiSortDesc />}
+        </span>
         <span className={styled.title2}>제목/문서번호</span>
         <span className={styled.title3}>기안자/기안부서</span>
         <span className={styled.title4}>

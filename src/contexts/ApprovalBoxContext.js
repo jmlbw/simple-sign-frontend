@@ -10,6 +10,7 @@ const initialState = {
   selectSortDate: '',
   topSelectSortDate: '',
   rowSelectSortDate: '',
+  sortStatus: 'desc',
   rerender: false,
   isReadDoc: '',
   docView: [],
