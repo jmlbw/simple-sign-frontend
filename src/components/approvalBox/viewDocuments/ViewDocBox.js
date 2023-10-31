@@ -30,11 +30,9 @@ function ViewDocBox() {
   const navigate = useNavigate();
 
   const handleItemClick = async (docId) => {
-    setState((prevState) => ({ ...prevState, isReadDoc: docId }));
-    navigate(`/AD?page=${docId}`);
     if (viewItems.includes('reference')) {
       try {
-        //클릭된 문서 ID를 state.docView 배열에 추가
+        // 클릭된 문서 ID를 state.docView 배열에 추가
         if (!state.docView.includes(docId)) {
           setState((prevState) => ({
             ...prevState,
@@ -45,8 +43,12 @@ function ViewDocBox() {
         await insertDocView(docId);
       } catch (error) {
         console.error('Error inserting document view:', error);
+        return;
       }
     }
+
+    const popupOptions = 'width=1200,height=700,left=100,top=100';
+    window.open(`/AD?page=${docId}&popup=true`, '_blank', popupOptions);
   };
 
   const fetchData = async () => {

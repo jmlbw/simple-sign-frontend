@@ -14,6 +14,7 @@ const initialState = {
   rerender: false,
   isReadDoc: '',
   docView: [],
+  approvalState: '',
 };
 
 const detailSearchInitState = {
