@@ -133,6 +133,17 @@ export default function SeqDetailTable() {
     setDetailData({ ...detailData, [id]: data });
   };
 
+  const compDataUpdateHandler = (id, data, label) => {
+    setDetailData({
+      ...detailData,
+      deptScope:
+        data !== 0
+          ? [{ category: 'C', compId: data, company: label, useId: data }]
+          : [],
+      [id]: data,
+    });
+  };
+
   const deptScopefilterHandler = (id, category, useId) => {
     let filetedData = detailData.deptScope.filter((ele) => {
       if (ele.category === category && ele.useId === useId) {
@@ -185,9 +196,16 @@ export default function SeqDetailTable() {
               <SelectBox
                 id={'compId'}
                 data={setData.compList.filter((ele) => {
-                  return ele.id > 0;
+                  if (ele.id === 0) {
+                    ele.name = '그룹';
+                    ele.label = '그룹';
+                  }
+                  return ele;
                 })}
-                dataHandler={dataUpdateHandler}
+                // data={setData.compList.filter((ele) => {
+                //   return ele.id > 0;
+                // })}
+                dataHandler={compDataUpdateHandler}
               />
             ) : (
               <InputBox
@@ -222,7 +240,14 @@ export default function SeqDetailTable() {
       <DetailBox
         children={
           <>
-            <TitleBox title={'대상부서'} />
+            <TitleBox
+              title={
+                <>
+                  <span className={styled.notnull}>*</span>
+                  {'대상부서'}
+                </>
+              }
+            />
             <AreaBox
               id={'deptScope'}
               data={detailData.deptScope}
@@ -247,7 +272,14 @@ export default function SeqDetailTable() {
       <DetailBox
         children={
           <>
-            <TitleBox title={'대상양식'} />
+            <TitleBox
+              title={
+                <>
+                  <span className={styled.notnull}>*</span>
+                  {'대상양식'}
+                </>
+              }
+            />
             <AreaBox
               id={'formScope'}
               data={detailData.formScope}
