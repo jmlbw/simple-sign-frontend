@@ -87,7 +87,7 @@ const FormManageProvider = ({ children }) => {
   };
 
   const resetDetailData = () => {
-    setDetailData(detailInitState);
+    detailDataInit();
     setFlagData(0);
   };
 

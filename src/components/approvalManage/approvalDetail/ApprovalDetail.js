@@ -23,7 +23,6 @@ import InventoryOutlinedIcon from '@mui/icons-material/InventoryOutlined';
 import ContentPasteOffOutlinedIcon from '@mui/icons-material/ContentPasteOffOutlined';
 import AssignmentReturnOutlinedIcon from '@mui/icons-material/AssignmentReturnOutlined';
 import { green, red, grey } from '@mui/material/colors';
-import { useApprovalBox } from '../../../contexts/ApprovalBoxContext';
 
 export default function ApprovalDetail() {
   const navigate = useNavigate();
@@ -38,7 +37,6 @@ export default function ApprovalDetail() {
   const [hasDelete, setHasDelete] = useState(false);
   const [isTemporal, setIsTemporal] = useState(false);
   const [password, setPassword] = useState('');
-  const { state, setState } = useApprovalBox();
 
   const queryParams = new URLSearchParams(location.search);
   const approvalDocId = queryParams.get('page');

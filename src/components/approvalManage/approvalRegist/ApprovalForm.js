@@ -21,9 +21,7 @@ export default function ApprovalForm({
   form_code,
   main_form,
   setMainForm,
-  divRef,
   titleRef,
-  rec_ref,
   setRecRef,
   org_use_list,
   setOrgUseId,
@@ -38,6 +36,9 @@ export default function ApprovalForm({
   fileNames,
   setFiles,
   setFileNames,
+  isFocused,
+  setIsFocused,
+  setDefaultApprovalLine,
 }) {
   const [sequence, setSequence] = useState([]);
   const [default_form, setDefaultForm] = useState('');
@@ -45,7 +46,6 @@ export default function ApprovalForm({
   const [condition, setCondition] = useState('rec_ref');
   const { showLoading, hideLoading } = useLoading();
   const { detailData, setDetailData, resetDetailData } = useFormManage();
-  const userOrgList = JSON.parse(localStorage.getItem('userOrgList'));
   const deptName = localStorage.getItem('deptName');
 
   const openModal = () => {
@@ -78,6 +78,13 @@ export default function ApprovalForm({
     setDetailData({ ...detailData, [id]: filetedData });
   };
 
+  const handleFocus = () => {
+    setIsFocused(true);
+    if (titleRef.current.textContent === '제목을 입력하세요') {
+      titleRef.current.textContent = '';
+    }
+  };
+
   useEffect(() => {
     //수신참조 내역 넣기
     setRecRef(detailData.scope);
@@ -106,6 +113,7 @@ export default function ApprovalForm({
     //기본결재라인 조회
     getDefaultApprovalLine(form_code).then((res) => {
       setOrgUseId(res);
+      setDefaultApprovalLine(res);
     });
 
     deleteContentEditableError();
@@ -206,8 +214,14 @@ export default function ApprovalForm({
               }
               if (domNode.attribs && domNode.attribs.id == 'form_title') {
                 return (
-                  <div id="form_title" contentEditable="true" ref={titleRef}>
-                    제목을 입력하세요
+                  <div
+                    id="form_title"
+                    contentEditable="true"
+                    ref={titleRef}
+                    className={isFocused ? '' : styled.placeholder}
+                    onFocus={handleFocus}
+                  >
+                    {isFocused ? '' : '제목을 입력하세요'}
                   </div>
                 );
               }
@@ -256,11 +270,6 @@ export default function ApprovalForm({
                   </>
                 );
               }
-              if (domNode.attribs && domNode.attribs.id == 'enforcer') {
-                return (
-                  <div id="enforcer" contentEditable="true" ref={divRef}></div>
-                );
-              }
               if (domNode.attribs && domNode.attribs.id == 'content') {
                 return (
                   <div id="content" className={styled.editor}>
@@ -268,6 +277,7 @@ export default function ApprovalForm({
                       init={main_form}
                       editorHandler={editorHandler}
                       dataHandler={dataHandler}
+                      resetEditor={true}
                     />
                   </div>
                 );

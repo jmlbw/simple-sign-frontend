@@ -13,12 +13,15 @@ export default function ReplyForm({ approval_doc_id }) {
   const [showReplyTextarea, setShowReplyTextarea] = useState([false]);
   const replyRefs = useRef([]);
   const upperReplyRef = useRef(null);
+  const [files, setFiles] = useState([]);
+  const [fileNames, setFileNames] = useState([]);
 
   const handleInsertReply = (index) => {
     const updatedShowReplyTextarea = [...showReplyTextarea]; // showReplyTextarea 배열 복사
     updatedShowReplyTextarea[index] = true; // 원하는 index 위치의 값을 변경
     setShowReplyTextarea(updatedShowReplyTextarea); // 업데이트된 배열을 상태로 설정
   };
+
   const handleReplyInsert = (upperReplyId, index, groupNo) => {
     let content = '';
     if (upperReplyId !== null) {
@@ -27,13 +30,26 @@ export default function ReplyForm({ approval_doc_id }) {
       content = upperReplyRef.current.value;
     }
 
-    const data = {
+    const replyData = {
       approvalDocId: approval_doc_id,
       upperReplyId: upperReplyId,
       replyContent: content,
       groupNo: groupNo,
     };
-    checkReplyCreateData(data)
+
+    const data = new FormData();
+
+    data.append(
+      'replyReqDTO',
+      new Blob([JSON.stringify(replyData)], {
+        type: 'application/json',
+      })
+    );
+    files.forEach((file, index) => {
+      data.append('files', file.object);
+    });
+
+    checkReplyCreateData(replyData)
       .then(() => {
         insertLowerReply(data)
           .then((res) => {
@@ -97,6 +113,10 @@ export default function ReplyForm({ approval_doc_id }) {
           replyId={null}
           groupNo={null}
           handleReplyInsert={handleReplyInsert}
+          files={files}
+          setFiles={setFiles}
+          fileNames={fileNames}
+          setFileNames={setFileNames}
         />
       </div>
       <div className={styled.subReplyContainer}>
@@ -120,6 +140,8 @@ export default function ReplyForm({ approval_doc_id }) {
                         isSecondDept={false}
                         handleInsertReply={handleInsertReply}
                         getReply={getReply}
+                        files={files}
+                        setFiles={setFiles}
                       />
                       <div
                         replyId={data.replyId}
@@ -135,6 +157,10 @@ export default function ReplyForm({ approval_doc_id }) {
                           replyId={data.replyId}
                           groupNo={data.groupNo}
                           handleReplyInsert={handleReplyInsert}
+                          files={files}
+                          setFiles={setFiles}
+                          fileNames={fileNames}
+                          setFileNames={setFileNames}
                         />
                       </div>
                     </>
