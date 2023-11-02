@@ -38,6 +38,7 @@ export default function ApprovalDetail() {
   const [isTemporal, setIsTemporal] = useState(false);
   const [password, setPassword] = useState('');
   const [formName, setFormName] = useState('');
+  const [reload, setReload] = useState(false);
 
   const queryParams = new URLSearchParams(location.search);
   const approvalDocId = queryParams.get('page');
@@ -61,7 +62,7 @@ export default function ApprovalDetail() {
 
   useEffect(() => {
     getHasPermission();
-  }, []);
+  }, [reload]);
 
   //권한목록 가져와서 해당 사용자가 있으면 버튼 노출
   const getHasPermission = () => {
@@ -119,6 +120,7 @@ export default function ApprovalDetail() {
       .then((approvalRes) => {
         if (approvalRes.status === 200) {
           alert(`결재가 ${mode}되었습니다.`);
+          setReload(!reload);
           //window.location.reload();
         } else {
           errorHandle(approvalRes);
@@ -207,6 +209,7 @@ export default function ApprovalDetail() {
                 approval_doc_id={approvalDocId}
                 setIsTemporal={setIsTemporal}
                 setFormName={setFormName}
+                reload={reload}
               />
               <div className={styled.updateAndDeleteBtn}>
                 {hasUpdate ? (

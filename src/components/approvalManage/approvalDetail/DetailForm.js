@@ -104,7 +104,7 @@ export default function DetailForm(props) {
       });
 
     deleteContentEditableError();
-  }, []);
+  }, [props.reload]);
 
   const renderApproval = (approval) => {
     // console.log(approval);
