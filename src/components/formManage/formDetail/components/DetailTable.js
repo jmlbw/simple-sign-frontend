@@ -27,12 +27,16 @@ export default function DetailTable() {
   const compDataUpdateHandler = (id, data, label) => {
     setDetailData({
       ...detailData,
-      scope: [{ category: 'C', compId: data, company: label, useId: data }],
+      scope:
+        label !== 'Group'
+          ? [{ category: 'C', compId: data, company: label, useId: data }]
+          : [],
       [id]: data,
     });
   };
 
   const scopeConfirm = (data) => {
+    console.log('scope:', data);
     setDetailDataById('scope', data);
   };
 
