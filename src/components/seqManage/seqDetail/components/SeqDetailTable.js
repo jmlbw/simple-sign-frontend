@@ -93,6 +93,8 @@ export default function SeqDetailTable() {
         })
         .filter((ele) => ele !== undefined);
       setSeqList([...result]);
+    } else {
+      setSeqList([]);
     }
   }, [detailData.seqString]);
 
