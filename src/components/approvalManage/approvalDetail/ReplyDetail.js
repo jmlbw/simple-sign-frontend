@@ -33,8 +33,6 @@ export default function ReplyDetail({
   isSecondDept,
   handleInsertReply,
   getReply,
-  files,
-  setFiles,
 }) {
   const contentEditableRef = useRef(content);
   const [isEdit, setIsEdit] = useState(false);
@@ -73,8 +71,6 @@ export default function ReplyDetail({
   };
 
   const updateContentHandler = (replyId) => {
-    // console.log(editedContent);
-    // console.log(replyId);
     const data = {
       replyContent: editedContent,
     };

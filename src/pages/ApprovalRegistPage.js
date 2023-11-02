@@ -48,6 +48,7 @@ export default function ApprovalRegist(props) {
   const [clickStar, setClickStar] = useState(props.favorites);
   const [isFocused, setIsFocused] = useState(false);
   const { resetDetailData } = useFormManage();
+  const [formName, setFormName] = useState('');
 
   useEffect(() => {
     if (status) {
@@ -260,7 +261,7 @@ export default function ApprovalRegist(props) {
         btnStyle={'popup_non_btn'}
         width="1300px"
         height="800px"
-        title="결재작성상세"
+        title={formName}
         children={
           <>
             <ApprovalForm
@@ -285,6 +286,7 @@ export default function ApprovalRegist(props) {
               isFocused={isFocused}
               setIsFocused={setIsFocused}
               setDefaultApprovalLine={setDefaultApprovalLine}
+              setFormName={setFormName}
             />
 
             <PopUpFoot buttons={BlueAndGrayBtn} />
