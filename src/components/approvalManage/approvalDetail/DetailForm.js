@@ -10,6 +10,7 @@ import styled from '../../../styles/components/approvalManage/approvalDetail/Det
 import errorHandle from '../../../apis/errorHandle';
 import downloadFile from '../../../apis/approvalManageAPI/downloadFile';
 import getFileNames from '../../../apis/approvalManageAPI/getFileNames';
+import Button from '../../common/Button';
 
 export default function DetailForm(props) {
   const navigate = useNavigate();
@@ -194,7 +195,7 @@ export default function DetailForm(props) {
 
   return (
     <>
-      <div>
+      <div className={styled.detailformContainer}>
         {ReactHtmlParser(default_form, {
           replace: (domNode) => {
             if (domNode.attribs && domNode.attribs.id == 'approval_line') {
@@ -312,13 +313,15 @@ export default function DetailForm(props) {
         })}
       </div>
 
-      <div>
+      <div className={styled.downloadFile}>
         {files.map((ele) => (
           <div key={ele.id}>
-            <span>{ele.fileName}</span>
-            <button onClick={() => download(ele.downloadFilePath)}>
-              다운로드
-            </button>
+            <span style={{ paddingRight: '5px' }}>{ele.fileName}</span>
+            <Button
+              onClick={() => download(ele.downloadFilePath)}
+              btnStyle="light_btn"
+              label={'다운로드'}
+            ></Button>
           </div>
         ))}
       </div>
