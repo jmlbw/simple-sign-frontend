@@ -256,7 +256,7 @@ export default function SeqDetailTable() {
                   openModal={openDeptModal}
                   closeModal={closeDeptModal}
                   confirmHandler={deptScopeConfirm}
-                  comp={detailData.compId}
+                  comp={detailData.compId > 1 ? detailData.compId : 0}
                 />
               }
             />
