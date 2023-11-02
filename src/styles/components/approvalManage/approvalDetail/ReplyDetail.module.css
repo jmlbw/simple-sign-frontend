@@ -49,3 +49,13 @@
 .div {
   text-align: left;
 }
+.downloadFile {
+  margin-top: 7px;
+  font-size: 12px;
+  color: #adb5bd;
+  font-size: 12px;
+}
+.Filepath {
+  display: flex;
+  align-items: center;
+}

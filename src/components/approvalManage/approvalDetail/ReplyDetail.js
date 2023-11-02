@@ -15,6 +15,8 @@ import { checkReplyCreateData } from '../../../validation/approvalManage/replySc
 import downloadFile from '../../../apis/approvalManageAPI/downloadFile';
 import { useLoading } from '../../../contexts/LoadingContext';
 import getReplyFileNames from '../../../apis/approvalManageAPI/getReplyFileNames';
+import { BiDownload } from 'react-icons/bi';
+import Buttons from '../../common/Button';
 
 const CustomButton = MUIStyled(Button)({
   width: '0.5em',
@@ -214,14 +216,21 @@ export default function ReplyDetail({
             ) : (
               <div className={styled.div}>{content}</div>
             )}
-            <div>
+            <div className={styled.downloadFile}>
               {filesData.replyId === replyId
                 ? filesData.object.map((ele, id) => (
-                    <div key={ele.id}>
-                      <span>{ele.fileName}</span>
-                      <button onClick={() => download(ele.downloadFilePath)}>
-                        다운로드
-                      </button>
+                    <div key={ele.id} className={styled.Filepath}>
+                      <span style={{ paddingRight: '5px' }}>
+                        첨부파일 : {ele.fileName}
+                      </span>
+                      <Buttons
+                        onClick={() => download(ele.downloadFilePath)}
+                        btnStyle="nonstyle_btn"
+                        fontSize="28px"
+                        height="28px"
+                        width="28px"
+                        label={<BiDownload size="29px"></BiDownload>}
+                      ></Buttons>
                     </div>
                   ))
                 : null}

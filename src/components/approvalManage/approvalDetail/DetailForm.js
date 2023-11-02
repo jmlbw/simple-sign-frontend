@@ -11,6 +11,7 @@ import errorHandle from '../../../apis/errorHandle';
 import downloadFile from '../../../apis/approvalManageAPI/downloadFile';
 import getFileNames from '../../../apis/approvalManageAPI/getFileNames';
 import Button from '../../common/Button';
+import { BiDownload } from 'react-icons/bi';
 
 export default function DetailForm(props) {
   const navigate = useNavigate();
@@ -315,12 +316,17 @@ export default function DetailForm(props) {
 
       <div className={styled.downloadFile}>
         {files.map((ele) => (
-          <div key={ele.id}>
-            <span style={{ paddingRight: '5px' }}>{ele.fileName}</span>
+          <div key={ele.id} className={styled.Filepath}>
+            <span style={{ paddingRight: '5px', fontSize: '14px' }}>
+              첨부파일 : {ele.fileName}
+            </span>
             <Button
               onClick={() => download(ele.downloadFilePath)}
-              btnStyle="light_btn"
-              label={'다운로드'}
+              btnStyle="nonstyle_btn"
+              fontSize="30px"
+              height="30px"
+              width="30px"
+              label={<BiDownload size="30px" />}
             ></Button>
           </div>
         ))}

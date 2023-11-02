@@ -257,3 +257,19 @@
   background-color: #5a4eb3;
   border-color: #5046a0;
 }
+
+.nonstyle_btn {
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  border: 0;
+  border-radius: 2px;
+  background-color: white;
+  border: none;
+  color: #98a6ad;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s, border 0.3s;
+}
