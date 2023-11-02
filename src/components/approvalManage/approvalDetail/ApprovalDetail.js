@@ -37,6 +37,7 @@ export default function ApprovalDetail() {
   const [hasDelete, setHasDelete] = useState(false);
   const [isTemporal, setIsTemporal] = useState(false);
   const [password, setPassword] = useState('');
+  const [formName, setFormName] = useState('');
 
   const queryParams = new URLSearchParams(location.search);
   const approvalDocId = queryParams.get('page');
@@ -196,7 +197,7 @@ export default function ApprovalDetail() {
     <>
       <div className={styled.detailContainer}>
         <InnerBox
-          text={'결재문서상세페이지'}
+          text={formName}
           width={'100%'}
           height={'100%'}
           titleChildren={returnTitleComponent()}
@@ -205,6 +206,7 @@ export default function ApprovalDetail() {
               <DetailForm
                 approval_doc_id={approvalDocId}
                 setIsTemporal={setIsTemporal}
+                setFormName={setFormName}
               />
               <div className={styled.updateAndDeleteBtn}>
                 {hasUpdate ? (
