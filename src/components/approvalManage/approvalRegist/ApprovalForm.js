@@ -39,6 +39,7 @@ export default function ApprovalForm({
   isFocused,
   setIsFocused,
   setDefaultApprovalLine,
+  setFormName,
 }) {
   const [sequence, setSequence] = useState([]);
   const [default_form, setDefaultForm] = useState('');
@@ -98,8 +99,10 @@ export default function ApprovalForm({
     //양식 상세조회
     getForm(form_code)
       .then((json) => {
+        //console.log(json);
         setDefaultForm(json.defaultForm);
         setMainForm(json.mainForm);
+        setFormName(json.formName);
       })
       .finally(() => {
         hideLoading();

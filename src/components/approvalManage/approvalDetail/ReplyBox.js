@@ -19,10 +19,17 @@ export default function ReplyBox({
   setFiles,
   fileNames,
   setFileNames,
+  inputValue,
+  setInputValue,
 }) {
   return (
     <div>
-      <CustomTextArea placeholder="댓글을 입력하세요" ref={replyRef} />
+      <CustomTextArea
+        placeholder="댓글을 입력하세요"
+        ref={replyRef}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
       <Button
         className={styled.insertBoxArea}
         label={'등록'}
