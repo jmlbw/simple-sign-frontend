@@ -5,7 +5,26 @@
 }
 
 .insertBoxArea {
-  margin-top: 20px;
-  margin-left: 30px;
   display: flex;
+}
+
+.replycontainer {
+  width: 100%;
+  background-color: #f1f5f7;
+  padding: 1.5rem !important;
+  display: flex;
+  flex-direction: row;
+  border-radius: 0.25rem;
+}
+
+.replycontainer textarea {
+  min-height: 36px;
+  width: 95%;
+  border: none;
+  font-size: 0.9rem;
+  border-radius: 0.25rem;
+}
+.btnarea {
+  flex: 1;
+  padding-left: 30px;
 }

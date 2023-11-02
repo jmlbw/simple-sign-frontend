@@ -193,7 +193,7 @@ export default function DetailForm(props) {
 
   return (
     <>
-      <div>
+      <div className={styled.detailformContainer}>
         {ReactHtmlParser(default_form, {
           replace: (domNode) => {
             if (domNode.attribs && domNode.attribs.id == 'approval_line') {
@@ -311,7 +311,7 @@ export default function DetailForm(props) {
         })}
       </div>
 
-      <div>
+      <div className={styled.detailformContainer}>
         {files.map((ele) => (
           <div key={ele.id}>
             <span>{ele.fileName}</span>

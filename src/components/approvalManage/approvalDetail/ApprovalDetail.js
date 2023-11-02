@@ -226,7 +226,7 @@ export default function ApprovalDetail() {
               </div>
               {isTemporal ? null : (
                 <>
-                  <hr></hr>
+                  <hr style={{ marginLeft: '15px', marginRight: '15px' }}></hr>
                   <ReplyForm approval_doc_id={approvalDocId} />
                 </>
               )}
