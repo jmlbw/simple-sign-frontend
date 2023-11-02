@@ -44,21 +44,9 @@ const SeqManageProvider = ({ children }) => {
   const [seqItems, setSeqItems] = useState(setInitSeqItems);
 
   const createDetailData = () => {
-    let compId = setData.compList[0].id;
-    // setData.compList[0].id === 0
-    //   ? setData.compList[1].id
-    //   : setData.compList[0].id;
-    let deptScope =
-      setData.compList[0].id == 0
-        ? []
-        : [
-            {
-              category: 'C',
-              compId: setData.compList[0].id,
-              company: setData.compList[0].name,
-              useId: setData.compList[0].id,
-            },
-          ];
+    let compId = setData.compList[1].id;
+    let deptScope = [];
+
     console.log(compId, deptScope);
     setFlagData(1);
     setDetailData({

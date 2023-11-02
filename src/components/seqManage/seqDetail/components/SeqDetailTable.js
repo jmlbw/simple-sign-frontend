@@ -137,7 +137,7 @@ export default function SeqDetailTable() {
     setDetailData({
       ...detailData,
       deptScope:
-        data !== 0
+        data !== 'Group'
           ? [{ category: 'C', compId: data, company: label, useId: data }]
           : [],
       [id]: data,
@@ -196,15 +196,8 @@ export default function SeqDetailTable() {
               <SelectBox
                 id={'compId'}
                 data={setData.compList.filter((ele) => {
-                  if (ele.id === 0) {
-                    ele.name = '그룹';
-                    ele.label = '그룹';
-                  }
-                  return ele;
+                  return ele.id > 0;
                 })}
-                // data={setData.compList.filter((ele) => {
-                //   return ele.id > 0;
-                // })}
                 dataHandler={compDataUpdateHandler}
               />
             ) : (
