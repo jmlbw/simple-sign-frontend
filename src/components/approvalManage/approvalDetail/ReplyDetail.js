@@ -183,7 +183,14 @@ export default function ReplyDetail({
                 >
                   수정
                 </CustomButton>
-                <span style={{ color: '#6c757d', fontSize: '14px' }}>|</span>
+                <span
+                  style={{
+                    color: '#ced4da',
+                    fontSize: '13px',
+                  }}
+                >
+                  |
+                </span>
                 <CustomButton
                   size="small"
                   onClick={() => {

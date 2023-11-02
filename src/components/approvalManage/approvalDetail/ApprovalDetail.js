@@ -135,18 +135,18 @@ export default function ApprovalDetail() {
 
   const returnTitleComponent = () => {
     return hasPermission ? (
-      <>
+      <div className={styled.permissionAndrejectBtn}>
         <Button
           label={'승인'}
-          btnStyle={'red_btn'}
+          btnStyle={'green_btn'}
           onClick={() => openModal('approve')}
         />
         <Button
           label={'반려'}
-          btnStyle={'green_btn'}
+          btnStyle={'red_btn'}
           onClick={() => openModal('return')}
         />
-      </>
+      </div>
     ) : hasApproval ? (
       <Button
         label={'결재취소'}
@@ -199,6 +199,7 @@ export default function ApprovalDetail() {
       <div className={styled.detailContainer}>
         <InnerBox
           text={'결재문서상세페이지'}
+          marginLeft={'10px'}
           width={'100%'}
           height={'100%'}
           titleChildren={returnTitleComponent()}
@@ -212,14 +213,14 @@ export default function ApprovalDetail() {
                 {hasUpdate ? (
                   <Button
                     label={'문서수정'}
-                    btnStyle={'red_btn'}
+                    btnStyle={'white_btn'}
                     onClick={updateHandler}
                   />
                 ) : null}
                 {hasDelete ? (
                   <Button
                     label={'문서삭제'}
-                    btnStyle={'green_btn'}
+                    btnStyle={'dark_btn'}
                     onClick={deleteHandler}
                   />
                 ) : null}
