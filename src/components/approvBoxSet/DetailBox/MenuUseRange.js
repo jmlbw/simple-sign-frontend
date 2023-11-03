@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import OrgChart from '../../org/OrgChart';
 import getBoxUseDept from '../../../apis/approvalBoxAPI/getBoxUseDept';
 import AreaBox from './AreaBox';
+import { getAuthrity, getCompId } from '../../../utils/getUser';
 
 function MenuUseRange(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +21,9 @@ function MenuUseRange(props) {
     setDetailData,
     state,
   } = useApprovalBoxManage();
+
+  const authority = getAuthrity();
+  const compId = getCompId();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -177,6 +181,7 @@ function MenuUseRange(props) {
                   openModal={openModal}
                   closeModal={closeModal}
                   confirmHandler={scopeConfirm}
+                  comp={authority === '1' ? 0 : compId}
                 />
               }
             />
