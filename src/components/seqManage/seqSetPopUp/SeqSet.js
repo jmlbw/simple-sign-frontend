@@ -22,6 +22,9 @@ export default function SeqSet({ seqItems, seqList, setSeqList }) {
 
   const addselectedRows = () => {
     let data = { ...leftSelectedRow, id: selectedCount };
+    if (data.value === '자리수') {
+      data.value = '자리수 2자리';
+    }
     setSeqList([...seqList, data]);
     selectedCount++;
   };
