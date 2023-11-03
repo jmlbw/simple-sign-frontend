@@ -50,7 +50,6 @@ function MenuUseRange(props) {
             user: item.user || '',
             userId: item.userId || '',
           }));
-          console.log(dataWithIds);
 
           setApprovalBoxState2((prevState) => ({
             ...prevState,
