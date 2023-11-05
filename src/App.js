@@ -108,7 +108,10 @@ function AppContent() {
                   path="/ABS"
                   element={checkUserAuthority(2, <ApprovalBoxSetPage />)}
                 />
-                <Route path="/ABV" element={<ApprovalBoxViewPage />} />
+                <Route
+                  path="/ABV"
+                  element={checkUserAuthority(3, <ApprovalBoxViewPage />)}
+                />
                 <Route
                   path="/SAM"
                   element={checkUserAuthority(2, <SeqManagePage />)}
