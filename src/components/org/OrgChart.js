@@ -97,6 +97,7 @@ export default function OrgChart({
         useId: 0,
         user: '',
         userId: 0,
+        approvalStatus: '',
       };
       if (
         (view === 'user' || view === 'approvalUser') &&
@@ -117,6 +118,7 @@ export default function OrgChart({
           establishment: row.establishment,
           compId: row.compId,
           company: row.company,
+          approvalStatus: row.approvalStatus,
         };
       } else if (row.deptId && row.department) {
         return {

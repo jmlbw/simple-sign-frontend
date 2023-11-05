@@ -164,6 +164,19 @@ export default function ApprovalDetail() {
           onClick={() => openModal('cancelApproval')}
         />
       </div>
+    ) : hasPermission ? (
+      <div className={styled.permissionAndrejectBtn}>
+        <Button
+          label={'승인'}
+          btnStyle={'green_btn'}
+          onClick={() => openModal('approve')}
+        />
+        <Button
+          label={'반려'}
+          btnStyle={'red_btn'}
+          onClick={() => openModal('return')}
+        />
+      </div>
     ) : hasCancelApproval ? (
       <Button
         label={'상신취소'}
