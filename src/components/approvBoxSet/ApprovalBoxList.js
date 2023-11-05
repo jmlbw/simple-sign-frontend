@@ -98,6 +98,7 @@ function ApprovalBoxList({ companyId, searchQuery }) {
             height="200px"
             isModalOpen={isModalOpen}
             closeModal={closeModal}
+            backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
             openModal={() => {
               setSelectedBoxId(item.approvalBoxId);
               openModal();
@@ -110,7 +111,7 @@ function ApprovalBoxList({ companyId, searchQuery }) {
                 정말로 삭제하시겠습니까?
                 <div style={{ marginTop: '40px' }}>
                   <Button
-                    btnStyle="gray_btn"
+                    btnStyle="light_btn"
                     label="취소"
                     onClick={closeModal}
                   />
