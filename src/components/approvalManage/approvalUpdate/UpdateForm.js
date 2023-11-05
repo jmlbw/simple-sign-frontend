@@ -313,7 +313,6 @@ export default function UpdateForm({
               );
             }
             if (domNode.attribs && domNode.attribs.id == 'content') {
-              console.log(contents);
               return (
                 <div id="content" className={styled.editor}>
                   <TinyEditor
