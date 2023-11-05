@@ -8,7 +8,7 @@ import deleteApprovalBox from '../../apis/approvalBoxAPI/deleteApprovalBox';
 import PopUp from '../common/PopUp';
 import Button from '../common/Button';
 
-function ApprovalBoxList({ companyId }) {
+function ApprovalBoxList({ companyId, searchQuery }) {
   const {
     state,
     setState,
@@ -19,6 +19,7 @@ function ApprovalBoxList({ companyId }) {
   const [selectedBoxId, setSelectedBoxId] = useState(null);
   const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filteredData, setFilteredData] = useState([]); // 검색된 데이터를 관리
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -51,9 +52,9 @@ function ApprovalBoxList({ companyId }) {
     }
   };
 
-  const deleteBtnHandler = async () => {
+  const deleteBtnHandler = async (boxId) => {
     try {
-      await deleteApprovalBox(selectedBoxId);
+      await deleteApprovalBox(boxId);
       closeModal();
       fetchApprovalBoxList(); // 삭제 후 새로운 목록 가져오기
     } catch (error) {
@@ -65,9 +66,16 @@ function ApprovalBoxList({ companyId }) {
     fetchApprovalBoxList();
   }, [companyId, state.insertStatus, state.saveStatus]);
 
+  useEffect(() => {
+    const newFilteredData = data.filter((item) =>
+      item.approvalBoxName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredData(newFilteredData);
+  }, [searchQuery, data]);
+
   return (
     <div>
-      {data.map((item) => (
+      {filteredData.map((item) => (
         <div key={item.approvalBoxId} className={styled.itemBox}>
           <div className={styled.iconimg}>
             <BiSolidFolder style={{ fontSize: '18px', color: '#f7b84b' }} />
