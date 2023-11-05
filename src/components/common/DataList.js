@@ -49,7 +49,6 @@ export default function DataList({
       });
       setSelectionCheckModel(result);
     }
-    console.log('selected:', selectionCheckModel);
   }, [detailData]);
 
   return (
