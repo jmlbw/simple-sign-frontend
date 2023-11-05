@@ -79,7 +79,6 @@ function AppContent() {
               view={pageState.isApprovalBox ? 'approval' : ''}
               componentProp={
                 <>
-                  {console.log(pageState.curPage)}
                   {pageState.curPage === '기안양식관리' ? (
                     <Button
                       label={'추가'}
