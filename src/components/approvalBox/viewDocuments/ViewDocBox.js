@@ -31,7 +31,6 @@ function ViewDocBox() {
   useEffect(() => {
     const handleStorageChange = (event) => {
       if (event.key === 'approvalState') {
-        console.log('받아온 스토리지 값 : ', event.newValue);
         setState((prevState) => ({
           ...prevState,
           approvalState: event.newValue,
@@ -197,7 +196,7 @@ function ViewDocBox() {
             <div className={styled.noDocumentsIcon}>
               <CiFileOff />
             </div>
-            <div className={styled.noDocuments}>No document found.</div>
+            <div className={styled.noDocuments}>조회된 데이터가 없습니다.</div>
           </div>
         ) : (
           <div className={styled.docList}>
