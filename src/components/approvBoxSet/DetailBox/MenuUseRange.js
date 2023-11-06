@@ -12,7 +12,6 @@ import AreaBox from './AreaBox';
 import { getAuthrity, getCompId } from '../../../utils/getUser';
 
 function MenuUseRange(props) {
-  console.log('회사아이디 : ', props.selectedCompany);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     approvalBoxState,
@@ -22,6 +21,7 @@ function MenuUseRange(props) {
     setDetailData,
     state,
   } = useApprovalBoxManage();
+  const [selectedCompany, setSelectedCompany] = useState();
 
   const authority = getAuthrity();
   const compId = getCompId();
@@ -83,6 +83,13 @@ function MenuUseRange(props) {
       menuUsingRange: props.menuOption,
     }));
   }, [props.menuOption]);
+
+  useEffect(() => {
+    setDetailData((prevState) => ({
+      ...prevState,
+      scope: [], // 초기화
+    }));
+  }, [props.selectedCompany]);
 
   const openModal = () => {
     setIsModalOpen(true);
