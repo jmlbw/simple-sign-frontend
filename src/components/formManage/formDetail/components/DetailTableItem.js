@@ -85,7 +85,7 @@ const SelectBox = ({ id, data, dataHandler, init = 0 }) => {
 
   useEffect(() => {
     setSelectedOption(data[initIndex]);
-  }, [initIndex, data]);
+  }, [initIndex]);
 
   const [selectedOption, setSelectedOption] = useState(data[0]);
   return (
