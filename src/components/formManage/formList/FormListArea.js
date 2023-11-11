@@ -8,10 +8,10 @@ import Button from '../../common/Button';
 import delForm from '../../../apis/formManageAPI/delForm';
 import getDefaultApprovalLine from '../../../apis/formManageAPI/getDefaultApprovalLine';
 import { useLoading } from '../../../contexts/LoadingContext';
-import getApprovalKind from '../../../apis/commonAPI/getApprovalKind';
 
 export default function FormListArea({ rows, searchHandler }) {
-  const { detailData, setDetailData, updateDetailData } = useFormManage();
+  const { detailData, setDetailData, updateDetailData, detailDataInit } =
+    useFormManage();
   const { showLoading, hideLoading } = useLoading();
 
   const delHandler = () => {
@@ -71,6 +71,7 @@ export default function FormListArea({ rows, searchHandler }) {
     if (rows.length > 0) {
       dataHandler(rows[0]);
     }
+    detailDataInit();
   }, [rows]);
 
   return (

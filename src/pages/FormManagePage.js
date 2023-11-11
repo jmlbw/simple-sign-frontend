@@ -14,7 +14,7 @@ import getApprovalKind from '../apis/commonAPI/getApprovalKind';
 
 export default function FormManagePage() {
   const [formListData, setFormListData] = useState([]);
-  const { searchData, setData, setSearchDataById, setSetData, detailDataInit } =
+  const { searchData, setData, setSearchDataById, setSetData } =
     useFormManage();
   const { showLoading, hideLoading } = useLoading();
   const { state, setState } = usePage();
@@ -101,7 +101,6 @@ export default function FormManagePage() {
     if (setData.compList.length > 0) {
       searchHandler();
     }
-    detailDataInit();
   }, [setData.compList]);
 
   return (
