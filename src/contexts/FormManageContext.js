@@ -116,6 +116,7 @@ const FormManageProvider = ({ children }) => {
         defaultDetailData,
         resetDetailData,
         searchDataInit,
+        detailDataInit,
       }}
     >
       {children}
