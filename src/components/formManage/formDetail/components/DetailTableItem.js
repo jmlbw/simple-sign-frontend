@@ -84,14 +84,13 @@ const SelectBox = ({ id, data, dataHandler, init = 0 }) => {
 
   useEffect(() => {
     setSelectedOption(data[initIndex]);
-  }, [initIndex]);
+  }, [initIndex, data]);
 
   const [selectedOption, setSelectedOption] = useState(data[0]);
-
   return (
     <div className={styled.dataBox}>
       <Select
-        defaultValue={data[0]}
+        // defaultValue={data[0]}
         value={selectedOption}
         onChange={(selectedOption) => {
           console.log(selectedOption);
