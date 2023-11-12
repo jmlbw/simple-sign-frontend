@@ -17,8 +17,10 @@ import insertFavorites from '../apis/approvalManageAPI/insertFavorites';
 import deleteFavorites from '../apis/approvalManageAPI/deleteFavorites';
 import { useFormManage } from '../contexts/FormManageContext';
 import getDefaultApprovalLine from '../apis/approvalManageAPI/getDefaultApprovalLine';
+import LinearProgressWithLabel from '../components/common/LinearProgressWithLabel';
 
 export default function ApprovalRegist(props) {
+  //추천 양식 클릭시 사용할 양식 정보와 상태값
   const { id } = useParams();
   let status = props.form_code === parseInt(id) ? true : false;
 
@@ -225,6 +227,7 @@ export default function ApprovalRegist(props) {
     //결재상신
     insertApprovalDoc(data)
       .then((res) => {
+        console.log(res);
         if (res.status === 200) {
           if (docStatus === 'T') {
             alert('임시저장되었습니다.');
@@ -234,12 +237,15 @@ export default function ApprovalRegist(props) {
           setRecRef('');
           closeModal();
         } else {
+          console.log('errorhandle');
           errorHandle(res);
         }
       })
       .catch((e) => {
         hideLoading();
-        console.error(e);
+        if (e.message === 'Failed to fetch') {
+          alert('파일 사이즈가 너무 큽니다.');
+        }
       })
       .finally(() => {
         hideLoading();
@@ -269,6 +275,11 @@ export default function ApprovalRegist(props) {
       btnStyle: 'dark_btn',
     },
   ];
+
+  //추천 양식 클릭시 모달창 여는 부분
+  useEffect(() => {
+    setIsModalOpen(status);
+  }, []);
 
   return (
     <div className={styled.container}>
@@ -316,7 +327,6 @@ export default function ApprovalRegist(props) {
               setDetailData={setDetailData}
               resetDetailData={resetDetailData}
             />
-
             <PopUpFoot buttons={BlueAndGrayBtn} />
           </>
         }

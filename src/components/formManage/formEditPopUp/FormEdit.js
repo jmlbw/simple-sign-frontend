@@ -5,8 +5,10 @@ import React, { useState, useEffect } from 'react';
 import { TinyEditor } from '../../common/TinyEditor';
 import ReactHtmlParser from 'html-react-parser';
 import Button from '../../common/Button';
+import { useFormManage } from '../../../contexts/FormManageContext';
 
 export default function FormEdit({
+  id,
   data,
   dataHandler,
   curForm,
@@ -14,8 +16,13 @@ export default function FormEdit({
   setFormItems,
   requiredItems,
   isModalOpen,
+  isDefaultButton,
 }) {
   const [editor, setEditor] = useState(null);
+  const { detailData } = useFormManage();
+  let contentStyled = isDefaultButton
+    ? styled.contentArea
+    : styled.contentMainArea;
 
   const formDataHandler = (data) => {
     dataHandler(data);
@@ -55,6 +62,12 @@ export default function FormEdit({
       });
   }, []);
 
+  useEffect(() => {
+    if (!isModalOpen) {
+      editor?.setContent(detailData[id]);
+    }
+  }, [isModalOpen]);
+
   const defualt_template = () => {
     let template = `<h1 data-mce-style="text-align: center;" style="text-align: center;">결재 문서</h1>
     <table border="1" style="width: 100%; height: 324.836px;"><colgroup><col style="width: 18.7364%;"><col style="width: 81.2636%;"></colgroup><tbody>
@@ -68,7 +81,7 @@ export default function FormEdit({
     </td><td style="height: 20px;"><div id="enforce_date" class="enforce_date box" contenteditable="false">시행일자</div></td></tr><tr style="height: 41.8555px;"><td colspan="2" style="height: 41.8555px; text-align: center;">
     <strong>내용</strong></td></tr><tr style="height: 96.9922px;"><td colspan="2" style="height: 96.9922px;"><div id="content" class="contents box" contenteditable="false">내용</div></td></tr></tbody></table>
     `;
-    dataHandler(template);
+    // dataHandler(template);
     editor.setContent(template);
   };
 
@@ -78,19 +91,21 @@ export default function FormEdit({
 
   return (
     <div className={styled.formEditContainer}>
-      <div className={styled.optionsArea}>
-        <div className={styled.optionTitleBox}>{'기본 템플릿'}</div>
-        <div className={styled.optionsBox}>
-          <Button
-            onClick={defualt_template}
-            width={'100px'}
-            fontSize={'12px'}
-            label={'기본 템플릿 적용'}
-            btnStyle={'gray_btn'}
-          />
+      {isDefaultButton ? (
+        <div className={styled.optionsArea}>
+          <div className={styled.optionTitleBox}>{'기본 템플릿'}</div>
+          <div className={styled.optionsBox}>
+            <Button
+              onClick={defualt_template}
+              width={'100px'}
+              fontSize={'12px'}
+              label={'기본 템플릿 적용'}
+              btnStyle={'gray_btn'}
+            />
+          </div>
         </div>
-      </div>
-      <div className={styled.contentArea}>
+      ) : null}
+      <div className={contentStyled}>
         <div className={styled.categoryArea}>
           <FormItemList
             formItems={formItems}
