@@ -28,23 +28,6 @@ function ViewDocBox() {
   const viewItems = viewItemsString ? viewItemsString.split(',') : [];
   const { state: pageState, setState: setPageState } = usePage();
 
-  useEffect(() => {
-    const handleStorageChange = (event) => {
-      if (event.key === 'approvalState') {
-        setState((prevState) => ({
-          ...prevState,
-          approvalState: event.newValue,
-        }));
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
-
   const navigate = useNavigate();
 
   const handleItemClick = async (docId) => {
@@ -157,6 +140,23 @@ function ViewDocBox() {
       console.error('Error fetching data:', error);
     }
   };
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === 'approvalState') {
+        fetchData();
+        setState((prevState) => ({
+          ...prevState,
+          approvalState: event.newValue,
+        }));
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   useEffect(() => {
     fetchData();
