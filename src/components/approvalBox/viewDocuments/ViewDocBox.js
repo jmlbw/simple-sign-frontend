@@ -71,7 +71,8 @@ function ViewDocBox() {
           10,
           offset,
           detailSearchState,
-          state.sortStatus
+          state.sortStatus,
+          state.radioSortValue
         );
       } else {
         response = await getDocsList(
@@ -79,62 +80,22 @@ function ViewDocBox() {
           10,
           offset,
           state.searchInput,
-          state.sortStatus
+          state.sortStatus,
+          state.radioSortValue
         );
       }
 
       hideLoading();
       const { docList, count } = response.data;
 
-      // 조회 필터링
-      let filteredDocList = docList;
-      let isFiltered = false;
-
-      if (state.radioSortValue === 'ongoingdoc') {
-        filteredDocList = docList.filter(
-          (docItem) => docItem.docStatus === 'P'
-        );
-        isFiltered = true;
-      } else if (state.radioSortValue === 'writtendoc') {
-        filteredDocList = docList.filter((docItem) =>
-          ['A', 'R'].includes(docItem.docStatus)
-        );
-        isFiltered = true;
-      } else if (
-        state.radioSortValue === 'readdoc' &&
-        viewItems.includes('reference')
-      ) {
-        filteredDocList = docList.filter((docItem) =>
-          state.docView.includes(docItem.approvalDocId)
-        );
-        isFiltered = true;
-      } else if (
-        state.radioSortValue === 'notreaddoc' &&
-        viewItems.includes('reference')
-      ) {
-        filteredDocList = docList.filter(
-          (docItem) => !state.docView.includes(docItem.approvalDocId)
-        );
-        isFiltered = true;
-      }
-
       setDocData(
-        filteredDocList.map((docItem) => ({
+        docList.map((docItem) => ({
           ...docItem,
           createdAt: new Date(docItem.createdAt),
         }))
       );
-
-      if (isFiltered) {
-        // 필터링된 데이터의 개수로 페이징 업데이트
-        const filteredCount = filteredDocList.length;
-        setTotalCount(filteredCount);
-        setTotalPages(Math.ceil(filteredCount / 10));
-      } else {
-        // 필터링이 적용되지 않았다면 서버에서 받은 총 문서 개수를 사용
-        setTotalCount(count);
-        setTotalPages(Math.ceil(count / 10));
-      }
+      setTotalCount(count);
+      setTotalPages(Math.ceil(count / 10));
     } catch (error) {
       hideLoading();
       console.error('Error fetching data:', error);
