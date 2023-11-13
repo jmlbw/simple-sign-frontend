@@ -14,14 +14,13 @@ import { putAlarmUpdate } from '../../../apis/alarm/putAlarmUpdate';
 import alarm_base_url from '../../../apis/alarm_base_url';
 import { useAlarm } from '../../../contexts/AlarmContext';
 
-
 export default function Notice() {
   const [stompClient, setStompClient] = useState(null);
   const { notifications, setNotifications } = useAlarm();
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    const socket = new SockJS(`${alarm_base_url}/ws`);
+    const socket = new SockJS(`${alarm_base_url}ws`);
     const client = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
