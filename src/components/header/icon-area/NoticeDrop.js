@@ -11,7 +11,7 @@ import { getOrgUserId } from '../../../utils/getUser';
 import { getAlarm } from '../../../apis/alarm/getAlarm';
 import { getAlarmCount } from '../../../apis/alarm/getAlarm';
 import { putAlarmUpdate } from '../../../apis/alarm/putAlarmUpdate';
-import base_url from '../../../apis/base_url';
+import alarm_base_url from '../../../apis/alarm_base_url';
 
 export default function Notice() {
   const [stompClient, setStompClient] = useState(null);
@@ -19,7 +19,7 @@ export default function Notice() {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    const socket = new SockJS(`${base_url}/ws`);
+    const socket = new SockJS(`${alarm_base_url}/ws`);
     const client = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
