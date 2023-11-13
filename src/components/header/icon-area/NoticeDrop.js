@@ -12,10 +12,12 @@ import { getAlarm } from '../../../apis/alarm/getAlarm';
 import { getAlarmCount } from '../../../apis/alarm/getAlarm';
 import { putAlarmUpdate } from '../../../apis/alarm/putAlarmUpdate';
 import alarm_base_url from '../../../apis/alarm_base_url';
+import { useAlarm } from '../../../contexts/AlarmContext';
+
 
 export default function Notice() {
   const [stompClient, setStompClient] = useState(null);
-  const [notifications, setNotifications] = useState([]);
+  const { notifications, setNotifications } = useAlarm();
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
@@ -51,8 +53,7 @@ export default function Notice() {
     (async () => {
       try {
         const response = await getAlarm();
-        const notificationsData = response.data;
-        setNotifications(notificationsData);
+        setNotifications(response.data);
       } catch (error) {
         console.error('알림 데이터를 가져오는데 실패했습니다', error);
       }
