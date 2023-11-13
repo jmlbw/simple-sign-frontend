@@ -159,6 +159,13 @@ function ViewDocBox() {
   }, []);
 
   useEffect(() => {
+    console.log(state.approvalState);
+    if (state.approvalState === 'allapproval') {
+      fetchData();
+    }
+  }, [state.approvalState]);
+
+  useEffect(() => {
     fetchData();
   }, [
     pageState.curPage,
@@ -167,7 +174,6 @@ function ViewDocBox() {
     state.radioSortValue,
     state.isReadDoc,
     state.sortStatus,
-    state.approvalState,
   ]);
 
   useEffect(() => {
