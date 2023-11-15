@@ -71,6 +71,7 @@ function AppContent() {
     <>
       {loginValue || state.isLoggedIn ? ( //로그인이 되었을 때 모든 페이지
         <div className={`App ${isPopup ? 'popup-mode' : ''}`}>
+          {console.log('login')}
           {!isPopup && <Header />}
           {!isPopup && <Sidebar />}
           <div className="contentContainer">
