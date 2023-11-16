@@ -7,8 +7,8 @@
   overflow: auto;
   box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
 
-  border-top-right-radius: 8rem;
+  border-top-right-radius: 5rem;
   background-color: #465b59;
   height: 100vh;
-  padding-top: 80px;
+  padding-top: 30px;
 }
