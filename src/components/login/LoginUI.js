@@ -106,7 +106,7 @@ export default function LoginUI() {
           />
           <input
             type={err.password ? err.password : 'password'}
-            placeholder="비밀번호"
+            placeholder={err.password ? err.password : '비밀번호'}
             value={password}
             onChange={onPasswordChange}
             className={err.loginId ? styled.login_err_massage : ''}
