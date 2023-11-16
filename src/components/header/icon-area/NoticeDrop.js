@@ -8,10 +8,9 @@ import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneR
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { getOrgUserId } from '../../../utils/getUser';
-import { getAlarm } from '../../../apis/alarm/getAlarm';
+import { getAlarm, getSession } from '../../../apis/alarm/getAlarm';
 import { getAlarmCount } from '../../../apis/alarm/getAlarm';
 import { putAlarmUpdate } from '../../../apis/alarm/putAlarmUpdate';
-import alarm_base_url from '../../../apis/alarm_base_url';
 import { useAlarm } from '../../../contexts/AlarmContext';
 
 export default function Notice() {
@@ -19,10 +18,12 @@ export default function Notice() {
   const { notifications, setNotifications } = useAlarm();
   const [unreadCount, setUnreadCount] = useState(0);
 
-  const socketUrl = `https://ec2-43-202-224-51.ap-northeast-2.compute.amazonaws.com/ws`;
-
+  const socketUrl =
+    // `http://localhost:8081/alarm/ws`
+    `https://ec2-43-202-224-51.ap-northeast-2.compute.amazonaws.com/alarm/ws`;
   const initializeWebSocket = () => {
     const socket = new SockJS(socketUrl, null, {
+      transports: ['websocket', 'xhr-streaming', 'xhr-polling'],
       withCredentials: true,
     });
 
@@ -61,8 +62,41 @@ export default function Notice() {
     };
   };
 
+  // const [sessionId, setSessionId] = useState(null);
+
+  // useEffect(() => {
+  //   const getCookies = () => {
+  //     const cookies = document.cookie.split(';');
+  //     const cookieMap = {};
+
+  //     for (const cookie of cookies) {
+  //       const [name, value] = cookie.trim().split('=');
+  //       cookieMap[name] = value;
+  //     }
+
+  //     return cookieMap;
+  //   };
+  //   const cookies = getCookies();
+
+  //   // SESSION_ID 쿠키가 있는지 확인하고 값 설정
+  //   if ('JSESSIONID' in cookies) {
+  //     setSessionId(cookies.SESSION_ID);
+  //   }
+  // });
+
   useEffect(() => {
-    //initializeWebSocket();
+    // if (sessionId != null) {
+    // console.log(sessionId);
+    // (async () => {
+    //   try {
+    //     const response = await getSession(sessionId);
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     console.error('세션 데이터를 가져오는데 실패했습니다', error);
+    //   }
+    // })();
+
+    initializeWebSocket();
     (async () => {
       try {
         const response = await getAlarm();
@@ -107,6 +141,12 @@ export default function Notice() {
     }
   };
 
+  // return (
+  //   <div>
+  //     <p>SESSION_ID: {sessionId}</p>
+  //     <p>LOGIN_COOKIE: {loginCookie}</p>
+  //   </div>
+  // );
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (

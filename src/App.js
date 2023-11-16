@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ContextProvider from './contexts/ContextProvider';
@@ -16,7 +16,6 @@ import SeqManagePage from './pages/SeqManagePage';
 import FormListPage from './pages/FormListPage';
 
 import AppContext from './contexts/AppContext';
-import Login from './pages/Login';
 import ApprovalBoxSetPage from './pages/ApprovalBoxSetPage';
 import ApprovalUpdatePage from '../src/pages/ApprovalUpdatePage';
 import ApprovalDetail from '../src/components/approvalManage/approvalDetail/ApprovalDetail';
@@ -29,6 +28,7 @@ import { getLoginCheck } from './apis/loginAPI/postLogin';
 import { useFormManage } from './contexts/FormManageContext';
 import { useSeqManage } from './contexts/SeqManageContext';
 import Button from './components/common/Button';
+import Login from './components/login/Login';
 
 function getCookie(name) {
   const value = ';' + document.cookie;
@@ -71,7 +71,7 @@ function AppContent() {
     <>
       {loginValue || state.isLoggedIn ? ( //로그인이 되었을 때 모든 페이지
         <div className={`App ${isPopup ? 'popup-mode' : ''}`}>
-          {!isPopup && <Header />}
+          {!isPopup && localStorage.getItem('orgUserId') && <Header />}
           {!isPopup && <Sidebar />}
           <div className="contentContainer">
             <Titlebox
