@@ -3,12 +3,17 @@ import alarm_base_url from '../alarm_base_url';
 
 const api = axios.create({
   baseURL: alarm_base_url,
+  withCredentials: true,
 });
 
 export const getAlarm = () => {
-  return api.get('/alarm');
+  return api.get('/');
 };
 
 export const getAlarmCount = () => {
-  return api.get('/alarm/count');
+  return api.get('/count');
+};
+
+export const getSession = (sessionId) => {
+  return api.get(`/get-session/${sessionId}`);
 };

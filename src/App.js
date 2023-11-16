@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ContextProvider from './contexts/ContextProvider';
@@ -16,7 +16,6 @@ import SeqManagePage from './pages/SeqManagePage';
 import FormListPage from './pages/FormListPage';
 
 import AppContext from './contexts/AppContext';
-import Login from './pages/Login';
 import ApprovalBoxSetPage from './pages/ApprovalBoxSetPage';
 import ApprovalUpdatePage from '../src/pages/ApprovalUpdatePage';
 import ApprovalDetail from '../src/components/approvalManage/approvalDetail/ApprovalDetail';
@@ -29,6 +28,7 @@ import { getLoginCheck } from './apis/loginAPI/postLogin';
 import { useFormManage } from './contexts/FormManageContext';
 import { useSeqManage } from './contexts/SeqManageContext';
 import Button from './components/common/Button';
+import Login from './components/login/Login';
 
 function getCookie(name) {
   const value = ';' + document.cookie;
@@ -69,74 +69,72 @@ function AppContent() {
 
   return (
     <>
-      {
-        /*loginValue || state.isLoggedIn*/ true ? ( //로그인이 되었을 때 모든 페이지
-          <div className={`App ${isPopup ? 'popup-mode' : ''}`}>
-            {!isPopup && <Header />}
-            {!isPopup && <Sidebar />}
-            <div className="contentContainer">
-              <Titlebox
-                title={getname}
-                view={pageState.isApprovalBox ? 'approval' : ''}
-                componentProp={
-                  <>
-                    {pageState.curPage === '기안양식관리' ? (
-                      <Button
-                        label={'추가'}
-                        btnStyle={'gray_btn'}
-                        onClick={createFormState}
-                      />
-                    ) : null}
-                    {pageState.curPage === '문서채번관리' ? (
-                      <Button
-                        label={'추가'}
-                        btnStyle={'gray_btn'}
-                        onClick={createSeqState}
-                      />
-                    ) : null}
-                    {pageState.isApprovalBox ? <ApprovalRightHeader /> : ''}
-                  </>
-                }
-              ></Titlebox>
-              <div className="contentsArea">
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route
-                    path="/EAM"
-                    element={checkUserAuthority(2, <FormManagePage />)}
-                  />
-                  <Route
-                    path="/ABS"
-                    element={checkUserAuthority(2, <ApprovalBoxSetPage />)}
-                  />
-                  <Route
-                    path="/ABV"
-                    element={checkUserAuthority(3, <ApprovalBoxViewPage />)}
-                  />
-                  <Route
-                    path="/SAM"
-                    element={checkUserAuthority(2, <SeqManagePage />)}
-                  />
-                  <Route
-                    path="/FL/:id"
-                    element={checkUserAuthority(3, <FormListPage />)}
-                  />
-                  <Route
-                    path="/FL"
-                    element={checkUserAuthority(3, <FormListPage />)}
-                  />
-                  <Route
-                    path="/AD"
-                    element={checkUserAuthority(3, <ApprovalDetail />)}
-                  />
-                  <Route
-                    path="/ADD"
-                    element={checkUserAuthority(3, <ApprovalUpdatePage />)}
-                  />
-                  <Route path="/userinfo" element={<UserInfo />} />
-                  <Route path="/updateuser" element={<UpdateUserInfo />} />
-                </Routes>
-              </div>
+      {loginValue || state.isLoggedIn ? ( //로그인이 되었을 때 모든 페이지
+        <div className={`App ${isPopup ? 'popup-mode' : ''}`}>
+          {!isPopup && localStorage.getItem('orgUserId') && <Header />}
+          {!isPopup && <Sidebar />}
+          <div className="contentContainer">
+            <Titlebox
+              title={getname}
+              view={pageState.isApprovalBox ? 'approval' : ''}
+              componentProp={
+                <>
+                  {pageState.curPage === '기안양식관리' ? (
+                    <Button
+                      label={'추가'}
+                      btnStyle={'gray_btn'}
+                      onClick={createFormState}
+                    />
+                  ) : null}
+                  {pageState.curPage === '문서채번관리' ? (
+                    <Button
+                      label={'추가'}
+                      btnStyle={'gray_btn'}
+                      onClick={createSeqState}
+                    />
+                  ) : null}
+                  {pageState.isApprovalBox ? <ApprovalRightHeader /> : ''}
+                </>
+              }
+            ></Titlebox>
+            <div className="contentsArea">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route
+                  path="/EAM"
+                  element={checkUserAuthority(2, <FormManagePage />)}
+                />
+                <Route
+                  path="/ABS"
+                  element={checkUserAuthority(2, <ApprovalBoxSetPage />)}
+                />
+                <Route
+                  path="/ABV"
+                  element={checkUserAuthority(3, <ApprovalBoxViewPage />)}
+                />
+                <Route
+                  path="/SAM"
+                  element={checkUserAuthority(2, <SeqManagePage />)}
+                />
+                <Route
+                  path="/FL/:id"
+                  element={checkUserAuthority(3, <FormListPage />)}
+                />
+                <Route
+                  path="/FL"
+                  element={checkUserAuthority(3, <FormListPage />)}
+                />
+                <Route
+                  path="/AD"
+                  element={checkUserAuthority(3, <ApprovalDetail />)}
+                />
+                <Route
+                  path="/ADD"
+                  element={checkUserAuthority(3, <ApprovalUpdatePage />)}
+                />
+                <Route path="/userinfo" element={<UserInfo />} />
+                <Route path="/updateuser" element={<UpdateUserInfo />} />
+              </Routes>
             </div>
           </div>
         ) : (

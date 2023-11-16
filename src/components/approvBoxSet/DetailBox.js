@@ -55,7 +55,7 @@ function DetailBox() {
     // }));
     if (boxId) {
       console.log('boxList222222 : ', state.boxList);
-      boxId = state.boxList[0][0].approvalBoxId;
+      boxId = state.boxList[0].approvalBoxId;
     }
   }, []);
 
