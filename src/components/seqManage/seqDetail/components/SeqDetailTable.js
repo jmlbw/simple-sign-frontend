@@ -16,6 +16,7 @@ import getSeqItemList from '../../../../apis/seqManageAPI/getSeqItemList';
 import FormListPopUp from '../../popup/FormListPopUp';
 import { AiOutlineOrderedList } from 'react-icons/ai';
 import OrgChart from '../../../org/OrgChart';
+import { Grid } from '@mui/material';
 
 export default function SeqDetailTable() {
   const {
@@ -49,6 +50,13 @@ export default function SeqDetailTable() {
   };
 
   const openFormModal = () => {
+    setGridData(
+      detailData.formScope.map((ele) => {
+        ele.id = ele.useId;
+        ele.formName = ele.name;
+        return ele;
+      })
+    );
     setIsFormModalOpen(true);
   };
 
@@ -117,6 +125,7 @@ export default function SeqDetailTable() {
   }, [gridData]);
 
   const formConfirm = () => {
+    console.log('#####gridData:', gridData);
     const result = gridData.map((ele) => {
       ele.category = 'F';
       ele.useId = parseInt(ele.id);
