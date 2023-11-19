@@ -14,11 +14,13 @@ import { putAlarmUpdate } from '../../../apis/alarm/putAlarmUpdate';
 import { useAlarm } from '../../../contexts/AlarmContext';
 import { deleteAlarm } from '../../../apis/alarm/deleteAlarm';
 import { FiBellOff } from 'react-icons/fi';
+import LoadingAlarm from '../../common/LoadingAlarm';
 
 export default function Notice() {
   const [stompClient, setStompClient] = useState(null);
   const { notifications, setNotifications } = useAlarm();
   const [unreadCount, setUnreadCount] = useState(0);
+  const [alarmLoading, setAlarmLoading] = useState(false);
 
   const socketUrl =
     //`http://localhost:8081/alarm/ws`||
@@ -100,11 +102,14 @@ export default function Notice() {
 
     initializeWebSocket();
     (async () => {
+      setAlarmLoading(true);
       try {
         const response = await getAlarm();
         setNotifications(response.data);
       } catch (error) {
         console.error('알림 데이터를 가져오는데 실패했습니다', error);
+      } finally {
+        setAlarmLoading(false);
       }
     })();
 
@@ -186,7 +191,8 @@ export default function Notice() {
             </div>
           </Button>
           <Menu className={styles.notice_menubox} {...bindMenu(popupState)}>
-            {notifications.length > 0 ? (
+            <LoadingAlarm alarmLoading={alarmLoading} />
+            {!alarmLoading && notifications.length > 0 ? (
               notifications.map((notification, index) => (
                 <MenuItem
                   key={index}

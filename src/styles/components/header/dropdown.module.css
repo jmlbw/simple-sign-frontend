@@ -115,11 +115,12 @@
 }
 
 .notice_box {
-  display: flex; /* Flexbox 레이아웃 사용 */
-  flex-direction: column; /* 항목을 세로로 정렬 */
-  align-items: center; /* 가로 방향 가운데 정렬 */
-  justify-content: center; /* 세로 방향 가운데 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 300px;
   height: 400px;
   font-size: 50px;
+  color: #cfdfdb;
 }
