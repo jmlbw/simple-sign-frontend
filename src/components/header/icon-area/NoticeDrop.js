@@ -166,6 +166,19 @@ export default function Notice() {
     }
   };
 
+  // 시간 표시
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    return `${month}월 ${day}일 ${hours}:${minutes
+      .toString()
+      .padStart(2, '0')}`;
+  };
+
   // return (
   //   <div>
   //     <p>SESSION_ID: {sessionId}</p>
@@ -224,7 +237,7 @@ export default function Notice() {
                   </button>
                   <div className={styles.alarm_container}>
                     <div className={styles.alarm_content}>
-                      {notification.alarmId} - {notification.alarmContent}
+                      {notification.alarmContent}
                     </div>
                     <div className={styles.approval_doc_title}>
                       [문서명] : {notification.approvalDocTitle}
@@ -234,7 +247,11 @@ export default function Notice() {
                         ? notification.userName
                         : null}
                     </div>
-                    <div>{notification.alarmDate}</div>
+                    <div className={styles.alarm_date}>
+                      {formatDate(notification.alarmDate).split(' ')[0]}
+                      {formatDate(notification.alarmDate).split(' ')[1]}{' '}
+                      {formatDate(notification.alarmDate).split(' ')[2]}
+                    </div>
                   </div>
                 </MenuItem>
               ))
