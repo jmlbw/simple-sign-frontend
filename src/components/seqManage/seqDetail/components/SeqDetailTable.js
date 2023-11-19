@@ -16,7 +16,6 @@ import getSeqItemList from '../../../../apis/seqManageAPI/getSeqItemList';
 import FormListPopUp from '../../popup/FormListPopUp';
 import { AiOutlineOrderedList } from 'react-icons/ai';
 import OrgChart from '../../../org/OrgChart';
-import { Grid } from '@mui/material';
 
 export default function SeqDetailTable() {
   const {
@@ -34,6 +33,7 @@ export default function SeqDetailTable() {
   const [gridData, setGridData] = useState([]);
 
   const openModal = () => {
+    setSetListFunc();
     setIsModalOpen(true);
   };
 
@@ -104,28 +104,33 @@ export default function SeqDetailTable() {
   }, []);
 
   useEffect(() => {
+    setSetListFunc();
+  }, [detailData.seqString]);
+
+  const setSetListFunc = () => {
     const itemIdList = detailData.seqString.split(',');
     if (detailData.seqString !== '') {
       let result = itemIdList
         .map((ele, index) => {
-          const foundItem = seqItems.find((item) => item.code === ele);
+          let foundItem = null;
+          if (ele >= 12 && ele <= 15) {
+            foundItem = { value: `자리수 ${ele - 8}자리`, code: ele };
+          } else {
+            foundItem = seqItems.find((item) => item.code === ele);
+          }
           if (foundItem) {
             return { id: index, value: foundItem.value, code: foundItem.code };
           }
         })
         .filter((ele) => ele !== undefined);
+
       setSeqList([...result]);
     } else {
       setSeqList([]);
     }
-  }, [detailData.seqString]);
-
-  useEffect(() => {
-    console.log('formListData: ', gridData);
-  }, [gridData]);
+  };
 
   const formConfirm = () => {
-    console.log('#####gridData:', gridData);
     const result = gridData.map((ele) => {
       ele.category = 'F';
       ele.useId = parseInt(ele.id);
