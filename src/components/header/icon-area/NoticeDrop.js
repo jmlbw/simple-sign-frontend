@@ -21,6 +21,7 @@ export default function Notice() {
   const { notifications, setNotifications } = useAlarm();
   const [unreadCount, setUnreadCount] = useState(0);
   const [alarmLoading, setAlarmLoading] = useState(false);
+  const [subscription, setSubscription] = useState(null);
 
   const socketUrl =
     //`http://localhost:8081/alarm/ws`||
@@ -34,21 +35,32 @@ export default function Notice() {
     const client = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
+      heartbeatIncoming: 1000,
+      heartbeatOutgoing: 1000,
       debug: (str) => {
         console.log(str);
       },
     });
 
     client.onConnect = () => {
-      client.subscribe(`/topic/alarm/${getOrgUserId()}`, (message) => {
-        const newNotification = JSON.parse(message.body);
-        setNotifications((prevNotifs) => [newNotification, ...prevNotifs]);
+      // 이미 구독이 있다면 새로 구독하지 않는다.
+      if (subscription) {
+        subscription.unsubscribe();
+        return;
+      }
+      const newSubscription = client.subscribe(
+        `/topic/alarm/${getOrgUserId()}`,
+        (message) => {
+          const newNotification = JSON.parse(message.body);
+          setNotifications((prevNotifs) => [newNotification, ...prevNotifs]);
 
-        // 새 알림이 읽지 않은 상태라면 읽지 않은 알림 개수를 증가시킵니다.
-        if (!newNotification.read) {
-          setUnreadCount((prevUnreadCount) => prevUnreadCount + 1);
+          // 새 알림이 읽지 않은 상태라면 읽지 않은 알림 개수를 증가시킴
+          if (!newNotification.read) {
+            setUnreadCount((prevUnreadCount) => prevUnreadCount + 1);
+          }
         }
-      });
+      );
+      setSubscription(newSubscription);
     };
 
     client.onStompError = (frame) => {
@@ -61,6 +73,7 @@ export default function Notice() {
 
     return () => {
       if (client) {
+        client.unsubscribe();
         client.deactivate();
       }
     };
@@ -100,7 +113,27 @@ export default function Notice() {
     //   }
     // })();
 
+    const handleOnline = () => {
+      console.log('online');
+      initializeWebSocket();
+    };
+
+    const handleOffline = () => {
+      console.log('offline');
+      // 클라이언트 비활성화
+      if (stompClient) {
+        stompClient.deactivate();
+      }
+    };
+
+    // 이벤트 리스너 등록
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    // 웹소켓 연결 부분
     initializeWebSocket();
+
+    // 초기 알림 데이터 불러오는 부분
     (async () => {
       setAlarmLoading(true);
       try {
@@ -124,6 +157,22 @@ export default function Notice() {
     };
 
     fetchUnreadCount();
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거 및 STOMP 클라이언트 비활성화
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+
+      if (subscription) {
+        subscription.unsubscribe();
+        setSubscription(null);
+      }
+
+      // 클라이언트 비활성화
+      if (stompClient) {
+        stompClient.deactivate();
+      }
+    };
   }, []);
 
   // 알림을 읽음으로 표시하는 함수
@@ -185,6 +234,7 @@ export default function Notice() {
   //     <p>LOGIN_COOKIE: {loginCookie}</p>
   //   </div>
   // );
+
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
