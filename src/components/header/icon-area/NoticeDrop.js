@@ -12,14 +12,19 @@ import { getAlarm, getSession } from '../../../apis/alarm/getAlarm';
 import { getAlarmCount } from '../../../apis/alarm/getAlarm';
 import { putAlarmUpdate } from '../../../apis/alarm/putAlarmUpdate';
 import { useAlarm } from '../../../contexts/AlarmContext';
+import { deleteAlarm } from '../../../apis/alarm/deleteAlarm';
+import { FiBellOff } from 'react-icons/fi';
+import LoadingAlarm from '../../common/LoadingAlarm';
 
 export default function Notice() {
   const [stompClient, setStompClient] = useState(null);
   const { notifications, setNotifications } = useAlarm();
   const [unreadCount, setUnreadCount] = useState(0);
+  const [alarmLoading, setAlarmLoading] = useState(false);
+  const [subscription, setSubscription] = useState(null);
 
   const socketUrl =
-    //`http://localhost:8081/ws`;
+    //`http://localhost:8081/alarm/ws`||
     `https://ec2-43-202-224-51.ap-northeast-2.compute.amazonaws.com/alarm/ws`;
   const initializeWebSocket = () => {
     const socket = new SockJS(socketUrl, null, {
@@ -30,21 +35,32 @@ export default function Notice() {
     const client = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
+      heartbeatIncoming: 1000,
+      heartbeatOutgoing: 1000,
       debug: (str) => {
         console.log(str);
       },
     });
 
     client.onConnect = () => {
-      client.subscribe(`/topic/alarm/${getOrgUserId()}`, (message) => {
-        const newNotification = JSON.parse(message.body);
-        setNotifications((prevNotifs) => [newNotification, ...prevNotifs]);
+      // 이미 구독이 있다면 새로 구독하지 않는다.
+      if (subscription) {
+        subscription.unsubscribe();
+        return;
+      }
+      const newSubscription = client.subscribe(
+        `/topic/alarm/${getOrgUserId()}`,
+        (message) => {
+          const newNotification = JSON.parse(message.body);
+          setNotifications((prevNotifs) => [newNotification, ...prevNotifs]);
 
-        // 새 알림이 읽지 않은 상태라면 읽지 않은 알림 개수를 증가시킵니다.
-        if (!newNotification.read) {
-          setUnreadCount((prevUnreadCount) => prevUnreadCount + 1);
+          // 새 알림이 읽지 않은 상태라면 읽지 않은 알림 개수를 증가시킴
+          if (!newNotification.read) {
+            setUnreadCount((prevUnreadCount) => prevUnreadCount + 1);
+          }
         }
-      });
+      );
+      setSubscription(newSubscription);
     };
 
     client.onStompError = (frame) => {
@@ -57,6 +73,7 @@ export default function Notice() {
 
     return () => {
       if (client) {
+        client.unsubscribe();
         client.deactivate();
       }
     };
@@ -96,13 +113,36 @@ export default function Notice() {
     //   }
     // })();
 
+    const handleOnline = () => {
+      console.log('online');
+      initializeWebSocket();
+    };
+
+    const handleOffline = () => {
+      console.log('offline');
+      // 클라이언트 비활성화
+      if (stompClient) {
+        stompClient.deactivate();
+      }
+    };
+
+    // 이벤트 리스너 등록
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    // 웹소켓 연결 부분
     initializeWebSocket();
+
+    // 초기 알림 데이터 불러오는 부분
     (async () => {
+      setAlarmLoading(true);
       try {
         const response = await getAlarm();
         setNotifications(response.data);
       } catch (error) {
         console.error('알림 데이터를 가져오는데 실패했습니다', error);
+      } finally {
+        setAlarmLoading(false);
       }
     })();
 
@@ -117,6 +157,22 @@ export default function Notice() {
     };
 
     fetchUnreadCount();
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거 및 STOMP 클라이언트 비활성화
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+
+      if (subscription) {
+        subscription.unsubscribe();
+        setSubscription(null);
+      }
+
+      // 클라이언트 비활성화
+      if (stompClient) {
+        stompClient.deactivate();
+      }
+    };
   }, []);
 
   // 알림을 읽음으로 표시하는 함수
@@ -141,12 +197,44 @@ export default function Notice() {
     }
   };
 
+  // 알림 삭제
+  const deleteAlarmAPI = async (event, alarmId) => {
+    event.stopPropagation();
+    try {
+      await deleteAlarm(alarmId);
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter(
+          (notification) => notification.alarmId !== alarmId
+        )
+      );
+      // 읽지 않은 알람 개수 업데이트
+      setUnreadCount((prev) => prev - 1);
+      alert('삭제되었습니다.');
+    } catch (error) {
+      console.error('알람 삭제에 실패했습니다', error);
+    }
+  };
+
+  // 시간 표시
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    return `${month}월 ${day}일 ${hours}:${minutes
+      .toString()
+      .padStart(2, '0')}`;
+  };
+
   // return (
   //   <div>
   //     <p>SESSION_ID: {sessionId}</p>
   //     <p>LOGIN_COOKIE: {loginCookie}</p>
   //   </div>
   // );
+
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
@@ -160,41 +248,68 @@ export default function Notice() {
               <NotificationsNoneRoundedIcon
                 className={styles.noticeIcon}
               ></NotificationsNoneRoundedIcon>
-              <div className={styles.circle}>{unreadCount}</div>
+              <div className={styles.circle}>
+                {unreadCount > 100 ? '99+' : unreadCount}
+              </div>
             </div>
           </Button>
           <Menu className={styles.notice_menubox} {...bindMenu(popupState)}>
-            {notifications.map((notification, index) => (
-              <MenuItem
-                key={index}
-                className={styles.menuItemSpacing}
-                onClick={() => {
-                  markAsRead(notification.alarmId);
+            <LoadingAlarm alarmLoading={alarmLoading} />
+            {!alarmLoading && notifications.length > 0 ? (
+              notifications.map((notification, index) => (
+                <MenuItem
+                  key={index}
+                  className={styles.menuItemSpacing}
+                  onClick={() => {
+                    markAsRead(notification.alarmId);
 
-                  const popupOptions = 'width=1200,height=700,left=100,top=100';
-                  window.open(
-                    `/AD?page=${notification.approvalDocId}&popup=true`,
-                    '_blank',
-                    popupOptions
-                  );
-                }}
-                style={{
-                  backgroundColor: notification.confirmationStatus
-                    ? '#ececec'
-                    : 'white',
-                }}
-              >
-                <div className={styles.alarm_container}>
-                  <div className={styles.alarm_content}>
-                    {notification.alarmContent}
+                    const popupOptions =
+                      'width=1200,height=700,left=100,top=100';
+                    window.open(
+                      `/AD?page=${notification.approvalDocId}&popup=true`,
+                      '_blank',
+                      popupOptions
+                    );
+                  }}
+                  style={{
+                    backgroundColor: notification.confirmationStatus
+                      ? '#ececec'
+                      : 'white',
+                  }}
+                >
+                  <button
+                    className={styles.notice_button}
+                    onClick={(event) =>
+                      deleteAlarmAPI(event, notification.alarmId)
+                    }
+                  >
+                    삭제
+                  </button>
+                  <div className={styles.alarm_container}>
+                    <div className={styles.alarm_content}>
+                      {notification.alarmContent}
+                    </div>
+                    <div className={styles.approval_doc_title}>
+                      [문서명] : {notification.approvalDocTitle}
+                    </div>
+                    <div>
+                      {notification.alarmCode === '02'
+                        ? notification.userName
+                        : null}
+                    </div>
+                    <div className={styles.alarm_date}>
+                      {formatDate(notification.alarmDate).split(' ')[0]}
+                      {formatDate(notification.alarmDate).split(' ')[1]}{' '}
+                      {formatDate(notification.alarmDate).split(' ')[2]}
+                    </div>
                   </div>
-                  <div className={styles.approval_doc_title}>
-                    [문서명] : {notification.approvalDocTitle}
-                  </div>
-                  <div>{notification.alarmDate}</div>
-                </div>
-              </MenuItem>
-            ))}
+                </MenuItem>
+              ))
+            ) : (
+              <div className={styles.notice_box}>
+                <FiBellOff />
+              </div>
+            )}
           </Menu>
         </React.Fragment>
       )}
