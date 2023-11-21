@@ -322,16 +322,14 @@ export default function Notice() {
                         // 현재 날짜를 가져옵니다.
                         new Date().toDateString() ===
                         new Date(notification.alarmDate).toDateString()
-                          ? // 오늘 날짜라면 시간만 표시합니다.
-                            `${
+                          ? `${
                               formatDate(notification.alarmDate).split(' ')[0]
                             } ${
                               formatDate(notification.alarmDate).split(' ')[1]
                             } ${
                               formatDate(notification.alarmDate).split(' ')[2]
                             }`
-                          : // 오늘 날짜가 아니라면 날짜와 월만 표시합니다.
-                            `${
+                          : `${
                               formatDate(notification.alarmDate).split(' ')[0]
                             } ${
                               formatDate(notification.alarmDate).split(' ')[1]
