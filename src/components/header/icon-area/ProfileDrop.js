@@ -123,7 +123,11 @@ export default function Profile() {
                           <td className={styles.table_td}>{item.compName}</td>
                           <td className={styles.table_td}>{item.deptName}</td>
                           <td className={styles.table_td}>
-                            {item.authorityName}
+                            {item.authorityName === 'USER'
+                              ? '사용자'
+                              : item.authorityName === 'DEPT_ADMIN'
+                              ? '부서 관리자'
+                              : '관리자'}
                           </td>
                         </tr>
                       ))
