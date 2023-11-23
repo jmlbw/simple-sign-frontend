@@ -11,10 +11,12 @@ import {
   checkSeqCreateData,
   checkSeqUpdateData,
 } from '../../../validation/seqManage/seqSchema';
+import { useAlert } from '../../../contexts/AlertContext';
 
 export default function SeqDetail({ searchHandler }) {
   const { detailData, flagData } = useSeqManage();
   const { showLoading, hideLoading } = useLoading();
+  const { showAlert } = useAlert();
 
   const createNewSeq = () => {
     insertSeq(detailData)
@@ -23,7 +25,6 @@ export default function SeqDetail({ searchHandler }) {
           throw new Error(res.status);
         }
         showAlert({
-          open: true,
           severity: 'success',
           message: `새 채번이 생성되었습니다.`,
         });
@@ -33,7 +34,6 @@ export default function SeqDetail({ searchHandler }) {
       })
       .catch((err) => {
         showAlert({
-          open: true,
           severity: 'error',
           message: `채번 생성에 실패했습니다. [${err}]`,
         });
@@ -50,7 +50,6 @@ export default function SeqDetail({ searchHandler }) {
           throw new Error(res.status);
         }
         showAlert({
-          open: true,
           severity: 'success',
           message: `채번이 수정되었습니다.`,
         });
@@ -60,8 +59,7 @@ export default function SeqDetail({ searchHandler }) {
       })
       .catch((err) => {
         showAlert({
-          open: true,
-          severity: 'info',
+          severity: 'error',
           message: `채번 수정에 실패했습니다. [${err}]`,
         });
       })
@@ -79,7 +77,6 @@ export default function SeqDetail({ searchHandler }) {
         })
         .catch((errors) => {
           showAlert({
-            open: true,
             severity: 'info',
             message: errors.message,
           });
@@ -96,7 +93,6 @@ export default function SeqDetail({ searchHandler }) {
         })
         .catch((errors) => {
           showAlert({
-            open: true,
             severity: 'info',
             message: errors.message,
           });

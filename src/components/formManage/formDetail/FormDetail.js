@@ -32,7 +32,6 @@ export default function FormDetail({ searchHandler }) {
           throw new Error(res.status);
         }
         showAlert({
-          open: true,
           severity: 'success',
           message: `새 양식이 생성되었습니다.`,
         });
@@ -42,7 +41,6 @@ export default function FormDetail({ searchHandler }) {
       })
       .catch((err) => {
         showAlert({
-          open: true,
           severity: 'error',
           message: `양식생성에 실패했습니다. [${err}]`,
         });
@@ -59,7 +57,6 @@ export default function FormDetail({ searchHandler }) {
           throw new Error(res.status);
         }
         showAlert({
-          open: true,
           severity: 'success',
           message: `양식이 수정되었습니다.`,
         });
@@ -69,7 +66,6 @@ export default function FormDetail({ searchHandler }) {
       })
       .catch((err) => {
         showAlert({
-          open: true,
           severity: 'error',
           message: `양식수정에 실패했습니다. [${err}]`,
         });
@@ -89,7 +85,6 @@ export default function FormDetail({ searchHandler }) {
         })
         .catch((errors) => {
           showAlert({
-            open: true,
             severity: 'info',
             message: errors.message,
           });
@@ -107,7 +102,6 @@ export default function FormDetail({ searchHandler }) {
         })
         .catch((errors) => {
           showAlert({
-            open: true,
             severity: 'info',
             message: errors.message,
           });

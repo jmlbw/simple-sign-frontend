@@ -7,10 +7,12 @@ import getSeqDetail from '../../../apis/seqManageAPI/getSeqDetail';
 import { useSeqManage } from '../../../contexts/SeqManageContext';
 import delSeq from '../../../apis/seqManageAPI/delSeq';
 import { useLoading } from '../../../contexts/LoadingContext';
+import { useAlert } from '../../../contexts/AlertContext';
 
 export default function SeqListArea({ rows, searchHandler }) {
   const { detailData, setDetailData, updateDetailData } = useSeqManage();
   const { showLoading, hideLoading } = useLoading();
+  const { showAlert } = useAlert();
 
   const delHandler = () => {
     showLoading();
@@ -20,7 +22,6 @@ export default function SeqListArea({ rows, searchHandler }) {
           throw new Error(res.status);
         }
         showAlert({
-          open: true,
           severity: 'success',
           message: `채번 데이터가 삭제되었습니다.`,
         });
@@ -30,7 +31,6 @@ export default function SeqListArea({ rows, searchHandler }) {
       })
       .catch((err) => {
         showAlert({
-          open: true,
           severity: 'error',
           message: `채번 데이터 삭제를 실패했습니다. [${err}]`,
         });
@@ -59,7 +59,6 @@ export default function SeqListArea({ rows, searchHandler }) {
       })
       .catch((err) => {
         showAlert({
-          open: true,
           severity: 'error',
           message: `상세 데이터 호출에 실패했습니다. [${err}]`,
         });

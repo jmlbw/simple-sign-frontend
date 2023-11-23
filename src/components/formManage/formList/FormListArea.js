@@ -24,7 +24,6 @@ export default function FormListArea({ rows, searchHandler }) {
           throw new Error(res.status);
         }
         showAlert({
-          open: true,
           severity: 'success',
           message: '데이터가 삭제되었습니다.',
         });
@@ -38,7 +37,6 @@ export default function FormListArea({ rows, searchHandler }) {
           errorMessage = `사용중인 양식은 삭제가 불가합니다. [${err}]`;
         }
         showAlert({
-          open: true,
           severity: 'error',
           message: errorMessage,
         });
@@ -74,9 +72,8 @@ export default function FormListArea({ rows, searchHandler }) {
       })
       .catch((err) => {
         showAlert({
-          open: true,
           severity: 'error',
-          message: `상세조회에 실패했습니다. [${err}]`,
+          message: `양식 상세조회에 실패했습니다. [${err}]`,
         });
       })
       .finally(() => {

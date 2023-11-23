@@ -33,7 +33,6 @@ export default function SeqManagePage() {
       })
       .catch((err) => {
         showAlert({
-          open: true,
           severity: 'error',
           message: `기본 데이터 조회에 실패했습니다. [${err}]`,
         });
@@ -43,22 +42,28 @@ export default function SeqManagePage() {
   const searchSeqListData = () => {
     getSeqAndCompList(searchData)
       .then((res) => {
-        if (!res.ok) {
+        if (!(res.status >= 200 && res.status < 300)) {
           throw new Error(res.status);
+        }
+        if (res.status === 204) {
+          return [];
         }
         return res.json();
       })
       .then((data) => {
+        if (data.length < 1) {
+          showAlert({
+            severity: 'info',
+            message: `조회된 채번목록이 없습니다.`,
+          });
+        }
         setFormListData(data);
       })
       .catch((err) => {
-        if (err.message === '404') {
-          showAlert({
-            open: true,
-            severity: 'info',
-            message: `검색된 채번이 없습니다. [${err}]`,
-          });
-        }
+        showAlert({
+          severity: 'error',
+          message: `채번 조회에 실패했습니다. [${err}]`,
+        });
       })
       .finally(() => {
         hideLoading();
@@ -87,13 +92,10 @@ export default function SeqManagePage() {
         searchSeqListData();
       })
       .catch((err) => {
-        if (err.message === '404') {
-          showAlert({
-            open: true,
-            severity: 'info',
-            message: `검색된 채번목록이 없습니다. [${err}]`,
-          });
-        }
+        showAlert({
+          severity: 'info',
+          message: `채번목록 조회에 실패했습니다. [${err}]`,
+        });
       });
   };
 

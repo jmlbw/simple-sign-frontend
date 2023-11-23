@@ -27,23 +27,24 @@ export default function FormManagePage() {
         if (!(res.status >= 200 && res.status < 300)) {
           throw new Error(res.status);
         }
+        if (res.status === 204) {
+          return [];
+        }
         return res.json();
       })
       .then((data) => {
-        if (data.length < 0) {
+        if (data.length < 1) {
           showAlert({
-            open: true,
             severity: 'info',
-            message: '검색된 데이터가 없습니다.',
+            message: '검색된 목록이 없습니다.',
           });
         }
         setFormListData(data);
       })
       .catch((err) => {
         showAlert({
-          open: true,
           severity: 'error',
-          message: `목록 조회를 실패했습니다. [${err}]`,
+          message: `양식목록 조회에 실패했습니다.`,
         });
         setFormListData([]);
       })
@@ -77,7 +78,6 @@ export default function FormManagePage() {
       })
       .catch((err) => {
         showAlert({
-          open: true,
           severity: 'error',
           message: `기본 데이터 조회를 실패했습니다. [${err}]`,
         });
@@ -89,18 +89,10 @@ export default function FormManagePage() {
 
   // 검색 및 테이블 데이터 셋팅
   const searchHandler = () => {
-    checkSearchData(searchData)
-      .then(() => {
-        showLoading();
-        searchFormData();
-      })
-      .catch((err) => {
-        showAlert({
-          open: true,
-          severity: 'error',
-          message: `검색에 실패했습니다. [${err}]`,
-        });
-      });
+    checkSearchData(searchData).then(() => {
+      showLoading();
+      searchFormData();
+    });
   };
 
   useEffect(() => {

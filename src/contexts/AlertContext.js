@@ -11,7 +11,6 @@ let initAlertDatas = {
 
 /**
  * showAlert guide
- * @param {Boolean} open ex) true
  * @param {String} severity ex) "error" or "success" or "warning" or "info"
  * @param {String} message ex) "요청에 실패했습니다.ㅠㅠ"
  * ex) showAlert({open: true, severity: "error", message: "실패!!"})
@@ -20,7 +19,7 @@ export const AlertProvider = ({ children }) => {
   const [alertInfo, setAlertInfo] = useState(initAlertDatas);
 
   const showAlert = (data) => {
-    setAlertInfo(data);
+    setAlertInfo({ open: true, ...data });
   };
 
   const hideAlert = () => {

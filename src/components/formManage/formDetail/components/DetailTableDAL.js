@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { columns } from '../../../../assets/datas/form_approval_line';
 import { useFormManage } from '../../../../contexts/FormManageContext';
 import DataList from '../../../common/DataList';
@@ -15,6 +15,10 @@ export default function DetailTableDAL() {
   };
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const dataHandler = (data) => {
+    //console.log(data);
   };
 
   const modalConfirm = (data) => {
