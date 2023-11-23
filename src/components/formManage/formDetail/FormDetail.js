@@ -31,7 +31,6 @@ export default function FormDetail({ searchHandler }) {
         if (!res.ok) {
           throw new Error(res.status);
         }
-        alert('새 양식이 생성되었습니다.');
         showAlert({
           open: true,
           severity: 'success',
@@ -88,11 +87,11 @@ export default function FormDetail({ searchHandler }) {
           showLoading();
           updateExistForm();
         })
-        .catch((err) => {
+        .catch((errors) => {
           showAlert({
             open: true,
-            severity: 'error',
-            message: `양식수정 유효성 검사에 실패했습니다. [${err}]`,
+            severity: 'info',
+            message: errors.message,
           });
         });
     }
@@ -109,8 +108,8 @@ export default function FormDetail({ searchHandler }) {
         .catch((errors) => {
           showAlert({
             open: true,
-            severity: 'error',
-            message: `양식생성 유효성 검사에 실패했습니다. [${err}]`,
+            severity: 'info',
+            message: errors.message,
           });
         });
     }
