@@ -9,6 +9,13 @@ export default function Favorite() {
       height={'100%'}
       text={'즐겨찾기'}
       children={<FavoritesList />}
+      childStyle={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'scroll',
+        paddingBottom: '10px',
+      }}
     />
   );
 }
