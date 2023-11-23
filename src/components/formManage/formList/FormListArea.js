@@ -8,11 +8,13 @@ import Button from '../../common/Button';
 import delForm from '../../../apis/formManageAPI/delForm';
 import getDefaultApprovalLine from '../../../apis/formManageAPI/getDefaultApprovalLine';
 import { useLoading } from '../../../contexts/LoadingContext';
+import { useAlert } from '../../../contexts/AlertContext';
 
 export default function FormListArea({ rows, searchHandler }) {
   const { detailData, setDetailData, updateDetailData, detailDataInit } =
     useFormManage();
   const { showLoading, hideLoading } = useLoading();
+  const { showAlert } = useAlert();
 
   const delHandler = () => {
     showLoading();

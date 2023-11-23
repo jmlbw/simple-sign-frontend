@@ -30,13 +30,7 @@ export default function DetailTableDAL() {
     dataUpdateHandler('approvalLine', data);
   };
 
-  //결재라인 핸들러
-  const dataHandler = (data) => {
-    console.log(data);
-  };
-
   const dataUpdateHandler = (id, data) => {
-    console.log('changed:', data);
     setDetailData({ ...detailData, [id]: data });
   };
 

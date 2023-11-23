@@ -12,11 +12,13 @@ import {
   checkFormUpdateData,
 } from '../../../validation/formManage/formSchema';
 import DetailTableDAL from './components/DetailTableDAL';
+import { useAlert } from '../../../contexts/AlertContext';
 
 export default function FormDetail({ searchHandler }) {
   const { detailData, flagData } = useFormManage();
   const [activeButton, setActiveButton] = useState(1);
   const { showLoading, hideLoading } = useLoading();
+  const { showAlert } = useAlert();
 
   // 상세 항목 선택
   const handleButtonClick = (buttonId) => {
