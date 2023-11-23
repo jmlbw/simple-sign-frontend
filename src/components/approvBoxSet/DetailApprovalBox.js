@@ -24,7 +24,7 @@ function DetailApprovalBox() {
     if (alertInfo.open) {
       const timer = setTimeout(() => {
         handleClose();
-      }, 2000);
+      }, 2500);
 
       return () => clearTimeout(timer);
     }
