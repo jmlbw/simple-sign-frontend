@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
@@ -7,24 +7,42 @@ import { keyframes } from '@emotion/react';
 
 const slideIn = keyframes`
   from {
-    right: -450px; // 시작 위치 -450px
+    right: -450px;
   }
   to {
-    right: 0px; // 종료 위치 0px
+    right: 20px;
   }
 `;
 
 const slideOut = keyframes`
   from {
-    right: 0px; // 시작 위치 0px
+    right: 20px;
   }
   to {
-    right: -450px; // 종료 위치 -450px
+    right: -450px;
   }
 `;
 
 export default function CustomAlert({ severity, message, open, close }) {
-  const animation = open ? slideIn : slideOut;
+  const [shouldClose, setShouldClose] = useState(false);
+  const animation = shouldClose ? slideOut : slideIn;
+  useEffect(() => {
+    if (open) {
+      // 모달이 열릴 때 'shouldClose'를 false로 초기화
+      setShouldClose(false);
+
+      // 1.5초 후에 'shouldClose'를 true로 설정하여 슬라이드 아웃 애니메이션 시작
+      const timer = setTimeout(() => {
+        setShouldClose(true);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    } else {
+      // 모달이 닫힐 때 'shouldClose'를 다시 false로 초기화
+      setShouldClose(false);
+    }
+  }, [open]);
+
   return (
     <Modal
       open={open}
@@ -39,11 +57,11 @@ export default function CustomAlert({ severity, message, open, close }) {
         sx={{
           position: 'fixed',
           top: '25%',
-          right: '0px', // 초기 right 값 고정
+          right: ' -450px',
           transform: 'translateY(-50%)',
-          width: 400,
+          width: 350,
           boxShadow: 3,
-          animation: `${animation} 1s forwards`, // 애니메이션 적용
+          animation: `${animation} 0.5s forwards`,
         }}
       >
         <Alert severity={severity}>
