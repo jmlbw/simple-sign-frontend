@@ -1,6 +1,6 @@
 .pwcontainer {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .inputpw {
@@ -8,8 +8,8 @@
 }
 
 .inputpw input {
-  height: 27px;
-  width: 55%;
+  height: 32px;
+  width: 65%;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   padding: 5px;
