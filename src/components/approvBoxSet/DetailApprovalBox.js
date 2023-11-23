@@ -8,31 +8,14 @@ import insertApprovalBox from '../../apis/approvalBoxAPI/insertApprovalBox';
 import { checkBoxCreateData } from '../../validation/ApprovalBoxManage/ApprovalBoxSetSchema';
 import { useLoading } from '../../contexts/LoadingContext';
 import { checkBoxUseDeptData } from '../../validation/ApprovalBoxManage/boxUseDeptSchema';
-import CustomAlert from '../common/CustomAleart';
+import { useAlert } from '../../contexts/AlertContext';
+// import CustomAlert from '../common/CustomAlert';
 
 function DetailApprovalBox() {
   const { state, setState, approvalBoxState, approvalBoxState2 } =
     useApprovalBoxManage();
+  const { showAlert } = useAlert();
   const { showLoading, hideLoading } = useLoading();
-  const [alertInfo, setAlertInfo] = useState({
-    open: false,
-    severity: '',
-    message: '',
-  });
-
-  useEffect(() => {
-    if (alertInfo.open) {
-      const timer = setTimeout(() => {
-        handleClose();
-      }, 2500);
-
-      return () => clearTimeout(timer);
-    }
-  }, [alertInfo]);
-
-  function handleClose() {
-    setAlertInfo({ ...alertInfo, open: false });
-  }
 
   const handleSaveClick = async () => {
     try {
@@ -51,8 +34,7 @@ function DetailApprovalBox() {
           boxUpdate: true,
         }));
         hideLoading();
-
-        setAlertInfo({
+        showAlert({
           open: true,
           severity: 'success',
           message: '결재함 생성이 완료되었습니다.',
@@ -77,7 +59,7 @@ function DetailApprovalBox() {
           ...prevState,
           boxUpdate: true,
         }));
-        setAlertInfo({
+        showAlert({
           open: true,
           severity: 'success',
           message: '결재함 수정이 완료되었습니다.',
@@ -88,11 +70,11 @@ function DetailApprovalBox() {
       if (error) {
         // 유효성 검사 오류 메시지를 모두 표시
         const errorMessage = error.errors.join('\n');
-        setAlertInfo({ open: true, severity: 'error', message: errorMessage });
+        showAlert({ open: true, severity: 'error', message: errorMessage });
       } else {
         // 기타 오류의 경우
         console.error('Error saving data:', error);
-        setAlertInfo({
+        showAlert({
           open: true,
           severity: 'error',
           message:
@@ -126,14 +108,6 @@ function DetailApprovalBox() {
       }
     >
       <DetailBox boxId={state.boxId} />
-      <CustomAlert
-        severity={alertInfo.severity}
-        message={alertInfo.message}
-        open={alertInfo.open}
-        close={() => {
-          handleClose();
-        }}
-      />
     </InnerBox>
   );
 }

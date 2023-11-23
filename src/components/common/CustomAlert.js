@@ -24,6 +24,7 @@ const slideOut = keyframes`
 `;
 
 export default function CustomAlert({ severity, message, open, close }) {
+  console.log('sdfhjlksdhflsdhf:', severity, message, open, close);
   const [shouldClose, setShouldClose] = useState(false);
   const animation = shouldClose ? slideOut : slideIn;
   useEffect(() => {
