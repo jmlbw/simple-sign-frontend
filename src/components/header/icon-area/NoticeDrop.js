@@ -261,6 +261,7 @@ export default function Notice() {
                 <MenuItem
                   key={index}
                   className={styles.menuItemSpacing}
+                  style={{ borderBottom: '2px solid #ececec', margin: '10px' }}
                   onClick={() => {
                     markAsRead(notification.alarmId);
 

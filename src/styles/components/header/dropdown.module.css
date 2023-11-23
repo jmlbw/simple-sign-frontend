@@ -12,19 +12,18 @@
   height: 70px;
 }
 
-.menuitem {
-  display: flex;
-  flex-direction: row;
+.profile_drop_table {
+  font-size: 14.4px;
+  margin-top: 10px;
+  margin-right: 10px;
 }
 
 .menubox {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 175px !important;
-  height: 40px !important;
+  width: 95%;
+  height: 40px;
   font-size: 14.4px !important;
-  margin-bottom: 10px !important;
+  margin-left: 5px;
 }
 
 .iconcontainer {
@@ -139,11 +138,17 @@
 
 /* 권한 선택 창 */
 .table_td {
-  padding: 0 20px;
+  padding: 0 15px;
+  font-size: 14px;
 }
 
 .button_check_style {
+  margin-top: 10px;
   text-align: center;
+}
+
+.profile_hr {
+  width: 100%;
 }
 
 .menuItemSpacing:hover .notice_button {
