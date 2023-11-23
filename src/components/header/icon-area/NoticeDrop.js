@@ -15,6 +15,7 @@ import { useAlarm } from '../../../contexts/AlarmContext';
 import { deleteAlarm } from '../../../apis/alarm/deleteAlarm';
 import { FiBellOff } from 'react-icons/fi';
 import LoadingAlarm from '../../common/LoadingAlarm';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Notice() {
   const [stompClient, setStompClient] = useState(null);
@@ -24,7 +25,7 @@ export default function Notice() {
   const [subscription, setSubscription] = useState(null);
 
   const socketUrl =
-    //`http://localhost:8081/alarm/ws`||
+    //`http://localhost:8081/alarm/ws`
     `https://ec2-43-202-224-51.ap-northeast-2.compute.amazonaws.com/alarm/ws`;
   const initializeWebSocket = () => {
     const socket = new SockJS(socketUrl, null, {
@@ -260,6 +261,7 @@ export default function Notice() {
                 <MenuItem
                   key={index}
                   className={styles.menuItemSpacing}
+                  style={{ borderBottom: '2px solid #ececec', margin: '10px' }}
                   onClick={() => {
                     markAsRead(notification.alarmId);
 
@@ -271,11 +273,6 @@ export default function Notice() {
                       popupOptions
                     );
                   }}
-                  style={{
-                    backgroundColor: notification.confirmationStatus
-                      ? '#ececec'
-                      : 'white',
-                  }}
                 >
                   <button
                     className={styles.notice_button}
@@ -283,24 +280,62 @@ export default function Notice() {
                       deleteAlarmAPI(event, notification.alarmId)
                     }
                   >
-                    삭제
+                    <DeleteIcon className={styles.notice_button_icon} />
                   </button>
                   <div className={styles.alarm_container}>
-                    <div className={styles.alarm_content}>
+                    <div
+                      className={
+                        notification.confirmationStatus
+                          ? styles.alarm_content_read
+                          : styles.alarm_content
+                      }
+                    >
                       {notification.alarmContent}
                     </div>
-                    <div className={styles.approval_doc_title}>
+                    <div
+                      className={
+                        notification.confirmationStatus
+                          ? styles.approval_doc_title_read
+                          : styles.approval_doc_title
+                      }
+                    >
                       [문서명] : {notification.approvalDocTitle}
                     </div>
-                    <div>
+                    <div
+                      className={
+                        notification.confirmationStatus
+                          ? styles.alarm_user_name_read
+                          : styles.alarm_user_name
+                      }
+                    >
                       {notification.alarmCode === '02'
-                        ? notification.userName
+                        ? `[결재자] : ${notification.userName}`
                         : null}
                     </div>
-                    <div className={styles.alarm_date}>
-                      {formatDate(notification.alarmDate).split(' ')[0]}
-                      {formatDate(notification.alarmDate).split(' ')[1]}{' '}
-                      {formatDate(notification.alarmDate).split(' ')[2]}
+                    <div
+                      className={
+                        notification.confirmationStatus
+                          ? styles.alarm_date_read
+                          : styles.alarm_date
+                      }
+                    >
+                      {
+                        // 현재 날짜를 가져옵니다.
+                        new Date().toDateString() ===
+                        new Date(notification.alarmDate).toDateString()
+                          ? `${
+                              formatDate(notification.alarmDate).split(' ')[0]
+                            } ${
+                              formatDate(notification.alarmDate).split(' ')[1]
+                            } ${
+                              formatDate(notification.alarmDate).split(' ')[2]
+                            }`
+                          : `${
+                              formatDate(notification.alarmDate).split(' ')[0]
+                            } ${
+                              formatDate(notification.alarmDate).split(' ')[1]
+                            }`
+                      }
                     </div>
                   </div>
                 </MenuItem>
