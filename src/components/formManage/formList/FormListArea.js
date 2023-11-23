@@ -21,7 +21,11 @@ export default function FormListArea({ rows, searchHandler }) {
         if (!res.ok) {
           throw new Error(res.status);
         }
-        alert('데이터가 삭제되었습니다.');
+        showAlert({
+          open: true,
+          severity: 'success',
+          message: '데이터가 삭제되었습니다.',
+        });
       })
       .then(() => {
         searchHandler();
@@ -31,7 +35,11 @@ export default function FormListArea({ rows, searchHandler }) {
         if (err.message === '409') {
           errorMessage = `사용중인 양식은 삭제가 불가합니다. [${err}]`;
         }
-        alert(errorMessage);
+        showAlert({
+          open: true,
+          severity: 'error',
+          message: errorMessage,
+        });
       })
       .finally(() => {
         hideLoading();
@@ -63,7 +71,11 @@ export default function FormListArea({ rows, searchHandler }) {
         });
       })
       .catch((err) => {
-        console.error(err);
+        showAlert({
+          open: true,
+          severity: 'error',
+          message: `상세조회에 실패했습니다. [${err}]`,
+        });
       })
       .finally(() => {
         hideLoading();

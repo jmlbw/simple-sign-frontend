@@ -11,6 +11,7 @@ import { useLoading } from '../contexts/LoadingContext';
 import { checkSearchData } from '../validation/formManage/searchSchema';
 import { getAuthrity } from '../utils/getUser';
 import getApprovalKind from '../apis/commonAPI/getApprovalKind';
+import { useAlert } from '../contexts/AlertContext';
 
 export default function FormManagePage() {
   const [formListData, setFormListData] = useState([]);
@@ -18,6 +19,7 @@ export default function FormManagePage() {
     useFormManage();
   const { showLoading, hideLoading } = useLoading();
   const { state, setState } = usePage();
+  const { showAlert } = useAlert();
 
   const searchFormData = () => {
     getFormAndCompList(searchData)
@@ -29,11 +31,20 @@ export default function FormManagePage() {
       })
       .then((data) => {
         if (data.length < 0) {
-          alert('검색된 데이터가 없습니다.');
+          showAlert({
+            open: true,
+            severity: 'info',
+            message: '검색된 데이터가 없습니다.',
+          });
         }
         setFormListData(data);
       })
       .catch((err) => {
+        showAlert({
+          open: true,
+          severity: 'error',
+          message: `목록 조회를 실패했습니다. [${err}]`,
+        });
         setFormListData([]);
       })
       .finally(() => {
@@ -65,7 +76,11 @@ export default function FormManagePage() {
         });
       })
       .catch((err) => {
-        console.error(err);
+        showAlert({
+          open: true,
+          severity: 'error',
+          message: `기본 데이터 조회를 실패했습니다. [${err}]`,
+        });
       })
       .finally(() => {
         hideLoading();
@@ -79,8 +94,12 @@ export default function FormManagePage() {
         showLoading();
         searchFormData();
       })
-      .catch((errors) => {
-        alert(errors.message);
+      .catch((err) => {
+        showAlert({
+          open: true,
+          severity: 'error',
+          message: `검색에 실패했습니다. [${err}]`,
+        });
       });
   };
 
