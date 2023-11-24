@@ -1,4 +1,9 @@
 .container {
+  height: 100%;
+}
+
+.itemContainer {
+  height: 100%;
   overflow-y: scroll;
 }
 

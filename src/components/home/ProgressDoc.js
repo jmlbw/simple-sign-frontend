@@ -51,6 +51,12 @@ export default function ProgressDoc() {
       width={'100%'}
       height={'100%'}
       text={'진행중인문서'}
+      childStyle={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
       titleChildren={
         <Button
           label={'+ 더 보기'}
@@ -64,53 +70,57 @@ export default function ProgressDoc() {
       children={
         <div className={styled.container}>
           <hr style={{ margin: 0 }}></hr>
-          {recentPDocuments.length > 0 ? (
-            recentPDocuments.map((doc) => (
-              <div key={doc.approvalDocId}>
-                <div
-                  className={styled.itembox}
-                  onClick={() => clickDocument(doc.approvalDocId)}
-                >
-                  <div className={styled.dateText}>{doc.sendDate}</div>
-                  <div className={styled.element}>
-                    <div className={styled.elementText}>
-                      <span>{doc.approvalDocTitle}</span>
+          <div className={styled.itemContainer}>
+            {recentPDocuments.length > 0 ? (
+              recentPDocuments.map((doc) => (
+                <div key={doc.approvalDocId}>
+                  <div
+                    className={styled.itembox}
+                    onClick={() => clickDocument(doc.approvalDocId)}
+                  >
+                    <div className={styled.dateText}>{doc.sendDate}</div>
+                    <div className={styled.element}>
+                      <div className={styled.elementText}>
+                        <span>{doc.approvalDocTitle}</span>
+                      </div>
+                      <div className={styled.info}>
+                        <div className={styled.txtinfo}>{doc.formName}</div>
+                        <div className={styled.bar}>|</div>
+                        <div className={styled.txtinfo}>
+                          {doc.approvalDocId}
+                        </div>
+                      </div>
                     </div>
-                    <div className={styled.info}>
-                      <div className={styled.txtinfo}>{doc.formName}</div>
-                      <div className={styled.bar}>|</div>
-                      <div className={styled.txtinfo}>{doc.approvalDocId}</div>
+                    <div className={styled.docUser}>
+                      <div className={styled.imginfo}></div>
+                      <div className={styled.userinfo}>
+                        <div className={styled.name}>{doc.userName}</div>
+                        <div className={styled.departementInfo}>
+                          <div className={styled.departementList}>
+                            <div className={styled.txtdep}>{doc.deptName}</div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className={styled.docUser}>
-                    <div className={styled.imginfo}></div>
-                    <div className={styled.userinfo}>
-                      <div className={styled.name}>{doc.userName}</div>
-                      <div className={styled.departementInfo}>
-                        <div className={styled.departementList}>
-                          <div className={styled.txtdep}>{doc.deptName}</div>
+                    <div className={styled.docStatus}>
+                      <div className={styled.process}>
+                        <div className={styled.txtline}>
+                          <span>{doc.lastUser}</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className={styled.docStatus}>
-                    <div className={styled.process}>
-                      <div className={styled.txtline}>
-                        <span>{doc.lastUser}</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
+              ))
+            ) : (
+              <div className={styled.noDocumentsContainer}>
+                <div className={styled.noDocumentsIcon}>
+                  <CiFileOff />
+                </div>
+                <div>조회된 데이터가 없습니다.</div>
               </div>
-            ))
-          ) : (
-            <div className={styled.noDocumentsContainer}>
-              <div className={styled.noDocumentsIcon}>
-                <CiFileOff />
-              </div>
-              <div>조회된 데이터가 없습니다.</div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       }
     />
