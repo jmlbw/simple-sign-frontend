@@ -226,18 +226,23 @@ export default function DetailForm(props) {
                     <td>결재자8</td>
                   </tr>
                   <tr>
-                    {[...Array(8)].map((_, index) => (
-                      <td
-                        style={{
-                          textAlign: 'center',
-                          width: '12.5%',
-                          height: '70px',
-                        }}
-                        key={index}
-                      >
-                        {renderApproval(approval_line[index])}
-                      </td>
-                    ))}
+                    {[...Array(8)].map((_, index) => {
+                      const sortedApprovalLine = approval_line.sort(
+                        (a, b) => a.approvalOrder - b.approvalOrder
+                      );
+                      return (
+                        <td
+                          style={{
+                            textAlign: 'center',
+                            width: '12.5%',
+                            height: '70px',
+                          }}
+                          key={index}
+                        >
+                          {renderApproval(sortedApprovalLine[index])}
+                        </td>
+                      );
+                    })}
                   </tr>
                 </table>
               );
