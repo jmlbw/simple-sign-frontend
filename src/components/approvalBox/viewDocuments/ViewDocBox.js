@@ -58,7 +58,6 @@ function ViewDocBox() {
   };
 
   const checkForMoreData = async () => {
-    console.log('다음페이지 확인');
     try {
       let docListPromise;
       if (state.shouldFetchDocs) {
@@ -85,7 +84,6 @@ function ViewDocBox() {
       }
 
       const nextDataResponse = await docListPromise;
-      console.log('다음페이지 데이터 길이 :', nextDataResponse.data.length);
 
       if (nextDataResponse.data.length === 0) {
         setNoMoreData(true);
@@ -98,7 +96,6 @@ function ViewDocBox() {
   };
 
   const fetchData = async (isInitialLoad = false) => {
-    console.log('첫번째 load');
     showLoading();
     try {
       let docListResponse;
