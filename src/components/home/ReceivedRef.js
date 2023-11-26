@@ -50,6 +50,7 @@ export default function ReceivedRef() {
       width={'100%'}
       height={'100%'}
       text={'수신참조함'}
+      font_size="16px"
       childStyle={{
         flex: 1,
         display: 'flex',

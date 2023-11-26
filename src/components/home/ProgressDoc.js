@@ -51,6 +51,7 @@ export default function ProgressDoc() {
       width={'100%'}
       height={'100%'}
       text={'진행중인문서'}
+      font_size="16px"
       childStyle={{
         flex: 1,
         display: 'flex',
