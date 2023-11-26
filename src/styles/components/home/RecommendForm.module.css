@@ -81,16 +81,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  text-decoration: none;
   padding: 10px;
   color: #323a46 !important;
 }
 .contenticon {
-  font-size: 35px;
+  font-size: 30px;
   margin-bottom: 7px;
 }
 .contenttext {
-  font-size: 14.4px;
+  font-size: 13.4px;
 }
 
 .recommentContentBox:hover .contenticon {
@@ -105,11 +105,21 @@
 }
 
 .contenticonF {
-  font-size: 27px;
+  font-size: 25px;
   margin-bottom: 7px;
 }
 .contenttextF {
+  font-size: 12.4px;
+}
+
+.recommentContentBox:hover .contenticonF {
+  font-size: 26px;
+  margin-bottom: 7px;
+  color: #668286;
+}
+.recommentContentBox:hover .contenttextF {
   font-size: 13px;
+  color: #668286;
 }
 
 .division {

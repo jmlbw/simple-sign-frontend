@@ -17,7 +17,13 @@ export default function FavoritesList() {
     showLoading();
     getFavorites()
       .then((res) => {
-        setFavorites(res);
+        // res가 배열인지 확인
+        if (Array.isArray(res)) {
+          setFavorites(res);
+        } else {
+          // res가 배열이 아니라면, 적절하게 처리
+          console.error('Expected an array from getFavorites, but got:', res);
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -27,16 +33,22 @@ export default function FavoritesList() {
       });
   }, []);
 
+  // favorites가 배열인지 확인 후 slice 사용
+  const firstThreeFavorites = Array.isArray(favorites)
+    ? favorites.slice(0, 3)
+    : [];
+
   function goFormList() {
     navigate(`/FL?name=${'결재하기'}`);
   }
 
-  const firstThreeFavorites = favorites.slice(0, 3);
-
   return (
     <div className={styled.favoritescontainer}>
       {firstThreeFavorites.map((ele, index) => (
-        <div className={`styled.favoriteSection${index + 1}`}>
+        <div
+          key={ele.formCode}
+          className={`styled.favoriteSection${index + 1}`}
+        >
           <RecommentContent
             icon={<HiOutlineDocumentText />}
             name={ele.formName}
@@ -47,7 +59,7 @@ export default function FavoritesList() {
 
       <div className={styled.favoriteSection4}>
         <IoIosMore
-          fontSize="30px"
+          fontSize="25px"
           color="#98a6ad"
           onClick={() => goFormList()}
         />
@@ -58,7 +70,7 @@ export default function FavoritesList() {
 
 function RecommentContent({ icon, name, formCode }) {
   return (
-    <Link to={`./FL/${formCode}`} className={styled.recommentContentBox}>
+    <Link to={`/FL/${formCode}`} className={styled.recommentContentBox}>
       <div className={styled.contenticonF}>{icon}</div>
       <div className={styled.contenttextF}>{name}</div>
     </Link>
