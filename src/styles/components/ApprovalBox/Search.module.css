@@ -19,3 +19,6 @@ input:focus {
 .searchIcon:hover {
   color: rgb(110, 169, 184);
 }
+.searchBtn {
+  width: 30px;
+}
