@@ -150,13 +150,6 @@ function Sidebar() {
     navigate(`/FL?name=${'결재하기'}`);
   };
 
-  useEffect(() => {
-    setManageState((prevState) => ({
-      ...prevState,
-      boxUpdate: false,
-    }));
-  }, [manageState.boxList, manageState.boxUpdate]);
-
   return (
     <div className={styled.sidebar}>
       <BasicButton name="결재하기" goApproval={goApproval} />

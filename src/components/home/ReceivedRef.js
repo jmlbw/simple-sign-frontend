@@ -45,11 +45,41 @@ export default function ReceivedRef() {
     window.open(`/AD?page=${docId}&popup=true`, '_blank', popupOptions);
   }
 
+  const getBgColor = (status) => {
+    if (status === 'A') {
+      return '#1abc9c';
+    } else if (status === 'P') {
+      return '#46A3F0';
+    } else if (status === 'R') {
+      return '#f1556c';
+    } else if (status === 'W') {
+      return '#f7b84b';
+    } else {
+      return '';
+    }
+  };
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 'A':
+        return '승인'; // 종결 텍스트
+      case 'P':
+        return '진행'; // 진행 텍스트
+      case 'R':
+        return '반려'; // 반려 텍스트
+      case 'W':
+        return '상신'; // 상신 텍스트
+      default:
+        return ''; // 기본값 (아무 텍스트도 표시하지 않음)
+    }
+  };
+
   return (
     <InnerBox
       width={'100%'}
       height={'100%'}
       text={'수신참조함'}
+      font_size="16px"
       childStyle={{
         flex: 1,
         display: 'flex',
@@ -107,15 +137,26 @@ export default function ReceivedRef() {
                       <div className={styled.docStatus}>
                         <div className={styled.process}>
                           <div className={styled.txtline}>
-                            <span>
-                              {doc.docStatus === 'A' ||
-                              doc.docStatus === 'R' ||
-                              doc.docStatus === 'P'
-                                ? doc.lastUser
-                                : doc.docStatus === 'W'
-                                ? doc.userName
-                                : ''}
-                            </span>
+                            <div
+                              className={styled.txtline}
+                              style={{
+                                color: 'white',
+                                backgroundColor: getBgColor(doc.docStatus),
+                              }}
+                            >
+                              <span>{getStatusText(doc.docStatus)}</span>
+                              <span>
+                                {'(' +
+                                  (doc.docStatus === 'A' ||
+                                  doc.docStatus === 'R' ||
+                                  doc.docStatus === 'P'
+                                    ? doc.lastUser
+                                    : doc.docStatus === 'W'
+                                    ? doc.userName
+                                    : '') +
+                                  ')'}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>

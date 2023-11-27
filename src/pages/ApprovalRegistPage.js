@@ -10,8 +10,8 @@ import errorHandle from '../apis/errorHandle';
 import { checkFormCreateData } from '../validation/approvalManage/approvalFormSchema';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarRateIcon from '@mui/icons-material/StarRate';
+import { FaRegStar } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
 import { yellow } from '@mui/material/colors';
 import insertFavorites from '../apis/approvalManageAPI/insertFavorites';
 import deleteFavorites from '../apis/approvalManageAPI/deleteFavorites';
@@ -341,9 +341,9 @@ export default function ApprovalRegist(props) {
       ></PopUp>
       <div className={styled.star} onClick={handleClickStar}>
         {clickStar ? (
-          <StarRateIcon sx={{ color: yellow[500] }} fontSize="large" />
+          <FaStar color="rgb(247, 204, 75)" fontSize="27px" />
         ) : (
-          <StarBorderIcon sx={{ color: yellow[500] }} fontSize="large" />
+          <FaRegStar color="#c0cdcf" fontSize="27px" />
         )}
       </div>
     </div>
